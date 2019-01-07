@@ -14,7 +14,7 @@ use ilSelectInputGUI;
 use ilMail;
 use ilUserDefinedFields;
 use ilTextInputGUI;
-use srag\CustomInputGUIs\SrTile\TableGUI\TableGUI;
+use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**

@@ -7,7 +7,6 @@ require_once "./Services/Tracking/classes/repository_statistics/class.ilLPListOf
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Config\Config;
-use ReportListSingleObjectAllUser;
 
 /**
  * Class ilSrLpReportUIHookGUI

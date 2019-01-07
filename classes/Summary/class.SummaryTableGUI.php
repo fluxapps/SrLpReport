@@ -1,6 +1,6 @@
 <?php
 
-use \srag\CustomInputGUIs\SrTile\TableGUI\TableGUI;
+use \srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 
 
 /**
@@ -174,7 +174,7 @@ class SummaryTableGUI extends TableGUI {
 	 * @param int    $user_total
 	 *
 	 * @return string
-	 * @throws \srag\DIC\SrTile\Exception\DICException
+	 * @throws \srag\DIC\SrLPReport\Exception\DICException
 	 * @throws ilTemplateException
 	 */
 	public function getLearningProgressRepresentation($json_status = "",$row_identifier = 0,$user_total = 0) {
