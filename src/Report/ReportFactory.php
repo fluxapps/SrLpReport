@@ -80,7 +80,7 @@ class ReportFactory {
 
 		switch($report_view_type) {
 			case self::REPORT_VIEW_TYPE_MATRIX:
-				return ReportMatrixSingleObjectSingleUser::getInstance($obj_ref_id,$user_id);
+				return ReportListSingleObjectSingleUser::getInstance($obj_ref_id,$user_id);
 				break;
 		}
 	}
@@ -97,7 +97,7 @@ class ReportFactory {
 
 		switch(strtolower($class_name)) {
 			case strtolower(MatrixSingleObjectSingleUserGUI::class):
-				return ReportMatrixSingleObjectSingleUser::getInstance(self::getReportObjRefId(),$this->getReportUsrId());
+				return ReportListSingleObjectSingleUser::getInstance(self::getReportObjRefId(),$this->getReportUsrId());
 				break;
 			case  strtolower(SingleObjectAllUserGUI::class):
 				return ReportListSingleObjectAllUser::getInstance(self::getReportObjRefId());

@@ -163,7 +163,7 @@ abstract class AbstractMatrixGUI {
 
 		self::dic()->language()->loadLanguageModule('trac');
 
-		$tpl = self::plugin()->template("Report/report.html",false,false);
+		$tpl = self::plugin()->template("Report/report.html",true,true);
 		$tpl->setVariable("REPORT",$this->table->getHTML());
 		$tpl->setVariable('LEGEND',ilSrLpReportGUI::getLegendHTML());
 

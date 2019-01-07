@@ -9,10 +9,14 @@ use srag\CustomInputGUIs\SrLpReport\ProgressMeter\Component\Factory as FactoryCo
 /**
  * Class Factory
  *
+ * https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/src/UI/Implementation/Component/Card/Factory.php
+ *
  * @package srag\CustomInputGUIs\SrLpReport\ProgressMeter\Implementation
  *
  * @author  Ralph Dittrich <dittrich@qualitus.de>
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ *
+ * @since ILIAS 5.4
  */
 class Factory implements FactoryComponent {
 

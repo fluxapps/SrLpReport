@@ -49,7 +49,7 @@ class ReportListSingleObjectAllUser implements ReportInterface {
 
 
 	/**
-	 * ReportMatrixSingleObjectSingleUser constructor.
+	 * ReportListSingleObjectSingleUser constructor.
 	 *
 	 * @param int $obj_ref_id
 	 */

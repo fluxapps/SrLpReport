@@ -27,7 +27,7 @@ class ilSrLpReportGUI {
 	 * ilSrLpReportGUI constructor.
 	 */
 	public function __construct() {
-
+		self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
 	}
 
 	/**
@@ -49,28 +49,28 @@ class ilSrLpReportGUI {
 
 	public static function getLegendHTML()
 	{
-		global $lng;
 
-		$tpl = new ilTemplate("tpl.lp_legend.html", true, true, "Services/Tracking");
+		$tpl = self::plugin()->template("LearningProgress/legend.html",false, false);
+
+
 		$tpl->setVariable("IMG_NOT_ATTEMPTED",
 			ilUtil::getImagePath("scorm/not_attempted.svg"));
 		$tpl->setVariable("IMG_IN_PROGRESS",
 			ilUtil::getImagePath("scorm/incomplete.svg"));
 		$tpl->setVariable("IMG_COMPLETED",
 			ilUtil::getImagePath("scorm/completed.svg"));
-		$tpl->setVariable("IMG_FAILED",
-			ilUtil::getImagePath("scorm/failed.svg"));
+
 		$tpl->setVariable("TXT_NOT_ATTEMPTED",
-			$lng->txt("trac_not_attempted"));
+			self::dic()->language()->txt("trac_not_attempted"));
 		$tpl->setVariable("TXT_IN_PROGRESS",
-			$lng->txt("trac_in_progress"));
+			self::dic()->language()->txt("trac_in_progress"));
 		$tpl->setVariable("TXT_COMPLETED",
-			$lng->txt("trac_completed"));
-		$tpl->setVariable("TXT_FAILED",
-			$lng->txt("trac_failed"));
+			self::dic()->language()->txt("trac_completed"));
+
+
 
 		$panel = ilPanelGUI::getInstance();
-		$panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
+		$panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
 		$panel->setBody($tpl->get());
 
 		return $panel->getHTML();

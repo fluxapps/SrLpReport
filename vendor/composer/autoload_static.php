@@ -13,8 +13,8 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
             'srag\\Plugins\\SrLpReport\\' => 24,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrLpReport\\' => 20,
-            'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
-            'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
+            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\ActiveRecordConfig\\' => 24,
         ),
     );
 
@@ -35,11 +35,11 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\SrLpReport\\' => 
+        'srag\\CustomInputGUIs\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\ActiveRecordConfig\\SrLpReport\\' => 
+        'srag\\ActiveRecordConfig\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -49,8 +49,8 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'AbstractMatrixGUI' => __DIR__ . '/../..' . '/classes/Matrix/class.AbstractMatrixGUI.php',
         'AbstractMatrixTableGUI' => __DIR__ . '/../..' . '/classes/Matrix/class.AbstractMatrixTableGUI.php',
         'MatrixGUI' => __DIR__ . '/../..' . '/classes/Matrix/class.MatrixGUI.php',
-        'MatrixSingleObjectSingleUserGUI' => __DIR__ . '/../..' . '/classes/Matrix/SingleObjectSingleUser/class.MatrixSingleObjectSingleUserGUI.php',
-        'MatrixSingleObjectSingleUserTableGUI' => __DIR__ . '/../..' . '/classes/Matrix/SingleObjectSingleUser/class.MatrixSingleObjectSingleUserTableGUI.php',
+        'MatrixSingleObjectSingleUserGUI' => __DIR__ . '/../..' . '/classes/List/SingleObjectSingleUser/class.SingleObjectSingleUserGUI.php',
+        'MatrixSingleObjectSingleUserTableGUI' => __DIR__ . '/../..' . '/classes/List/SingleObjectSingleUser/class.SingleObjectSingleUserTableGUI.php',
         'MatrixTableGUI' => __DIR__ . '/../..' . '/classes/Matrix/class.MatrixTableGUI.php',
         'SingleObjectAllUserGUI' => __DIR__ . '/../..' . '/classes/List/SingleObjectAllUser/class.SingleObjectAllUserGUI.php',
         'SingleObjectAllUserTableGUI' => __DIR__ . '/../..' . '/classes/List/SingleObjectAllUser/class.SingleObjectAllUserTableGUI.php',
@@ -65,6 +65,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordConfigFormGUI' => __DIR__ . '/..' . '/srag/activerecordconfig/src/ActiveRecordConfigFormGUI.php',
         'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordConfigGUI' => __DIR__ . '/..' . '/srag/activerecordconfig/src/ActiveRecordConfigGUI.php',
         'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordConfigTableGUI' => __DIR__ . '/..' . '/srag/activerecordconfig/src/ActiveRecordConfigTableGUI.php',
+        'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordObjectFormGUI' => __DIR__ . '/..' . '/srag/activerecordconfig/src/ActiveRecordObjectFormGUI.php',
         'srag\\ActiveRecordConfig\\SrLpReport\\Exception\\ActiveRecordConfigException' => __DIR__ . '/..' . '/srag/activerecordconfig/src/Exception/ActiveRecordConfigException.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',
@@ -87,8 +88,10 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Implementation\\ProgressMeter' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/ProgressMeter.php',
         'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Implementation\\Renderer' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/Renderer.php',
         'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Implementation\\Standard' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/Standard.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\PropertyFormGUI\\ConfigPropertyFormGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/PropertyFormGUI/ConfigPropertyFormGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\PropertyFormGUI\\Exception\\PropertyFormGUIException' => __DIR__ . '/..' . '/srag/custominputguis/src/PropertyFormGUI/Exception/PropertyFormGUIException.php',
         'srag\\CustomInputGUIs\\SrLpReport\\PropertyFormGUI\\Items\\Items' => __DIR__ . '/..' . '/srag/custominputguis/src/PropertyFormGUI/Items/Items.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\PropertyFormGUI\\ObjectPropertyFormGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/PropertyFormGUI/ObjectPropertyFormGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\PropertyFormGUI\\PropertyFormGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/PropertyFormGUI/PropertyFormGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\ScreenshotsInputGUI\\ScreenshotsInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/ScreenshotsInputGUI/ScreenshotsInputGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\StaticHTMLPresentationInputGUI\\StaticHTMLPresentationInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/StaticHTMLPresentationInputGUI/StaticHTMLPresentationInputGUI.php',
@@ -125,7 +128,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\Plugins\\SrLpReport\\Report\\ReportFactory' => __DIR__ . '/../..' . '/src/Report/ReportFactory.php',
         'srag\\Plugins\\SrLpReport\\Report\\ReportInterface' => __DIR__ . '/../..' . '/src/Report/ReportInterface.php',
         'srag\\Plugins\\SrLpReport\\Report\\ReportListSingleObjectAllUser' => __DIR__ . '/../..' . '/src/Report/ReportListSingleObjectAllUser.php',
-        'srag\\Plugins\\SrLpReport\\Report\\ReportMatrixSingleObjectSingleUser' => __DIR__ . '/../..' . '/src/Report/ReportMatrixSingleObjectSingleUser.php',
+        'srag\\Plugins\\SrLpReport\\Report\\ReportListSingleObjectSingleUser' => __DIR__ . '/../..' . '/src/Report/ReportListSingleObjectSingleUser.php',
         'srag\\Plugins\\SrLpReport\\Tab\\TabGUI' => __DIR__ . '/../..' . '/src/Tab/TabGUI.php',
         'srag\\Plugins\\SrLpReport\\Utils\\SrLpReportTrait' => __DIR__ . '/../..' . '/src/Utils/SrCrsLpReportTrait.php',
         'srag\\RemovePluginDataConfirm\\SrLpReport\\AbstractPluginUninstallTrait' => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src/AbstractPluginUninstallTrait.php',

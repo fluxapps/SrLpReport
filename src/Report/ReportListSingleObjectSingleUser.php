@@ -9,13 +9,13 @@ use MatrixSingleObjectSingleUserGUI;
 use ilSrLpReportGUI;
 
 /**
- * Class ReportMatrixSingleObjectSingleUser
+ * Class ReportListSingleObjectSingleUser
  *
  * @package srag\Plugins\SrLpReport\Report
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ReportMatrixSingleObjectSingleUser implements ReportInterface {
+class ReportListSingleObjectSingleUser implements ReportInterface {
 
 	use SrLpReportTrait;
 	use DICTrait;
@@ -53,7 +53,7 @@ class ReportMatrixSingleObjectSingleUser implements ReportInterface {
 
 
 	/**
-	 * ReportMatrixSingleObjectSingleUser constructor.
+	 * ReportListSingleObjectSingleUser constructor.
 	 *
 	 * @param int $obj_ref_id
 	 * @param int $usr_id

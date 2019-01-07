@@ -10,10 +10,14 @@ use srag\CustomInputGUIs\SrLpReport\ProgressMeter\Component\ProgressMeter as Pro
 /**
  * Class ProgressMeter
  *
+ * https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/src/UI/Implementation/Component/Card/ProgressMeter.php
+ *
  * @package srag\CustomInputGUIs\SrLpReport\ProgressMeter\Implementation
  *
  * @author  Ralph Dittrich <dittrich@qualitus.de>
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ *
+ * @since ILIAS 5.4
  */
 class ProgressMeter implements ProgressMeterComponent {
 

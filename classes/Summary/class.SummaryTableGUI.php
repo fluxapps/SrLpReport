@@ -14,7 +14,7 @@ class SummaryTableGUI extends TableGUI {
 
 
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const LP_STATUS_COLOR = [ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => "#434343",
+	const LP_STATUS_COLOR = [ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => "#ddd",
 							ilLPStatus::LP_STATUS_IN_PROGRESS_NUM =>  "#F6D842",
 							ilLPStatus::LP_STATUS_COMPLETED_NUM =>	"#60B060",
 							ilLPStatus::LP_STATUS_FAILED =>	"#B06060"];
@@ -149,7 +149,8 @@ class SummaryTableGUI extends TableGUI {
 
 
 			$arr_status['user_count'] = $user_count;
-			$arr_status['perc'] = $perc;
+			$arr_status['reached'] = $perc;
+			$arr_status['reached_label'] = $perc ."%";
 			$arr_status['label'] = ilLearningProgressBaseGUI::_getStatusText($status_number);
 			$arr_status['color'] = self::LP_STATUS_COLOR[$status_number];
 			$arr_status['absolute'] = $absolute;
@@ -181,7 +182,7 @@ class SummaryTableGUI extends TableGUI {
 
 		$tpl_learning_progress_chart = self::plugin()->template("LearningProgress/chart.html",false, false);
 
-		$tpl_learning_progress_chart->setVariable("ROW_IDENTIFIER",$row_identifier);                $tpl_learning_progress_chart->setVariable("USER_TOTAL",$user_total);
+		$tpl_learning_progress_chart->setVariable("ROW_IDENTIFIER",$row_identifier);                $tpl_learning_progress_chart->setVariable("TOTAL",$user_total);
 		$tpl_learning_progress_chart->setVariable("JSON_STATUS",$json_status);
 
 		return self::output()->getHTML($tpl_learning_progress_chart);

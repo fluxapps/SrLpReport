@@ -17,7 +17,7 @@
 	var pie = d3.pie()
 		.sort(null)
 		.value(function(d) {
-			return d.perc;
+			return d.reached;
 		});
 
 	var svg = d3.select('#lppie{ROW_IDENTIFIER}').append("svg")
@@ -43,11 +43,11 @@
 			_d[1] *= 1;	//multiply by a constant factor
 			return "translate(" + _d + ")";
 		})
-		.style('fill',"#fff")
+		.style('fill',"#434343")
 		.attr("dy", ".50em")
 		.style("text-anchor", "middle")
 		.text(function(d) {
-			return d.data.perc + '%';
+			return d.data.reached_label;
 		});
 
 
@@ -57,7 +57,7 @@
 		.attr("text-anchor", "middle")
 		.attr('font-size', '2em')
 		.attr('y', 10)
-		.text({USER_TOTAL})
+		.text({TOTAL})
 
 
 
