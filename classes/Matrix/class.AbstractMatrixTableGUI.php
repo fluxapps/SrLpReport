@@ -120,8 +120,6 @@ abstract class AbstractMatrixTableGUI extends AbstractReportTableGUI
 
 			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"],  array(), $additional_fields, $this->user_fields, false);
 
-
-
 			// percentage export
 			if($data["set"])
 			{

@@ -20,6 +20,11 @@ class MatrixTableGUI extends AbstractReportTableGUI
 		$raw_export = false) {
 
 
+
+		if($column == 'status') {
+			return $this->getLearningProgressRepresentation($row['obj_'.ilObject::_lookupObjectId($this->ref_id)],0);
+		}
+
 		if(count(explode('obj_', $column)) == 2) {
 			$percentage = $row[$column."_perc"];
 			return $this->getLearningProgressRepresentation($row[$column],$percentage);
