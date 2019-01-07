@@ -7,6 +7,7 @@ require_once "./Services/Tracking/classes/repository_statistics/class.ilLPListOf
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\Report\ReportFactory;
 
 /**
  * Class ilSrLpReportUIHookGUI
@@ -67,47 +68,38 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 		$a_part, /*array*/
 		$a_par = []): array {
 
-		if($_GET['ref_id'] > 0 || $_GET['details_id'] > 0) {
-			$ref_id = ($_GET['ref_id'])?$_GET['ref_id']:$_GET['details_id'];
-			$_GET['ref_id'] = $ref_id;
+
+
+
+		if ($a_part === self::PAR_TABS && !self::$load[self::LP_REPORT_REDIRECTER_LOADER] && !$_GET['sr_rp'] && ReportFactory::getReportObjRefId() > 0 && self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId())) == "crs") {
+
+			if(in_array(Config::getField(Config::KEY_ROLE_OBJ_ID),self::dic()->rbacreview()->assignedGlobalRoles(self::dic()->user()->getId()))) {
+
+				self::$load[self::LP_REPORT_REDIRECTER_LOADER] = true;
+
+				self::report()->buildReportByClassName("SingleObjectAllUserGUI");
+			    self::dic()->ctrl()->redirectByClass(array('ilUIPluginRouterGUI',ilSrLpReportGUI::class,SingleObjectAllUserGUI::class));
+
+			}
 		}
 
 
-		if ($a_part === self::PAR_TABS && !self::$load[self::LP_REPORT_REDIRECTER_LOADER]) {
-			if ($ref_id > 0 and ilObject::_lookupType($ref_id, true) == "crs" && !$_GET['sr_rp'])
-			{
+		if (!self::$load[self::DESKTOP_PERS_LP_TAB_LOADER]) {
+			if ($a_part === self::PAR_TABS) {
+				self::$load[self::DESKTOP_PERS_LP_TAB_LOADER] = true;
 
-				if(in_array(Config::getField(Config::KEY_ROLE_OBJ_ID),self::dic()->rbacreview()->assignedGlobalRoles(self::dic()->user()->getId()))) {
-					self::$load[self::LP_REPORT_REDIRECTER_LOADER] = true;
+				//TODO user
+				//Don't Display Personal Learning Progress for Reporting User
+				if (self::dic()->tabs()->getActiveTab() == self::DESKTOP_PERS_LP_TAB_LOADER) {
+					self::dic()->ctrl()->redirectByClass("illplistofobjectsgui");
+				}
 
-
-					self::report()->buildReportByClassName("SingleObjectAllUserGUI");
-
-
-					self::dic()->ctrl()->redirectByClass(array('ilUIPluginRouterGUI',ilSrLpReportGUI::class,SingleObjectAllUserGUI::class));
-
-					}
-			}
-
-
-
-
-			if (!self::$load[self::DESKTOP_PERS_LP_TAB_LOADER]) {
-				if ($a_part === self::PAR_TABS) {
-					self::$load[self::DESKTOP_PERS_LP_TAB_LOADER] = true;
-
-					//TODO user
-					//Don't Display Personal Learning Progress for Reporting User
-					if (self::dic()->tabs()->getActiveTab() == self::DESKTOP_PERS_LP_TAB_LOADER) {
-						self::dic()->ctrl()->redirectByClass("illplistofobjectsgui");
-					}
-
-					if (self::dic()->tabs()->getActiveTab() == 'trac_objects') {
-						self::dic()->tabs()->removeTab('trac_progress');
-					}
+				if (self::dic()->tabs()->getActiveTab() == 'trac_objects') {
+					self::dic()->tabs()->removeTab('trac_progress');
 				}
 			}
 		}
+
 		return [ "mode" => self::KEEP, "html" => "" ];
 	}
 }

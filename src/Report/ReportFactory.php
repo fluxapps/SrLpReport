@@ -9,6 +9,7 @@ use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use MatrixGUI;
 use SingleObjectAllUserGUI;
+use ilObject;
 
 /**
  * Class ReportFactory
@@ -96,10 +97,10 @@ class ReportFactory {
 
 		switch(strtolower($class_name)) {
 			case strtolower(MatrixSingleObjectSingleUserGUI::class):
-				return ReportMatrixSingleObjectSingleUser::getInstance($this->getReportObjRefId(),$this->getReportUsrId());
+				return ReportMatrixSingleObjectSingleUser::getInstance(self::getReportObjRefId(),$this->getReportUsrId());
 				break;
 			case  strtolower(SingleObjectAllUserGUI::class):
-				return ReportListSingleObjectAllUser::getInstance($this->getReportObjRefId());
+				return ReportListSingleObjectAllUser::getInstance(self::getReportObjRefId());
 				break;
 		}
 	}
@@ -108,8 +109,19 @@ class ReportFactory {
 	/**
 	 * @return int
 	 */
-	private function getReportObjRefId() {
-		return intval((filter_input(INPUT_GET, "ref_id"))?filter_input(INPUT_GET, "ref_id"):filter_input(INPUT_GET, "details_id"));
+	public static function getReportObjRefId():int {
+		if ((int)$_GET['ref_id']) {
+			return $_GET['ref_id'];
+		}
+		$target_arr = explode('_', (string)$_GET['target']);
+		if (isset($target_arr[1]) and (int)$target_arr[1]) {
+			return $target_arr[1];
+		}
+		if ((int)$_GET['details_id']) {
+			return $_GET['details_id'];
+		}
+
+		return 0;
 	}
 
 	/**
