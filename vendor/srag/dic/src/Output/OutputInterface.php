@@ -1,16 +1,16 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport\Output;
+namespace srag\DIC\SrLpReport\Output;
 
 use ilTemplateException;
 use JsonSerializable;
-use srag\DIC\SrCrsLpReport\Exception\DICException;
+use srag\DIC\SrLpReport\Exception\DICException;
 use stdClass;
 
 /**
  * Interface OutputInterface
  *
- * @package srag\DIC\SrCrsLpReport\Output
+ * @package srag\DIC\SrLpReport\Output
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

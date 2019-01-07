@@ -1,20 +1,20 @@
 <?php
 
-namespace srag\CustomInputGUIs\SrCrsLpReport\TableGUI;
+namespace srag\CustomInputGUIs\SrLpReport\TableGUI;
 
 use ilCSVWriter;
 use ilExcel;
 use ilFormPropertyGUI;
 use ilTable2GUI;
-use srag\CustomInputGUIs\SrCrsLpReport\PropertyFormGUI\Items\Items;
-use srag\CustomInputGUIs\SrCrsLpReport\PropertyFormGUI\PropertyFormGUI;
-use srag\CustomInputGUIs\SrCrsLpReport\TableGUI\Exception\TableGUIException;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\Items\Items;
+use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
+use srag\CustomInputGUIs\SrLpReport\TableGUI\Exception\TableGUIException;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class TableGUI
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport\TableGUI
+ * @package srag\CustomInputGUIs\SrLpReport\TableGUI
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

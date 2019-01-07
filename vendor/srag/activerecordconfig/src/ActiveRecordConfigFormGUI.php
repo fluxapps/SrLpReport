@@ -1,14 +1,14 @@
 <?php
 
-namespace srag\ActiveRecordConfig\SrCrsLpReport;
+namespace srag\ActiveRecordConfig\SrLpReport;
 
-use srag\ActiveRecordConfig\SrCrsLpReport\Exception\ActiveRecordConfigException;
-use srag\CustomInputGUIs\SrCrsLpReport\PropertyFormGUI\PropertyFormGUI;
+use srag\ActiveRecordConfig\SrLpReport\Exception\ActiveRecordConfigException;
+use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 
 /**
  * Class ActiveRecordConfigFormGUI
  *
- * @package srag\ActiveRecordConfig\SrCrsLpReport
+ * @package srag\ActiveRecordConfig\SrLpReport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

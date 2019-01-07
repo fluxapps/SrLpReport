@@ -1,13 +1,13 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport\Exception;
+namespace srag\DIC\SrLpReport\Exception;
 
 use ilException;
 
 /**
  * Class DICException
  *
- * @package srag\DIC\SrCrsLpReport\Exception
+ * @package srag\DIC\SrLpReport\Exception
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

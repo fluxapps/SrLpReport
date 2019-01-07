@@ -1,18 +1,18 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport\Output;
+namespace srag\DIC\SrLpReport\Output;
 
 use ILIAS\UI\Component\Component;
 use ilTemplate;
 use JsonSerializable;
-use srag\DIC\SrCrsLpReport\DICTrait;
-use srag\DIC\SrCrsLpReport\Exception\DICException;
+use srag\DIC\SrLpReport\DICTrait;
+use srag\DIC\SrLpReport\Exception\DICException;
 use stdClass;
 
 /**
  * Class Output
  *
- * @package srag\DIC\SrCrsLpReport\Output
+ * @package srag\DIC\SrLpReport\Output
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

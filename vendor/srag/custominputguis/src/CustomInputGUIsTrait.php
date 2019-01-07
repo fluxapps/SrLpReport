@@ -1,11 +1,11 @@
 <?php
 
-namespace srag\CustomInputGUIs\SrCrsLpReport;
+namespace srag\CustomInputGUIs\SrLpReport;
 
 /**
  * Trait CustomInputGUIsTrait
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport
+ * @package srag\CustomInputGUIs\SrLpReport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

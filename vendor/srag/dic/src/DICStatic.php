@@ -1,26 +1,26 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport;
+namespace srag\DIC\SrLpReport;
 
 use ilLogLevel;
 use ilPlugin;
-use srag\DIC\SrCrsLpReport\DIC\DICInterface;
-use srag\DIC\SrCrsLpReport\DIC\Implementation\ILIAS52DIC;
-use srag\DIC\SrCrsLpReport\DIC\Implementation\ILIAS53DIC;
-use srag\DIC\SrCrsLpReport\DIC\Implementation\ILIAS54DIC;
-use srag\DIC\SrCrsLpReport\DIC\Implementation\LegacyDIC;
-use srag\DIC\SrCrsLpReport\Exception\DICException;
-use srag\DIC\SrCrsLpReport\Output\Output;
-use srag\DIC\SrCrsLpReport\Output\OutputInterface;
-use srag\DIC\SrCrsLpReport\Plugin\Plugin;
-use srag\DIC\SrCrsLpReport\Plugin\PluginInterface;
-use srag\DIC\SrCrsLpReport\Version\Version;
-use srag\DIC\SrCrsLpReport\Version\VersionInterface;
+use srag\DIC\SrLpReport\DIC\DICInterface;
+use srag\DIC\SrLpReport\DIC\Implementation\ILIAS52DIC;
+use srag\DIC\SrLpReport\DIC\Implementation\ILIAS53DIC;
+use srag\DIC\SrLpReport\DIC\Implementation\ILIAS54DIC;
+use srag\DIC\SrLpReport\DIC\Implementation\LegacyDIC;
+use srag\DIC\SrLpReport\Exception\DICException;
+use srag\DIC\SrLpReport\Output\Output;
+use srag\DIC\SrLpReport\Output\OutputInterface;
+use srag\DIC\SrLpReport\Plugin\Plugin;
+use srag\DIC\SrLpReport\Plugin\PluginInterface;
+use srag\DIC\SrLpReport\Version\Version;
+use srag\DIC\SrLpReport\Version\VersionInterface;
 
 /**
  * Class DICStatic
  *
- * @package srag\DIC\SrCrsLpReport
+ * @package srag\DIC\SrLpReport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

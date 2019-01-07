@@ -1,13 +1,13 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport;
+namespace srag\DIC\SrLpReport;
 
 use Throwable;
 
 /**
  * Class PHPVersionChecker
  *
- * @package srag\DIC\SrCrsLpReport
+ * @package srag\DIC\SrLpReport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *

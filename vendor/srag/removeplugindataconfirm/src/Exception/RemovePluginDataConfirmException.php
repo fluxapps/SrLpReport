@@ -1,13 +1,13 @@
 <?php
 
-namespace srag\RemovePluginDataConfirm\SrCrsLpReport\Exception;
+namespace srag\RemovePluginDataConfirm\SrLpReport\Exception;
 
 use ilException;
 
 /**
  * Class RemovePluginDataConfirmException
  *
- * @package srag\RemovePluginDataConfirm\SrCrsLpReport\Exception
+ * @package srag\RemovePluginDataConfirm\SrLpReport\Exception
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

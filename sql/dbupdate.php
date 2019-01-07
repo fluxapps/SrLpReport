@@ -10,5 +10,5 @@
  * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 
-\srag\Plugins\SrCrsLpReport\Config\Config::updateDB();
+\srag\Plugins\SrLpReport\Config\Config::updateDB();
 ?>

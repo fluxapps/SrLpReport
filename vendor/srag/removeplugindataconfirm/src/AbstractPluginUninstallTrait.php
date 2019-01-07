@@ -1,15 +1,15 @@
 <?php
 
-namespace srag\RemovePluginDataConfirm\SrCrsLpReport;
+namespace srag\RemovePluginDataConfirm\SrLpReport;
 
 use ilUIPluginRouterGUI;
-use srag\DIC\SrCrsLpReport\DICTrait;
-use srag\RemovePluginDataConfirm\SrCrsLpReport\Exception\RemovePluginDataConfirmException;
+use srag\DIC\SrLpReport\DICTrait;
+use srag\RemovePluginDataConfirm\SrLpReport\Exception\RemovePluginDataConfirmException;
 
 /**
  * Trait AbstractPluginUninstallTrait
  *
- * @package srag\RemovePluginDataConfirm\SrCrsLpReport
+ * @package srag\RemovePluginDataConfirm\SrLpReport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *

@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrCrsLpReport\ReportTableGUI;
+namespace srag\Plugins\SrLpReport\ReportTableGUI;
 
 use ilLearningProgressBaseGUI;
 use ilObject;
@@ -14,17 +14,20 @@ use ilSelectInputGUI;
 use ilMail;
 use ilUserDefinedFields;
 use ilTextInputGUI;
-use \srag\CustomInputGUIs\SrTile\TableGUI\TableGUI;
+use srag\CustomInputGUIs\SrTile\TableGUI\TableGUI;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class AbstractReportTableGUI
  *
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  */
 abstract class AbstractReportTableGUI extends TableGUI {
+
+	use SrLpReportTrait;
 
 	public function __construct($parent, /*string*/
 		$parent_cmd) {
@@ -35,7 +38,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		$this->user_fields = array();
 
 		$this->setShowRowsSelector(false);
-		$this->setSelectAllCheckbox('uid');
+		$this->setSelectAllCheckbox('usr_id');
 
 		parent::__construct($parent, /*string*/
 			$parent_cmd);
@@ -230,30 +233,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 				"all_reports" => true,
 				"icon" => $icon
 			);
-			/*$cols['status_changed'] = array(
-				"id" => "status_changed",
-				'txt' => $lng->txt('trac_status_changed'),
-				'default' => false);*/
 		}
-
-		/*
-		if(ilObjectLP::supportsMark($this->type))
-		{
-			$cols["mark"] = array(
-				"id" => "mark",
-				"txt" => $lng->txt("trac_mark"),
-				"default" => true);
-		}*/
-
-		/*$cols["u_comment"] = array(
-			"id" => $lng->txt("trac_comment"),
-			"txt" => $lng->txt("trac_comment"),
-			"default" => false);
-
-		$cols["create_date"] = array(
-			"id" => $lng->txt("create_date"),
-			"txt" => $lng->txt("create_date"),
-			"default" => false);*/
 
 		return $cols;
 	}
@@ -271,11 +251,11 @@ abstract class AbstractReportTableGUI extends TableGUI {
 
 		$check_agreement = false;
 
-		$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $this->filter, $additional_fields, $check_agreement, $this->user_fields);
+		$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()),  $this->getFilterValueForQuery(), $additional_fields, $check_agreement, $this->user_fields);
 
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
 			$this->resetOffset();
-			$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $this->filter, $additional_fields, $check_agreement, $this->user_fields);
+			$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $this->getFilterValueForQuery(), $additional_fields, $check_agreement, $this->user_fields);
 		}
 
 		foreach ($this->user_fields as $key => $value) {
@@ -333,6 +313,21 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		}
 	}
 
+	/**
+	 * @param array $row
+	 */
+	protected function fillRow(/*array*/
+		$row)/*: void*/ {
+		$this->tpl->setCurrentBlock("column");
+
+		parent::fillRow($row);
+
+		$this->tpl->setCurrentBlock("checkbox");
+		$this->tpl->setVariable("CHECKBOX_POST_VAR", 'usr_id');
+		$this->tpl->setVariable("ID", $row['usr_id']);
+		$this->tpl->parseCurrentBlock();
+	}
+
 
 	protected function initTitle() {
 		// TODO: Implement initTitle() method.
@@ -352,30 +347,19 @@ abstract class AbstractReportTableGUI extends TableGUI {
 
 
 	/**
-	 * @param array $row
+	 * @return array
 	 */
-	protected function fillRow(/*array*/
-		$row)/*: void*/ {
-		$this->tpl->setCurrentBlock("column");
+	public function getFilterValueForQuery() {
 
-		foreach ($this->getSelectableColumns() as $column) {
-			if ($this->isColumnSelected($column["id"])) {
-				$column = $this->getColumnValue($column["id"], $row);
-
-				if (!empty($column)) {
-					$this->tpl->setVariable("COLUMN", $column);
-				} else {
-					$this->tpl->setVariable("COLUMN", " ");
-				}
-
-				$this->tpl->parseCurrentBlock();
+		$arr_filter = array();
+		foreach($this->filter as $field_key => $filter) {
+			if(!empty($filter)) {
+				$arr_filter[$field_key] = $filter;
 			}
+
 		}
 
-		$this->tpl->setCurrentBlock("checkbox");
-		$this->tpl->setVariable("CHECKBOX_POST_VAR", 'usr_id');
-		$this->tpl->setVariable("ID", $row['usr_id']);
-		$this->tpl->parseCurrentBlock();
+		return $arr_filter;
 	}
 }
 

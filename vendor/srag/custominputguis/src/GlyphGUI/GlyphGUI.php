@@ -1,14 +1,14 @@
 <?php
 
-namespace srag\CustomInputGUIs\SrCrsLpReport\GlyphGUI;
+namespace srag\CustomInputGUIs\SrLpReport\GlyphGUI;
 
 use ilGlyphGUI;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class GlyphGUI
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport\GlyphGUI
+ * @package srag\CustomInputGUIs\SrLpReport\GlyphGUI
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>

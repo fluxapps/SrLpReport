@@ -1,17 +1,17 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport;
+namespace srag\DIC\SrLpReport;
 
-use srag\DIC\SrCrsLpReport\DIC\DICInterface;
-use srag\DIC\SrCrsLpReport\Exception\DICException;
-use srag\DIC\SrCrsLpReport\Output\OutputInterface;
-use srag\DIC\SrCrsLpReport\Plugin\PluginInterface;
-use srag\DIC\SrCrsLpReport\Version\VersionInterface;
+use srag\DIC\SrLpReport\DIC\DICInterface;
+use srag\DIC\SrLpReport\Exception\DICException;
+use srag\DIC\SrLpReport\Output\OutputInterface;
+use srag\DIC\SrLpReport\Plugin\PluginInterface;
+use srag\DIC\SrLpReport\Version\VersionInterface;
 
 /**
  * Interface DICStaticInterface
  *
- * @package srag\DIC\SrCrsLpReport
+ * @package srag\DIC\SrLpReport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

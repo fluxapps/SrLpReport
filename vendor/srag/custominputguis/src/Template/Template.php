@@ -1,13 +1,13 @@
 <?php
 
-namespace srag\CustomInputGUIs\SrCrsLpReport\Template;
+namespace srag\CustomInputGUIs\SrLpReport\Template;
 
 use ilTemplate;
 
 /**
  * Class Template
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport\Template
+ * @package srag\CustomInputGUIs\SrLpReport\Template
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

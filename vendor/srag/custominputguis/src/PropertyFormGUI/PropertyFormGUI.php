@@ -1,20 +1,20 @@
 <?php
 
-namespace srag\CustomInputGUIs\SrCrsLpReport\PropertyFormGUI;
+namespace srag\CustomInputGUIs\SrLpReport\PropertyFormGUI;
 
 use ilFormPropertyGUI;
 use ilFormSectionHeaderGUI;
 use ilPropertyFormGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
-use srag\CustomInputGUIs\SrCrsLpReport\PropertyFormGUI\Exception\PropertyFormGUIException;
-use srag\CustomInputGUIs\SrCrsLpReport\PropertyFormGUI\Items\Items;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\Exception\PropertyFormGUIException;
+use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\Items\Items;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class PropertyFormGUI
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport\PropertyFormGUI
+ * @package srag\CustomInputGUIs\SrLpReport\PropertyFormGUI
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

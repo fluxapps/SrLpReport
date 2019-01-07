@@ -1,25 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/docs/LICENSE */
-
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-use srag\Plugins\SrCrsLpReport\Utils\SrCrsLpReportTrait;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class MatrixGUI
  *
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy MatrixGUI: ilUIPluginRouterGUI
  */
 class MatrixGUI {
 
 	use DICTrait;
-	use SrCrsLpReportTrait;
-	const PLUGIN_CLASS_NAME = ilSrCrsLpReportPlugin::class;
+	use SrLpReportTrait;
+	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 	const TAB_ID = "srcrslpmatrix";
 	const CMD_EDIT = "edit";
 	const CMD_APPLY_FILTER = 'applyFilter';
@@ -27,9 +25,11 @@ class MatrixGUI {
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
 
+	const TABLE_GUI_CLASS_NAME = "MatrixTableGUI";
+
 
 	/**
-	 * @var \HookilTrObjectUsersPropsTableGUI
+	 * @var \SingleObjectAllUserTableGUI
 	 */
 	protected $table;
 
@@ -39,6 +39,13 @@ class MatrixGUI {
 	 */
 	public function __construct() {
 		self::tabgui()->setTabs();
+
+		$type = self::dic()->objDataCache()->lookupType(ilObject::_lookupObjectId($_GET['ref_id']));
+		$icon = ilObject::_getIcon("", "tiny", $type);
+
+		self::dic()->mainTemplate()->setTitleIcon($icon);
+
+		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress")." ".ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id'])));
 	}
 
 
@@ -123,24 +130,23 @@ class MatrixGUI {
 	}
 
 
-
-
-
-
-
 	public function index() {
 		$this->listUsers();
 	}
 
 
 	public function listUsers() {
-		$this->table = new MatrixTableGUI($this, self::dic()->ctrl()->getCmd());
-		self::output()->output($this->table->getHTML(), true);
+		$table_class_name = self::TABLE_GUI_CLASS_NAME;
+
+		$this->table = new $table_class_name($this, self::dic()->ctrl()->getCmd());
+		self::output()->output($this->getTableAndFooterHtml(), true);
 	}
 
 
 	public function applyFilter() {
-		$this->table = new MatrixTableGUI($this, self::dic()->ctrl()->getCmd());
+		$table_class_name = self::TABLE_GUI_CLASS_NAME;
+
+		$this->table = new $table_class_name($this, self::dic()->ctrl()->getCmd());
 		$this->table->writeFilterToSession();
 		$this->table->resetOffset();
 		self::dic()->ctrl()->redirect($this);
@@ -148,10 +154,21 @@ class MatrixGUI {
 
 
 	public function resetFilter() {
-		$this->table = new MatrixTableGUI($this, self::dic()->ctrl()->getCmd());
+		$table_class_name = self::TABLE_GUI_CLASS_NAME;
+
+		$this->table = new $table_class_name($this, self::dic()->ctrl()->getCmd());
 		$this->table->resetOffset();
 		$this->table->resetFilter();
 		self::dic()->ctrl()->redirect($this);
+	}
+
+	public function getTableAndFooterHtml() {
+
+		$tpl = self::plugin()->template("Report/report.html",false,false);
+		$tpl->setVariable("REPORT",$this->table->getHTML());
+		$tpl->setVariable('LEGEND',ilSrLpReportGUI::getLegendHTML());
+
+		return self::output()->getHTML($tpl);
 	}
 
 }

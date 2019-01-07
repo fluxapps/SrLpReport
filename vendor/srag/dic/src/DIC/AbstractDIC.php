@@ -1,11 +1,11 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport\DIC;
+namespace srag\DIC\SrLpReport\DIC;
 
 /**
  * Class AbstractDIC
  *
- * @package srag\DIC\SrCrsLpReport\DIC
+ * @package srag\DIC\SrLpReport\DIC
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

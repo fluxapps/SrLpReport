@@ -1,13 +1,13 @@
 <?php
 
-namespace srag\ActiveRecordConfig\SrCrsLpReport\Exception;
+namespace srag\ActiveRecordConfig\SrLpReport\Exception;
 
 use ilException;
 
 /**
  * Class ActiveRecordConfigException
  *
- * @package srag\ActiveRecordConfig\SrCrsLpReport\Exception
+ * @package srag\ActiveRecordConfig\SrLpReport\Exception
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

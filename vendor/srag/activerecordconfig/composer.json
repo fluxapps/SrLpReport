@@ -27,7 +27,7 @@
   },
   "autoload": {
     "psr-4": {
-      "srag\\ActiveRecordConfig\\SrCrsLpReport\\": "src/"
+      "srag\\ActiveRecordConfig\\SrLpReport\\": "src/"
     }
   },
   "config": {

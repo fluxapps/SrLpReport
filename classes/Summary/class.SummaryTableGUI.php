@@ -7,13 +7,13 @@ use \srag\CustomInputGUIs\SrTile\TableGUI\TableGUI;
  * Class SummaryTableGUI
  *
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  */
 class SummaryTableGUI extends TableGUI {
 
 
-	const PLUGIN_CLASS_NAME = ilSrCrsLpReportPlugin::class;
+	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 	const LP_STATUS_COLOR = [ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => "#434343",
 							ilLPStatus::LP_STATUS_IN_PROGRESS_NUM =>  "#F6D842",
 							ilLPStatus::LP_STATUS_COMPLETED_NUM =>	"#60B060",
@@ -41,7 +41,7 @@ class SummaryTableGUI extends TableGUI {
 
 		switch ($column) {
 			case "status":
-					return $this->getLearningProgressRepresentation($row[$column],$row['obj_id']);
+					return $this->getLearningProgressRepresentation($row[$column],$row['obj_id'],$row["user_total"]);
 				break;
 			default:
 				return (is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
@@ -171,16 +171,17 @@ class SummaryTableGUI extends TableGUI {
 	/**
 	 * @param string $json_status
 	 * @param int    $row_identifier
+	 * @param int    $user_total
 	 *
 	 * @return string
 	 * @throws \srag\DIC\SrTile\Exception\DICException
 	 * @throws ilTemplateException
 	 */
-	public function getLearningProgressRepresentation($json_status = "",$row_identifier = 0) {
+	public function getLearningProgressRepresentation($json_status = "",$row_identifier = 0,$user_total = 0) {
 
 		$tpl_learning_progress_chart = self::plugin()->template("LearningProgress/chart.html",false, false);
 
-		$tpl_learning_progress_chart->setVariable("ROW_IDENTIFIER",$row_identifier);
+		$tpl_learning_progress_chart->setVariable("ROW_IDENTIFIER",$row_identifier);                $tpl_learning_progress_chart->setVariable("USER_TOTAL",$user_total);
 		$tpl_learning_progress_chart->setVariable("JSON_STATUS",$json_status);
 
 		return self::output()->getHTML($tpl_learning_progress_chart);

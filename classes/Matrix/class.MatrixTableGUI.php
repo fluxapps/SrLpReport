@@ -1,17 +1,19 @@
 <?php
 
-use srag\Plugins\SrCrsLpReport\ReportTableGUI\AbstractReportTableGUI;
+use srag\Plugins\SrLpReport\ReportTableGUI\AbstractReportTableGUI;
 
 /**
  * Class MatrixTableGUI
  *
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  */
 
 class MatrixTableGUI extends AbstractReportTableGUI
 {
+
+
 
 	protected function getColumnValue($column, /*array*/
 		$row, /*bool*/
@@ -103,10 +105,10 @@ class MatrixTableGUI extends AbstractReportTableGUI
 
 	protected function initData()
 	{
-		$this->setExternalSorting(true);
-		$this->setExternalSegmentation(true);
+		$this->setExternalSorting(false);
+		$this->setExternalSegmentation(false);
 		$this->setLimit(99999999999,99999999999);
-		$this->determineOffsetAndOrder(true);
+		$this->determineOffsetAndOrder(false);
 
 
 		$collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
@@ -117,7 +119,8 @@ class MatrixTableGUI extends AbstractReportTableGUI
 			$additional_fields = $this->getStandardReportColumns();
 			$additional_fields[] = 'status';
 
-			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], $this->filter["name"], $additional_fields, $this->user_fields, false);
+			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"],  array(), $additional_fields, $this->user_fields, false);
+
 
 
 			// percentage export
@@ -148,8 +151,30 @@ class MatrixTableGUI extends AbstractReportTableGUI
 				}
 			}
 
-			$this->setMaxCount($data["cnt"]);
-			$this->setData($data["set"]);
+
+			//filter
+			$table_data = array();
+			if(count($data["set"]) > 0) {
+				foreach($data["set"] as $row) {
+
+					$filtered = false;
+					foreach($this->filter as $filter_field => $filter) {
+						if ((!empty($filter) || is_numeric($filter)) && $row[$filter_field] != $filter) {
+							$filtered = true;
+						}
+					}
+
+					if(!$filtered) {
+						$table_data[] = $row;
+					}
+
+				}
+			}
+
+
+
+			$this->setMaxCount(count($table_data));
+			$this->setData($table_data);
 
 		}
 		return false;
@@ -167,7 +192,7 @@ class MatrixTableGUI extends AbstractReportTableGUI
 		$scol = array();
 		foreach ($this->selected_column as $k => $v)
 		{
-			if (in_array($k,parent::getSelectableColumns2()))
+			if (key_exists($k,parent::getSelectableColumns2()))
 			{
 				$scol[$k] = $k;
 			}
@@ -189,6 +214,37 @@ class MatrixTableGUI extends AbstractReportTableGUI
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @param array $row
+	 */
+	protected function fillRow(/*array*/
+		$row)/*: void*/ {
+
+
+
+
+		$this->tpl->setCurrentBlock("column");
+
+		foreach ($this->getSelectableColumns() as $column) {
+			if ($this->isColumnSelected($column["id"])) {
+				$column = $this->getColumnValue($column["id"], $row);
+
+				if (!empty($column)) {
+					$this->tpl->setVariable("COLUMN", $column);
+				} else {
+					$this->tpl->setVariable("COLUMN", " ");
+				}
+
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		$this->tpl->setCurrentBlock("checkbox");
+		$this->tpl->setVariable("CHECKBOX_POST_VAR", 'usr_id');
+		$this->tpl->setVariable("ID", $row['usr_id']);
+		$this->tpl->parseCurrentBlock();
 	}
 
 

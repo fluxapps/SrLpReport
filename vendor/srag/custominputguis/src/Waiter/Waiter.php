@@ -1,13 +1,13 @@
 <?php
 
-namespace srag\CustomInputGUIs\SrCrsLpReport\Waiter;
+namespace srag\CustomInputGUIs\SrLpReport\Waiter;
 
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class Waiter
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport\Waiter
+ * @package srag\CustomInputGUIs\SrLpReport\Waiter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

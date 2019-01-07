@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\CustomInputGUIs\SrCrsLpReport\MultiSelectSearchInputGUI;
+namespace srag\CustomInputGUIs\SrLpReport\MultiSelectSearchInputGUI;
 
 use ilUtil;
 
@@ -9,7 +9,7 @@ use ilUtil;
  *
  * TODO: Merge this class with MultiSelectSearchInput2GUI - almost identical
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport\MultiSelectSearchInputGUI
+ * @package srag\CustomInputGUIs\SrLpReport\MultiSelectSearchInputGUI
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>

@@ -1,19 +1,19 @@
 <?php
 
-namespace srag\ActiveRecordConfig\SrCrsLpReport;
+namespace srag\ActiveRecordConfig\SrLpReport;
 
 use ActiveRecord;
 use arConnector;
 use arException;
 use ilDateTime;
 use ilDateTimeException;
-use srag\ActiveRecordConfig\SrCrsLpReport\Exception\ActiveRecordConfigException;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\ActiveRecordConfig\SrLpReport\Exception\ActiveRecordConfigException;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class ActiveRecordConfig
  *
- * @package srag\ActiveRecordConfig\SrCrsLpReport
+ * @package srag\ActiveRecordConfig\SrLpReport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

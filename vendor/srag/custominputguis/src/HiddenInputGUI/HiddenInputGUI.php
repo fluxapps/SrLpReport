@@ -1,14 +1,14 @@
 <?php
 
-namespace srag\CustomInputGUIs\SrCrsLpReport\HiddenInputGUI;
+namespace srag\CustomInputGUIs\SrLpReport\HiddenInputGUI;
 
 use ilHiddenInputGUI;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class HiddenInputGUI
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport\HiddenInputGUI
+ * @package srag\CustomInputGUIs\SrLpReport\HiddenInputGUI
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

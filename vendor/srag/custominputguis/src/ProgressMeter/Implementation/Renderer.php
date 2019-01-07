@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
 
-namespace srag\CustomInputGUIs\SrCrsLpReport\ProgressMeter\Implementation;
+namespace srag\CustomInputGUIs\SrLpReport\ProgressMeter\Implementation;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -10,12 +10,12 @@ use ILIAS\UI\Implementation\Render\ilTemplateWrapper;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
 use ilTemplate;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class Renderer
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport\ProgressMeter\Implementation
+ * @package srag\CustomInputGUIs\SrLpReport\ProgressMeter\Implementation
  *
  * @author  Ralph Dittrich <dittrich@qualitus.de>
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>

@@ -1,14 +1,14 @@
 <?php
 
-namespace srag\CustomInputGUIs\SrCrsLpReport;
+namespace srag\CustomInputGUIs\SrLpReport;
 
-use srag\CustomInputGUIs\SrCrsLpReport\ProgressMeter\Implementation\Factory as ProgressMeterFactory;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\CustomInputGUIs\SrLpReport\ProgressMeter\Implementation\Factory as ProgressMeterFactory;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class CustomInputGUIs
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport
+ * @package srag\CustomInputGUIs\SrLpReport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *

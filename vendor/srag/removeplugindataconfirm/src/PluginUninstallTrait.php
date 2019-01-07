@@ -1,13 +1,13 @@
 <?php
 
-namespace srag\RemovePluginDataConfirm\SrCrsLpReport;
+namespace srag\RemovePluginDataConfirm\SrLpReport;
 
-use srag\RemovePluginDataConfirm\SrCrsLpReport\Exception\RemovePluginDataConfirmException;
+use srag\RemovePluginDataConfirm\SrLpReport\Exception\RemovePluginDataConfirmException;
 
 /**
  * Trait PluginUninstallTrait
  *
- * @package srag\RemovePluginDataConfirm\SrCrsLpReport
+ * @package srag\RemovePluginDataConfirm\SrLpReport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

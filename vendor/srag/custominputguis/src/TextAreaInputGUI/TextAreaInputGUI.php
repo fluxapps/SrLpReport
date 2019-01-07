@@ -1,15 +1,15 @@
 <?php
 
-namespace srag\CustomInputGUIs\SrCrsLpReport\TextAreaInputGUI;
+namespace srag\CustomInputGUIs\SrLpReport\TextAreaInputGUI;
 
 use ilTemplate;
 use ilTextAreaInputGUI;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class TextInputGUI
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport\TextAreaInputGUI
+ * @package srag\CustomInputGUIs\SrLpReport\TextAreaInputGUI
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>

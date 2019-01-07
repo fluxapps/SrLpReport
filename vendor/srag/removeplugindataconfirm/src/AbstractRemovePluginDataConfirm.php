@@ -1,18 +1,18 @@
 <?php
 
-namespace srag\RemovePluginDataConfirm\SrCrsLpReport;
+namespace srag\RemovePluginDataConfirm\SrLpReport;
 
 use ilAdministrationGUI;
 use ilConfirmationGUI;
 use ilObjComponentSettingsGUI;
 use ilSession;
 use ilUtil;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class AbstractRemovePluginDataConfirm
  *
- * @package srag\RemovePluginDataConfirm\SrCrsLpReport
+ * @package srag\RemovePluginDataConfirm\SrLpReport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

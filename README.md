@@ -1,11 +1,11 @@
 ## Installation
 
-### Install SrCrsLpReport-Plugin
+### Install SrLpReport-Plugin
 Start at your ILIAS root directory
 ```bash
 mkdir -p Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
 cd Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
-git clone git@git.studer-raimann.ch:ILIAS/Plugins/SrCrsLpReport.git SrCrsLpReport
+git clone git@git.studer-raimann.ch:ILIAS/Plugins/SrLpReport.git SrLpReport
 ```
 Update, activate and config the plugin in the ILIAS Plugin Administration
 
@@ -22,9 +22,9 @@ Update, activate and config the plugin in the ILIAS Plugin Administration
 Please use it for further development!
 
 ### Adjustment suggestions
-* Adjustment suggestions by pull requests on https://git.studer-raimann.ch/ILIAS/Plugins/SrCrsLpReport/tree/develop
+* Adjustment suggestions by pull requests on https://git.studer-raimann.ch/ILIAS/Plugins/SrLpReport/tree/develop
 * Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/PL__PLUGIN_NAME
-* Bug reports under https://jira.studer-raimann.ch/projects/PLSrCrsLpReport
+* Bug reports under https://jira.studer-raimann.ch/projects/PLSrLpReport
 * For external users please send an email to support-custom1@studer-raimann.ch
 
 ### Development
@@ -34,7 +34,7 @@ Start at your ILIAS root directory
 ```
 mkdir -p Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
 cd Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
-git clone -b develop git@git.studer-raimann.ch:ILIAS/Plugins/SrCrsLpReport.git SrCrsLpReport
+git clone -b develop git@git.studer-raimann.ch:ILIAS/Plugins/SrLpReport.git SrLpReport
 ```
 
 ### ILIAS Plugin SLA

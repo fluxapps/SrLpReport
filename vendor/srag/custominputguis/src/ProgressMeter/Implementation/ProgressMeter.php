@@ -2,15 +2,15 @@
 
 /* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
 
-namespace srag\CustomInputGUIs\SrCrsLpReport\ProgressMeter\Implementation;
+namespace srag\CustomInputGUIs\SrLpReport\ProgressMeter\Implementation;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use srag\CustomInputGUIs\SrCrsLpReport\ProgressMeter\Component\ProgressMeter as ProgressMeterComponent;
+use srag\CustomInputGUIs\SrLpReport\ProgressMeter\Component\ProgressMeter as ProgressMeterComponent;
 
 /**
  * Class ProgressMeter
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport\ProgressMeter\Implementation
+ * @package srag\CustomInputGUIs\SrLpReport\ProgressMeter\Implementation
  *
  * @author  Ralph Dittrich <dittrich@qualitus.de>
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>

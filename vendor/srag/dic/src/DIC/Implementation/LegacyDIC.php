@@ -1,15 +1,15 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport\DIC\Implementation;
+namespace srag\DIC\SrLpReport\DIC\Implementation;
 
 use ilLoggerFactory;
-use srag\DIC\SrCrsLpReport\DIC\AbstractDIC;
-use srag\DIC\SrCrsLpReport\Exception\DICException;
+use srag\DIC\SrLpReport\DIC\AbstractDIC;
+use srag\DIC\SrLpReport\Exception\DICException;
 
 /**
  * Class LegacyDIC
  *
- * @package srag\DIC\SrCrsLpReport\DIC\Implementation
+ * @package srag\DIC\SrLpReport\DIC\Implementation
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

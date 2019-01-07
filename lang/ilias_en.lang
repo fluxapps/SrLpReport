@@ -12,3 +12,4 @@ removeplugindataconfirm_remove_data#:#Remove %1$s data
 srcrslpuser#:#User
 srcrslpmatrix#:#Matrix View
 srcrslpsummary#:#Summary
+config_role_obj_id#:#Report Role ID

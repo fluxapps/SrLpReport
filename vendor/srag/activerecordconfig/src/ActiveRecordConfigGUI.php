@@ -1,16 +1,16 @@
 <?php
 
-namespace srag\ActiveRecordConfig\SrCrsLpReport;
+namespace srag\ActiveRecordConfig\SrLpReport;
 
 use ilPluginConfigGUI;
 use ilUtil;
-use srag\ActiveRecordConfig\SrCrsLpReport\Exception\ActiveRecordConfigException;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\ActiveRecordConfig\SrLpReport\Exception\ActiveRecordConfigException;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class ActiveRecordConfigGUI
  *
- * @package srag\ActiveRecordConfig\SrCrsLpReport
+ * @package srag\ActiveRecordConfig\SrLpReport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

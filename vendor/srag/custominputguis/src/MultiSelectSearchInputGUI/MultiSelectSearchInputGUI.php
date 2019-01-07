@@ -1,16 +1,16 @@
 <?php
 
-namespace srag\CustomInputGUIs\SrCrsLpReport\MultiSelectSearchInputGUI;
+namespace srag\CustomInputGUIs\SrLpReport\MultiSelectSearchInputGUI;
 
 use ilMultiSelectInputGUI;
 use ilTemplate;
 use ilUtil;
-use srag\DIC\SrCrsLpReport\DICTrait;
+use srag\DIC\SrLpReport\DICTrait;
 
 /**
  * Class MultiSelectSearchInputGUI
  *
- * @package srag\CustomInputGUIs\SrCrsLpReport\MultiSelectSearchInputGUI
+ * @package srag\CustomInputGUIs\SrLpReport\MultiSelectSearchInputGUI
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>

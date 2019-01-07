@@ -1,18 +1,18 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport\Plugin;
+namespace srag\DIC\SrLpReport\Plugin;
 
 use Exception;
 use ilLanguage;
 use ilPlugin;
 use ilTemplate;
-use srag\DIC\SrCrsLpReport\DICTrait;
-use srag\DIC\SrCrsLpReport\Exception\DICException;
+use srag\DIC\SrLpReport\DICTrait;
+use srag\DIC\SrLpReport\Exception\DICException;
 
 /**
  * Class Plugin
  *
- * @package srag\DIC\SrCrsLpReport\Plugin
+ * @package srag\DIC\SrLpReport\Plugin
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

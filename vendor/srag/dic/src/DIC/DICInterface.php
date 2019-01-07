@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport\DIC;
+namespace srag\DIC\SrLpReport\DIC;
 
 use Collator;
 use ilAccess;
@@ -47,12 +47,12 @@ use ilTemplate;
 use ilToolbarGUI;
 use ilTree;
 use Session;
-use srag\DIC\SrCrsLpReport\Exception\DICException;
+use srag\DIC\SrLpReport\Exception\DICException;
 
 /**
  * Interface DICInterface
  *
- * @package srag\DIC\SrCrsLpReport\DIC
+ * @package srag\DIC\SrLpReport\DIC
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

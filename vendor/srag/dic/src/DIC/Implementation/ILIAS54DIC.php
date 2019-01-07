@@ -1,14 +1,14 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport\DIC\Implementation;
+namespace srag\DIC\SrLpReport\DIC\Implementation;
 
 use ILIAS\DI\Container;
-use srag\DIC\SrCrsLpReport\DIC\AbstractDIC;
+use srag\DIC\SrLpReport\DIC\AbstractDIC;
 
 /**
  * Class ILIAS54DIC
  *
- * @package srag\DIC\SrCrsLpReport\DIC\Implementation
+ * @package srag\DIC\SrLpReport\DIC\Implementation
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

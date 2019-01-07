@@ -1,11 +1,11 @@
 <?php
 
-namespace srag\DIC\SrCrsLpReport\Version;
+namespace srag\DIC\SrLpReport\Version;
 
 /**
  * Class Version
  *
- * @package srag\DIC\SrCrsLpReport\Version
+ * @package srag\DIC\SrLpReport\Version
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
