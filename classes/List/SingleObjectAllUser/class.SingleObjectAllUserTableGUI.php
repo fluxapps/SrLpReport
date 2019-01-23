@@ -25,6 +25,9 @@ class SingleObjectAllUserTableGUI  extends AbstractReportTableGUI
 
 		switch ($column) {
 			case "login":
+				if($raw_export) {
+					return $row[$column];
+				}
 				//ToDo RefId should be a field in the data set!
 				return $this->getLinkDetailView($row[$column],$this->ref_id,$row['usr_id']);
 			break;
