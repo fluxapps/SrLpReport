@@ -22,17 +22,26 @@ class MatrixTableGUI extends AbstractReportTableGUI
 
 
 		if($column == 'status') {
-			return $this->getLearningProgressRepresentation($row['obj_'.ilObject::_lookupObjectId($this->ref_id)],0);
+			if($raw_export) {
+				return $this->getLearningProgressRepresentationExport($row['obj_'.ilObject::_lookupObjectId($this->ref_id)],0);
+			} else {
+				return $this->getLearningProgressRepresentation($row['obj_'.ilObject::_lookupObjectId($this->ref_id)],0);
+			}
 		}
 
 		if(count(explode('obj_', $column)) == 2) {
 			$percentage = $row[$column."_perc"];
-			return $this->getLearningProgressRepresentation($row[$column],$percentage);
+			if($raw_export) {
+				return $this->getLearningProgressRepresentationExport($row[$column],$percentage);
+			} else {
+				return $this->getLearningProgressRepresentation($row[$column],$percentage);
+			}
+
 		}
 
 		return parent::getColumnValue($column, /*array*/
 			$row, /*bool*/
-			$raw_export = false);
+			$raw_export);
 	}
 
 
@@ -256,6 +265,22 @@ class MatrixTableGUI extends AbstractReportTableGUI
 	protected function initId() {
 		$this->setId('srcrslp_matrix');
 		$this->setPrefix('srcrslp_matrix');
+	}
+
+	/**
+	 * @param ilExcel $excel
+	 * @param int     $row
+	 * @param array   $result
+	 */
+	protected function fillRowExcel(ilExcel $excel, /*int*/
+		&$row, /*array*/
+		$result)/*: void*/ {
+		$col = 0;
+
+		foreach ($this->getSelectableColumns2() as $column) {
+			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
+			$col ++;
+		}
 	}
 }
 ?>

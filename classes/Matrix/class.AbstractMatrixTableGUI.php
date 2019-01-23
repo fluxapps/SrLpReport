@@ -21,12 +21,16 @@ abstract class AbstractMatrixTableGUI extends AbstractReportTableGUI
 
 		if(count(explode('obj_', $column)) == 2) {
 			$percentage = $row[$column."_perc"];
-			return $this->getLearningProgressRepresentation($row[$column],$percentage);
+			if($raw_export) {
+				return $this->getLearningProgressRepresentationExport($row[$column],$percentage);
+			} else {
+				return $this->getLearningProgressRepresentation($row[$column],$percentage);
+			}
 		}
 
 		return parent::getColumnValue($column, /*array*/
 			$row, /*bool*/
-			$raw_export = false);
+			$raw_export);
 	}
 
 

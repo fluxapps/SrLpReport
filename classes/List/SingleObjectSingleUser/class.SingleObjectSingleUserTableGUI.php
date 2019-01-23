@@ -73,10 +73,6 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 	}
 
 
-	protected function getSelectableColumns2() {
-		return array();
-	}
-
 
 	protected function getStandardColumns() {
 
@@ -125,17 +121,25 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 		$row, /*bool*/
 		$raw_export = false) {
 
+
+
 		if ($column == "object") {
+			if($raw_export) {
+				return $row['obj_title'];
+			}
 			return ilUtil::img($row['obj_icon'], $row['obj_title']) . " " . $row['obj_title'];
 		}
 
 		if ($column == "status") {
+			if($raw_export) {
+				return $row['status_text'];
+			}
 			return ilUtil::img($row['status_icon'], $row['status_text']) . " " . $row['status_text'];
 		}
 
 		return parent::getColumnValue($column, /*array*/
 			$row, /*bool*/
-			$raw_export = false);
+			$raw_export);
 	}
 
 
@@ -181,23 +185,11 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 	}
 
 
-	/**
-	 * Get selected columns
-	 *
-	 * @param
-	 *
-	 * @return
-	 */
-	function getStandardReportColumns() {
-		$scol = array();
-		foreach ($this->selected_column as $k => $v) {
-			if (key_exists($k, parent::getSelectableColumns2())) {
-				$scol[$k] = $k;
-			}
-		}
-
-		return $scol;
+	protected function getSelectableColumns2() {
+		return $this->getStandardColumns();
 	}
+
+
 
 
 	protected function initTitle() {
@@ -213,6 +205,67 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 		$tpl->setVariable('LEGEND',ilSrLpReportGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
+	}
+
+	/**
+	 *
+	 */
+	protected function initExport()/*: void*/ {
+		$this->setExportFormats([self::EXPORT_EXCEL,self::EXPORT_CSV]);
+	}
+
+	/**
+	 * @param ilExcel $excel
+	 * @param int     $row
+	 * @param array   $result
+	 */
+	protected function fillRowExcel(ilExcel $excel, /*int*/
+		&$row, /*array*/
+		$result)/*: void*/ {
+		$col = 0;
+		foreach ($this->getSelectableColumns() as $column) {
+			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
+			$col ++;
+
+		}
+	}
+
+	/**
+	 * @param ilCSVWriter $csv
+	 * @param array       $row
+	 */
+	protected function fillRowCSV(/*ilCSVWriter*/
+		$csv, /*array*/
+		$row)/*: void*/ {
+		foreach ($this->getSelectableColumns() as $column) {
+			$csv->addColumn($this->getColumnValue($column["id"], $row, true));
+		}
+
+		$csv->addRow();
+	}
+
+
+	/**
+	 * @param int $status
+	 * @param int $percentage
+	 *
+	 * @return string
+	 */
+	protected function getLearningProgressRepresentationExport($status = 0, $percentage = 0): string {
+
+		if ($percentage > 0) {
+			return $percentage . "%";
+		}
+
+
+		switch ($status) {
+			case 0:
+				return self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
+			default:
+				return ilLearningProgressBaseGUI::_getStatusText($status);
+		}
+
+		return "";
 	}
 
 

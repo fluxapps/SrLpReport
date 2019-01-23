@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrLpReport\ReportTableGUI;
 
 use ilLearningProgressBaseGUI;
+use ilExcel;
 use ilObject;
 use ilUtil;
 use ilUserProfile;
@@ -51,7 +52,12 @@ abstract class AbstractReportTableGUI extends TableGUI {
 
 		switch ($column) {
 			case "status":
-				return $this->getLearningProgressRepresentation($row[$column]);
+				if($raw_export) {
+					return $this->getLearningProgressRepresentationExport($row[$column]);
+				} else {
+					return $this->getLearningProgressRepresentation($row[$column]);
+				}
+
 				break;
 			default:
 				return (is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
@@ -84,6 +90,29 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		}
 
 		return $representation;
+	}
+
+	/**
+	 * @param int $status
+	 * @param int $percentage
+	 *
+	 * @return string
+	 */
+	protected function getLearningProgressRepresentationExport($status = 0, $percentage = 0): string {
+
+		if ($percentage > 0) {
+			return $percentage . "%";
+		}
+
+
+		switch ($status) {
+			case 0:
+				return self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
+			default:
+				return ilLearningProgressBaseGUI::_getStatusText($status);
+		}
+
+		return "";
 	}
 
 
@@ -345,6 +374,13 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		}
 	}
 
+	/**
+	 *
+	 */
+	protected function initExport()/*: void*/ {
+		$this->setExportFormats([self::EXPORT_EXCEL,self::EXPORT_CSV]);
+	}
+
 
 	/**
 	 * @return array
@@ -360,6 +396,36 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		}
 
 		return $arr_filter;
+	}
+
+	/**
+	 * @param ilExcel $excel
+	 * @param int     $row
+	 * @param array   $result
+	 */
+	protected function fillRowExcel(ilExcel $excel, /*int*/
+		&$row, /*array*/
+		$result)/*: void*/ {
+		$col = 0;
+		foreach ($this->getSelectableColumns() as $column) {
+			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
+			$col ++;
+
+		}
+	}
+
+	/**
+	 * @param ilCSVWriter $csv
+	 * @param array       $row
+	 */
+	protected function fillRowCSV(/*ilCSVWriter*/
+		$csv, /*array*/
+		$row)/*: void*/ {
+		foreach ($this->getSelectableColumns() as $column) {
+				$csv->addColumn($this->getColumnValue($column["id"], $row, true));
+		}
+
+		$csv->addRow();
 	}
 }
 

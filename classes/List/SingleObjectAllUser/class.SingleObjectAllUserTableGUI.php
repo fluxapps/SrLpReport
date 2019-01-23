@@ -32,7 +32,7 @@ class SingleObjectAllUserTableGUI  extends AbstractReportTableGUI
 
 		return parent::getColumnValue($column, /*array*/
 			$row, /*bool*/
-			$raw_export = false);
+			$raw_export);
 	}
 
 
@@ -47,6 +47,8 @@ class SingleObjectAllUserTableGUI  extends AbstractReportTableGUI
 		//ToDo is there a Representation Classes for easy generating links with target, title?
 		return '<a href="'.$report->getLinkTarget().'">'.$link_title."</a>";
 	}
+
+
 
 
 }

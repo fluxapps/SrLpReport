@@ -76,7 +76,7 @@ class SingleObjectAllUserGUI {
 		// see ilObjCourseGUI::sendMailToSelectedUsersObject()
 
 		if (count($_POST["usr_id"]) == 0) {
-			ilUtil::sendFailure(self::dic()->language()->txt("no_checkbox"), true);
+			ilUtil::sendFailure(self::dic()->language()->txt("no_checkbox"), false);
 			self::dic()->ctrl()->redirect($this);
 		}
 
