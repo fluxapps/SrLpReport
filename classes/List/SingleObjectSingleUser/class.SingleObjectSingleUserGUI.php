@@ -5,19 +5,21 @@ require_once __DIR__ . "/../../../vendor/autoload.php";
  * Class MatrixSingleObjectSingleUserGUI
  *
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy MatrixSingleObjectSingleUserGUI: ilSrLpReportGUI
  */
 class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 
-	const LP_STATUS_COLOR = [ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => "#ddd",
-		ilLPStatus::LP_STATUS_IN_PROGRESS_NUM =>  "#F6D842",
-		ilLPStatus::LP_STATUS_COMPLETED_NUM =>	"#60B060",
-		ilLPStatus::LP_STATUS_FAILED =>	"#B06060"];
-
+	const LP_STATUS_COLOR = [
+		ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => "#ddd",
+		ilLPStatus::LP_STATUS_IN_PROGRESS_NUM => "#F6D842",
+		ilLPStatus::LP_STATUS_COMPLETED_NUM => "#60B060",
+		ilLPStatus::LP_STATUS_FAILED => "#B06060"
+	];
 	const CLASS_PLUGIN_BASE_GUI = ilSrLpReportGUI::class;
 	const CLASS_PLUGIN_ROUTER_GUI = 'ilUIPluginRouterGUI';
+
 
 	/**
 	 * SummaryGUI constructor
@@ -29,9 +31,11 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 		$this->setTabs();
 	}
 
+
 	function getTableGuiClassName(): string {
 		return MatrixSingleObjectSingleUserTableGUI::class;
 	}
+
 
 	/**
 	 *
@@ -41,19 +45,19 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 		self::dic()->mainTemplate()->addJavaScript(self::plugin()->directory() . "/js/d3.legend.js");
 	}
 
+
 	public function listUsers() {
 		$table_class_name = $this->getTableGuiClassName();
 
 		$this->table = new $table_class_name($this, self::dic()->ctrl()->getCmd());
 
-
 		self::dic()->mainTemplate()->setContent($this->table->getHTML());
 
-		if($this->getRightColumn()) {
+		if ($this->getRightColumn()) {
 			self::dic()->mainTemplate()->setRightContent($this->getRightColumn());
 		}
 
-		self::output()->output("",true);
+		self::output()->output("", true);
 	}
 
 
@@ -72,7 +76,7 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 
 		foreach ($status_data as $status_number => $status_count) {
 
-			if($status_count == 0) {
+			if ($status_count == 0) {
 				continue;
 			}
 
@@ -112,6 +116,7 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 		return self::output()->getHTML($tpl_learning_progress_chart);
 	}
 
+
 	public function getRightColumn() {
 		$data = $this->table->getData();
 
@@ -120,49 +125,39 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 		$status_data[ilLPStatus::LP_STATUS_COMPLETED_NUM] = 0;
 
 		$absolute = 0;
-		foreach($data as $row) {
-			$status_data[$row['status']]++;
-			$absolute++;
+		foreach ($data as $row) {
+			$status_data[$row['status']] ++;
+			$absolute ++;
 		}
 
-
 		$html = "";
-		if($absolute > 0) {
-			$lp_json = $this->getLearningProgressJson($status_data,$absolute);
-			$html = $this->getLearningProgressRepresentation($lp_json,$_GET['usr_id'],$absolute);
+		if ($absolute > 0) {
+			$lp_json = $this->getLearningProgressJson($status_data, $absolute);
+			$html = $this->getLearningProgressRepresentation($lp_json, $_GET['usr_id'], $absolute);
 			$html .= "<br/>";
 			//$tpl->setVariable("HEADER",$this->getLearningProgressRepresentation($lp_json));
 		}
 
 		$pub_profile = new ilPublicUserProfileGUI($_GET['usr_id']);
-		$html .= $pub_profile->getEmbeddable()."<br/>";
+		$html .= $pub_profile->getEmbeddable() . "<br/>";
 
 		$html .= ilSrLpReportGUI::getLegendHTML();
-
-
-
-
 
 		return $html;
 	}
 
+
 	public function setTabs()/*: void*/ {
 		self::dic()->tabs()->clearTargets();
 
-		self::dic()->ctrl()->saveParameterByClass(SingleObjectAllUserGUI::class,'ref_id');
-		self::dic()->ctrl()->saveParameterByClass(SingleObjectAllUserGUI::class,'details_id');
-		self::dic()->ctrl()->setParameterByClass(SingleObjectAllUserGUI::class,'sr_rp',1);
+		self::dic()->ctrl()->saveParameterByClass(SingleObjectAllUserGUI::class, 'ref_id');
+		self::dic()->ctrl()->saveParameterByClass(SingleObjectAllUserGUI::class, 'details_id');
+		self::dic()->ctrl()->setParameterByClass(SingleObjectAllUserGUI::class, 'sr_rp', 1);
 
-
-		self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"),self::dic()->ctrl()
-			->getLinkTargetByClass([
+		self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
 				self::CLASS_PLUGIN_ROUTER_GUI,
 				self::CLASS_PLUGIN_BASE_GUI,
 				SingleObjectAllUserGUI::class
 			]));
-
-
 	}
-
-
 }

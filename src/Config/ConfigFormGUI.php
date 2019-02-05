@@ -4,10 +4,10 @@
 
 namespace srag\Plugins\SrLpReport\Config;
 
-use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use ilSrLpReportPlugin;
 use ilTextInputGUI;
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfigFormGUI;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class ConfigFormGUI

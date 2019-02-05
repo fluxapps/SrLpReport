@@ -4,11 +4,10 @@
 
 namespace srag\Plugins\SrLpReport\Access;
 
-use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Report\ReportInterface;
-
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class Ilias
@@ -50,6 +49,7 @@ final class Ilias {
 
 	}
 
+
 	/**
 	 * @param int $obj_ref_id
 	 * @param int $usr_id
@@ -57,7 +57,7 @@ final class Ilias {
 	 *
 	 * @return ReportInterface
 	 */
-	public function reportRefIdUserId(int $obj_ref_id,int $usr_id, int $report_view_type): ReportInterface {
-		return self::report()->buildReportRefIdUserId($obj_ref_id,$usr_id,$report_view_type);
+	public function reportRefIdUserId(int $obj_ref_id, int $usr_id, int $report_view_type): ReportInterface {
+		return self::report()->buildReportRefIdUserId($obj_ref_id, $usr_id, $report_view_type);
 	}
 }

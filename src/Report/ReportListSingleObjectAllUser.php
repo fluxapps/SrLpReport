@@ -2,11 +2,11 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
+use ilSrLpReportGUI;
 use ilSrReportPlugin;
+use SingleObjectAllUserGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
-use SingleObjectAllUserGUI;
-use ilSrLpReportGUI;
 
 /**
  * Class ReportListSingleObjectAllUser
@@ -20,19 +20,14 @@ class ReportListSingleObjectAllUser implements ReportInterface {
 	use SrLpReportTrait;
 	use DICTrait;
 	const PLUGIN_CLASS_NAME = ilSrReportPlugin::class;
-
 	const CLASS_PLUGIN_ROUTER_GUI = 'ilUIPluginRouterGUI';
 	const CLASS_PLUGIN_BASE_GUI = ilSrLpReportGUI::class;
 	const CLASS_GUI = SingleObjectAllUserGUI::class;
-
-	const CLASS_PATH_ARRAY = [self::CLASS_PLUGIN_ROUTER_GUI,self::CLASS_PLUGIN_BASE_GUI,self::CLASS_GUI];
-
-
+	const CLASS_PATH_ARRAY = [ self::CLASS_PLUGIN_ROUTER_GUI, self::CLASS_PLUGIN_BASE_GUI, self::CLASS_GUI ];
 	/**
 	 * @var self[]
 	 */
 	protected static $instances = [];
-
 	/**
 	 * @var int
 	 */
@@ -41,7 +36,6 @@ class ReportListSingleObjectAllUser implements ReportInterface {
 	 * @var int
 	 */
 	protected $rep_user_type = ReportFactory::REPORT_USER_TYPE_SINGLE;
-
 	/**
 	 * @var int
 	 */
@@ -56,8 +50,8 @@ class ReportListSingleObjectAllUser implements ReportInterface {
 	private function __construct(int $obj_ref_id) {
 		$this->obj_ref_id = $obj_ref_id;
 
-		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI,'ref_id',$this->getObjRefId());
-		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI,'sr_rp',1);
+		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI, 'ref_id', $this->getObjRefId());
+		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI, 'sr_rp', 1);
 	}
 
 
@@ -74,14 +68,16 @@ class ReportListSingleObjectAllUser implements ReportInterface {
 		return self::$instances[$obj_ref_id];
 	}
 
+
 	/**
 	 * @return string
 	 */
-	public function getLinkTarget():string {
+	public function getLinkTarget(): string {
 		return self::dic()->ctrl()->getLinkTargetByClass(self::CLASS_PATH_ARRAY);
 	}
 
-	public function getGuiObject():SingleObjectAllUserGUI {
+
+	public function getGuiObject(): SingleObjectAllUserGUI {
 		return new SingleObjectAllUserGUI();
 	}
 

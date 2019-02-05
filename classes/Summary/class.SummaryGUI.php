@@ -11,7 +11,7 @@ use srag\DIC\SrLpReport\DICTrait;
  * Class SummaryGUI
  *
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy SummaryGUI: ilUIPluginRouterGUI
  */
@@ -25,8 +25,6 @@ class SummaryGUI {
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_INDEX = 'index';
 	const CMD_RESET_FILTER = 'resetFilter';
-
-
 	/**
 	 * @var \SingleObjectAllUserTableGUI
 	 */
@@ -46,8 +44,10 @@ class SummaryGUI {
 
 		self::dic()->mainTemplate()->setTitleIcon($icon);
 
-		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress")." ".ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id'])));
+		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress") . " "
+			. ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id'])));
 	}
+
 
 	/**
 	 *
@@ -63,9 +63,8 @@ class SummaryGUI {
 	 */
 	public function executeCommand()/*: void*/ {
 
-		self::dic()->ctrl()->saveParameter($this,'ref_id');
-		self::dic()->ctrl()->saveParameter($this,'details_id');
-
+		self::dic()->ctrl()->saveParameter($this, 'ref_id');
+		self::dic()->ctrl()->saveParameter($this, 'details_id');
 
 		$cmd = self::dic()->ctrl()->getCmd();
 		switch ($cmd) {
@@ -78,10 +77,7 @@ class SummaryGUI {
 				$this->index();
 				break;
 		}
-
 	}
-
-
 
 
 	public function index() {
@@ -111,13 +107,13 @@ class SummaryGUI {
 		self::dic()->ctrl()->redirect($this);
 	}
 
+
 	public function getTableAndFooterHtml() {
 
-		$tpl = self::plugin()->template("Report/report.html",false,false);
-		$tpl->setVariable("REPORT",$this->table->getHTML());
-		$tpl->setVariable('LEGEND',ilSrLpReportGUI::getLegendHTML());
+		$tpl = self::plugin()->template("Report/report.html", false, false);
+		$tpl->setVariable("REPORT", $this->table->getHTML());
+		$tpl->setVariable('LEGEND', ilSrLpReportGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
 	}
-
 }

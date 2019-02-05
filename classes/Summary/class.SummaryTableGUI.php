@@ -2,7 +2,6 @@
 
 use \srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 
-
 /**
  * Class SummaryTableGUI
  *
@@ -12,13 +11,13 @@ use \srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
  */
 class SummaryTableGUI extends TableGUI {
 
-
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const LP_STATUS_COLOR = [ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => "#ddd",
-							ilLPStatus::LP_STATUS_IN_PROGRESS_NUM =>  "#F6D842",
-							ilLPStatus::LP_STATUS_COMPLETED_NUM =>	"#60B060",
-							ilLPStatus::LP_STATUS_FAILED =>	"#B06060"];
-
+	const LP_STATUS_COLOR = [
+		ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => "#ddd",
+		ilLPStatus::LP_STATUS_IN_PROGRESS_NUM => "#F6D842",
+		ilLPStatus::LP_STATUS_COMPLETED_NUM => "#60B060",
+		ilLPStatus::LP_STATUS_FAILED => "#B06060"
+	];
 
 
 	public function __construct($parent, /*string*/
@@ -41,7 +40,7 @@ class SummaryTableGUI extends TableGUI {
 
 		switch ($column) {
 			case "status":
-					return $this->getLearningProgressRepresentation($row[$column],$row['obj_id'],$row["user_total"]);
+				return $this->getLearningProgressRepresentation($row[$column], $row['obj_id'], $row["user_total"]);
 				break;
 			default:
 				return (is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
@@ -98,7 +97,6 @@ class SummaryTableGUI extends TableGUI {
 		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 
-
 		foreach ($data['set'] as $key => $row) {
 			$data["set"][$key]["status"] = $this->getLearningProgressJson($row["status"], $row["user_total"]);
 		}
@@ -131,7 +129,7 @@ class SummaryTableGUI extends TableGUI {
 	 *
 	 * @return    string
 	 */
-	protected function getLearningProgressJson(array $status_data = NULL, $absolute = 0):string {
+	protected function getLearningProgressJson(array $status_data = NULL, $absolute = 0): string {
 
 		self::dic()->language()->loadLanguageModule('trac');
 		$json_string = "";
@@ -146,25 +144,17 @@ class SummaryTableGUI extends TableGUI {
 
 			$perc = round($user_count / $absolute * 100);
 
-
-
 			$arr_status['user_count'] = $user_count;
 			$arr_status['reached'] = $perc;
-			$arr_status['reached_label'] = $perc ."%";
+			$arr_status['reached_label'] = $perc . "%";
 			$arr_status['label'] = ilLearningProgressBaseGUI::_getStatusText($status_number);
 			$arr_status['color'] = self::LP_STATUS_COLOR[$status_number];
 			$arr_status['absolute'] = $absolute;
 
-
-			$json_string[] = json_encode( $arr_status );
+			$json_string[] = json_encode($arr_status);
 		}
 
-
-
-
-
-		return implode(',',$json_string);
-
+		return implode(',', $json_string);
 		//return json_encode($arr_status);
 	}
 
@@ -178,12 +168,13 @@ class SummaryTableGUI extends TableGUI {
 	 * @throws \srag\DIC\SrLPReport\Exception\DICException
 	 * @throws ilTemplateException
 	 */
-	public function getLearningProgressRepresentation($json_status = "",$row_identifier = 0,$user_total = 0) {
+	public function getLearningProgressRepresentation($json_status = "", $row_identifier = 0, $user_total = 0) {
 
-		$tpl_learning_progress_chart = self::plugin()->template("LearningProgress/chart.html",false, false);
+		$tpl_learning_progress_chart = self::plugin()->template("LearningProgress/chart.html", false, false);
 
-		$tpl_learning_progress_chart->setVariable("ROW_IDENTIFIER",$row_identifier);                $tpl_learning_progress_chart->setVariable("TOTAL",$user_total);
-		$tpl_learning_progress_chart->setVariable("JSON_STATUS",$json_status);
+		$tpl_learning_progress_chart->setVariable("ROW_IDENTIFIER", $row_identifier);
+		$tpl_learning_progress_chart->setVariable("TOTAL", $user_total);
+		$tpl_learning_progress_chart->setVariable("JSON_STATUS", $json_status);
 
 		return self::output()->getHTML($tpl_learning_progress_chart);
 	}

@@ -29,6 +29,7 @@ interface ReportInterface {
 	 */
 	public function getLinkTarget(): string;
 
+
 	/**
 	 *
 	 */

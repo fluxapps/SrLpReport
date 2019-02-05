@@ -4,9 +4,9 @@
 
 namespace srag\Plugins\SrLpReport\Config;
 
-use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use ilSrLpReportPlugin;
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfig;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class Config

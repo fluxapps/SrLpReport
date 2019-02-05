@@ -2,19 +2,19 @@
 
 namespace srag\Plugins\SrLpReport\ReportTableGUI;
 
-use ilLearningProgressBaseGUI;
 use ilExcel;
-use ilObject;
-use ilUtil;
-use ilUserProfile;
-use ilObjUserTracking;
-use ilObjectLP;
-use ilTrQuery;
+use ilLearningProgressBaseGUI;
 use ilLPStatus;
-use ilSelectInputGUI;
 use ilMail;
-use ilUserDefinedFields;
+use ilObject;
+use ilObjectLP;
+use ilObjUserTracking;
+use ilSelectInputGUI;
 use ilTextInputGUI;
+use ilTrQuery;
+use ilUserDefinedFields;
+use ilUserProfile;
+use ilUtil;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -29,6 +29,7 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 abstract class AbstractReportTableGUI extends TableGUI {
 
 	use SrLpReportTrait;
+
 
 	public function __construct($parent, /*string*/
 		$parent_cmd) {
@@ -52,7 +53,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 
 		switch ($column) {
 			case "status":
-				if($raw_export) {
+				if ($raw_export) {
 					return $this->getLearningProgressRepresentationExport($row[$column]);
 				} else {
 					return $this->getLearningProgressRepresentation($row[$column]);
@@ -92,6 +93,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		return $representation;
 	}
 
+
 	/**
 	 * @param int $status
 	 * @param int $percentage
@@ -103,7 +105,6 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		if ($percentage > 0) {
 			return $percentage . "%";
 		}
-
 
 		switch ($status) {
 			case 0:
@@ -280,7 +281,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 
 		$check_agreement = false;
 
-		$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()),  $this->getFilterValueForQuery(), $additional_fields, $check_agreement, $this->user_fields);
+		$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $this->getFilterValueForQuery(), $additional_fields, $check_agreement, $this->user_fields);
 
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
 			$this->resetOffset();
@@ -342,6 +343,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		}
 	}
 
+
 	/**
 	 * @param array $row
 	 */
@@ -374,11 +376,12 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		}
 	}
 
+
 	/**
 	 *
 	 */
 	protected function initExport()/*: void*/ {
-		$this->setExportFormats([self::EXPORT_EXCEL,self::EXPORT_CSV]);
+		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
 	}
 
 
@@ -388,15 +391,15 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	public function getFilterValueForQuery() {
 
 		$arr_filter = array();
-		foreach($this->filter as $field_key => $filter) {
-			if(!empty($filter)) {
+		foreach ($this->filter as $field_key => $filter) {
+			if (!empty($filter)) {
 				$arr_filter[$field_key] = $filter;
 			}
-
 		}
 
 		return $arr_filter;
 	}
+
 
 	/**
 	 * @param ilExcel $excel
@@ -410,9 +413,9 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		foreach ($this->getSelectableColumns() as $column) {
 			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
 			$col ++;
-
 		}
 	}
+
 
 	/**
 	 * @param ilCSVWriter $csv
@@ -422,7 +425,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		$csv, /*array*/
 		$row)/*: void*/ {
 		foreach ($this->getSelectableColumns() as $column) {
-				$csv->addColumn($this->getColumnValue($column["id"], $row, true));
+			$csv->addColumn($this->getColumnValue($column["id"], $row, true));
 		}
 
 		$csv->addRow();

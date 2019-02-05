@@ -73,7 +73,6 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 	}
 
 
-
 	protected function getStandardColumns() {
 
 		// default fields
@@ -122,18 +121,19 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 		$raw_export = false) {
 
 
-
 		if ($column == "object") {
-			if($raw_export) {
+			if ($raw_export) {
 				return $row['obj_title'];
 			}
+
 			return ilUtil::img($row['obj_icon'], $row['obj_title']) . " " . $row['obj_title'];
 		}
 
 		if ($column == "status") {
-			if($raw_export) {
+			if ($raw_export) {
 				return $row['status_text'];
 			}
+
 			return ilUtil::img($row['status_icon'], $row['status_text']) . " " . $row['status_text'];
 		}
 
@@ -190,29 +190,30 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 	}
 
 
-
-
 	protected function initTitle() {
 
 	}
+
 
 	public function getTableFooterAndHeaderHtml() {
 
 		self::dic()->language()->loadLanguageModule('trac');
 
-		$tpl = self::plugin()->template("Report/report.html",false,false);
-		$tpl->setVariable("REPORT",$this->table->getHTML());
-		$tpl->setVariable('LEGEND',ilSrLpReportGUI::getLegendHTML());
+		$tpl = self::plugin()->template("Report/report.html", false, false);
+		$tpl->setVariable("REPORT", $this->table->getHTML());
+		$tpl->setVariable('LEGEND', ilSrLpReportGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
 	}
+
 
 	/**
 	 *
 	 */
 	protected function initExport()/*: void*/ {
-		$this->setExportFormats([self::EXPORT_EXCEL,self::EXPORT_CSV]);
+		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
 	}
+
 
 	/**
 	 * @param ilExcel $excel
@@ -226,9 +227,9 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 		foreach ($this->getSelectableColumns() as $column) {
 			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
 			$col ++;
-
 		}
 	}
+
 
 	/**
 	 * @param ilCSVWriter $csv
@@ -257,7 +258,6 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 			return $percentage . "%";
 		}
 
-
 		switch ($status) {
 			case 0:
 				return self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
@@ -267,8 +267,6 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 
 		return "";
 	}
-
-
 }
 
 ?>

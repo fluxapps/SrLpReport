@@ -4,9 +4,9 @@
 
 namespace srag\Plugins\SrLpReport\Access;
 
-use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class Access

@@ -9,7 +9,7 @@ use srag\DIC\SrLpReport\DICTrait;
  * Class SingleObjectAllUserGUI
  *
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy SingleObjectAllUserGUI: ilSrLpReportGUI
  */
@@ -42,10 +42,10 @@ class SingleObjectAllUserGUI {
 
 		self::dic()->mainTemplate()->setTitleIcon($icon);
 
-		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress")." ".ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id'])));
+		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress") . " "
+			. ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id'])));
 
-		self::dic()->mainTemplate()->setVariable('LEGEND',"222");
-
+		self::dic()->mainTemplate()->setVariable('LEGEND', "222");
 	}
 
 
@@ -108,10 +108,10 @@ class SingleObjectAllUserGUI {
 		}
 
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, self::dic()->ctrl()->getCmd(), array(), array(
-				'type' => 'new',
-				'rcp_to' => implode(',', $rcps),
-				'sig' => $sig
-			), $template));
+			'type' => 'new',
+			'rcp_to' => implode(',', $rcps),
+			'sig' => $sig
+		), $template));
 	}
 
 
@@ -124,8 +124,6 @@ class SingleObjectAllUserGUI {
 		$this->table = new SingleObjectAllUserTableGUI($this, self::dic()->ctrl()->getCmd());
 
 		self::output()->output($this->getTableAndFooterHtml(), true);
-
-
 	}
 
 
@@ -144,13 +142,14 @@ class SingleObjectAllUserGUI {
 		self::dic()->ctrl()->redirect($this);
 	}
 
+
 	public function getTableAndFooterHtml() {
 
 		self::dic()->language()->loadLanguageModule('trac');
 
-		$tpl = self::plugin()->template("Report/report.html",false,false);
-		$tpl->setVariable("REPORT",$this->table->getHTML());
-		$tpl->setVariable('LEGEND',ilSrLpReportGUI::getLegendHTML());
+		$tpl = self::plugin()->template("Report/report.html", false, false);
+		$tpl->setVariable("REPORT", $this->table->getHTML());
+		$tpl->setVariable('LEGEND', ilSrLpReportGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
 	}

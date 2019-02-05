@@ -2,11 +2,11 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
+use ilSrLpReportGUI;
 use ilSrReportPlugin;
+use MatrixSingleObjectSingleUserGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
-use MatrixSingleObjectSingleUserGUI;
-use ilSrLpReportGUI;
 
 /**
  * Class ReportListSingleObjectSingleUser
@@ -20,19 +20,14 @@ class ReportListSingleObjectSingleUser implements ReportInterface {
 	use SrLpReportTrait;
 	use DICTrait;
 	const PLUGIN_CLASS_NAME = ilSrReportPlugin::class;
-
 	const CLASS_PLUGIN_ROUTER_GUI = 'ilUIPluginRouterGUI';
 	const CLASS_PLUGIN_BASE_GUI = ilSrLpReportGUI::class;
 	const CLASS_GUI = MatrixSingleObjectSingleUserGUI::class;
-
-	const CLASS_PATH_ARRAY = [self::CLASS_PLUGIN_ROUTER_GUI,self::CLASS_PLUGIN_BASE_GUI,self::CLASS_GUI];
-
-
+	const CLASS_PATH_ARRAY = [ self::CLASS_PLUGIN_ROUTER_GUI, self::CLASS_PLUGIN_BASE_GUI, self::CLASS_GUI ];
 	/**
 	 * @var self[]
 	 */
 	protected static $instances = [];
-
 	/**
 	 * @var int
 	 */
@@ -41,7 +36,6 @@ class ReportListSingleObjectSingleUser implements ReportInterface {
 	 * @var int
 	 */
 	protected $rep_user_type = ReportFactory::REPORT_USER_TYPE_SINGLE;
-
 	/**
 	 * @var int
 	 */
@@ -58,13 +52,13 @@ class ReportListSingleObjectSingleUser implements ReportInterface {
 	 * @param int $obj_ref_id
 	 * @param int $usr_id
 	 */
-	private function __construct(int $obj_ref_id,int $usr_id) {
+	private function __construct(int $obj_ref_id, int $usr_id) {
 		$this->obj_ref_id = $obj_ref_id;
 		$this->usr_id = $usr_id;
 
-		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI,'ref_id',$this->getObjRefId());
-		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI,'usr_id',$this->getUsrId());
-		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI,'sr_rp',1);
+		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI, 'ref_id', $this->getObjRefId());
+		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI, 'usr_id', $this->getUsrId());
+		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI, 'sr_rp', 1);
 	}
 
 
@@ -73,28 +67,28 @@ class ReportListSingleObjectSingleUser implements ReportInterface {
 	 *
 	 * @return self
 	 */
-	public static function getInstance(int $obj_ref_id,int $usr_id): self {
-		if (!isset(self::$instances[$obj_ref_id."-".$usr_id])) {
-			self::$instances[$obj_ref_id."-".$usr_id] = new self($obj_ref_id,$usr_id);
+	public static function getInstance(int $obj_ref_id, int $usr_id): self {
+		if (!isset(self::$instances[$obj_ref_id . "-" . $usr_id])) {
+			self::$instances[$obj_ref_id . "-" . $usr_id] = new self($obj_ref_id, $usr_id);
 		}
 
-		return self::$instances[$obj_ref_id."-".$usr_id];
+		return self::$instances[$obj_ref_id . "-" . $usr_id];
 	}
+
 
 	/**
 	 * @return string
 	 */
-	public function getLinkTarget():string {
+	public function getLinkTarget(): string {
 
-		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI,'rep_obj_type',$this->getRepObjType());
-		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI,'rep_obj_type',$this->getRepUserType());
-
-
+		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI, 'rep_obj_type', $this->getRepObjType());
+		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI, 'rep_obj_type', $this->getRepUserType());
 
 		return self::dic()->ctrl()->getLinkTargetByClass(self::CLASS_PATH_ARRAY);
 	}
 
-	public function getGuiObject():MatrixSingleObjectSingleUserGUI {
+
+	public function getGuiObject(): MatrixSingleObjectSingleUserGUI {
 		return new MatrixSingleObjectSingleUserGUI();
 	}
 

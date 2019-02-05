@@ -9,7 +9,7 @@ use srag\DIC\SrLpReport\DICTrait;
  * Class MatrixGUI
  *
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy MatrixGUI: ilUIPluginRouterGUI
  */
@@ -24,10 +24,7 @@ class MatrixGUI {
 	const CMD_INDEX = 'index';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
-
 	const TABLE_GUI_CLASS_NAME = "MatrixTableGUI";
-
-
 	/**
 	 * @var \SingleObjectAllUserTableGUI
 	 */
@@ -45,7 +42,8 @@ class MatrixGUI {
 
 		self::dic()->mainTemplate()->setTitleIcon($icon);
 
-		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress")." ".ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id'])));
+		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress") . " "
+			. ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id'])));
 	}
 
 
@@ -54,9 +52,8 @@ class MatrixGUI {
 	 */
 	public function executeCommand()/*: void*/ {
 
-		self::dic()->ctrl()->saveParameter($this,'ref_id');
-		self::dic()->ctrl()->saveParameter($this,'details_id');
-
+		self::dic()->ctrl()->saveParameter($this, 'ref_id');
+		self::dic()->ctrl()->saveParameter($this, 'details_id');
 
 		$cmd = self::dic()->ctrl()->getCmd();
 		switch ($cmd) {
@@ -70,63 +67,49 @@ class MatrixGUI {
 				$this->index();
 				break;
 		}
-
 	}
 
 
 	public function mailselectedusers() {
 		// see ilObjCourseGUI::sendMailToSelectedUsersObject()
 
-		if(count($_POST["usr_id"]) == 0) {
+		if (count($_POST["usr_id"]) == 0) {
 			ilUtil::sendFailure(self::dic()->language()->txt("no_checkbox"), true);
 			self::dic()->ctrl()->redirect($this);
 		}
 
 		$rcps = array();
-		foreach($_POST["usr_id"] as $usr_id)
-		{
+		foreach ($_POST["usr_id"] as $usr_id) {
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
 
 		$template = array();
-		$sig = null;
+		$sig = NULL;
 
 		// repository-object-specific
 		$ref_id = (int)$_REQUEST["ref_id"];
-		if($ref_id)
-		{
+		if ($ref_id) {
 			$obj_lp = ilObjectLP::getInstance(ilObject::_lookupObjectId($ref_id));
 			$tmpl_id = $obj_lp->getMailTemplateId();
 
-			if($tmpl_id)
-			{
+			if ($tmpl_id) {
 				$template = array(
 					ilMailFormCall::CONTEXT_KEY => $tmpl_id,
 					'ref_id' => $ref_id,
-					'ts'     => time()
+					'ts' => time()
 				);
-			}
-			else
-			{
+			} else {
 				include_once './Services/Link/classes/class.ilLink.php';
 				$sig = ilLink::_getLink($ref_id);
 				$sig = rawurlencode(base64_encode($sig));
 			}
 		}
 
-		ilUtil::redirect(
-			ilMailFormCall::getRedirectTarget(
-				$this,
-				self::dic()->ctrl()->getCmd(),
-				array(),
-				array(
-					'type' => 'new',
-					'rcp_to' => implode(',', $rcps),
-					'sig' => $sig
-				),
-				$template
-			)
-		);
+		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, self::dic()->ctrl()->getCmd(), array(), array(
+				'type' => 'new',
+				'rcp_to' => implode(',', $rcps),
+				'sig' => $sig
+			), $template));
 	}
 
 
@@ -162,15 +145,15 @@ class MatrixGUI {
 		self::dic()->ctrl()->redirect($this);
 	}
 
+
 	public function getTableAndFooterHtml() {
 
 		self::dic()->language()->loadLanguageModule('trac');
 
-		$tpl = self::plugin()->template("Report/report.html",false,false);
-		$tpl->setVariable("REPORT",$this->table->getHTML());
-		$tpl->setVariable('LEGEND',ilSrLpReportGUI::getLegendHTML());
+		$tpl = self::plugin()->template("Report/report.html", false, false);
+		$tpl->setVariable("REPORT", $this->table->getHTML());
+		$tpl->setVariable('LEGEND', ilSrLpReportGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
 	}
-
 }

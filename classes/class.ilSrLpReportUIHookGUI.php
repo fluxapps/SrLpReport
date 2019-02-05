@@ -55,7 +55,6 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 	}
 
 
-
 	/**
 	 * @param string $a_comp
 	 * @param string $a_part
@@ -69,20 +68,17 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 		$a_par = []): array {
 
 
+		if ($a_part === self::PAR_TABS && !self::$load[self::LP_REPORT_REDIRECTER_LOADER] && !$_GET['sr_rp'] && ReportFactory::getReportObjRefId() > 0
+			&& self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId())) == "crs") {
 
-
-		if ($a_part === self::PAR_TABS && !self::$load[self::LP_REPORT_REDIRECTER_LOADER] && !$_GET['sr_rp'] && ReportFactory::getReportObjRefId() > 0 && self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId())) == "crs") {
-
-			if(in_array(Config::getField(Config::KEY_ROLE_OBJ_ID),self::dic()->rbacreview()->assignedGlobalRoles(self::dic()->user()->getId()))) {
+			if (in_array(Config::getField(Config::KEY_ROLE_OBJ_ID), self::dic()->rbacreview()->assignedGlobalRoles(self::dic()->user()->getId()))) {
 
 				self::$load[self::LP_REPORT_REDIRECTER_LOADER] = true;
 
 				self::report()->buildReportByClassName("SingleObjectAllUserGUI");
-			    self::dic()->ctrl()->redirectByClass(array('ilUIPluginRouterGUI',ilSrLpReportGUI::class,SingleObjectAllUserGUI::class));
-
+				self::dic()->ctrl()->redirectByClass(array( 'ilUIPluginRouterGUI', ilSrLpReportGUI::class, SingleObjectAllUserGUI::class ));
 			}
 		}
-
 
 		if (!self::$load[self::DESKTOP_PERS_LP_TAB_LOADER]) {
 			if ($a_part === self::PAR_TABS) {

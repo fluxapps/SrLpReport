@@ -2,14 +2,11 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
-
 use ilSrReportPlugin;
 use MatrixSingleObjectSingleUserGUI;
+use SingleObjectAllUserGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
-use MatrixGUI;
-use SingleObjectAllUserGUI;
-use ilObject;
 
 /**
  * Class ReportFactory
@@ -27,17 +24,13 @@ class ReportFactory {
 	 * @var self[]
 	 */
 	protected static $instances = [];
-
 	const REPORT_OBJECT_TYPE_SINGLE = 1;
 	const REPORT_OBJECT_TYPE_ALL = 2;
-
 	const REPORT_USER_TYPE_SINGLE = 1;
 	const REPORT_USER_TYPE_ALL = 2;
-
-	const REPORT_VIEW_TYPE_LIST= 1;
+	const REPORT_VIEW_TYPE_LIST = 1;
 	const REPORT_VIEW_TYPE_MATRIX = 2;
 	const REPORT_VIEW_TYPE_SUMMARY = 2;
-
 	/**
 	 * @var int
 	 */
@@ -50,8 +43,6 @@ class ReportFactory {
 	 * @var int
 	 */
 	protected $report_view_type;
-
-
 	/**
 	 * @var self
 	 */
@@ -69,6 +60,7 @@ class ReportFactory {
 		return self::$instance;
 	}
 
+
 	/**
 	 * @param int $obj_ref_id
 	 * @param int $user_id
@@ -76,15 +68,16 @@ class ReportFactory {
 	 *
 	 * @return ReportInterface
 	 */
-	public function buildReportRefIdUserId(int $obj_ref_id, int $user_id, int $report_view_type):ReportInterface {
+	public function buildReportRefIdUserId(int $obj_ref_id, int $user_id, int $report_view_type): ReportInterface {
 
-		switch($report_view_type) {
+		switch ($report_view_type) {
 			case self::REPORT_VIEW_TYPE_MATRIX:
-				return ReportListSingleObjectSingleUser::getInstance($obj_ref_id,$user_id);
+				return ReportListSingleObjectSingleUser::getInstance($obj_ref_id, $user_id);
 				break;
 		}
 	}
 
+
 	/**
 	 * @param int $obj_ref_id
 	 * @param int $user_id
@@ -92,12 +85,12 @@ class ReportFactory {
 	 *
 	 * @return ReportInterface
 	 */
-	public function buildReportByClassName(string $class_name):ReportInterface {
+	public function buildReportByClassName(string $class_name): ReportInterface {
 
 
-		switch(strtolower($class_name)) {
+		switch (strtolower($class_name)) {
 			case strtolower(MatrixSingleObjectSingleUserGUI::class):
-				return ReportListSingleObjectSingleUser::getInstance(self::getReportObjRefId(),$this->getReportUsrId());
+				return ReportListSingleObjectSingleUser::getInstance(self::getReportObjRefId(), $this->getReportUsrId());
 				break;
 			case  strtolower(SingleObjectAllUserGUI::class):
 				return ReportListSingleObjectAllUser::getInstance(self::getReportObjRefId());
@@ -109,7 +102,7 @@ class ReportFactory {
 	/**
 	 * @return int
 	 */
-	public static function getReportObjRefId():int {
+	public static function getReportObjRefId(): int {
 		if ((int)$_GET['ref_id']) {
 			return $_GET['ref_id'];
 		}
@@ -123,6 +116,7 @@ class ReportFactory {
 
 		return 0;
 	}
+
 
 	/**
 	 * @return int
