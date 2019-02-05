@@ -1,21 +1,33 @@
 <?php
 
+namespace srag\Plugins\SrLpReport\Matrix;
+
+use ilExcel;
+use ilLearningProgressAccess;
+use ilLPObjSettings;
+use ilObject;
+use ilObjectLP;
+use ilObjSession;
+use ilPathGUI;
+use ilTrQuery;
 use srag\Plugins\SrLpReport\ReportTableGUI\AbstractReportTableGUI;
 
 /**
  * Class MatrixTableGUI
  *
+ * @package srag\Plugins\SrLpReport\Matrix
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  */
 class MatrixTableGUI extends AbstractReportTableGUI {
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function getColumnValue($column, /*array*/
 		$row, /*bool*/
-		$raw_export = false) {
-
-
+		$raw_export = false): string {
 		if ($column == 'status') {
 			if ($raw_export) {
 				return $this->getLearningProgressRepresentationExport($row['obj_' . ilObject::_lookupObjectId($this->ref_id)], 0);
@@ -25,7 +37,7 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 		}
 
 		if (count(explode('obj_', $column)) == 2) {
-			$percentage = $row[$column . "_perc"];
+			$percentage = intval($row[$column . "_perc"]);
 			if ($raw_export) {
 				return $this->getLearningProgressRepresentationExport($row[$column], $percentage);
 			} else {
@@ -39,14 +51,16 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 	}
 
 
-	protected function getSelectableColumns2() {
+	/**
+	 * @inheritdoc
+	 */
+	protected function getSelectableColumns2(): array {
 		$cols = parent::getSelectableColumns2();
 
-		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 		$collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
 
 		if (count($collection['object_ids'] > 0)) {
-			$tmp_cols = array();
+			$tmp_cols = [];
 			foreach ($collection['object_ids'] as $obj_id) {
 				if ($obj_id == $this->obj_id) {
 					$parent = array(
@@ -57,7 +71,6 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 					$no_perm = false;
 
 					$ref_id = $collection['ref_ids'][$obj_id];
-					include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 					if ($ref_id
 						&& !ilLearningProgressAccess::checkPermission('read_learning_progress', $ref_id)) {
 						$no_perm = true;
@@ -68,14 +81,12 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 					$type = self::dic()->objDataCache()->lookupType($obj_id);
 					$icon = ilObject::_getIcon("", "tiny", $type);
 					if ($type == "sess") {
-						include_once "Modules/Session/classes/class.ilObjSession.php";
 						$sess = new ilObjSession($obj_id, false);
 						$title = $sess->getPresentationTitle();
 					}
 
 					// #16453
 					$relpath = NULL;
-					include_once './Services/Tree/classes/class.ilPathGUI.php';
 					$path = new ilPathGUI();
 					$path = $path->getPath($this->ref_id, $ref_id);
 					if ($path) {
@@ -103,7 +114,10 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 	}
 
 
-	protected function initData() {
+	/**
+	 * @inheritdoc
+	 */
+	protected function initData()/*: void*/ {
 		$this->setExternalSorting(false);
 		$this->setExternalSegmentation(false);
 		$this->setLimit(99999999999, 99999999999);
@@ -116,11 +130,11 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 			$additional_fields = $this->getStandardReportColumns();
 			$additional_fields[] = 'status';
 
-			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], array(), $additional_fields, $this->user_fields, false);
+			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], [], $additional_fields, $this->user_fields, false);
 
 			// percentage export
 			if ($data["set"]) {
-				$this->perc_map = array();
+				$this->perc_map = [];
 				foreach ($data["set"] as $row_idx => $row) {
 					foreach ($row as $column => $value) {
 						if (substr($column, - 5) == "_perc") {
@@ -140,7 +154,7 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 			}
 
 			//filter
-			$table_data = array();
+			$table_data = [];
 			if (count($data["set"]) > 0) {
 				foreach ($data["set"] as $row) {
 
@@ -168,12 +182,10 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 	/**
 	 * Get selected columns
 	 *
-	 * @param
-	 *
-	 * @return
+	 * @return array
 	 */
-	function getStandardReportColumns() {
-		$scol = array();
+	function getStandardReportColumns(): array {
+		$scol = [];
 		foreach ($this->selected_column as $k => $v) {
 			if (key_exists($k, parent::getSelectableColumns2())) {
 				$scol[$k] = $k;
@@ -185,7 +197,7 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 
 
 	protected function isPercentageAvailable($a_obj_id) {
-		// :TODO:
+		// TODO:
 		$olp = ilObjectLP::getInstance($a_obj_id);
 		$mode = $olp->getCurrentMode();
 		if (in_array($mode, array(
@@ -207,8 +219,6 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 	 */
 	protected function fillRow(/*array*/
 		$row)/*: void*/ {
-
-
 		$this->tpl->setCurrentBlock("column");
 
 		foreach ($this->getSelectableColumns() as $column) {
@@ -232,7 +242,10 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 	}
 
 
-	protected function initId() {
+	/**
+	 * @inheritdoc
+	 */
+	protected function initId()/*: void*/ {
 		$this->setId('srcrslp_matrix');
 		$this->setPrefix('srcrslp_matrix');
 	}
@@ -247,12 +260,9 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 		&$row, /*array*/
 		$result)/*: void*/ {
 		$col = 0;
-
 		foreach ($this->getSelectableColumns2() as $column) {
 			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
 			$col ++;
 		}
 	}
 }
-
-?>

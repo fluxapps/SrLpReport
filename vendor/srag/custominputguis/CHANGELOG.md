@@ -1,5 +1,41 @@
 # Changelog
 
+## [0.17.3]
+- ViewControlModeGUI
+
+## [0.17.2]
+- ViewControlModeGUI
+
+## [0.17.1]
+- ViewControlModeGUI
+
+## [0.17.0]
+- ViewControlModeGUI
+
+## [0.16.10]
+- Fixes
+
+## [0.16.9]
+- Fix use native ProgressMeterFactory on ILIAS 5.4
+
+## [0.16.8]
+- Fix use native ProgressMeterFactory on ILIAS 5.4
+
+## [0.16.7]
+- Fix PHP 7 syntax
+
+## [0.16.6]
+- Fix PHP 7 syntax
+
+## [0.16.5]
+- Fix PHP 7 syntax
+
+## [0.16.4]
+- Revert "Fix broken ilTableGUI render function"
+
+## [0.16.3]
+- Fix broken ilTableGUI render function
+
 ## [0.16.2]
 - ObjectPropertyFormGUI
 

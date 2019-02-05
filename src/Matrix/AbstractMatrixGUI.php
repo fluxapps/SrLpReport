@@ -1,16 +1,27 @@
 <?php
 
-require_once __DIR__ . "/../../vendor/autoload.php";
+namespace srag\Plugins\SrLpReport\Matrix;
 
-use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
+use ilLink;
+use ilMailFormCall;
+use ilObject;
+use ilObjectLP;
+use ilObjUser;
+use ilSrLpReportPlugin;
+use ilTemplateException;
+use ilUtil;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\DIC\SrLpReport\Exception\DICException;
+use srag\Plugins\SrLpReport\ReportTableGUI\SingleObjectAllUserTableGUI;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
+use SrLpReportGUI;
 
 /**
  * Class AbstractMatrixGUI
  *
+ * @package srag\Plugins\SrLpReport\Matrix
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 abstract class AbstractMatrixGUI {
 
@@ -25,11 +36,14 @@ abstract class AbstractMatrixGUI {
 	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
 
 
-	abstract function getTableGuiClassName(): string;
+	/**
+	 * @return string
+	 */
+	public abstract function getTableGuiClassName(): string;
 
 
 	/**
-	 * @var \SingleObjectAllUserTableGUI
+	 * @var SingleObjectAllUserTableGUI
 	 */
 	protected $table;
 
@@ -71,6 +85,9 @@ abstract class AbstractMatrixGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function mailselectedusers() {
 		// see ilObjCourseGUI::sendMailToSelectedUsersObject()
 
@@ -79,12 +96,12 @@ abstract class AbstractMatrixGUI {
 			self::dic()->ctrl()->redirect($this);
 		}
 
-		$rcps = array();
+		$rcps = [];
 		foreach ($_POST["usr_id"] as $usr_id) {
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
 
-		$template = array();
+		$template = [];
 		$sig = NULL;
 
 		// repository-object-specific
@@ -100,25 +117,32 @@ abstract class AbstractMatrixGUI {
 					'ts' => time()
 				);
 			} else {
-				include_once './Services/Link/classes/class.ilLink.php';
 				$sig = ilLink::_getLink($ref_id);
 				$sig = rawurlencode(base64_encode($sig));
 			}
 		}
 
-		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, self::dic()->ctrl()->getCmd(), array(), array(
-				'type' => 'new',
-				'rcp_to' => implode(',', $rcps),
-				'sig' => $sig
-			), $template));
+		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, self::dic()->ctrl()->getCmd(), [], array(
+			'type' => 'new',
+			'rcp_to' => implode(',', $rcps),
+			'sig' => $sig
+		), $template));
 	}
 
 
+	/**
+	 * @throws DICException
+	 * @throws ilTemplateException
+	 */
 	public function index() {
 		$this->listUsers();
 	}
 
 
+	/**
+	 * @throws ilTemplateException
+	 * @throws DICException
+	 */
 	public function listUsers() {
 		$table_class_name = $this->getTableGuiClassName();
 
@@ -127,6 +151,9 @@ abstract class AbstractMatrixGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function applyFilter() {
 		$table_class_name = $this->getTableGuiClassName();
 
@@ -137,6 +164,9 @@ abstract class AbstractMatrixGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function resetFilter() {
 		$table_class_name = $this->getTableGuiClassName();
 
@@ -147,13 +177,18 @@ abstract class AbstractMatrixGUI {
 	}
 
 
+	/**
+	 * @return string
+	 * @throws DICException
+	 * @throws ilTemplateException
+	 */
 	public function getTableAndFooterHtml() {
 
 		self::dic()->language()->loadLanguageModule('trac');
 
 		$tpl = self::plugin()->template("Report/report.html", true, true);
-		$tpl->setVariable("REPORT", $this->table->getHTML());
-		$tpl->setVariable('LEGEND', ilSrLpReportGUI::getLegendHTML());
+		$tpl->setVariable("REPORT", self::output()->getHTML($this->table));
+		$tpl->setVariable('LEGEND', SrLpReportGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
 	}

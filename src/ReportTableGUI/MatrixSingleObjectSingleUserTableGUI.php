@@ -1,16 +1,37 @@
 <?php
 
+namespace srag\Plugins\SrLpReport\ReportTableGUI;
+
+use ilCSVWriter;
+use ilExcel;
+use ilLearningProgressBaseGUI;
+use ilLPStatus;
+use ilLPStatusWrapper;
+use ilObject;
+use ilSelectInputGUI;
+use ilTemplateException;
+use ilTextInputGUI;
+use ilTrQuery;
+use ilUtil;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
+use srag\DIC\SrLpReport\Exception\DICException;
+use SrLpReportGUI;
 
 /**
  * Class MatrixSingleObjectSingleUserTableGUI
  *
+ * @package srag\Plugins\SrLpReport\ReportTableGUI
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 
+	/**
+	 * MatrixSingleObjectSingleUserTableGUI constructor
+	 *
+	 * @param object $parent
+	 * @param string $parent_cmd
+	 */
 	public function __construct($parent, /*string*/
 		$parent_cmd) {
 
@@ -22,7 +43,7 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 		$this->course = true;
 		$this->ref_id = $_GET['ref_id'];
 		$this->obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
-		$this->user_fields = array();
+		$this->user_fields = [];
 
 		$this->setShowRowsSelector(false);
 		$this->disable(false);
@@ -32,15 +53,19 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 	}
 
 
-	protected function initId() {
+	/**
+	 * @inheritdoc
+	 */
+	protected function initId()/*: void*/ {
 		$this->setId('srrep_msu');
 		$this->setPrefix('srrep_msu');
 	}
 
 
-	protected function initFilterFields() {
-
-
+	/**
+	 * @inheritdoc
+	 */
+	protected function initFilterFields()/*: void*/ {
 		$item = new ilTextInputGUI(self::dic()->language()->txt("title"), "object");
 		$this->addFilterItem($item);
 		$item->readFromSession();
@@ -65,16 +90,21 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 	}
 
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function initColumns()/*: void*/ {
-
 		foreach ($this->getStandardColumns() as $column) {
 			$this->addColumn($column["txt"], ($column["sort"] ? $column["id"] : NULL), "", false, "", $column["path"]);
 		}
 	}
 
 
-	protected function getStandardColumns() {
-
+	/**
+	 * @return array
+	 */
+	protected function getStandardColumns(): array {
+		$cols = [];
 		// default fields
 		$cols["object"] = array(
 			"id" => "object",
@@ -116,11 +146,12 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 	}
 
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function getColumnValue($column, /*array*/
 		$row, /*bool*/
-		$raw_export = false) {
-
-
+		$raw_export = false): string {
 		if ($column == "object") {
 			if ($raw_export) {
 				return $row['obj_title'];
@@ -143,8 +174,10 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 	}
 
 
-	protected function initData() {
-
+	/**
+	 * @inheritdoc
+	 */
+	protected function initData()/*: void*/ {
 		self::dic()->language()->loadLanguageModule('trac');
 
 		$collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true, true, [ $_GET['usr_id'] ]);
@@ -180,35 +213,43 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 
 		$this->setMaxCount(count($row));
 		$this->setData($row);
-
-		return false;
 	}
 
 
-	protected function getSelectableColumns2() {
+	/**
+	 * @inheritdoc
+	 */
+	protected function getSelectableColumns2(): array {
 		return $this->getStandardColumns();
 	}
 
 
-	protected function initTitle() {
+	/**
+	 * @inheritdoc
+	 */
+	protected function initTitle()/*: void*/ {
 
 	}
 
 
+	/**
+	 * @return string
+	 * @throws ilTemplateException
+	 * @throws DICException
+	 */
 	public function getTableFooterAndHeaderHtml() {
-
 		self::dic()->language()->loadLanguageModule('trac');
 
 		$tpl = self::plugin()->template("Report/report.html", false, false);
-		$tpl->setVariable("REPORT", $this->table->getHTML());
-		$tpl->setVariable('LEGEND', ilSrLpReportGUI::getLegendHTML());
+		$tpl->setVariable("REPORT", self::output()->getHTML($this->table));
+		$tpl->setVariable('LEGEND', SrLpReportGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
 	}
 
 
 	/**
-	 *
+	 * @inheritdoc
 	 */
 	protected function initExport()/*: void*/ {
 		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
@@ -252,8 +293,7 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 	 *
 	 * @return string
 	 */
-	protected function getLearningProgressRepresentationExport($status = 0, $percentage = 0): string {
-
+	protected function getLearningProgressRepresentationExport(int $status = 0, int $percentage = 0): string {
 		if ($percentage > 0) {
 			return $percentage . "%";
 		}
@@ -264,9 +304,5 @@ class MatrixSingleObjectSingleUserTableGUI extends TableGUI {
 			default:
 				return ilLearningProgressBaseGUI::_getStatusText($status);
 		}
-
-		return "";
 	}
 }
-
-?>

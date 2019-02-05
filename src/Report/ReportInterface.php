@@ -5,9 +5,8 @@ namespace srag\Plugins\SrLpReport\Report;
 /**
  * Interface Report
  *
- * @package srag\Plugins\SrLpReport\Report;
+ * @package srag\Plugins\SrLpReport\Report
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  studer + raimann ag - Martin Studer <ms@studer-raimann.ch>
  */
 interface ReportInterface {

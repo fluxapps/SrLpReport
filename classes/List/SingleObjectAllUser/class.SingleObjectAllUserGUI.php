@@ -2,16 +2,17 @@
 
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
-use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\DIC\SrLpReport\Exception\DICException;
+use srag\Plugins\SrLpReport\ReportTableGUI\SingleObjectAllUserTableGUI;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class SingleObjectAllUserGUI
  *
- *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy SingleObjectAllUserGUI: ilSrLpReportGUI
+ * @ilCtrl_isCalledBy SingleObjectAllUserGUI: SrLpReportGUI
  */
 class SingleObjectAllUserGUI {
 
@@ -25,7 +26,7 @@ class SingleObjectAllUserGUI {
 	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
 	const TAB_ID = "srcrslpuser";
 	/**
-	 * @var \SingleObjectAllUserTableGUI
+	 * @var SingleObjectAllUserTableGUI
 	 */
 	protected $table;
 
@@ -34,7 +35,6 @@ class SingleObjectAllUserGUI {
 	 * SrLpReportGUI constructor
 	 */
 	public function __construct() {
-
 		self::tabgui()->setTabs();
 
 		$type = self::dic()->objDataCache()->lookupType(ilObject::_lookupObjectId($_GET['ref_id']));
@@ -53,7 +53,6 @@ class SingleObjectAllUserGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
-
 		self::dic()->ctrl()->saveParameter($this, 'ref_id');
 		self::dic()->ctrl()->saveParameter($this, 'details_id');
 
@@ -72,6 +71,9 @@ class SingleObjectAllUserGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function mailselectedusers() {
 		// see ilObjCourseGUI::sendMailToSelectedUsersObject()
 
@@ -80,12 +82,12 @@ class SingleObjectAllUserGUI {
 			self::dic()->ctrl()->redirect($this);
 		}
 
-		$rcps = array();
+		$rcps = [];
 		foreach ($_POST["usr_id"] as $usr_id) {
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
 
-		$template = array();
+		$template = [];
 		$sig = NULL;
 
 		// repository-object-specific
@@ -101,13 +103,12 @@ class SingleObjectAllUserGUI {
 					'ts' => time()
 				);
 			} else {
-				include_once './Services/Link/classes/class.ilLink.php';
 				$sig = ilLink::_getLink($ref_id);
 				$sig = rawurlencode(base64_encode($sig));
 			}
 		}
 
-		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, self::dic()->ctrl()->getCmd(), array(), array(
+		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, self::dic()->ctrl()->getCmd(), [], array(
 			'type' => 'new',
 			'rcp_to' => implode(',', $rcps),
 			'sig' => $sig
@@ -115,11 +116,19 @@ class SingleObjectAllUserGUI {
 	}
 
 
+	/**
+	 * @throws DICException
+	 * @throws ilTemplateException
+	 */
 	public function index() {
 		$this->listUsers();
 	}
 
 
+	/**
+	 * @throws DICException
+	 * @throws ilTemplateException
+	 */
 	public function listUsers() {
 		$this->table = new SingleObjectAllUserTableGUI($this, self::dic()->ctrl()->getCmd());
 
@@ -127,6 +136,9 @@ class SingleObjectAllUserGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function applyFilter() {
 		$this->table = new SingleObjectAllUserTableGUI($this, self::dic()->ctrl()->getCmd());
 		$this->table->writeFilterToSession();
@@ -135,6 +147,9 @@ class SingleObjectAllUserGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function resetFilter() {
 		$this->table = new SingleObjectAllUserTableGUI($this, self::dic()->ctrl()->getCmd());
 		$this->table->resetOffset();
@@ -143,13 +158,17 @@ class SingleObjectAllUserGUI {
 	}
 
 
-	public function getTableAndFooterHtml() {
-
+	/**
+	 * @return string
+	 * @throws DICException
+	 * @throws ilTemplateException
+	 */
+	public function getTableAndFooterHtml(): string {
 		self::dic()->language()->loadLanguageModule('trac');
 
 		$tpl = self::plugin()->template("Report/report.html", false, false);
-		$tpl->setVariable("REPORT", $this->table->getHTML());
-		$tpl->setVariable('LEGEND', ilSrLpReportGUI::getLegendHTML());
+		$tpl->setVariable("REPORT", self::output()->getHTML($this->table));
+		$tpl->setVariable('LEGEND', SrLpReportGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
 	}

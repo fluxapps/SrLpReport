@@ -1,13 +1,17 @@
 <?php
+
 require_once __DIR__ . "/../../../vendor/autoload.php";
+
+use srag\DIC\SrLpReport\Exception\DICException;
+use srag\Plugins\SrLpReport\Matrix\AbstractMatrixGUI;
+use srag\Plugins\SrLpReport\ReportTableGUI\MatrixSingleObjectSingleUserTableGUI;
 
 /**
  * Class MatrixSingleObjectSingleUserGUI
  *
- *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy MatrixSingleObjectSingleUserGUI: ilSrLpReportGUI
+ * @ilCtrl_isCalledBy MatrixSingleObjectSingleUserGUI: SrLpReportGUI
  */
 class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 
@@ -17,8 +21,7 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 		ilLPStatus::LP_STATUS_COMPLETED_NUM => "#60B060",
 		ilLPStatus::LP_STATUS_FAILED => "#B06060"
 	];
-	const CLASS_PLUGIN_BASE_GUI = ilSrLpReportGUI::class;
-	const CLASS_PLUGIN_ROUTER_GUI = 'ilUIPluginRouterGUI';
+	const CLASS_PLUGIN_BASE_GUI = SrLpReportGUI::class;
 
 
 	/**
@@ -32,7 +35,10 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 	}
 
 
-	function getTableGuiClassName(): string {
+	/**
+	 * @inheritdoc
+	 */
+	public function getTableGuiClassName(): string {
 		return MatrixSingleObjectSingleUserTableGUI::class;
 	}
 
@@ -45,12 +51,16 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 	}
 
 
+	/**
+	 * @throws DICException
+	 * @throws ilTemplateException
+	 */
 	public function listUsers() {
 		$table_class_name = $this->getTableGuiClassName();
 
 		$this->table = new $table_class_name($this, self::dic()->ctrl()->getCmd());
 
-		self::dic()->mainTemplate()->setContent($this->table->getHTML());
+		self::dic()->mainTemplate()->setContent(self::output()->getHTML($this->table));
 
 		if ($this->getRightColumn()) {
 			self::dic()->mainTemplate()->setRightContent($this->getRightColumn());
@@ -68,8 +78,7 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 	 *
 	 * @return    string
 	 */
-	protected function getLearningProgressJson(array $status_data = NULL, $absolute = 0): string {
-
+	protected function getLearningProgressJson(array $status_data = NULL, int $absolute = 0): string {
 		self::dic()->language()->loadLanguageModule('trac');
 		$json_string = "";
 
@@ -79,7 +88,7 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 				continue;
 			}
 
-			$array_status = array();
+			$array_status = [];
 
 			$arr_status['user_count'] = $status_count;
 			$arr_status['reached'] = $status_count;
@@ -101,11 +110,10 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 	 * @param int    $user_total
 	 *
 	 * @return string
-	 * @throws \srag\DIC\SrLPReport\Exception\DICException
+	 * @throws DICException
 	 * @throws ilTemplateException
 	 */
-	public function getLearningProgressRepresentation($json_status = "", $row_identifier = 0, $user_total = 0) {
-
+	public function getLearningProgressRepresentation(string $json_status = "", int $row_identifier = 0, int $user_total = 0): string {
 		$tpl_learning_progress_chart = self::plugin()->template("LearningProgress/chart.html", false, false);
 
 		$tpl_learning_progress_chart->setVariable("ROW_IDENTIFIER", $row_identifier);
@@ -116,7 +124,12 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 	}
 
 
-	public function getRightColumn() {
+	/**
+	 * @return string
+	 * @throws DICException
+	 * @throws ilTemplateException
+	 */
+	public function getRightColumn(): string {
 		$data = $this->table->getData();
 
 		$status_data[ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM] = 0;
@@ -140,12 +153,15 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 		$pub_profile = new ilPublicUserProfileGUI($_GET['usr_id']);
 		$html .= $pub_profile->getEmbeddable() . "<br/>";
 
-		$html .= ilSrLpReportGUI::getLegendHTML();
+		$html .= SrLpReportGUI::getLegendHTML();
 
 		return $html;
 	}
 
 
+	/**
+	 *
+	 */
 	public function setTabs()/*: void*/ {
 		self::dic()->tabs()->clearTargets();
 
@@ -154,9 +170,9 @@ class MatrixSingleObjectSingleUserGUI extends AbstractMatrixGUI {
 		self::dic()->ctrl()->setParameterByClass(SingleObjectAllUserGUI::class, 'sr_rp', 1);
 
 		self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
-				self::CLASS_PLUGIN_ROUTER_GUI,
-				self::CLASS_PLUGIN_BASE_GUI,
-				SingleObjectAllUserGUI::class
-			]));
+			ilUIPluginRouterGUI::class,
+			self::CLASS_PLUGIN_BASE_GUI,
+			SingleObjectAllUserGUI::class
+		]));
 	}
 }

@@ -2,14 +2,18 @@
 
 namespace srag\Plugins\SrLpReport\Tab;
 
-use ilSrLpReportGUI;
 use ilSrLpReportPlugin;
+use ilUIPluginRouterGUI;
+use MatrixGUI;
+use SingleObjectAllUserGUI;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\DIC\SrLpReport\Exception\DICException;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
+use SrLpReportGUI;
+use SummaryGUI;
 
 /**
  * Class TabGUI
- *
  *
  * @package srag\Plugins\SrLpReport\Tabs
  *
@@ -20,9 +24,8 @@ final class TabGUI {
 	use DICTrait;
 	use SrLpReportTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const TAB_GUI_CLASSES = array( 'SingleObjectAllUserGUI', 'MatrixGUI', 'SummaryGUI' );
-	const CLASS_PLUGIN_BASE_GUI = ilSrLpReportGUI::class;
-	const CLASS_PLUGIN_ROUTER_GUI = 'ilUIPluginRouterGUI';
+	const TAB_GUI_CLASSES = array( SingleObjectAllUserGUI::class, MatrixGUI::class, SummaryGUI::class );
+	const CLASS_PLUGIN_BASE_GUI = SrLpReportGUI::class;
 	/**
 	 * @var self
 	 */
@@ -42,13 +45,16 @@ final class TabGUI {
 
 
 	/**
-	 * Access constructor
+	 * TabGUI constructor
 	 */
 	private function __construct() {
 
 	}
 
 
+	/**
+	 * @throws DICException
+	 */
 	public function setTabs()/*: void*/ {
 		self::dic()->tabs()->clearTargets();
 
@@ -60,10 +66,10 @@ final class TabGUI {
 			self::dic()->ctrl()->setParameterByClass($tab_gui, 'sr_rp', 1);
 
 			self::dic()->tabs()->addTab($tab_gui::TAB_ID, self::plugin()->translate($tab_gui::TAB_ID), self::dic()->ctrl()->getLinkTargetByClass([
-					self::CLASS_PLUGIN_ROUTER_GUI,
-					self::CLASS_PLUGIN_BASE_GUI,
-					$tab_gui
-				]));
+				ilUIPluginRouterGUI::class,
+				self::CLASS_PLUGIN_BASE_GUI,
+				$tab_gui
+			]));
 
 			if (self::dic()->ctrl()->getCmdClass() == strtolower($tab_gui)) {
 				self::dic()->tabs()->activateTab($tab_gui::TAB_ID);

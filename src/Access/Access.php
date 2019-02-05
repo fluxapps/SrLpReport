@@ -1,7 +1,5 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/docs/LICENSE */
-
 namespace srag\Plugins\SrLpReport\Access;
 
 use ilSrLpReportPlugin;
@@ -15,7 +13,6 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
  *
  * @package srag\Plugins\SrLpReport\Access
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 final class Access {

@@ -2,7 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
-use ilSrReportPlugin;
+use ilSrLpReportPlugin;
 use MatrixSingleObjectSingleUserGUI;
 use SingleObjectAllUserGUI;
 use srag\DIC\SrLpReport\DICTrait;
@@ -19,7 +19,7 @@ class ReportFactory {
 
 	use SrLpReportTrait;
 	use DICTrait;
-	const PLUGIN_CLASS_NAME = ilSrReportPlugin::class;
+	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 	/**
 	 * @var self[]
 	 */
@@ -62,19 +62,10 @@ class ReportFactory {
 
 
 	/**
-	 * @param int $obj_ref_id
-	 * @param int $user_id
-	 * @param int $report_view_type
-	 *
-	 * @return ReportInterface
+	 * ReportFactory constructor
 	 */
-	public function buildReportRefIdUserId(int $obj_ref_id, int $user_id, int $report_view_type): ReportInterface {
+	private function __construct() {
 
-		switch ($report_view_type) {
-			case self::REPORT_VIEW_TYPE_MATRIX:
-				return ReportListSingleObjectSingleUser::getInstance($obj_ref_id, $user_id);
-				break;
-		}
 	}
 
 
@@ -85,16 +76,29 @@ class ReportFactory {
 	 *
 	 * @return ReportInterface
 	 */
+	public function buildReportRefIdUserId(int $obj_ref_id, int $user_id, int $report_view_type): ReportInterface {
+		switch ($report_view_type) {
+			case self::REPORT_VIEW_TYPE_MATRIX:
+				return ReportListSingleObjectSingleUser::getInstance($obj_ref_id, $user_id);
+			default:
+				return NULL;
+		}
+	}
+
+
+	/**
+	 * @param string $class_name
+	 *
+	 * @return ReportInterface
+	 */
 	public function buildReportByClassName(string $class_name): ReportInterface {
-
-
 		switch (strtolower($class_name)) {
 			case strtolower(MatrixSingleObjectSingleUserGUI::class):
 				return ReportListSingleObjectSingleUser::getInstance(self::getReportObjRefId(), $this->getReportUsrId());
-				break;
 			case  strtolower(SingleObjectAllUserGUI::class):
 				return ReportListSingleObjectAllUser::getInstance(self::getReportObjRefId());
-				break;
+			default:
+				return NULL;
 		}
 	}
 
@@ -121,7 +125,7 @@ class ReportFactory {
 	/**
 	 * @return int
 	 */
-	private function getReportUsrId() {
+	private function getReportUsrId(): int {
 		return intval(filter_input(INPUT_GET, "usr_id"));
 	}
 }

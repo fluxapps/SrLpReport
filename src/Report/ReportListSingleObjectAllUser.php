@@ -2,11 +2,12 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
-use ilSrLpReportGUI;
-use ilSrReportPlugin;
+use ilSrLpReportPlugin;
+use ilUIPluginRouterGUI;
 use SingleObjectAllUserGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
+use SrLpReportGUI;
 
 /**
  * Class ReportListSingleObjectAllUser
@@ -19,11 +20,10 @@ class ReportListSingleObjectAllUser implements ReportInterface {
 
 	use SrLpReportTrait;
 	use DICTrait;
-	const PLUGIN_CLASS_NAME = ilSrReportPlugin::class;
-	const CLASS_PLUGIN_ROUTER_GUI = 'ilUIPluginRouterGUI';
-	const CLASS_PLUGIN_BASE_GUI = ilSrLpReportGUI::class;
+	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
+	const CLASS_PLUGIN_BASE_GUI = SrLpReportGUI::class;
 	const CLASS_GUI = SingleObjectAllUserGUI::class;
-	const CLASS_PATH_ARRAY = [ self::CLASS_PLUGIN_ROUTER_GUI, self::CLASS_PLUGIN_BASE_GUI, self::CLASS_GUI ];
+	const CLASS_PATH_ARRAY = [ ilUIPluginRouterGUI::class, self::CLASS_PLUGIN_BASE_GUI, self::CLASS_GUI ];
 	/**
 	 * @var self[]
 	 */
@@ -43,7 +43,7 @@ class ReportListSingleObjectAllUser implements ReportInterface {
 
 
 	/**
-	 * ReportListSingleObjectSingleUser constructor.
+	 * ReportListSingleObjectSingleUser constructor
 	 *
 	 * @param int $obj_ref_id
 	 */
@@ -77,6 +77,9 @@ class ReportListSingleObjectAllUser implements ReportInterface {
 	}
 
 
+	/**
+	 * @return SingleObjectAllUserGUI
+	 */
 	public function getGuiObject(): SingleObjectAllUserGUI {
 		return new SingleObjectAllUserGUI();
 	}

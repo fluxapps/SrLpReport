@@ -1,7 +1,5 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/docs/LICENSE */
-
 namespace srag\Plugins\SrLpReport\Config;
 
 use ilSrLpReportPlugin;
@@ -16,7 +14,6 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
  *
  * @package srag\Plugins\SrLpReport\Config
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class ConfigFormGUI extends ActiveRecordConfigFormGUI {
@@ -36,6 +33,5 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 				self::PROPERTY_REQUIRED => true
 			]
 		];
-		// TODO: Implement ConfigFormGUI
 	}
 }

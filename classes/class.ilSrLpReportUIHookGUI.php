@@ -2,12 +2,10 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
-require_once "./Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php";
-
-use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\ReportFactory;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class ilSrLpReportUIHookGUI
@@ -59,15 +57,11 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 	 * @param string $a_comp
 	 * @param string $a_part
 	 * @param array  $a_par
-	 *
-	 * @return array
 	 */
 	public function modifyGUI(/*string*/
 		$a_comp, /*string*/
 		$a_part, /*array*/
-		$a_par = []): array {
-
-
+		$a_par = []) {
 		if ($a_part === self::PAR_TABS && !self::$load[self::LP_REPORT_REDIRECTER_LOADER] && !$_GET['sr_rp'] && ReportFactory::getReportObjRefId() > 0
 			&& self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId())) == "crs") {
 
@@ -75,8 +69,8 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 
 				self::$load[self::LP_REPORT_REDIRECTER_LOADER] = true;
 
-				self::report()->buildReportByClassName("SingleObjectAllUserGUI");
-				self::dic()->ctrl()->redirectByClass(array( 'ilUIPluginRouterGUI', ilSrLpReportGUI::class, SingleObjectAllUserGUI::class ));
+				self::report()->buildReportByClassName(SingleObjectAllUserGUI::class);
+				self::dic()->ctrl()->redirectByClass(array( ilUIPluginRouterGUI::class, SrLpReportGUI::class, SingleObjectAllUserGUI::class ));
 			}
 		}
 
@@ -84,10 +78,10 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 			if ($a_part === self::PAR_TABS) {
 				self::$load[self::DESKTOP_PERS_LP_TAB_LOADER] = true;
 
-				//TODO user
+				// TODO: user
 				//Don't Display Personal Learning Progress for Reporting User
 				if (self::dic()->tabs()->getActiveTab() == self::DESKTOP_PERS_LP_TAB_LOADER) {
-					self::dic()->ctrl()->redirectByClass("illplistofobjectsgui");
+					self::dic()->ctrl()->redirectByClass(ilLPListOfObjectsGUI::class);
 				}
 
 				if (self::dic()->tabs()->getActiveTab() == 'trac_objects') {
@@ -95,7 +89,5 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 				}
 			}
 		}
-
-		return [ "mode" => self::KEEP, "html" => "" ];
 	}
 }

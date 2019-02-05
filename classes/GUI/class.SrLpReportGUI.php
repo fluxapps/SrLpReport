@@ -1,20 +1,19 @@
 <?php
 
-require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/../../vendor/autoload.php";
 
-use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\DIC\SrLpReport\Exception\DICException;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
- * Class ilSrLpReportGUI
- *
+ * Class SrLpReportGUI
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- *
- * @ilCtrl_isCalledBy ilSrLpReportGUI: ilUIPluginRouterGUI
+ * @ilCtrl_isCalledBy SrLpReportGUI: ilUIPluginRouterGUI
  */
-class ilSrLpReportGUI {
+class SrLpReportGUI {
 
 	use DICTrait;
 	use SrLpReportTrait;
@@ -22,7 +21,7 @@ class ilSrLpReportGUI {
 
 
 	/**
-	 * ilSrLpReportGUI constructor.
+	 * SrLpReportGUI constructor
 	 */
 	public function __construct() {
 		self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
@@ -33,7 +32,6 @@ class ilSrLpReportGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
-
 		$next_class = self::dic()->ctrl()->getNextClass($this);
 
 		switch (strtolower($next_class)) {
@@ -45,8 +43,12 @@ class ilSrLpReportGUI {
 	}
 
 
-	public static function getLegendHTML() {
-
+	/**
+	 * @return string
+	 * @throws DICException
+	 * @throws ilTemplateException
+	 */
+	public static function getLegendHTML(): string {
 		$tpl = self::plugin()->template("LearningProgress/legend.html", false, false);
 
 		$tpl->setVariable("IMG_NOT_ATTEMPTED", ilUtil::getImagePath("scorm/not_attempted.svg"));
@@ -61,6 +63,6 @@ class ilSrLpReportGUI {
 		$panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
 		$panel->setBody($tpl->get());
 
-		return $panel->getHTML();
+		return self::output()->getHTML($panel->getHTML());
 	}
 }

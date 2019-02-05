@@ -1,13 +1,25 @@
 <?php
 
-use \srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
+namespace srag\Plugins\SrLpReport\Summary;
+
+use ilLearningProgressBaseGUI;
+use ilLPObjSettings;
+use ilLPStatus;
+use ilObject;
+use ilObjectLP;
+use ilSrLpReportPlugin;
+use ilTemplateException;
+use ilTrQuery;
+use ilUtil;
+use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
+use srag\DIC\SrLPReport\Exception\DICException;
 
 /**
  * Class SummaryTableGUI
  *
+ * @package srag\Plugins\SrLpReport\Summary
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class SummaryTableGUI extends TableGUI {
 
@@ -20,12 +32,18 @@ class SummaryTableGUI extends TableGUI {
 	];
 
 
+	/**
+	 * SummaryTableGUI constructor
+	 *
+	 * @param object $parent
+	 * @param string $parent_cmd
+	 */
 	public function __construct($parent, /*string*/
 		$parent_cmd) {
 
 		$this->ref_id = $_GET['ref_id'];
 		$this->obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
-		$this->user_fields = array();
+		$this->user_fields = [];
 
 		$this->setShowRowsSelector(false);
 
@@ -34,10 +52,12 @@ class SummaryTableGUI extends TableGUI {
 	}
 
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function getColumnValue($column, /*array*/
 		$row, /*bool*/
-		$raw_export = false) {
-
+		$raw_export = false): string {
 		switch ($column) {
 			case "status":
 				return $this->getLearningProgressRepresentation($row[$column], $row['obj_id'], $row["user_total"]);
@@ -49,17 +69,17 @@ class SummaryTableGUI extends TableGUI {
 	}
 
 
-	protected function getSelectableColumns2() {
-
-		$lng = self::dic()->language();
-
-		$cols = array();
+	/**
+	 * @inheritdoc
+	 */
+	protected function getSelectableColumns2(): array {
+		$cols = [];
 
 		// default fields
 		$cols["title"] = array(
 			"id" => "title",
 			"sort" => "title",
-			"txt" => $lng->txt("title"),
+			"txt" => self::dic()->language()->txt("title"),
 			"default" => true,
 		);
 
@@ -67,7 +87,7 @@ class SummaryTableGUI extends TableGUI {
 		$cols["status"] = array(
 			"id" => "status",
 			"sort" => "status",
-			"txt" => $lng->txt("status"),
+			"txt" => self::dic()->language()->txt("status"),
 			"default" => true,
 		);
 
@@ -75,7 +95,10 @@ class SummaryTableGUI extends TableGUI {
 	}
 
 
-	protected function initData() {
+	/**
+	 * @inheritdoc
+	 */
+	protected function initData()/*: void*/ {
 		$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->ref_id));
 		if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL
 			|| $olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION
@@ -91,11 +114,7 @@ class SummaryTableGUI extends TableGUI {
 			//$filter = $this->getCurrentFilter();
 		}
 
-		$data = ilTrQuery::getObjectsSummaryForObject($this->obj_id, $this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), array(), $this->getSelectedColumns(), $preselected_obj_ids);
-
-		// build status to image map
-		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+		$data = ilTrQuery::getObjectsSummaryForObject($this->obj_id, $this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), [], $this->getSelectedColumns(), $preselected_obj_ids);
 
 		foreach ($data['set'] as $key => $row) {
 			$data["set"][$key]["status"] = $this->getLearningProgressJson($row["status"], $row["user_total"]);
@@ -105,17 +124,26 @@ class SummaryTableGUI extends TableGUI {
 	}
 
 
-	protected function initFilterFields() {
-		// TODO: Implement initFilterFields() method.
+	/**
+	 * @inheritdoc
+	 */
+	protected function initFilterFields()/*: void*/ {
+
 	}
 
 
-	protected function initTitle() {
-		// TODO: Implement initTitle() method.
+	/**
+	 * @inheritdoc
+	 */
+	protected function initTitle()/*: void*/ {
+
 	}
 
 
-	protected function initId() {
+	/**
+	 * @inheritdoc
+	 */
+	protected function initId()/*: void*/ {
 		$this->setId('srcrslp_summary');
 		$this->setPrefix('srcrslp_summary');
 	}
@@ -130,12 +158,11 @@ class SummaryTableGUI extends TableGUI {
 	 * @return    string
 	 */
 	protected function getLearningProgressJson(array $status_data = NULL, $absolute = 0): string {
-
 		self::dic()->language()->loadLanguageModule('trac');
 		$json_string = "";
 
 		foreach ($status_data as $status_number => $user_count) {
-			$array_status = array();
+			$array_status = [];
 
 			if ($status_number === "") {
 				$status_data[ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM] += 1;
@@ -165,11 +192,10 @@ class SummaryTableGUI extends TableGUI {
 	 * @param int    $user_total
 	 *
 	 * @return string
-	 * @throws \srag\DIC\SrLPReport\Exception\DICException
+	 * @throws DICException
 	 * @throws ilTemplateException
 	 */
-	public function getLearningProgressRepresentation($json_status = "", $row_identifier = 0, $user_total = 0) {
-
+	public function getLearningProgressRepresentation(string $json_status = "", int $row_identifier = 0, int $user_total = 0): string {
 		$tpl_learning_progress_chart = self::plugin()->template("LearningProgress/chart.html", false, false);
 
 		$tpl_learning_progress_chart->setVariable("ROW_IDENTIFIER", $row_identifier);
@@ -179,5 +205,3 @@ class SummaryTableGUI extends TableGUI {
 		return self::output()->getHTML($tpl_learning_progress_chart);
 	}
 }
-
-?>

@@ -1,7 +1,5 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/docs/LICENSE */
-
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;

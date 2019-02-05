@@ -1,15 +1,15 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/docs/LICENSE */
-
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\DIC\SrLpReport\Exception\DICException;
+use srag\Plugins\SrLpReport\ReportTableGUI\SingleObjectAllUserTableGUI;
+use srag\Plugins\SrLpReport\Summary\SummaryTableGUI;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class SummaryGUI
- *
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
@@ -26,7 +26,7 @@ class SummaryGUI {
 	const CMD_INDEX = 'index';
 	const CMD_RESET_FILTER = 'resetFilter';
 	/**
-	 * @var \SingleObjectAllUserTableGUI
+	 * @var SingleObjectAllUserTableGUI
 	 */
 	protected $table;
 
@@ -61,7 +61,6 @@ class SummaryGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
-
 		self::dic()->ctrl()->saveParameter($this, 'ref_id');
 		self::dic()->ctrl()->saveParameter($this, 'details_id');
 
@@ -79,11 +78,19 @@ class SummaryGUI {
 	}
 
 
+	/**
+	 * @throws DICException
+	 * @throws ilTemplateException
+	 */
 	public function index() {
 		$this->listRecords();
 	}
 
 
+	/**
+	 * @throws DICException
+	 * @throws ilTemplateException
+	 */
 	public function listRecords() {
 		$this->table = new SummaryTableGUI($this, self::dic()->ctrl()->getCmd());
 
@@ -91,6 +98,9 @@ class SummaryGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function applyFilter() {
 		$this->table = new SummaryTableGUI($this, self::dic()->ctrl()->getCmd());
 		$this->table->writeFilterToSession();
@@ -99,6 +109,9 @@ class SummaryGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function resetFilter() {
 		$this->table = new SummaryTableGUI($this, self::dic()->ctrl()->getCmd());
 		$this->table->resetOffset();
@@ -107,11 +120,15 @@ class SummaryGUI {
 	}
 
 
-	public function getTableAndFooterHtml() {
-
+	/**
+	 * @return string
+	 * @throws DICException
+	 * @throws ilTemplateException
+	 */
+	public function getTableAndFooterHtml(): string {
 		$tpl = self::plugin()->template("Report/report.html", false, false);
-		$tpl->setVariable("REPORT", $this->table->getHTML());
-		$tpl->setVariable('LEGEND', ilSrLpReportGUI::getLegendHTML());
+		$tpl->setVariable("REPORT", self::output()->getHTML($this->table));
+		$tpl->setVariable('LEGEND', SrLpReportGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
 	}

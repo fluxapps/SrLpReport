@@ -2,11 +2,12 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
-use ilSrLpReportGUI;
-use ilSrReportPlugin;
+use ilSrLpReportPlugin;
+use ilUIPluginRouterGUI;
 use MatrixSingleObjectSingleUserGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
+use SrLpReportGUI;
 
 /**
  * Class ReportListSingleObjectSingleUser
@@ -19,11 +20,10 @@ class ReportListSingleObjectSingleUser implements ReportInterface {
 
 	use SrLpReportTrait;
 	use DICTrait;
-	const PLUGIN_CLASS_NAME = ilSrReportPlugin::class;
-	const CLASS_PLUGIN_ROUTER_GUI = 'ilUIPluginRouterGUI';
-	const CLASS_PLUGIN_BASE_GUI = ilSrLpReportGUI::class;
+	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
+	const CLASS_PLUGIN_BASE_GUI = SrLpReportGUI::class;
 	const CLASS_GUI = MatrixSingleObjectSingleUserGUI::class;
-	const CLASS_PATH_ARRAY = [ self::CLASS_PLUGIN_ROUTER_GUI, self::CLASS_PLUGIN_BASE_GUI, self::CLASS_GUI ];
+	const CLASS_PATH_ARRAY = [ ilUIPluginRouterGUI::class, self::CLASS_PLUGIN_BASE_GUI, self::CLASS_GUI ];
 	/**
 	 * @var self[]
 	 */
@@ -47,7 +47,7 @@ class ReportListSingleObjectSingleUser implements ReportInterface {
 
 
 	/**
-	 * ReportListSingleObjectSingleUser constructor.
+	 * ReportListSingleObjectSingleUser constructor
 	 *
 	 * @param int $obj_ref_id
 	 * @param int $usr_id
@@ -80,7 +80,6 @@ class ReportListSingleObjectSingleUser implements ReportInterface {
 	 * @return string
 	 */
 	public function getLinkTarget(): string {
-
 		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI, 'rep_obj_type', $this->getRepObjType());
 		self::dic()->ctrl()->setParameterByClass(self::CLASS_GUI, 'rep_obj_type', $this->getRepUserType());
 
@@ -88,6 +87,9 @@ class ReportListSingleObjectSingleUser implements ReportInterface {
 	}
 
 
+	/**
+	 * @return MatrixSingleObjectSingleUserGUI
+	 */
 	public function getGuiObject(): MatrixSingleObjectSingleUserGUI {
 		return new MatrixSingleObjectSingleUserGUI();
 	}

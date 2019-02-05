@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\ReportTableGUI;
 
+use ilCSVWriter;
 use ilExcel;
 use ilLearningProgressBaseGUI;
 use ilLPStatus;
@@ -21,23 +22,28 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 /**
  * Class AbstractReportTableGUI
  *
+ * @package srag\Plugins\SrLpReport\ReportTableGUI
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 abstract class AbstractReportTableGUI extends TableGUI {
 
 	use SrLpReportTrait;
 
 
+	/**
+	 * AbstractReportTableGUI constructor
+	 *
+	 * @param object $parent
+	 * @param string $parent_cmd
+	 */
 	public function __construct($parent, /*string*/
 		$parent_cmd) {
 
 		$this->course = true;
 		$this->ref_id = $_GET['ref_id'];
 		$this->obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
-		$this->user_fields = array();
+		$this->user_fields = [];
 
 		$this->setShowRowsSelector(false);
 		$this->setSelectAllCheckbox('usr_id');
@@ -47,10 +53,12 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	}
 
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function getColumnValue($column, /*array*/
 		$row, /*bool*/
-		$raw_export = false) {
-
+		$raw_export = false): string {
 		switch ($column) {
 			case "status":
 				if ($raw_export) {
@@ -73,7 +81,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	 *
 	 * @return string
 	 */
-	protected function getLearningProgressRepresentation($status = 0, $percentage = 0): string {
+	protected function getLearningProgressRepresentation(int $status = 0, int $percentage = 0): string {
 		switch ($status) {
 			case 0:
 				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
@@ -100,8 +108,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	 *
 	 * @return string
 	 */
-	protected function getLearningProgressRepresentationExport($status = 0, $percentage = 0): string {
-
+	protected function getLearningProgressRepresentationExport(int $status = 0, int $percentage = 0): string {
 		if ($percentage > 0) {
 			return $percentage . "%";
 		}
@@ -112,13 +119,13 @@ abstract class AbstractReportTableGUI extends TableGUI {
 			default:
 				return ilLearningProgressBaseGUI::_getStatusText($status);
 		}
-
-		return "";
 	}
 
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function initColumns()/*: void*/ {
-
 		$this->addColumn("", "");
 
 		foreach ($this->getSelectableColumns() as $column) {
@@ -135,16 +142,17 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	}
 
 
-	protected function getSelectableColumns2() {
-		$lng = self::dic()->language();
-
-		$cols = array();
+	/**
+	 * @inheritdoc
+	 */
+	protected function getSelectableColumns2(): array {
+		$cols = [];
 
 		// default fields
 		$cols["login"] = array(
 			"id" => "login",
 			"sort" => "login",
-			"txt" => $lng->txt("login"),
+			"txt" => self::dic()->language()->txt("login"),
 			"default" => true,
 			"all_reports" => true
 		);
@@ -152,7 +160,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		$cols["firstname"] = array(
 			"id" => "firstname",
 			"sort" => "firstname",
-			"txt" => $lng->txt("firstname"),
+			"txt" => self::dic()->language()->txt("firstname"),
 			"default" => true,
 			"all_reports" => true
 		);
@@ -160,7 +168,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		$cols["lastname"] = array(
 			"id" => "lastname",
 			"sort" => "lastname",
-			"txt" => $lng->txt("lastname"),
+			"txt" => self::dic()->language()->txt("lastname"),
 			"default" => true,
 			"all_reports" => true
 		);
@@ -176,7 +184,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 				$cols[$key] = array(
 					"id" => $key,
 					"sort" => $key,
-					"txt" => $lng->txt($key),
+					"txt" => self::dic()->language()->txt($key),
 					"default" => true,
 					"all_reports" => true
 				);
@@ -208,7 +216,6 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		}
 
 		// show only if extended data was activated in lp settings
-		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 		$tracking = new ilObjUserTracking();
 
 		/*
@@ -216,18 +223,18 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		{
 			$cols["first_access"] = array(
 				"id" => "first_access",
-				"txt" => $lng->txt("trac_first_access"),
+				"txt" => self::dic()->language()->txt("trac_first_access"),
 				"default" => true);
 			$cols["last_access"] = array(
 				"id" => "last_access",
-				"txt" => $lng->txt("trac_last_access"),
+				"txt" => self::dic()->language()->txt("trac_last_access"),
 				"default" => true);
 		}
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
 		{
 			$cols["read_count"] = array(
 				"id" => "read_count",
-				"txt" => $lng->txt("trac_read_count"),
+				"txt" => self::dic()->language()->txt("trac_read_count"),
 				"default" => true);
 		}
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS) &&
@@ -235,14 +242,14 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		{
 			$cols["spent_seconds"] = array(
 				"id" => "spent_seconds",
-				"txt" => $lng->txt("trac_spent_seconds"),
+				"txt" => self::dic()->language()->txt("trac_spent_seconds"),
 				"default" => true);
 		}*/
 
 		/*if($this->isPercentageAvailable($this->obj_id))
 		{
 			$cols["percentage"] = array(
-				"txt" => $lng->txt("trac_percentage"),
+				"txt" => self::dic()->language()->txt("trac_percentage"),
 				"default" => true);
 		}*/
 
@@ -269,9 +276,10 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	}
 
 
-	protected function initData() {
-		global $lng;
-
+	/**
+	 * @inheritdoc
+	 */
+	protected function initData()/*: void*/ {
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setLimit(99999999999, 99999999999);
@@ -305,8 +313,10 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	}
 
 
-	protected function initFilterFields() {
-
+	/**
+	 * @inheritdoc
+	 */
+	protected function initFilterFields()/*: void*/ {
 		foreach ($this->getSelectableColumns2() as $key => $value) {
 
 			if ($value['all_reports'] !== true) {
@@ -360,13 +370,16 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	}
 
 
-	protected function initTitle() {
-		// TODO: Implement initTitle() method.
+	/**
+	 * @inheritdoc
+	 */
+	protected function initTitle()/*: void*/ {
+
 	}
 
 
 	/**
-	 *
+	 * @inheritdoc
 	 */
 	protected function initCommands()/*: void*/ {
 		// see ilObjCourseGUI::addMailToMemberButton()
@@ -378,7 +391,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 
 
 	/**
-	 *
+	 * @inheritdoc
 	 */
 	protected function initExport()/*: void*/ {
 		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
@@ -388,9 +401,8 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	/**
 	 * @return array
 	 */
-	public function getFilterValueForQuery() {
-
-		$arr_filter = array();
+	public function getFilterValueForQuery(): array {
+		$arr_filter = [];
 		foreach ($this->filter as $field_key => $filter) {
 			if (!empty($filter)) {
 				$arr_filter[$field_key] = $filter;
@@ -431,5 +443,3 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		$csv->addRow();
 	}
 }
-
-?>
