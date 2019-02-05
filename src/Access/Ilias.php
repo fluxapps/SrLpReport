@@ -4,7 +4,6 @@ namespace srag\Plugins\SrLpReport\Access;
 
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
-use srag\Plugins\SrLpReport\Report\ReportInterface;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
