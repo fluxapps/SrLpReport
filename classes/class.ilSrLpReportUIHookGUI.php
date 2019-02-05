@@ -71,7 +71,8 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 
 				self::$load[self::LP_REPORT_REDIRECTER_LOADER] = true;
 
-				self::report()->buildReportByClassName(UserGUI::class);
+				self::dic()->ctrl()->setParameterByClass(UserGUI::class, 'ref_id', ReportFactory::getReportObjRefId());
+
 				self::dic()->ctrl()->redirectByClass(array( ilUIPluginRouterGUI::class, BaseGUI::class, UserGUI::class ));
 			}
 		}

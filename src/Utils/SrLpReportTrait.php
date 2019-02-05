@@ -15,7 +15,6 @@ use srag\Plugins\SrLpReport\Tab\TabGUI;
  * @package srag\Plugins\SrLpReport\Utils
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 trait SrLpReportTrait {
 
