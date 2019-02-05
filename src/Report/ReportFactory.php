@@ -4,7 +4,6 @@ namespace srag\Plugins\SrLpReport\Report;
 
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
-use srag\Plugins\SrLpReport\User\UserGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -69,38 +68,6 @@ class ReportFactory {
 
 
 	/**
-	 * @param int $obj_ref_id
-	 * @param int $user_id
-	 * @param int $report_view_type
-	 *
-	 * @return ReportInterface
-	 */
-	public function buildReportRefIdUserId(int $obj_ref_id, int $user_id, int $report_view_type): ReportInterface {
-		switch ($report_view_type) {
-			case self::REPORT_VIEW_TYPE_MATRIX:
-				return ReportListSingleObjectSingleUser::getInstance($obj_ref_id, $user_id);
-			default:
-				return NULL;
-		}
-	}
-
-
-	/**
-	 * @param string $class_name
-	 *
-	 * @return ReportInterface
-	 */
-	public function buildReportByClassName(string $class_name): ReportInterface {
-		switch (strtolower($class_name)) {
-			case strtolower(UserGUI::class):
-				return ReportListSingleObjectAllUser::getInstance(self::getReportObjRefId());
-			default:
-				return NULL;
-		}
-	}
-
-
-	/**
 	 * @return int
 	 */
 	public static function getReportObjRefId(): int {
@@ -116,13 +83,5 @@ class ReportFactory {
 		}
 
 		return 0;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	private function getReportUsrId(): int {
-		return intval(filter_input(INPUT_GET, "usr_id"));
 	}
 }

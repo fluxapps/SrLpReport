@@ -45,16 +45,4 @@ final class Ilias {
 	private function __construct() {
 
 	}
-
-
-	/**
-	 * @param int $obj_ref_id
-	 * @param int $usr_id
-	 * @param int $report_view_type
-	 *
-	 * @return ReportInterface
-	 */
-	public function reportRefIdUserId(int $obj_ref_id, int $usr_id, int $report_view_type): ReportInterface {
-		return self::report()->buildReportRefIdUserId($obj_ref_id, $usr_id, $report_view_type);
-	}
 }

@@ -24,8 +24,7 @@ final class TabGUI {
 	use DICTrait;
 	use SrLpReportTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const TAB_GUI_CLASSES = array( UserGUI::class, MatrixGUI::class, SummaryGUI::class );
-	const CLASS_PLUGIN_BASE_GUI = BaseGUI::class;
+	const TAB_GUI_CLASSES = [ UserGUI::class, MatrixGUI::class, SummaryGUI::class ];
 	/**
 	 * @var self
 	 */
@@ -67,11 +66,11 @@ final class TabGUI {
 
 			self::dic()->tabs()->addTab($tab_gui::TAB_ID, self::plugin()->translate($tab_gui::TAB_ID), self::dic()->ctrl()->getLinkTargetByClass([
 				ilUIPluginRouterGUI::class,
-				self::CLASS_PLUGIN_BASE_GUI,
+				BaseGUI::class,
 				$tab_gui
 			]));
 
-			// Get unchanged cmdClass (ilCtrl has a bug and removes Slashes)
+			// Get unchanged cmdClass get parameter (ilCtrl has a bug and removes Slashes)
 			if (filter_input(INPUT_GET, "cmdClass") == strtolower($tab_gui)) {
 				self::dic()->tabs()->activateTab($tab_gui::TAB_ID);
 			}
