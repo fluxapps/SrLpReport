@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\ReportTableGUI;
+namespace srag\Plugins\SrLpReport\Report;
 
 use ilCSVWriter;
 use ilExcel;
@@ -22,7 +22,7 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 /**
  * Class AbstractReportTableGUI
  *
- * @package srag\Plugins\SrLpReport\ReportTableGUI
+ * @package srag\Plugins\SrLpReport\Report
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

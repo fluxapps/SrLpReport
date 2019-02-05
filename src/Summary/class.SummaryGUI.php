@@ -1,41 +1,47 @@
 <?php
 
-require_once __DIR__ . "/../../../vendor/autoload.php";
+namespace srag\Plugins\SrLpReport\Summary;
 
+use ilObject;
+use ilSrLpReportPlugin;
+use ilTemplateException;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\DIC\SrLpReport\Exception\DICException;
-use srag\Plugins\SrLpReport\ReportTableGUI\SingleObjectAllUserTableGUI;
+use srag\Plugins\SrLpReport\GUI\BaseGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
- * Class SingleObjectAllUserGUI
+ * Class SummaryGUI
+ *
+ * @package           srag\Plugins\SrLpReport\Summary
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy SingleObjectAllUserGUI: SrLpReportGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrLpReport\Summary\SummaryGUI: srag\Plugins\SrLpReport\GUI\BaseGUI
  */
-class SingleObjectAllUserGUI {
+class SummaryGUI {
 
 	use DICTrait;
 	use SrLpReportTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
+	const TAB_ID = "srcrslpsummary";
 	const CMD_EDIT = "edit";
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_INDEX = 'index';
 	const CMD_RESET_FILTER = 'resetFilter';
-	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
-	const TAB_ID = "srcrslpuser";
 	/**
-	 * @var SingleObjectAllUserTableGUI
+	 * @var SummaryGUI
 	 */
 	protected $table;
 
 
 	/**
-	 * SrLpReportGUI constructor
+	 * SummaryGUI constructor
 	 */
 	public function __construct() {
 		self::tabgui()->setTabs();
+
+		$this->initJS();
 
 		$type = self::dic()->objDataCache()->lookupType(ilObject::_lookupObjectId($_GET['ref_id']));
 		$icon = ilObject::_getIcon("", "tiny", $type);
@@ -44,8 +50,14 @@ class SingleObjectAllUserGUI {
 
 		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress") . " "
 			. ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id'])));
+	}
 
-		self::dic()->mainTemplate()->setVariable('LEGEND', "222");
+
+	/**
+	 *
+	 */
+	protected function initJS()/*: void*/ {
+		self::dic()->mainTemplate()->addJavaScript(self::plugin()->directory() . "/node_modules/d3/dist/d3.min.js");
 	}
 
 
@@ -61,7 +73,6 @@ class SingleObjectAllUserGUI {
 			case self::CMD_RESET_FILTER:
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_INDEX:
-			case self::CMD_MAIL_SELECTED_USERS:
 				$this->$cmd();
 				break;
 			default:
@@ -72,56 +83,11 @@ class SingleObjectAllUserGUI {
 
 
 	/**
-	 *
-	 */
-	public function mailselectedusers() {
-		// see ilObjCourseGUI::sendMailToSelectedUsersObject()
-
-		if (count($_POST["usr_id"]) == 0) {
-			ilUtil::sendFailure(self::dic()->language()->txt("no_checkbox"), false);
-			self::dic()->ctrl()->redirect($this);
-		}
-
-		$rcps = [];
-		foreach ($_POST["usr_id"] as $usr_id) {
-			$rcps[] = ilObjUser::_lookupLogin($usr_id);
-		}
-
-		$template = [];
-		$sig = NULL;
-
-		// repository-object-specific
-		$ref_id = (int)$_REQUEST["ref_id"];
-		if ($ref_id) {
-			$obj_lp = ilObjectLP::getInstance(ilObject::_lookupObjectId($ref_id));
-			$tmpl_id = $obj_lp->getMailTemplateId();
-
-			if ($tmpl_id) {
-				$template = array(
-					ilMailFormCall::CONTEXT_KEY => $tmpl_id,
-					'ref_id' => $ref_id,
-					'ts' => time()
-				);
-			} else {
-				$sig = ilLink::_getLink($ref_id);
-				$sig = rawurlencode(base64_encode($sig));
-			}
-		}
-
-		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, self::dic()->ctrl()->getCmd(), [], array(
-			'type' => 'new',
-			'rcp_to' => implode(',', $rcps),
-			'sig' => $sig
-		), $template));
-	}
-
-
-	/**
 	 * @throws DICException
 	 * @throws ilTemplateException
 	 */
 	public function index() {
-		$this->listUsers();
+		$this->listRecords();
 	}
 
 
@@ -129,8 +95,8 @@ class SingleObjectAllUserGUI {
 	 * @throws DICException
 	 * @throws ilTemplateException
 	 */
-	public function listUsers() {
-		$this->table = new SingleObjectAllUserTableGUI($this, self::dic()->ctrl()->getCmd());
+	public function listRecords() {
+		$this->table = new SummaryTableGUI($this, self::dic()->ctrl()->getCmd());
 
 		self::output()->output($this->getTableAndFooterHtml(), true);
 	}
@@ -140,7 +106,7 @@ class SingleObjectAllUserGUI {
 	 *
 	 */
 	public function applyFilter() {
-		$this->table = new SingleObjectAllUserTableGUI($this, self::dic()->ctrl()->getCmd());
+		$this->table = new SummaryTableGUI($this, self::dic()->ctrl()->getCmd());
 		$this->table->writeFilterToSession();
 		$this->table->resetOffset();
 		self::dic()->ctrl()->redirect($this);
@@ -151,7 +117,7 @@ class SingleObjectAllUserGUI {
 	 *
 	 */
 	public function resetFilter() {
-		$this->table = new SingleObjectAllUserTableGUI($this, self::dic()->ctrl()->getCmd());
+		$this->table = new SummaryTableGUI($this, self::dic()->ctrl()->getCmd());
 		$this->table->resetOffset();
 		$this->table->resetFilter();
 		self::dic()->ctrl()->redirect($this);
@@ -164,11 +130,9 @@ class SingleObjectAllUserGUI {
 	 * @throws ilTemplateException
 	 */
 	public function getTableAndFooterHtml(): string {
-		self::dic()->language()->loadLanguageModule('trac');
-
 		$tpl = self::plugin()->template("Report/report.html", false, false);
 		$tpl->setVariable("REPORT", self::output()->getHTML($this->table));
-		$tpl->setVariable('LEGEND', SrLpReportGUI::getLegendHTML());
+		$tpl->setVariable('LEGEND', BaseGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
 	}

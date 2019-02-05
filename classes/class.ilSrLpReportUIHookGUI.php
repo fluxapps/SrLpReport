@@ -4,7 +4,9 @@ require_once __DIR__ . "/../vendor/autoload.php";
 
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\GUI\BaseGUI;
 use srag\Plugins\SrLpReport\Report\ReportFactory;
+use srag\Plugins\SrLpReport\User\UserGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -69,8 +71,8 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 
 				self::$load[self::LP_REPORT_REDIRECTER_LOADER] = true;
 
-				self::report()->buildReportByClassName(SingleObjectAllUserGUI::class);
-				self::dic()->ctrl()->redirectByClass(array( ilUIPluginRouterGUI::class, SrLpReportGUI::class, SingleObjectAllUserGUI::class ));
+				self::report()->buildReportByClassName(UserGUI::class);
+				self::dic()->ctrl()->redirectByClass(array( ilUIPluginRouterGUI::class, BaseGUI::class, UserGUI::class ));
 			}
 		}
 

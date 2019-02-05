@@ -3,9 +3,8 @@
 namespace srag\Plugins\SrLpReport\Report;
 
 use ilSrLpReportPlugin;
-use MatrixSingleObjectSingleUserGUI;
-use SingleObjectAllUserGUI;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\User\UserGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -93,9 +92,7 @@ class ReportFactory {
 	 */
 	public function buildReportByClassName(string $class_name): ReportInterface {
 		switch (strtolower($class_name)) {
-			case strtolower(MatrixSingleObjectSingleUserGUI::class):
-				return ReportListSingleObjectSingleUser::getInstance(self::getReportObjRefId(), $this->getReportUsrId());
-			case  strtolower(SingleObjectAllUserGUI::class):
+			case strtolower(UserGUI::class):
 				return ReportListSingleObjectAllUser::getInstance(self::getReportObjRefId());
 			default:
 				return NULL;

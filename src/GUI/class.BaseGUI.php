@@ -1,19 +1,28 @@
 <?php
 
-require_once __DIR__ . "/../../vendor/autoload.php";
+namespace srag\Plugins\SrLpReport\GUI;
 
+use ilPanelGUI;
+use ilSrLpReportPlugin;
+use ilTemplateException;
+use ilUtil;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\DIC\SrLpReport\Exception\DICException;
+use srag\Plugins\SrLpReport\Matrix\MatrixGUI;
+use srag\Plugins\SrLpReport\Summary\SummaryGUI;
+use srag\Plugins\SrLpReport\User\UserGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
- * Class SrLpReportGUI
+ * Class BaseGUI
+ *
+ * @package           srag\Plugins\SrLpReport\GUI
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy SrLpReportGUI: ilUIPluginRouterGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrLpReport\GUI\BaseGUI: ilUIPluginRouterGUI
  */
-class SrLpReportGUI {
+class BaseGUI {
 
 	use DICTrait;
 	use SrLpReportTrait;
@@ -21,7 +30,7 @@ class SrLpReportGUI {
 
 
 	/**
-	 * SrLpReportGUI constructor
+	 * BaseGUI constructor
 	 */
 	public function __construct() {
 		self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
@@ -35,9 +44,16 @@ class SrLpReportGUI {
 		$next_class = self::dic()->ctrl()->getNextClass($this);
 
 		switch (strtolower($next_class)) {
+			case strtolower(UserGUI::class):
+				self::dic()->ctrl()->forwardCommand(new UserGUI());
+				break;
+			case strtolower(MatrixGUI::class):
+				self::dic()->ctrl()->forwardCommand(new MatrixGUI());
+				break;
+			case strtolower(SummaryGUI::class):
+				self::dic()->ctrl()->forwardCommand(new SummaryGUI());
+				break;
 			default:
-				$report = self::report()->buildReportByClassName($next_class);
-				self::dic()->ctrl()->forwardCommand($report->getGuiObject());
 				break;
 		}
 	}

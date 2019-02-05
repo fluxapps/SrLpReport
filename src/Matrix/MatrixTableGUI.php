@@ -10,7 +10,7 @@ use ilObjectLP;
 use ilObjSession;
 use ilPathGUI;
 use ilTrQuery;
-use srag\Plugins\SrLpReport\ReportTableGUI\AbstractReportTableGUI;
+use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 
 /**
  * Class MatrixTableGUI

@@ -4,10 +4,10 @@ namespace srag\Plugins\SrLpReport\Report;
 
 use ilSrLpReportPlugin;
 use ilUIPluginRouterGUI;
-use SingleObjectAllUserGUI;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\GUI\BaseGUI;
+use srag\Plugins\SrLpReport\User\UserGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
-use SrLpReportGUI;
 
 /**
  * Class ReportListSingleObjectAllUser
@@ -21,8 +21,8 @@ class ReportListSingleObjectAllUser implements ReportInterface {
 	use SrLpReportTrait;
 	use DICTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const CLASS_PLUGIN_BASE_GUI = SrLpReportGUI::class;
-	const CLASS_GUI = SingleObjectAllUserGUI::class;
+	const CLASS_PLUGIN_BASE_GUI = BaseGUI::class;
+	const CLASS_GUI = UserGUI::class;
 	const CLASS_PATH_ARRAY = [ ilUIPluginRouterGUI::class, self::CLASS_PLUGIN_BASE_GUI, self::CLASS_GUI ];
 	/**
 	 * @var self[]
@@ -78,10 +78,10 @@ class ReportListSingleObjectAllUser implements ReportInterface {
 
 
 	/**
-	 * @return SingleObjectAllUserGUI
+	 * @return UserGUI
 	 */
-	public function getGuiObject(): SingleObjectAllUserGUI {
-		return new SingleObjectAllUserGUI();
+	public function getGuiObject(): UserGUI {
+		return new UserGUI();
 	}
 
 

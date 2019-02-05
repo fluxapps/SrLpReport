@@ -12,18 +12,19 @@ use ilTemplateException;
 use ilUtil;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\DIC\SrLpReport\Exception\DICException;
-use srag\Plugins\SrLpReport\ReportTableGUI\SingleObjectAllUserTableGUI;
+use srag\Plugins\SrLpReport\GUI\BaseGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
-use SrLpReportGUI;
 
 /**
- * Class AbstractMatrixGUI
+ * Class MatrixGUI
  *
- * @package srag\Plugins\SrLpReport\Matrix
+ * @package           srag\Plugins\SrLpReport\Matrix
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ *
+ * @ilCtrl_isCalledBy srag\Plugins\SrLpReport\Matrix\MatrixGUI: srag\Plugins\SrLpReport\GUI\BaseGUI
  */
-abstract class AbstractMatrixGUI {
+class MatrixGUI {
 
 	use DICTrait;
 	use SrLpReportTrait;
@@ -34,16 +35,9 @@ abstract class AbstractMatrixGUI {
 	const CMD_INDEX = 'index';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
-
-
+	const TABLE_GUI_CLASS_NAME = MatrixTableGUI::class;
 	/**
-	 * @return string
-	 */
-	public abstract function getTableGuiClassName(): string;
-
-
-	/**
-	 * @var SingleObjectAllUserTableGUI
+	 * @var MatrixTableGUI
 	 */
 	protected $table;
 
@@ -52,6 +46,8 @@ abstract class AbstractMatrixGUI {
 	 * MatrixGUI constructor
 	 */
 	public function __construct() {
+		self::tabgui()->setTabs();
+
 		$type = self::dic()->objDataCache()->lookupType(ilObject::_lookupObjectId($_GET['ref_id']));
 		$icon = ilObject::_getIcon("", "tiny", $type);
 
@@ -66,7 +62,6 @@ abstract class AbstractMatrixGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
-
 		self::dic()->ctrl()->saveParameter($this, 'ref_id');
 		self::dic()->ctrl()->saveParameter($this, 'details_id');
 
@@ -140,11 +135,11 @@ abstract class AbstractMatrixGUI {
 
 
 	/**
-	 * @throws ilTemplateException
 	 * @throws DICException
+	 * @throws ilTemplateException
 	 */
 	public function listUsers() {
-		$table_class_name = $this->getTableGuiClassName();
+		$table_class_name = self::TABLE_GUI_CLASS_NAME;
 
 		$this->table = new $table_class_name($this, self::dic()->ctrl()->getCmd());
 		self::output()->output($this->getTableAndFooterHtml(), true);
@@ -155,7 +150,7 @@ abstract class AbstractMatrixGUI {
 	 *
 	 */
 	public function applyFilter() {
-		$table_class_name = $this->getTableGuiClassName();
+		$table_class_name = self::TABLE_GUI_CLASS_NAME;
 
 		$this->table = new $table_class_name($this, self::dic()->ctrl()->getCmd());
 		$this->table->writeFilterToSession();
@@ -168,7 +163,7 @@ abstract class AbstractMatrixGUI {
 	 *
 	 */
 	public function resetFilter() {
-		$table_class_name = $this->getTableGuiClassName();
+		$table_class_name = self::TABLE_GUI_CLASS_NAME;
 
 		$this->table = new $table_class_name($this, self::dic()->ctrl()->getCmd());
 		$this->table->resetOffset();
@@ -182,13 +177,12 @@ abstract class AbstractMatrixGUI {
 	 * @throws DICException
 	 * @throws ilTemplateException
 	 */
-	public function getTableAndFooterHtml() {
-
+	public function getTableAndFooterHtml(): string {
 		self::dic()->language()->loadLanguageModule('trac');
 
-		$tpl = self::plugin()->template("Report/report.html", true, true);
+		$tpl = self::plugin()->template("Report/report.html", false, false);
 		$tpl->setVariable("REPORT", self::output()->getHTML($this->table));
-		$tpl->setVariable('LEGEND', SrLpReportGUI::getLegendHTML());
+		$tpl->setVariable('LEGEND', BaseGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
 	}

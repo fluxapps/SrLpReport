@@ -4,13 +4,13 @@ namespace srag\Plugins\SrLpReport\Tab;
 
 use ilSrLpReportPlugin;
 use ilUIPluginRouterGUI;
-use MatrixGUI;
-use SingleObjectAllUserGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\DIC\SrLpReport\Exception\DICException;
+use srag\Plugins\SrLpReport\GUI\BaseGUI;
+use srag\Plugins\SrLpReport\Matrix\MatrixGUI;
+use srag\Plugins\SrLpReport\Summary\SummaryGUI;
+use srag\Plugins\SrLpReport\User\UserGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
-use SrLpReportGUI;
-use SummaryGUI;
 
 /**
  * Class TabGUI
@@ -24,8 +24,8 @@ final class TabGUI {
 	use DICTrait;
 	use SrLpReportTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const TAB_GUI_CLASSES = array( SingleObjectAllUserGUI::class, MatrixGUI::class, SummaryGUI::class );
-	const CLASS_PLUGIN_BASE_GUI = SrLpReportGUI::class;
+	const TAB_GUI_CLASSES = array( UserGUI::class, MatrixGUI::class, SummaryGUI::class );
+	const CLASS_PLUGIN_BASE_GUI = BaseGUI::class;
 	/**
 	 * @var self
 	 */
@@ -71,7 +71,8 @@ final class TabGUI {
 				$tab_gui
 			]));
 
-			if (self::dic()->ctrl()->getCmdClass() == strtolower($tab_gui)) {
+			// Get unchanged cmdClass (ilCtrl has a bug and removes Slashes)
+			if (filter_input(INPUT_GET, "cmdClass") == strtolower($tab_gui)) {
 				self::dic()->tabs()->activateTab($tab_gui::TAB_ID);
 			}
 		}
