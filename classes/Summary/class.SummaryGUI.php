@@ -54,7 +54,6 @@ class SummaryGUI {
 	 */
 	protected function initJS()/*: void*/ {
 		self::dic()->mainTemplate()->addJavaScript(self::plugin()->directory() . "/node_modules/d3/dist/d3.min.js");
-		self::dic()->mainTemplate()->addJavaScript(self::plugin()->directory() . "/js/d3.legend.js");
 	}
 
 
