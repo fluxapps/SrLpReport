@@ -2,7 +2,9 @@
 
 namespace srag\Plugins\SrLpReport\Staff;
 
+use ilRepositoryGUI;
 use ilSrLpReportPlugin;
+use ilUtil;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -30,11 +32,30 @@ class StaffGUI {
 
 	}
 
-
 	/**
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
-		die("dsd");
+		$next_class = self::dic()->ctrl()->getNextClass($this);
+
+		switch (strtolower($next_class)) {
+			default:
+				if (!self::access()->hasReportingAccess()) {
+					ilUtil::sendInfo(self::plugin()->translate("no_reporting_access"), true);
+					self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);
+				}
+
+				$cmd = self::dic()->ctrl()->getCmd();
+
+				switch ($cmd) {
+					case self::CMD_LIST:
+						$this->{$cmd}();
+						break;
+
+					default:
+						break;
+				}
+				break;
+		}
 	}
 }

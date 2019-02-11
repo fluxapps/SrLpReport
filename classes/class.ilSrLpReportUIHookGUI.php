@@ -3,7 +3,6 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use srag\DIC\SrLpReport\DICTrait;
-use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\GUI\BaseGUI;
 use srag\Plugins\SrLpReport\Report\ReportFactory;
 use srag\Plugins\SrLpReport\User\UserGUI;
@@ -67,7 +66,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 		if ($a_part === self::PAR_TABS && !self::$load[self::LP_REPORT_REDIRECTER_LOADER] && !$_GET['sr_rp'] && ReportFactory::getReportObjRefId() > 0
 			&& self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId())) == "crs") {
 
-			if (in_array(Config::getField(Config::KEY_ROLE_OBJ_ID), self::dic()->rbacreview()->assignedGlobalRoles(self::dic()->user()->getId()))) {
+			if (self::access()->hasReportingAccess()) {
 
 				self::$load[self::LP_REPORT_REDIRECTER_LOADER] = true;
 
