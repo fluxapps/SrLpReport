@@ -44,4 +44,12 @@ final class Access {
 	private function __construct() {
 
 	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasReportingAccess(): bool {
+		return true;
+	}
 }

@@ -2,7 +2,12 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
+use srag\Plugins\CtrlMainMenu\Entry\ctrlmmEntry;
+use srag\Plugins\CtrlMainMenu\EntryTypes\Ctrl\ctrlmmEntryCtrl;
+use srag\Plugins\CtrlMainMenu\Menu\ctrlmmMenu;
+use srag\Plugins\SrLpReport\Access\Access;
 use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\Staff\StaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\RemovePluginDataConfirm\SrLpReport\PluginUninstallTrait;
 
@@ -56,9 +61,78 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 
 
 	/**
+	 *
+	 */
+	protected function afterActivation()/*: void*/ {
+		$this->addCtrlMainMenu();
+	}
+
+
+	/**
+	 *
+	 */
+	protected function afterDeactivation()/*: void*/ {
+		$this->removeCtrlMainMenu();
+	}
+
+
+	/**
 	 * @inheritdoc
 	 */
 	protected function deleteData()/*: void*/ {
 		self::dic()->database()->dropTable(Config::TABLE_NAME, false);
+
+		$this->removeCtrlMainMenu();
+	}
+
+
+	/**
+	 *
+	 */
+	protected function addCtrlMainMenu()/*: void*/ {
+		try {
+			include_once __DIR__ . "/../../CtrlMainMenu/vendor/autoload.php";
+
+			if (class_exists(ctrlmmEntry::class)) {
+				if (count(ctrlmmEntry::getEntriesByCmdClass(StaffGUI::class)) === 0) {
+					$entry = new ctrlmmEntryCtrl();
+					$entry->setTitle(self::PLUGIN_NAME);
+					$entry->setTranslations([
+						"en" => self::PLUGIN_NAME,
+						"de" => self::PLUGIN_NAME
+					]);
+					$entry->setGuiClass(implode(",", [ ilUIPluginRouterGUI::class, StaffGUI::class ]));
+					$entry->setCmd(StaffGUI::CMD_LIST);
+					$entry->setPermissionType(ctrlmmMenu::PERM_SCRIPT);
+					$entry->setPermission(json_encode([
+						__DIR__ . "/../vendor/autoload.php",
+						Access::class,
+						"hasReportingAccess"
+					]));
+					$entry->store();
+				}
+			}
+		} catch (Throwable $ex) {
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected function removeCtrlMainMenu()/*: void*/ {
+		try {
+			include_once __DIR__ . "/../../CtrlMainMenu/vendor/autoload.php";
+
+			if (class_exists(ctrlmmEntry::class)) {
+				foreach (ctrlmmEntry::getEntriesByCmdClass(StaffGUI::class) as $entry) {
+					/**
+					 * @var ctrlmmEntry $entry
+					 */
+					$entry->delete();
+				}
+			}
+		} catch (Throwable $ex) {
+		}
 	}
 }
