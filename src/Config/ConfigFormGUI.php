@@ -2,8 +2,8 @@
 
 namespace srag\Plugins\SrLpReport\Config;
 
+use ilSelectInputGUI;
 use ilSrLpReportPlugin;
-use ilTextInputGUI;
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfigFormGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -29,8 +29,9 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 	protected function initFields()/*: void*/ {
 		$this->fields = [
 			Config::KEY_ROLE_OBJ_ID => [
-				self::PROPERTY_CLASS => ilTextInputGUI::class,
-				self::PROPERTY_REQUIRED => true
+				self::PROPERTY_CLASS => ilSelectInputGUI::class,
+				self::PROPERTY_REQUIRED => true,
+				self::PROPERTY_OPTIONS => self::ilias()->roles()->getAllRoles()
 			]
 		];
 	}
