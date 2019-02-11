@@ -23,7 +23,7 @@ class StaffGUI {
 	use SrLpReportTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 	const CMD_APPLY_FILTER = "applyFilter";
-	const CMD_OVERVIEW = "overview";
+	const CMD_STAFF = "staff";
 	const CMD_RESET_FILTER = "resetFilter";
 	const LANG_MODULE_STAFF = "staff";
 
@@ -45,7 +45,7 @@ class StaffGUI {
 		switch (strtolower($next_class)) {
 			default:
 				if (!self::access()->hasReportingAccess()) {
-					ilUtil::sendInfo(self::plugin()->translate("no_reporting_access",self::LANG_MODULE_STAFF), true);
+					ilUtil::sendInfo(self::plugin()->translate("no_reporting_access", self::LANG_MODULE_STAFF), true);
 					self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);
 				}
 
@@ -53,8 +53,8 @@ class StaffGUI {
 
 				switch ($cmd) {
 					case self::CMD_APPLY_FILTER:
-					case self::CMD_OVERVIEW:
 					case self::CMD_RESET_FILTER:
+					case self::CMD_STAFF:
 						$this->{$cmd}();
 						break;
 
@@ -71,7 +71,7 @@ class StaffGUI {
 	 *
 	 * @return StaffTableGUI
 	 */
-	protected function getStaffTable(string $cmd = self::CMD_OVERVIEW): StaffTableGUI {
+	protected function getStaffTable(string $cmd = self::CMD_STAFF): StaffTableGUI {
 		$table = new StaffTableGUI($this, $cmd);
 
 		return $table;
@@ -81,7 +81,7 @@ class StaffGUI {
 	/**
 	 *
 	 */
-	protected function overview()/*: void*/ {
+	protected function staff()/*: void*/ {
 		$table = $this->getStaffTable();
 
 		self::output()->output($table, true);
@@ -96,7 +96,7 @@ class StaffGUI {
 
 		$table->writeFilterToSession();
 
-		self::dic()->ctrl()->redirect($this, self::CMD_OVERVIEW);
+		self::dic()->ctrl()->redirect($this, self::CMD_STAFF);
 	}
 
 
@@ -110,6 +110,6 @@ class StaffGUI {
 
 		$table->resetOffset();
 
-		self::dic()->ctrl()->redirect($this, self::CMD_OVERVIEW);
+		self::dic()->ctrl()->redirect($this, self::CMD_STAFF);
 	}
 }
