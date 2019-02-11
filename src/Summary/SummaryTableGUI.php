@@ -60,10 +60,10 @@ class SummaryTableGUI extends TableGUI {
 		$raw_export = false): string {
 		switch ($column) {
 			case "status":
-				return $this->getLearningProgressRepresentation($row[$column], $row['obj_id'], $row["user_total"]);
+				return strval($this->getLearningProgressRepresentation($row[$column], $row['obj_id'], $row["user_total"]));
 				break;
 			default:
-				return (is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
+				return strval(is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
 				break;
 		}
 	}

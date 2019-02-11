@@ -62,14 +62,14 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		switch ($column) {
 			case "status":
 				if ($raw_export) {
-					return $this->getLearningProgressRepresentationExport($row[$column]);
+					return strval($this->getLearningProgressRepresentationExport($row[$column]));
 				} else {
-					return $this->getLearningProgressRepresentation($row[$column]);
+					return strval($this->getLearningProgressRepresentation($row[$column]));
 				}
 
 				break;
 			default:
-				return (is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
+				return strval(is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
 				break;
 		}
 	}

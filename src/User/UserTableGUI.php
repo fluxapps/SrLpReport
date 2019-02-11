@@ -20,21 +20,4 @@ class UserTableGUI extends AbstractReportTableGUI {
 		$this->setId('srcrslp_usrs');
 		$this->setPrefix('srcrslp_usrs');
 	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function getColumnValue($column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
-		switch ($column) {
-			default:
-				break;
-		}
-
-		return parent::getColumnValue($column, /*array*/
-			$row, /*bool*/
-			$raw_export);
-	}
 }
