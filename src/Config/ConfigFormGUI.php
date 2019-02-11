@@ -31,7 +31,7 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 			Config::KEY_ROLE_OBJ_ID => [
 				self::PROPERTY_CLASS => ilSelectInputGUI::class,
 				self::PROPERTY_REQUIRED => true,
-				self::PROPERTY_OPTIONS => self::ilias()->roles()->getAllRoles()
+				self::PROPERTY_OPTIONS => [ "" => "" ] + self::ilias()->roles()->getAllRoles()
 			]
 		];
 	}
