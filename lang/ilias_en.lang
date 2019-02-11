@@ -2,7 +2,6 @@ config_configuration#:#Configuration
 config_configuration_saved#:#Configuration saved
 config_role_obj_id#:#Report Role ID
 config_save#:#Save
-no_reporting_access#:#No reporting access
 removeplugindataconfirm_cancel#:#Cancel
 removeplugindataconfirm_confirm_remove_data#:#Do you want to remove the %1$s data as well? At most, you just want to disable the %1$s plugin?
 removeplugindataconfirm_deactivate#:#Just deactivate %1$s plugin
@@ -14,3 +13,6 @@ removeplugindataconfirm_remove_data#:#Remove %1$s data
 srcrslpuser#:#User
 srcrslpmatrix#:#Matrix View
 srcrslpsummary#:#Summary
+staff_actions#:#Actions
+staff_no_reporting_access#:#No reporting access
+staff_staff#:#Staff

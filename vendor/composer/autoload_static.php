@@ -121,6 +121,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\Plugins\\SrLpReport\\Report\\AbstractReportTableGUI' => __DIR__ . '/../..' . '/src/Report/AbstractReportTableGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\ReportFactory' => __DIR__ . '/../..' . '/src/Report/ReportFactory.php',
         'srag\\Plugins\\SrLpReport\\Staff\\StaffGUI' => __DIR__ . '/../..' . '/src/Staff/class.StaffGUI.php',
+        'srag\\Plugins\\SrLpReport\\Staff\\StaffTableGUI' => __DIR__ . '/../..' . '/src/Staff/StaffTableGUI.php',
         'srag\\Plugins\\SrLpReport\\Summary\\SummaryGUI' => __DIR__ . '/../..' . '/src/Summary/class.SummaryGUI.php',
         'srag\\Plugins\\SrLpReport\\Summary\\SummaryTableGUI' => __DIR__ . '/../..' . '/src/Summary/SummaryTableGUI.php',
         'srag\\Plugins\\SrLpReport\\Tab\\TabGUI' => __DIR__ . '/../..' . '/src/Tab/TabGUI.php',

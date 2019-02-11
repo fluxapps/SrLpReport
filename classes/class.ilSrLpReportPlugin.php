@@ -102,7 +102,7 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 						"de" => self::PLUGIN_NAME
 					]);
 					$entry->setGuiClass(implode(",", [ ilUIPluginRouterGUI::class, StaffGUI::class ]));
-					$entry->setCmd(StaffGUI::CMD_LIST);
+					$entry->setCmd(StaffGUI::CMD_OVERVIEW);
 					$entry->setPermissionType(ctrlmmMenu::PERM_SCRIPT);
 					$entry->setPermission(json_encode([
 						__DIR__ . "/../vendor/autoload.php",

@@ -2,7 +2,6 @@ config_configuration#:#Konfiguration
 config_configuration_saved#:#Konfiguration gespeichert
 config_role_obj_id#:#Reporting Rolle-ID
 config_save#:#Speichern
-no_reporting_access#:#Kein Reporting-Zugriff
 removeplugindataconfirm_cancel#:#Abbrechen
 removeplugindataconfirm_confirm_remove_data#:#Möchten Sie die %1$s-Daten auch entfernen? Allenfalls möchten Sie das %1$s-Plugin nur deaktivieren?
 removeplugindataconfirm_deactivate#:#%1$s-Plugin nur deaktivieren
@@ -14,3 +13,6 @@ removeplugindataconfirm_remove_data#:#Entferne %1$s-Daten
 srcrslpuser#:#Benutzer
 srcrslpmatrix#:#Matrixansicht
 srcrslpsummary#:#Zusammenfassung
+staff_actions#:#Aktionen
+staff_no_reporting_access#:#Kein Reporting-Zugriff
+staff_staff#:#Mitarbeiter

@@ -81,6 +81,7 @@ return array(
     'srag\\Plugins\\SrLpReport\\Report\\AbstractReportTableGUI' => $baseDir . '/src/Report/AbstractReportTableGUI.php',
     'srag\\Plugins\\SrLpReport\\Report\\ReportFactory' => $baseDir . '/src/Report/ReportFactory.php',
     'srag\\Plugins\\SrLpReport\\Staff\\StaffGUI' => $baseDir . '/src/Staff/class.StaffGUI.php',
+    'srag\\Plugins\\SrLpReport\\Staff\\StaffTableGUI' => $baseDir . '/src/Staff/StaffTableGUI.php',
     'srag\\Plugins\\SrLpReport\\Summary\\SummaryGUI' => $baseDir . '/src/Summary/class.SummaryGUI.php',
     'srag\\Plugins\\SrLpReport\\Summary\\SummaryTableGUI' => $baseDir . '/src/Summary/SummaryTableGUI.php',
     'srag\\Plugins\\SrLpReport\\Tab\\TabGUI' => $baseDir . '/src/Tab/TabGUI.php',
