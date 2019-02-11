@@ -99,7 +99,7 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 					$entry->setTitle(self::PLUGIN_NAME);
 					$entry->setTranslations([
 						"en" => self::plugin()->translate("my_staff", "", [], false, "en"),
-						"de" => self::plugin()->translate("staff", "", [], false, "de")
+						"de" => self::plugin()->translate("my_staff", "", [], false, "de")
 					]);
 					$entry->setGuiClass(implode(",", [ ilUIPluginRouterGUI::class, StaffGUI::class ]));
 					$entry->setCmd(StaffGUI::CMD_STAFF);
