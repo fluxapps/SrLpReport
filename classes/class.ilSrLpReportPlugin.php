@@ -94,12 +94,12 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 			include_once __DIR__ . "/../../CtrlMainMenu/vendor/autoload.php";
 
 			if (class_exists(ctrlmmEntry::class)) {
-				if (count(ctrlmmEntry::getEntriesByCmdClass(StaffGUI::class)) === 0) {
+				if (count(ctrlmmEntry::getEntriesByCmdClass(str_replace("\\", "\\\\", StaffGUI::class))) === 0) {
 					$entry = new ctrlmmEntryCtrl();
 					$entry->setTitle(self::PLUGIN_NAME);
 					$entry->setTranslations([
-						"en" => self::PLUGIN_NAME,
-						"de" => self::PLUGIN_NAME
+						"en" => self::plugin()->translate("staff", StaffGUI::LANG_MODULE_STAFF, [], true, "en"),
+						"de" => self::plugin()->translate("staff", StaffGUI::LANG_MODULE_STAFF, [], true, "de")
 					]);
 					$entry->setGuiClass(implode(",", [ ilUIPluginRouterGUI::class, StaffGUI::class ]));
 					$entry->setCmd(StaffGUI::CMD_STAFF);
@@ -125,7 +125,7 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 			include_once __DIR__ . "/../../CtrlMainMenu/vendor/autoload.php";
 
 			if (class_exists(ctrlmmEntry::class)) {
-				foreach (ctrlmmEntry::getEntriesByCmdClass(StaffGUI::class) as $entry) {
+				foreach (ctrlmmEntry::getEntriesByCmdClass(str_replace("\\", "\\\\", StaffGUI::class)) as $entry) {
 					/**
 					 * @var ctrlmmEntry $entry
 					 */
