@@ -73,6 +73,7 @@ return array(
     'srag\\Plugins\\SrLpReport\\Access\\Access' => $baseDir . '/src/Access/Access.php',
     'srag\\Plugins\\SrLpReport\\Access\\Ilias' => $baseDir . '/src/Access/Ilias.php',
     'srag\\Plugins\\SrLpReport\\Access\\Roles' => $baseDir . '/src/Access/Roles.php',
+    'srag\\Plugins\\SrLpReport\\Access\\Staff' => $baseDir . '/src/Access/Staff.php',
     'srag\\Plugins\\SrLpReport\\Config\\Config' => $baseDir . '/src/Config/Config.php',
     'srag\\Plugins\\SrLpReport\\Config\\ConfigFormGUI' => $baseDir . '/src/Config/ConfigFormGUI.php',
     'srag\\Plugins\\SrLpReport\\GUI\\BaseGUI' => $baseDir . '/src/GUI/class.BaseGUI.php',

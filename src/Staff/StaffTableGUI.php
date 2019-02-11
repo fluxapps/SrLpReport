@@ -3,7 +3,10 @@
 namespace srag\Plugins\SrLpReport\Staff;
 
 use ilAdvancedSelectionListGUI;
+use ilSelectInputGUI;
 use ilSrLpReportPlugin;
+use ilTextInputGUI;
+use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -47,6 +50,7 @@ class StaffTableGUI extends TableGUI {
 		return $columns;
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
@@ -61,14 +65,38 @@ class StaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initData()/*: void*/ {
-		$this->setData([]);
+		$this->setExternalSorting(true);
+		$this->setExternalSegmentation(true);
+
+		$this->determineLimit();
+		$this->determineOffsetAndOrder();
+
+		$data = self::ilias()->staff()->getData(self::dic()->user()
+			->getId(), $this->getFilterValues(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
+
+		$this->setMaxCount($data["max_count"]);
+		$this->setData($data["data"]);
 	}
 
 
 	/**
 	 * @inheritdoc
 	 */
-	public function initFilterFields()/*: void*/ {
+	protected function initFilterFields()/*: void*/ {
+		self::dic()->language()->loadLanguageModule("mst");
+
+		$this->filter_fields = [
+			"user" => [
+				PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
+				"setTitle" => $this->dic()->language()->txt("login") . "/" . $this->dic()->language()->txt("email") . "/" . $this->dic()->language()
+						->txt("name")
+			],
+			"org_unit" => [
+				PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
+				PropertyFormGUI::PROPERTY_OPTIONS => [ 0 => self::dic()->language()->txt("mst_opt_all") ] + self::ilias()->staff()->getOrgUnits(),
+				"setTitle" => $this->dic()->language()->txt("obj_orgu"),
+			]
+		];
 	}
 
 
@@ -84,7 +112,7 @@ class StaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initTitle()/*: void*/ {
-		$this->setTitle(self::plugin()->translate("staff", self::LANG_MODULE));
+		$this->setTitle(self::dic()->language()->txt("my_staff"));
 	}
 
 
@@ -96,7 +124,7 @@ class StaffTableGUI extends TableGUI {
 		parent::fillRow($row);
 
 		$actions = new ilAdvancedSelectionListGUI();
-		$actions->setListTitle(self::plugin()->translate("actions", self::LANG_MODULE));
+		$actions->setListTitle(self::dic()->language()->txt("actions"));
 		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
 		$this->tpl->parseCurrentBlock();
 	}
