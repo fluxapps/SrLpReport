@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrLpReport\Access;
 
-use ilObjUser;
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Staff\Staff;
@@ -45,16 +44,6 @@ final class Ilias {
 	 */
 	private function __construct() {
 
-	}
-
-
-	/**
-	 * @param ilObjUser $user
-	 *
-	 * @return LearningProgress
-	 */
-	public static function learningProgress(ilObjUser $user): LearningProgress {
-		return LearningProgress::getInstance($user);
 	}
 
 
