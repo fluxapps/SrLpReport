@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrLpReport\Staff;
 
 use Closure;
+use ilMStListCourse;
 use ilMStListCourses;
 use ilMStListUser;
 use ilMStListUsers;
@@ -72,6 +73,8 @@ final class Staff {
 	 * @return array
 	 */
 	public function getData(int $usr_id, array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
+		self::dic()->language()->loadLanguageModule("trac");
+
 		$data = [];
 
 		$arr_usr_id = ilMyStaffAccess::getInstance()->getUsersForUser($usr_id);
@@ -95,24 +98,29 @@ final class Staff {
 		$options["count"] = false;
 
 		$data["data"] = array_map(function (ilMStListUser $user): array {
-			return Closure::bind(function (): array {
+			$vars = Closure::bind(function (): array {
 				$vars = get_object_vars($this);
 
 				$vars["usr_obj"] = $this->returnIlUserObj();
 
-				$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($this->getUsrId());
-
-				$vars["interests_general"] = $vars["usr_obj"]->getGeneralInterestsAsText();
-
-				$vars["interests_help_offered"] = $vars["usr_obj"]->getOfferingHelpAsText();
-
-				ilMyStaffAccess::getInstance()
-					->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->getUsrId(), ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, "crs")
-						->getOperationId(), "crs");
-				$vars["learning_progress_courses"] = ilMStListCourses::getData();
-
 				return $vars;
 			}, $user, ilMStListUser::class)();
+
+			$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($vars["usr_id"]);
+
+			$vars["interests_general"] = $vars["usr_obj"]->getGeneralInterestsAsText();
+
+			$vars["interests_help_offered"] = $vars["usr_obj"]->getOfferingHelpAsText();
+
+			ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext(self::dic()->user()
+				->getId(), ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, "crs")
+				->getOperationId(), "crs");
+
+			$vars["learning_progress_courses"] = array_map(function (ilMStListCourse $course): int {
+				return self::dic()->objDataCache()->lookupObjId($course->getCrsRefId());
+			}, ilMStListCourses::getData([ $vars["usr_id"] ]));
+
+			return $vars;
 		}, ilMStListUsers::getData($arr_usr_id, $options));
 
 		return $data;

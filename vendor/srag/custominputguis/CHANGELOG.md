@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.18.5]
+- LearningProgressPie
+
+## [0.18.4]
+- LearningProgressPie
+
+## [0.18.3]
+- LearningProgressPie
+
+## [0.18.2]
+- LearningProgressPie
+
+## [0.18.1]
+- LearningProgressPie
+
+## [0.18.0]
+- LearningProgressPie
+
 ## [0.17.5]
 - Fix TableGUI Export Header
 

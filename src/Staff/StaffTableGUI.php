@@ -7,6 +7,7 @@ use ilSelectInputGUI;
 use ilSrLpReportPlugin;
 use ilTextInputGUI;
 use ilUserSearchOptions;
+use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -21,6 +22,7 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 class StaffTableGUI extends TableGUI {
 
 	use SrLpReportTrait;
+	use CustomInputGUIsTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 	const LANG_MODULE = StaffGUI::LANG_MODULE_STAFF;
 
@@ -35,7 +37,8 @@ class StaffTableGUI extends TableGUI {
 		switch ($column) {
 			case "learning_progress_courses":
 				if (!$raw_export) {
-					$column = $row[$column];
+					$column = self::output()->getHTML(self::customInputGUIs()->LearningProgressPie()->withObjIds($row[$column])
+						->withUsrId($row["usr_id"])->withId("pie_" . $row["usr_id"]));
 				} else {
 					$column = "";
 				}
