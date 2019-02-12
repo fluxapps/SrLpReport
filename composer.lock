@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "srag/activerecordconfig",
-            "version": "v0.14.2",
+            "version": "v0.14.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/ActiveRecordConfig.git",
-                "reference": "5a7bc1504982a4cad597bbb50f0c38d4e174c987"
+                "reference": "96d6c2b61cd1a3fb219a7fabf8ffc07aa95e1b02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/ActiveRecordConfig/zipball/5a7bc1504982a4cad597bbb50f0c38d4e174c987",
-                "reference": "5a7bc1504982a4cad597bbb50f0c38d4e174c987",
+                "url": "https://api.github.com/repos/studer-raimann/ActiveRecordConfig/zipball/96d6c2b61cd1a3fb219a7fabf8ffc07aa95e1b02",
+                "reference": "96d6c2b61cd1a3fb219a7fabf8ffc07aa95e1b02",
                 "shasum": ""
             },
             "require": {
@@ -50,20 +50,20 @@
                 "activerecord",
                 "config"
             ],
-            "time": "2019-01-22T09:09:53+00:00"
+            "time": "2019-02-11T14:20:12+00:00"
         },
         {
             "name": "srag/custominputguis",
-            "version": "v0.17.3",
+            "version": "v0.17.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-                "reference": "c17f5f688a9e2d84a035c12b02a8aef2ed931777"
+                "reference": "119893cfcc043e11920d6ee9b1e270d00c5522bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/c17f5f688a9e2d84a035c12b02a8aef2ed931777",
-                "reference": "c17f5f688a9e2d84a035c12b02a8aef2ed931777",
+                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/119893cfcc043e11920d6ee9b1e270d00c5522bf",
+                "reference": "119893cfcc043e11920d6ee9b1e270d00c5522bf",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 "input",
                 "table"
             ],
-            "time": "2019-02-04T14:57:44+00:00"
+            "time": "2019-02-12T07:24:55+00:00"
         },
         {
             "name": "srag/dic",
@@ -119,7 +119,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\DIC\\": "src/"
+                    "srag\\DIC\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -208,7 +208,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\RemovePluginDataConfirm\\": "src/"
+                    "srag\\RemovePluginDataConfirm\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",

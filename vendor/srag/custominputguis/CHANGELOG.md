@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.17.5]
+- Fix TableGUI Export Header
+
+## [0.17.4]
+- Fix TableGUI Export Header
+
 ## [0.17.3]
 - ViewControlModeGUI
 

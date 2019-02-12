@@ -1,18 +1,24 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\Access;
+namespace srag\Plugins\SrLpReport\Staff;
 
+use Closure;
+use ilMStListCourses;
+use ilMStListUser;
 use ilMStListUsers;
 use ilMyStaffAccess;
+use ilOrgUnitOperation;
+use ilOrgUnitOperationQueries;
 use ilOrgUnitPathStorage;
 use ilSrLpReportPlugin;
+use ilUserSearchOptions;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class Staff
  *
- * @package srag\Plugins\SrLpReport\Access
+ * @package srag\Plugins\SrLpReport\Staff
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -48,6 +54,14 @@ final class Staff {
 
 
 	/**
+	 * @return array
+	 */
+	public function getColumns(): array {
+		return ilUserSearchOptions::getSelectableColumnInfo();
+	}
+
+
+	/**
 	 * @param int    $usr_id
 	 * @param array  $filter
 	 * @param string $order
@@ -60,7 +74,7 @@ final class Staff {
 	public function getData(int $usr_id, array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
 		$data = [];
 
-		$arr_usr_id = (new ilMyStaffAccess())->getUsersForUser($usr_id);
+		$arr_usr_id = ilMyStaffAccess::getInstance()->getUsersForUser($usr_id);
 
 		$options = [
 			"filters" => $filter,
@@ -80,7 +94,26 @@ final class Staff {
 		];
 		$options["count"] = false;
 
-		$data["data"] = ilMStListUsers::getData($arr_usr_id, $options);
+		$data["data"] = array_map(function (ilMStListUser $user): array {
+			return Closure::bind(function (): array {
+				$vars = get_object_vars($this);
+
+				$vars["usr_obj"] = $this->returnIlUserObj();
+
+				$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($this->getUsrId());
+
+				$vars["interests_general"] = $vars["usr_obj"]->getGeneralInterestsAsText();
+
+				$vars["interests_help_offered"] = $vars["usr_obj"]->getOfferingHelpAsText();
+
+				ilMyStaffAccess::getInstance()
+					->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->getUsrId(), ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, "crs")
+						->getOperationId(), "crs");
+				$vars["learning_progress_courses"] = ilMStListCourses::getData();
+
+				return $vars;
+			}, $user, ilMStListUser::class)();
+		}, ilMStListUsers::getData($arr_usr_id, $options));
 
 		return $data;
 	}

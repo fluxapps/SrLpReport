@@ -6,6 +6,7 @@ use ilAdvancedSelectionListGUI;
 use ilSelectInputGUI;
 use ilSrLpReportPlugin;
 use ilTextInputGUI;
+use ilUserSearchOptions;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -32,6 +33,14 @@ class StaffTableGUI extends TableGUI {
 		$row, /*bool*/
 		$raw_export = false): string {
 		switch ($column) {
+			case "learning_progress_courses":
+				if (!$raw_export) {
+					$column = $row[$column];
+				} else {
+					$column = "";
+				}
+				break;
+
 			default:
 				$column = $row[$column];
 				break;
@@ -45,7 +54,25 @@ class StaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	public function getSelectableColumns2(): array {
-		$columns = [];
+		$columns = self::ilias()->staff()->getColumns();
+
+		$columns["learning_progress_courses"] = [
+			"default" => true
+		];
+
+		$no_sort = [
+			"org_units",
+			"interests_general",
+			"interests_help_offered",
+			"interests_help_looking",
+			"learning_progress_courses"
+		];
+
+		foreach ($columns as $id => &$column) {
+			$column["id"] = $id;
+			$column["default"] = ($column["default"] === true);
+			$column["sort"] = (!in_array($id, $no_sort));
+		}
 
 		return $columns;
 	}
@@ -55,9 +82,11 @@ class StaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initColumns()/*: void*/ {
+		$this->addColumn("");
+
 		parent::initColumns();
 
-		$this->addColumn(self::plugin()->translate("actions", self::LANG_MODULE));
+		$this->addColumn(self::dic()->language()->txt("actions"));
 	}
 
 
@@ -68,6 +97,9 @@ class StaffTableGUI extends TableGUI {
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 
+		$this->setDefaultOrderField("lastname");
+		$this->setDefaultOrderDirection("asc");
+
 		$this->determineLimit();
 		$this->determineOffsetAndOrder();
 
@@ -76,6 +108,14 @@ class StaffTableGUI extends TableGUI {
 
 		$this->setMaxCount($data["max_count"]);
 		$this->setData($data["data"]);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function initExport()/*: void*/ {
+		$this->setExportFormats([ self::EXPORT_CSV, self::EXPORT_EXCEL ]);
 	}
 
 
@@ -94,6 +134,7 @@ class StaffTableGUI extends TableGUI {
 			"org_unit" => [
 				PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
 				PropertyFormGUI::PROPERTY_OPTIONS => [ 0 => self::dic()->language()->txt("mst_opt_all") ] + self::ilias()->staff()->getOrgUnits(),
+				PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units")),
 				"setTitle" => $this->dic()->language()->txt("obj_orgu"),
 			]
 		];
@@ -121,6 +162,11 @@ class StaffTableGUI extends TableGUI {
 	 */
 	protected function fillRow(/*array*/
 		$row)/*: void*/ {
+		$this->tpl->setCurrentBlock("column");
+		$this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->image()
+			->standard($row["usr_obj"]->getPersonalPicturePath("small"), $row["usr_obj"]->getPublicName())));
+		$this->tpl->parseCurrentBlock();
+
 		parent::fillRow($row);
 
 		$actions = new ilAdvancedSelectionListGUI();
