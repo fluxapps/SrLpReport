@@ -23,7 +23,7 @@ Update, activate and config the plugin in the ILIAS Plugin Administration
 Please use it for further development!
 
 ### Adjustment suggestions
-* Adjustment suggestions by pull requests on https://git.studer-raimann.ch/ILIAS/Plugins/SrLpReport/tree/develop
+* Adjustment suggestions by pull requests
 * Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/SRLPREPORT
 * Bug reports under https://jira.studer-raimann.ch/projects/SRLPREPORT
 * For external users you can report it at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_SRLPREPORT
