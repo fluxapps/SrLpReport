@@ -24,9 +24,9 @@ Please use it for further development!
 
 ### Adjustment suggestions
 * Adjustment suggestions by pull requests on https://git.studer-raimann.ch/ILIAS/Plugins/SrLpReport/tree/develop
-* Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/PLSrLpReport
-* Bug reports under https://jira.studer-raimann.ch/projects/PLSrLpReport
-* For external users please send an email to support-custom1@studer-raimann.ch
+* Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/SRLPREPORT
+* Bug reports under https://jira.studer-raimann.ch/projects/SRLPREPORT
+* For external users you can report it at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_SRLPREPORT
 
 ### Development
 If you want development in this plugin you should install this plugin like follow:
