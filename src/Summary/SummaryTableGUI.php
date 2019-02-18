@@ -11,6 +11,7 @@ use ilSrLpReportPlugin;
 use ilTemplateException;
 use ilTrQuery;
 use ilUtil;
+use srag\CustomInputGUIs\SrLpReport\LearningProgressPie\LearningProgressPie;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 use srag\DIC\SrLPReport\Exception\DICException;
 
@@ -24,12 +25,6 @@ use srag\DIC\SrLPReport\Exception\DICException;
 class SummaryTableGUI extends TableGUI {
 
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const LP_STATUS_COLOR = [
-		ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => "#ddd",
-		ilLPStatus::LP_STATUS_IN_PROGRESS_NUM => "#F6D842",
-		ilLPStatus::LP_STATUS_COMPLETED_NUM => "#60B060",
-		ilLPStatus::LP_STATUS_FAILED => "#B06060"
-	];
 
 
 	/**
@@ -175,7 +170,7 @@ class SummaryTableGUI extends TableGUI {
 			$arr_status['reached'] = $perc;
 			$arr_status['reached_label'] = $perc . "%";
 			$arr_status['label'] = ilLearningProgressBaseGUI::_getStatusText($status_number);
-			$arr_status['color'] = self::LP_STATUS_COLOR[$status_number];
+			$arr_status['color'] = LearningProgressPie::LP_STATUS_COLOR[$status_number];
 			$arr_status['absolute'] = $absolute;
 
 			$json_string[] = json_encode($arr_status);
