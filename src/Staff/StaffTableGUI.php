@@ -37,7 +37,7 @@ class StaffTableGUI extends TableGUI {
 		switch ($column) {
 			case "learning_progress_courses":
 				if (!$raw_export) {
-					$column = self::output()->getHTML(self::customInputGUIs()->LearningProgressPie()->withObjIds($row[$column])
+					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
 						->withUsrId($row["usr_id"])->withId($row["usr_id"]));
 				} else {
 					$column = "";
