@@ -289,10 +289,6 @@ abstract class AbstractReportTableGUI extends TableGUI {
 
 		$filter = $this->getFilterValues2();
 
-		if (empty($filter["status"])) {
-			unset($filter["status"]);
-		}
-
 		$additional_fields = $this->getSelectedColumns();
 
 		$check_agreement = false;
@@ -338,7 +334,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 					$this->filter_fields[$key] = [
 						PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
 						PropertyFormGUI::PROPERTY_OPTIONS => [
-							"" => self::dic()->language()->txt("trac_all"),
+							0 => self::dic()->language()->txt("trac_all"),
 							ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
 							ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
 							ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_COMPLETED),
@@ -439,8 +435,10 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	protected final function getFilterValues2(): array {
 		$filter = $this->getFilterValues();
 
-		if (!empty($filter["status"])) {
+		if ($filter["status"] > 0) {
 			$filter["status"] -= 1;
+		} else {
+			unset($filter["status"]);
 		}
 
 		return $filter;
