@@ -123,6 +123,8 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 		$this->setLimit(99999999999, 99999999999);
 		$this->determineOffsetAndOrder(false);
 
+		$filter = $this->getFilterValues();
+
 		$collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
 		if ($collection["object_ids"]) {
 			// we need these for the timing warnings
@@ -159,8 +161,8 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 				foreach ($data["set"] as $row) {
 
 					$filtered = false;
-					foreach ($this->filter as $filter_field => $filter) {
-						if ((!empty($filter) || is_numeric($filter)) && $row[$filter_field] != $filter) {
+					foreach ($filter as $filter_field => $filter_vaue) {
+						if ((!empty($filter_vaue) || is_numeric($filter_vaue)) && $row[$filter_field] != $filter_vaue) {
 							$filtered = true;
 						}
 					}
