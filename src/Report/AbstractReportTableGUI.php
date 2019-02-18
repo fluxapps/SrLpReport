@@ -11,11 +11,13 @@ use ilObject;
 use ilObjectLP;
 use ilObjUserTracking;
 use ilSelectInputGUI;
+use ilSrLpReportPlugin;
 use ilTextInputGUI;
 use ilTrQuery;
 use ilUserDefinedFields;
 use ilUserProfile;
 use ilUtil;
+use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -29,6 +31,7 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 abstract class AbstractReportTableGUI extends TableGUI {
 
 	use SrLpReportTrait;
+	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 
 
 	/**
@@ -285,22 +288,28 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		$this->setLimit(99999999999, 99999999999);
 		$this->determineOffsetAndOrder(true);
 
+		$filter = $this->getFilterValues();
+
+		if (empty($filter["status"])) {
+			unset($filter["status"]);
+		}
+
 		$additional_fields = $this->getSelectedColumns();
 
 		$check_agreement = false;
 
-		$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $this->getFilterValueForQuery(), $additional_fields, $check_agreement, $this->user_fields);
+		$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $filter, $additional_fields, $check_agreement, $this->user_fields);
 
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
 			$this->resetOffset();
-			$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $this->getFilterValueForQuery(), $additional_fields, $check_agreement, $this->user_fields);
+			$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $filter, $additional_fields, $check_agreement, $this->user_fields);
 		}
 
 		foreach ($this->user_fields as $key => $value) {
-			if ($this->filter[$value['id']]) {
+			if ($filter[$value['id']]) {
 
 				foreach ($tr_data["set"] as $key => $data) {
-					if ($data[$value['id']] != $this->filter[$value['id']]) {
+					if ($data[$value['id']] != $filter[$value['id']]) {
 						unset($tr_data["set"][$key]);
 						$tr_data["cnt"] = $tr_data["cnt"] - 1;
 					}
@@ -319,35 +328,31 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	protected function initFilterFields()/*: void*/ {
 		foreach ($this->getSelectableColumns2() as $key => $value) {
 
-			if ($value['all_reports'] !== true) {
+			if (!$value['all_reports']) {
 				continue;
 			}
 
 			switch ($key) {
 				case "status":
-
 					self::dic()->language()->loadLanguageModule('trac');
-					$item = new ilSelectInputGUI($value['txt'], $key);
-					$item->setOptions(array(
-						"" => self::dic()->language()->txt("trac_all"),
-						ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
-						ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
-						ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_COMPLETED),
-						ilLPStatus::LP_STATUS_FAILED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_FAILED)
-					));
-					$this->addFilterItem($item);
-					$item->readFromSession();
 
-					if ($item->getValue()) {
-						$this->filter[$key] = $item->getValue();
-						$this->filter["status"] --;
-					}
+					$this->filter_fields[$key] = [
+						PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
+						PropertyFormGUI::PROPERTY_OPTIONS => [
+							"" => self::dic()->language()->txt("trac_all"),
+							ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
+							ilLPStatus::LP_STATUS_IN_PROGRESS_NUM => self::dic()->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+							ilLPStatus::LP_STATUS_COMPLETED_NUM => self::dic()->language()->txt(ilLPStatus::LP_STATUS_COMPLETED),
+							ilLPStatus::LP_STATUS_FAILED_NUM => self::dic()->language()->txt(ilLPStatus::LP_STATUS_FAILED)
+						],
+						"setTitle" => $value['txt']
+					];
 					break;
 				default:
-					$item = new ilTextInputGUI($value['txt'], $key);
-					$this->addFilterItem($item);
-					$item->readFromSession();
-					$this->filter[$key] = $item->getValue();
+					$this->filter_fields[$key] = [
+						PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
+						"setTitle" => $value['txt']
+					];
 					break;
 			}
 		}
@@ -395,21 +400,6 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	 */
 	protected function initExport()/*: void*/ {
 		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getFilterValueForQuery(): array {
-		$arr_filter = [];
-		foreach ($this->filter as $field_key => $filter) {
-			if (!empty($filter)) {
-				$arr_filter[$field_key] = $filter;
-			}
-		}
-
-		return $arr_filter;
 	}
 
 
