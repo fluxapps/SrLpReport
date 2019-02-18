@@ -123,7 +123,7 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 		$this->setLimit(99999999999, 99999999999);
 		$this->determineOffsetAndOrder(false);
 
-		$filter = $this->getFilterValues();
+		$filter = $this->getFilterValues2();
 
 		$collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
 		if ($collection["object_ids"]) {

@@ -287,7 +287,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		$this->setLimit(99999999999, 99999999999);
 		$this->determineOffsetAndOrder(true);
 
-		$filter = $this->getFilterValues();
+		$filter = $this->getFilterValues2();
 
 		if (empty($filter["status"])) {
 			unset($filter["status"]);
