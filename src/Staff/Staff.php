@@ -121,7 +121,7 @@ final class Staff {
 			}, ilMStListCourses::getData([ $vars["usr_id"] ]));
 
 			return $vars;
-		}, ilMStListUsers::getData($arr_usr_id, $options));
+		}, ilMStListUsers::getData($arr_usr_id, $options) ?: []);
 
 		return $data;
 	}
