@@ -51,8 +51,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		$this->setShowRowsSelector(false);
 		$this->setSelectAllCheckbox('usr_id');
 
-		parent::__construct($parent, /*string*/
-			$parent_cmd);
+		parent::__construct($parent, $parent_cmd);
 	}
 
 
@@ -340,10 +339,10 @@ abstract class AbstractReportTableGUI extends TableGUI {
 						PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
 						PropertyFormGUI::PROPERTY_OPTIONS => [
 							"" => self::dic()->language()->txt("trac_all"),
-							ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
-							ilLPStatus::LP_STATUS_IN_PROGRESS_NUM => self::dic()->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
-							ilLPStatus::LP_STATUS_COMPLETED_NUM => self::dic()->language()->txt(ilLPStatus::LP_STATUS_COMPLETED),
-							ilLPStatus::LP_STATUS_FAILED_NUM => self::dic()->language()->txt(ilLPStatus::LP_STATUS_FAILED)
+							ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
+							ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+							ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_COMPLETED),
+							ilLPStatus::LP_STATUS_FAILED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_FAILED)
 						],
 						"setTitle" => $value['txt']
 					];
@@ -431,5 +430,19 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		}
 
 		$csv->addRow();
+	}
+
+
+	/**
+	 * @return array
+	 */
+	protected final function getFilterValues2(): array {
+		$filter = $this->getFilterValues();
+
+		if (!empty($filter["status"])) {
+			$filter["status"] -= 1;
+		}
+
+		return $filter;
 	}
 }
