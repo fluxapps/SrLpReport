@@ -10,6 +10,9 @@ git clone https://github.com/studer-raimann/SrLpReport.git SrLpReport
 ```
 Update, activate and config the plugin in the ILIAS Plugin Administration
 
+### Some screenshots
+TODO
+
 ### Dependencies
 * ILIAS 5.3
 * PHP >=7.0
