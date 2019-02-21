@@ -52,12 +52,14 @@ class SummaryTableGUI extends TableGUI {
 		$raw_export = false): string {
 		switch ($column) {
 			case "status":
-				return self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"])
-					->withId($row['obj_id'])->withShowLegend(true));
-				break;
+				if (!$raw_export) {
+					return self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"])
+						->withId($row['obj_id'])->withShowLegend(true));
+				} else {
+					return "";
+				}
 			default:
 				return strval(is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
-				break;
 		}
 	}
 
