@@ -105,7 +105,7 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 					$entry->setPermission(json_encode([
 						__DIR__ . "/../vendor/autoload.php",
 						Access::class,
-						"hasReportingAccess"
+						"hasStaffAccess"
 					]));
 					$entry->store();
 				}

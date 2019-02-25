@@ -13,7 +13,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
             'srag\\Plugins\\SrLpReport\\' => 24,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrLpReport\\' => 20,
-            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
             'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
         ),
     );
@@ -35,7 +35,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrLpReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -119,6 +119,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\Plugins\\SrLpReport\\Access\\Roles' => __DIR__ . '/../..' . '/src/Access/Roles.php',
         'srag\\Plugins\\SrLpReport\\Config\\Config' => __DIR__ . '/../..' . '/src/Config/Config.php',
         'srag\\Plugins\\SrLpReport\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
+        'srag\\Plugins\\SrLpReport\\GUI\\AbstractGUI' => __DIR__ . '/../..' . '/src/GUI/AbstractGUI.php',
         'srag\\Plugins\\SrLpReport\\GUI\\BaseGUI' => __DIR__ . '/../..' . '/src/GUI/class.BaseGUI.php',
         'srag\\Plugins\\SrLpReport\\Matrix\\MatrixGUI' => __DIR__ . '/../..' . '/src/Matrix/class.MatrixGUI.php',
         'srag\\Plugins\\SrLpReport\\Matrix\\MatrixTableGUI' => __DIR__ . '/../..' . '/src/Matrix/MatrixTableGUI.php',

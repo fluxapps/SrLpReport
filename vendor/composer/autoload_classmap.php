@@ -79,6 +79,7 @@ return array(
     'srag\\Plugins\\SrLpReport\\Access\\Roles' => $baseDir . '/src/Access/Roles.php',
     'srag\\Plugins\\SrLpReport\\Config\\Config' => $baseDir . '/src/Config/Config.php',
     'srag\\Plugins\\SrLpReport\\Config\\ConfigFormGUI' => $baseDir . '/src/Config/ConfigFormGUI.php',
+    'srag\\Plugins\\SrLpReport\\GUI\\AbstractGUI' => $baseDir . '/src/GUI/AbstractGUI.php',
     'srag\\Plugins\\SrLpReport\\GUI\\BaseGUI' => $baseDir . '/src/GUI/class.BaseGUI.php',
     'srag\\Plugins\\SrLpReport\\Matrix\\MatrixGUI' => $baseDir . '/src/Matrix/class.MatrixGUI.php',
     'srag\\Plugins\\SrLpReport\\Matrix\\MatrixTableGUI' => $baseDir . '/src/Matrix/MatrixTableGUI.php',

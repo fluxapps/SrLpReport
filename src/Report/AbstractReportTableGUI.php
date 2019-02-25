@@ -44,8 +44,8 @@ abstract class AbstractReportTableGUI extends TableGUI {
 		$parent_cmd) {
 
 		$this->course = true;
-		$this->ref_id = $_GET['ref_id'];
-		$this->obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
+		$this->ref_id = ReportFactory::getReportObjRefId();
+		$this->obj_id = ilObject::_lookupObjectId(ReportFactory::getReportObjRefId());
 		$this->user_fields = [];
 
 		$this->setShowRowsSelector(false);

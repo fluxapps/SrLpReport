@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Access;
 
+use ilLearningProgressAccess;
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -45,9 +46,29 @@ final class Access {
 
 
 	/**
+	 * @param int $ref_id
+	 *
 	 * @return bool
 	 */
-	public function hasReportingAccess(): bool {
+	public function hasLPReadAccess(int $ref_id): bool {
+		return ilLearningProgressAccess::checkPermission("read_learning_progress", $ref_id);
+	}
+
+
+	/**
+	 * @param int $ref_id
+	 *
+	 * @return bool
+	 */
+	public function hasLPWriteAccess(int $ref_id): bool {
+		return ilLearningProgressAccess::checkPermission("edit_learning_progress", $ref_id);
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasStaffAccess(): bool {
 		return true;
 	}
 }

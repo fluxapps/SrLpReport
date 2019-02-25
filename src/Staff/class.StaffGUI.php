@@ -44,8 +44,9 @@ class StaffGUI {
 
 		switch (strtolower($next_class)) {
 			default:
-				if (!self::access()->hasReportingAccess()) {
-					ilUtil::sendInfo(self::plugin()->translate("no_reporting_access", self::LANG_MODULE_STAFF), true);
+				if (!self::access()->hasStaffAccess()) {
+					ilUtil::sendFailure(self::dic()->language()->txt("permission_denied"), true);
+
 					self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);
 				}
 
