@@ -9,6 +9,9 @@ git clone https://github.com/studer-raimann/SrLpReport.git SrLpReport
 ```
 Update, activate and config the plugin in the ILIAS Plugin Administration
 
+### Menu (Only ILIAS 5.3)
+For ILIAS 5.3, you need to install [CtrlMainMenu](https://github.com/studer-raimann/CtrlMainMenu) before you activate the SrLpReport-Plugin
+
 ### Some screenshots
 TODO
 
@@ -16,7 +19,6 @@ TODO
 * ILIAS 5.3 or ILIAS 5.4
 * PHP >=7.0
 * [composer](https://getcomposer.org)
-* [CtrlMainMenu](https://github.com/studer-raimann/CtrlMainMenu)
 * [srag/activerecordconfig](https://packagist.org/packages/srag/activerecordconfig)
 * [srag/custominputguis](https://packagist.org/packages/srag/custominputguis)
 * [srag/dic](https://packagist.org/packages/srag/dic)

@@ -12,7 +12,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
             'srag\\RemovePluginDataConfirm\\SrLpReport\\' => 40,
             'srag\\Plugins\\SrLpReport\\' => 24,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\SrLpReport\\' => 20,
+            'srag\\DIC\\' => 9,
             'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
             'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
         ),
@@ -31,7 +31,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\SrLpReport\\' => 
+        'srag\\DIC\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
@@ -123,6 +123,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\Plugins\\SrLpReport\\GUI\\BaseGUI' => __DIR__ . '/../..' . '/src/GUI/class.BaseGUI.php',
         'srag\\Plugins\\SrLpReport\\Matrix\\MatrixGUI' => __DIR__ . '/../..' . '/src/Matrix/class.MatrixGUI.php',
         'srag\\Plugins\\SrLpReport\\Matrix\\MatrixTableGUI' => __DIR__ . '/../..' . '/src/Matrix/MatrixTableGUI.php',
+        'srag\\Plugins\\SrLpReport\\Menu\\Menu' => __DIR__ . '/../..' . '/src/Menu/Menu.php',
         'srag\\Plugins\\SrLpReport\\Report\\AbstractReportTableGUI' => __DIR__ . '/../..' . '/src/Report/AbstractReportTableGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\ReportFactory' => __DIR__ . '/../..' . '/src/Report/ReportFactory.php',
         'srag\\Plugins\\SrLpReport\\Staff\\Staff' => __DIR__ . '/../..' . '/src/Staff/Staff.php',

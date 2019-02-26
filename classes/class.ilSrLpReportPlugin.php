@@ -2,11 +2,13 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
+use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticPluginMainMenuProvider;
 use srag\Plugins\CtrlMainMenu\Entry\ctrlmmEntry;
 use srag\Plugins\CtrlMainMenu\EntryTypes\Ctrl\ctrlmmEntryCtrl;
 use srag\Plugins\CtrlMainMenu\Menu\ctrlmmMenu;
 use srag\Plugins\SrLpReport\Access\Access;
 use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\Menu\Menu;
 use srag\Plugins\SrLpReport\Staff\StaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\RemovePluginDataConfirm\SrLpReport\PluginUninstallTrait;
@@ -59,18 +61,10 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 
 
 	/**
-	 *
+	 * @inheritdoc
 	 */
-	protected function afterActivation()/*: void*/ {
-		$this->addCtrlMainMenu();
-	}
-
-
-	/**
-	 *
-	 */
-	protected function afterDeactivation()/*: void*/ {
-		$this->removeCtrlMainMenu();
+	public function promoteGlobalScreenProvider(): AbstractStaticPluginMainMenuProvider {
+		return new Menu(self::dic()->dic(), $this);
 	}
 
 
@@ -80,7 +74,29 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 	protected function deleteData()/*: void*/ {
 		self::dic()->database()->dropTable(Config::TABLE_NAME, false);
 
-		$this->removeCtrlMainMenu();
+		if (!self::version()->is54()) {
+			$this->removeCtrlMainMenu();
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected function afterActivation()/*: void*/ {
+		if (!self::version()->is54()) {
+			$this->addCtrlMainMenu();
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected function afterDeactivation()/*: void*/ {
+		if (!self::version()->is54()) {
+			$this->removeCtrlMainMenu();
+		}
 	}
 
 
