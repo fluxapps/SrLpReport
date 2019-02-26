@@ -25,7 +25,6 @@ class StaffGUI {
 	const CMD_APPLY_FILTER = "applyFilter";
 	const CMD_STAFF = "staff";
 	const CMD_RESET_FILTER = "resetFilter";
-	const LANG_MODULE_STAFF = "staff";
 
 
 	/**

@@ -24,7 +24,6 @@ class StaffTableGUI extends TableGUI {
 	use SrLpReportTrait;
 	use CustomInputGUIsTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const LANG_MODULE = StaffGUI::LANG_MODULE_STAFF;
 
 
 	/**
@@ -60,7 +59,8 @@ class StaffTableGUI extends TableGUI {
 		$columns = self::ilias()->staff()->getColumns();
 
 		$columns["learning_progress_courses"] = [
-			"default" => true
+			"default" => true,
+			"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("courses")
 		];
 
 		$no_sort = [
