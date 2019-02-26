@@ -5,7 +5,7 @@ namespace srag\Plugins\SrLpReport\Menu;
 use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticPluginMainMenuProvider;
 use ilSrLpReportPlugin;
 use ilUIPluginRouterGUI;
-use srag\DIC\MailLogger\DICTrait;
+use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Staff\StaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
