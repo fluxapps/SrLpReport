@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'SrLpReportRemoveDataConfirm' => $baseDir . '/classes/uninstall/class.SrLpReportRemoveDataConfirm.php',
-    'ilSrLpReportConfigGUI' => $baseDir . '/classes/class.ilSrLpReportConfigGUI.php',
     'ilSrLpReportPlugin' => $baseDir . '/classes/class.ilSrLpReportPlugin.php',
     'ilSrLpReportUIHookGUI' => $baseDir . '/classes/class.ilSrLpReportUIHookGUI.php',
     'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordConfig' => $vendorDir . '/srag/activerecordconfig/src/ActiveRecordConfig.php',
@@ -26,6 +25,7 @@ return array(
     'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\CountLearningProgressPie' => $vendorDir . '/srag/custominputguis/src/LearningProgressPie/CountLearningProgressPie.php',
     'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\LearningProgressPie' => $vendorDir . '/srag/custominputguis/src/LearningProgressPie/LearningProgressPie.php',
     'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\ObjIdsLearningProgressPie' => $vendorDir . '/srag/custominputguis/src/LearningProgressPie/ObjIdsLearningProgressPie.php',
+    'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\UsrIdsLearningProgressPie' => $vendorDir . '/srag/custominputguis/src/LearningProgressPie/UsrIdsLearningProgressPie.php',
     'srag\\CustomInputGUIs\\SrLpReport\\MultiLineInputGUI\\MultiLineInputGUI' => $vendorDir . '/srag/custominputguis/src/MultiLineInputGUI/MultiLineInputGUI.php',
     'srag\\CustomInputGUIs\\SrLpReport\\MultiSelectSearchInputGUI\\MultiSelectSearchInput2GUI' => $vendorDir . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInput2GUI.php',
     'srag\\CustomInputGUIs\\SrLpReport\\MultiSelectSearchInputGUI\\MultiSelectSearchInputGUI' => $vendorDir . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInputGUI.php',
@@ -86,6 +86,8 @@ return array(
     'srag\\Plugins\\SrLpReport\\Menu\\Menu' => $baseDir . '/src/Menu/Menu.php',
     'srag\\Plugins\\SrLpReport\\Report\\AbstractReportTableGUI' => $baseDir . '/src/Report/AbstractReportTableGUI.php',
     'srag\\Plugins\\SrLpReport\\Report\\ReportFactory' => $baseDir . '/src/Report/ReportFactory.php',
+    'srag\\Plugins\\SrLpReport\\Staff\\Courses' => $baseDir . '/src/Staff/Courses.php',
+    'srag\\Plugins\\SrLpReport\\Staff\\CoursesTableGUI' => $baseDir . '/src/Staff/CoursesTableGUI.php',
     'srag\\Plugins\\SrLpReport\\Staff\\Staff' => $baseDir . '/src/Staff/Staff.php',
     'srag\\Plugins\\SrLpReport\\Staff\\StaffGUI' => $baseDir . '/src/Staff/class.StaffGUI.php',
     'srag\\Plugins\\SrLpReport\\Staff\\StaffTableGUI' => $baseDir . '/src/Staff/StaffTableGUI.php',

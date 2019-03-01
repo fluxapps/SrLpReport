@@ -7,7 +7,7 @@ use srag\DIC\SrLpReport\DICTrait;
 /**
  * Class LearningProgressPie
  *
- * @package srag\CustomInputGUIs\SrLpReport
+ * @package srag\CustomInputGUIs\SrLpReport\LearningProgressPie
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
@@ -47,5 +47,13 @@ final class LearningProgressPie {
 	 */
 	public function objIds(): ObjIdsLearningProgressPie {
 		return new ObjIdsLearningProgressPie();
+	}
+
+
+	/**
+	 * @return UsrIdsLearningProgressPie
+	 */
+	public function usrIds(): UsrIdsLearningProgressPie {
+		return new UsrIdsLearningProgressPie();
 	}
 }

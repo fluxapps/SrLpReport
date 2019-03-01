@@ -54,16 +54,16 @@
         },
         {
             "name": "srag/custominputguis",
-            "version": "v0.19.2",
+            "version": "v0.19.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-                "reference": "4767515f350c1e51d06bc221bfe0c555754b1c08"
+                "reference": "c38b23c121e7bba485b5b9e052c2aedb087d7bbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/4767515f350c1e51d06bc221bfe0c555754b1c08",
-                "reference": "4767515f350c1e51d06bc221bfe0c555754b1c08",
+                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/c38b23c121e7bba485b5b9e052c2aedb087d7bbb",
+                "reference": "c38b23c121e7bba485b5b9e052c2aedb087d7bbb",
                 "shasum": ""
             },
             "require": {
@@ -73,7 +73,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\CustomInputGUIs\\SrLpReport\\": "src/"
+                    "srag\\CustomInputGUIs\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -97,7 +97,7 @@
                 "input",
                 "table"
             ],
-            "time": "2019-02-18T15:12:57+00:00"
+            "time": "2019-03-01T10:12:55+00:00"
         },
         {
             "name": "srag/dic",
@@ -119,7 +119,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\DIC\\": "src/"
+                    "srag\\DIC\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",

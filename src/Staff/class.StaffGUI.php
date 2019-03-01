@@ -22,9 +22,14 @@ class StaffGUI {
 	use DICTrait;
 	use SrLpReportTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const CMD_APPLY_FILTER = "applyFilter";
 	const CMD_STAFF = "staff";
-	const CMD_RESET_FILTER = "resetFilter";
+	const CMD_STAFF_APPLY_FILTER = "staffApplyFilter";
+	const CMD_STAFF_RESET_FILTER = "staffResetFilter";
+	const CMD_COURSES = "courses";
+	const CMD_COURSES_APPLY_FILTER = "coursesApplyFilter";
+	const CMD_COURSES_RESET_FILTER = "coursesResetFilter";
+	const TAB_STAFF = "staff";
+	const TAB_COURSES = "courses";
 
 
 	/**
@@ -39,6 +44,8 @@ class StaffGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
+		$this->setTabs();
+
 		$next_class = self::dic()->ctrl()->getNextClass($this);
 
 		switch (strtolower($next_class)) {
@@ -52,9 +59,12 @@ class StaffGUI {
 				$cmd = self::dic()->ctrl()->getCmd();
 
 				switch ($cmd) {
-					case self::CMD_APPLY_FILTER:
-					case self::CMD_RESET_FILTER:
 					case self::CMD_STAFF:
+					case self::CMD_STAFF_APPLY_FILTER:
+					case self::CMD_STAFF_RESET_FILTER:
+					case self::CMD_COURSES:
+					case self::CMD_COURSES_APPLY_FILTER:
+					case self::CMD_COURSES_RESET_FILTER:
 						$this->{$cmd}();
 						break;
 
@@ -63,6 +73,21 @@ class StaffGUI {
 				}
 				break;
 		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected function setTabs()/*: void*/ {
+		self::dic()->language()->loadLanguageModule("mst");
+		self::dic()->language()->loadLanguageModule("trac");
+
+		self::dic()->tabs()->addTab(self::TAB_STAFF, self::dic()->language()->txt("my_staff"), self::dic()->ctrl()
+			->getLinkTarget($this, self::CMD_STAFF));
+
+		self::dic()->tabs()->addTab(self::TAB_COURSES, self::dic()->language()->txt("courses"), self::dic()->ctrl()
+			->getLinkTarget($this, self::CMD_COURSES));
 	}
 
 
@@ -82,6 +107,8 @@ class StaffGUI {
 	 *
 	 */
 	protected function staff()/*: void*/ {
+		self::dic()->tabs()->activateTab(self::TAB_STAFF);
+
 		$table = $this->getStaffTable();
 
 		self::output()->output($table, true);
@@ -91,8 +118,8 @@ class StaffGUI {
 	/**
 	 *
 	 */
-	protected function applyFilter()/*: void*/ {
-		$table = $this->getStaffTable(self::CMD_APPLY_FILTER);
+	protected function staffApplyFilter()/*: void*/ {
+		$table = $this->getStaffTable(self::CMD_STAFF_APPLY_FILTER);
 
 		$table->writeFilterToSession();
 
@@ -103,13 +130,63 @@ class StaffGUI {
 	/**
 	 *
 	 */
-	protected function resetFilter()/*: void*/ {
-		$table = $this->getStaffTable(self::CMD_RESET_FILTER);
+	protected function staffResetFilter()/*: void*/ {
+		$table = $this->getStaffTable(self::CMD_STAFF_RESET_FILTER);
 
 		$table->resetFilter();
 
 		$table->resetOffset();
 
 		self::dic()->ctrl()->redirect($this, self::CMD_STAFF);
+	}
+
+
+	/**
+	 * @param string $cmd
+	 *
+	 * @return CoursesTableGUI
+	 */
+	protected function getCoursesTable(string $cmd = self::CMD_COURSES): CoursesTableGUI {
+		$table = new CoursesTableGUI($this, $cmd);
+
+		return $table;
+	}
+
+
+	/**
+	 *
+	 */
+	protected function courses()/*: void*/ {
+		self::dic()->tabs()->activateTab(self::TAB_COURSES);
+
+		$table = $this->getCoursesTable();
+
+		self::output()->output($table, true);
+	}
+
+
+	/**
+	 *
+	 */
+	protected function coursesApplyFilter()/*: void*/ {
+		$table = $this->getCoursesTable(self::CMD_COURSES_APPLY_FILTER);
+
+		$table->writeFilterToSession();
+
+		self::dic()->ctrl()->redirect($this, self::CMD_COURSES);
+	}
+
+
+	/**
+	 *
+	 */
+	protected function coursesResetFilter()/*: void*/ {
+		$table = $this->getCoursesTable(self::CMD_COURSES_APPLY_FILTER);
+
+		$table->resetFilter();
+
+		$table->resetOffset();
+
+		self::dic()->ctrl()->redirect($this, self::CMD_COURSES);
 	}
 }

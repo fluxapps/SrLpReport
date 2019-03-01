@@ -26,6 +26,7 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 	const PLUGIN_NAME = "SrLpReport";
 	const PLUGIN_CLASS_NAME = self::class;
 	const REMOVE_PLUGIN_DATA_CONFIRM_CLASS_NAME = SrLpReportRemoveDataConfirm::class;
+	const REMOVE_PLUGIN_DATA_CONFIRM = false;
 	/**
 	 * @var self|null
 	 */

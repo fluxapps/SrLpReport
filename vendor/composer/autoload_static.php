@@ -12,8 +12,8 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
             'srag\\RemovePluginDataConfirm\\SrLpReport\\' => 40,
             'srag\\Plugins\\SrLpReport\\' => 24,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\' => 9,
-            'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
+            'srag\\DIC\\SrLpReport\\' => 20,
+            'srag\\CustomInputGUIs\\' => 21,
             'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
         ),
     );
@@ -31,11 +31,11 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\' => 
+        'srag\\DIC\\SrLpReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\SrLpReport\\' => 
+        'srag\\CustomInputGUIs\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -47,7 +47,6 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
 
     public static $classMap = array (
         'SrLpReportRemoveDataConfirm' => __DIR__ . '/../..' . '/classes/uninstall/class.SrLpReportRemoveDataConfirm.php',
-        'ilSrLpReportConfigGUI' => __DIR__ . '/../..' . '/classes/class.ilSrLpReportConfigGUI.php',
         'ilSrLpReportPlugin' => __DIR__ . '/../..' . '/classes/class.ilSrLpReportPlugin.php',
         'ilSrLpReportUIHookGUI' => __DIR__ . '/../..' . '/classes/class.ilSrLpReportUIHookGUI.php',
         'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordConfig' => __DIR__ . '/..' . '/srag/activerecordconfig/src/ActiveRecordConfig.php',
@@ -66,6 +65,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\CountLearningProgressPie' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPie/CountLearningProgressPie.php',
         'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\LearningProgressPie' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPie/LearningProgressPie.php',
         'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\ObjIdsLearningProgressPie' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPie/ObjIdsLearningProgressPie.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\UsrIdsLearningProgressPie' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPie/UsrIdsLearningProgressPie.php',
         'srag\\CustomInputGUIs\\SrLpReport\\MultiLineInputGUI\\MultiLineInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiLineInputGUI/MultiLineInputGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\MultiSelectSearchInputGUI\\MultiSelectSearchInput2GUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInput2GUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\MultiSelectSearchInputGUI\\MultiSelectSearchInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInputGUI.php',
@@ -126,6 +126,8 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\Plugins\\SrLpReport\\Menu\\Menu' => __DIR__ . '/../..' . '/src/Menu/Menu.php',
         'srag\\Plugins\\SrLpReport\\Report\\AbstractReportTableGUI' => __DIR__ . '/../..' . '/src/Report/AbstractReportTableGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\ReportFactory' => __DIR__ . '/../..' . '/src/Report/ReportFactory.php',
+        'srag\\Plugins\\SrLpReport\\Staff\\Courses' => __DIR__ . '/../..' . '/src/Staff/Courses.php',
+        'srag\\Plugins\\SrLpReport\\Staff\\CoursesTableGUI' => __DIR__ . '/../..' . '/src/Staff/CoursesTableGUI.php',
         'srag\\Plugins\\SrLpReport\\Staff\\Staff' => __DIR__ . '/../..' . '/src/Staff/Staff.php',
         'srag\\Plugins\\SrLpReport\\Staff\\StaffGUI' => __DIR__ . '/../..' . '/src/Staff/class.StaffGUI.php',
         'srag\\Plugins\\SrLpReport\\Staff\\StaffTableGUI' => __DIR__ . '/../..' . '/src/Staff/StaffTableGUI.php',

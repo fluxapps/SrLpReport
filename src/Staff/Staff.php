@@ -56,6 +56,14 @@ final class Staff {
 
 
 	/**
+	 * @return Courses
+	 */
+	public function courses(): Courses {
+		return Courses::getInstance();
+	}
+
+
+	/**
 	 * @return array
 	 */
 	public function getColumns(): array {
@@ -74,8 +82,6 @@ final class Staff {
 	 * @return array
 	 */
 	public function getData(int $usr_id, array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
-		self::dic()->language()->loadLanguageModule("trac");
-
 		$data = [];
 
 		$arr_usr_id = ilMyStaffAccess::getInstance()->getUsersForUser($usr_id);
@@ -119,7 +125,7 @@ final class Staff {
 
 			$vars["learning_progress_courses"] = array_map(function (ilMStListCourse $course): int {
 				return self::dic()->objDataCache()->lookupObjId($course->getCrsRefId());
-			}, ilMStListCourses::getData([ $vars["usr_id"] ]));
+			}, ilMStListCourses::getData([ $vars["usr_id"] ]) ?: []);
 
 			return $vars;
 		}, ilMStListUsers::getData($arr_usr_id, $options) ?: []);

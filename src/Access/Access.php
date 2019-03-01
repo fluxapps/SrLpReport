@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrLpReport\Access;
 
 use ilLearningProgressAccess;
+use ilMyStaffAccess;
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -69,6 +70,6 @@ final class Access {
 	 * @return bool
 	 */
 	public function hasStaffAccess(): bool {
-		return true;
+		return boolval(ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff());
 	}
 }

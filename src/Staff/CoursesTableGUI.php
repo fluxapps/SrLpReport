@@ -3,23 +3,21 @@
 namespace srag\Plugins\SrLpReport\Staff;
 
 use ilAdvancedSelectionListGUI;
-use ilSelectInputGUI;
 use ilSrLpReportPlugin;
 use ilTextInputGUI;
-use ilUserSearchOptions;
 use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
- * Class StaffTableGUI
+ * Class CoursesTableGUI
  *
  * @package srag\Plugins\SrLpReport\Staff
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class StaffTableGUI extends TableGUI {
+class CoursesTableGUI extends TableGUI {
 
 	use SrLpReportTrait;
 	use CustomInputGUIsTrait;
@@ -34,10 +32,10 @@ class StaffTableGUI extends TableGUI {
 		$row, /*bool*/
 		$raw_export = false): string {
 		switch ($column) {
-			case "learning_progress_courses":
+			case "learning_progress_users":
 				if (!$raw_export) {
-					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
-						->withUsrId($row["usr_id"])->withId($row["usr_id"]));
+					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->usrIds()->withObjId($row["crs_obj_id"])
+						->withUsrIds($row[$column])->withId($row["crs_ref_id"]));
 				} else {
 					$column = "";
 				}
@@ -56,19 +54,19 @@ class StaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	public function getSelectableColumns2(): array {
-		$columns = self::ilias()->staff()->getColumns();
-
-		$columns["learning_progress_courses"] = [
-			"default" => true,
-			"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("courses")
+		$columns = [
+			"crs_title" => [
+				"default" => true,
+				"txt" => self::dic()->language()->txt("title"),
+			],
+			"learning_progress_users" => [
+				"default" => true,
+				"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("my_staff")
+			]
 		];
 
 		$no_sort = [
-			"org_units",
-			"interests_general",
-			"interests_help_offered",
-			"interests_help_looking",
-			"learning_progress_courses"
+			"learning_progress_users"
 		];
 
 		foreach ($columns as $id => &$column) {
@@ -85,8 +83,6 @@ class StaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initColumns()/*: void*/ {
-		$this->addColumn("");
-
 		parent::initColumns();
 
 		$this->addColumn(self::dic()->language()->txt("actions"));
@@ -100,14 +96,14 @@ class StaffTableGUI extends TableGUI {
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 
-		$this->setDefaultOrderField("lastname");
+		$this->setDefaultOrderField("crs_title");
 		$this->setDefaultOrderDirection("asc");
 
 		$this->determineLimit();
 		$this->determineOffsetAndOrder();
 
-		$data = self::ilias()->staff()->getData(self::dic()->user()
-			->getId(), $this->getFilterValues(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
+		$data = self::ilias()->staff()->courses()
+			->getData($this->getFilterValues(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
 
 		$this->setMaxCount($data["max_count"]);
 		$this->setData($data["data"]);
@@ -126,20 +122,13 @@ class StaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initFilterFields()/*: void*/ {
-		$this->setFilterCommand(StaffGUI::CMD_STAFF_APPLY_FILTER);
-		$this->setResetCommand(StaffGUI::CMD_STAFF_RESET_FILTER);
+		$this->setFilterCommand(StaffGUI::CMD_COURSES_APPLY_FILTER);
+		$this->setResetCommand(StaffGUI::CMD_COURSES_RESET_FILTER);
 
 		$this->filter_fields = [
-			"user" => [
+			"crs_title" => [
 				PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => $this->dic()->language()->txt("login") . "/" . $this->dic()->language()->txt("email") . "/" . $this->dic()->language()
-						->txt("name")
-			],
-			"org_unit" => [
-				PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
-				PropertyFormGUI::PROPERTY_OPTIONS => [ 0 => self::dic()->language()->txt("mst_opt_all") ] + self::ilias()->staff()->getOrgUnits(),
-				PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units")),
-				"setTitle" => $this->dic()->language()->txt("obj_orgu"),
+				"setTitle" => $this->dic()->language()->txt("title")
 			]
 		];
 	}
@@ -149,7 +138,7 @@ class StaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initId()/*: void*/ {
-		$this->setId("srcrslp_staff");
+		$this->setId("srcrslp_courses");
 	}
 
 
@@ -157,7 +146,7 @@ class StaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initTitle()/*: void*/ {
-		$this->setTitle(self::dic()->language()->txt("my_staff"));
+		$this->setTitle(self::dic()->language()->txt("courses"));
 	}
 
 
@@ -166,11 +155,6 @@ class StaffTableGUI extends TableGUI {
 	 */
 	protected function fillRow(/*array*/
 		$row)/*: void*/ {
-		$this->tpl->setCurrentBlock("column");
-		$this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->image()
-			->standard($row["usr_obj"]->getPersonalPicturePath("small"), $row["usr_obj"]->getPublicName())));
-		$this->tpl->parseCurrentBlock();
-
 		parent::fillRow($row);
 
 		$actions = new ilAdvancedSelectionListGUI();
