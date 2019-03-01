@@ -30,9 +30,10 @@ class MatrixTableGUI extends AbstractReportTableGUI {
 		$raw_export = false): string {
 		if ($column == 'status') {
 			if ($raw_export) {
-				return strval($this->getLearningProgressRepresentationExport($row['obj_' . ilObject::_lookupObjectId($this->ref_id)], 0));
+				return strval($this->getLearningProgressRepresentationExport($row['obj_' . self::dic()->objDataCache()
+					->lookupObjId($this->ref_id)], 0));
 			} else {
-				return strval($this->getLearningProgressRepresentation($row['obj_' . ilObject::_lookupObjectId($this->ref_id)], 0));
+				return strval($this->getLearningProgressRepresentation($row['obj_' . self::dic()->objDataCache()->lookupObjId($this->ref_id)], 0));
 			}
 		}
 

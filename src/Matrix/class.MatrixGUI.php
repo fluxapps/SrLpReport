@@ -4,7 +4,6 @@ namespace srag\Plugins\SrLpReport\Matrix;
 
 use ilLink;
 use ilMailFormCall;
-use ilObject;
 use ilObjectLP;
 use ilObjUser;
 use ilUtil;
@@ -76,7 +75,7 @@ class MatrixGUI extends AbstractGUI {
 		// repository-object-specific
 		$ref_id = ReportFactory::getReportObjRefId();
 		if ($ref_id) {
-			$obj_lp = ilObjectLP::getInstance(ilObject::_lookupObjectId($ref_id));
+			$obj_lp = ilObjectLP::getInstance(self::dic()->objDataCache()->lookupObjId($ref_id));
 			$tmpl_id = $obj_lp->getMailTemplateId();
 
 			if ($tmpl_id) {

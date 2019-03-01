@@ -91,14 +91,14 @@ abstract class AbstractGUI {
 
 		self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
 
-		$type = self::dic()->objDataCache()->lookupType(ilObject::_lookupObjectId(ReportFactory::getReportObjRefId()));
+		$type = self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId()));
 
 		$icon = ilObject::_getIcon("", "tiny", $type);
 
 		self::dic()->mainTemplate()->setTitleIcon($icon);
 
-		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress") . " "
-			. ilObject::_lookupTitle(ilObject::_lookupObjectId(ReportFactory::getReportObjRefId())));
+		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress") . " " . self::dic()->objDataCache()
+				->lookupTitle(self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId())));
 	}
 
 

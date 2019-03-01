@@ -45,7 +45,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 
 		$this->course = true;
 		$this->ref_id = ReportFactory::getReportObjRefId();
-		$this->obj_id = ilObject::_lookupObjectId(ReportFactory::getReportObjRefId());
+		$this->obj_id = self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId());
 		$this->user_fields = [];
 
 		$this->setShowRowsSelector(false);
@@ -267,7 +267,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 			$cols["status"] = array(
 				"id" => "status",
 				"sort" => "status",
-				"txt" => self::dic()->language()->txt("learning_progress") . " " . ilObject::_lookupTitle($this->obj_id),
+				"txt" => self::dic()->language()->txt("learning_progress") . " " . self::dic()->objDataCache()->lookupTitle($this->obj_id),
 				"default" => true,
 				"all_reports" => true,
 				"icon" => $icon

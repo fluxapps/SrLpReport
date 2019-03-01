@@ -12,6 +12,7 @@ use ilOrgUnitOperation;
 use ilOrgUnitOperationQueries;
 use ilOrgUnitPathStorage;
 use ilSrLpReportPlugin;
+use ilSrLpReportUIHookGUI;
 use ilUserSearchOptions;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -113,8 +114,8 @@ final class Staff {
 			$vars["interests_help_offered"] = $vars["usr_obj"]->getOfferingHelpAsText();
 
 			ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext(self::dic()->user()
-				->getId(), ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, "crs")
-				->getOperationId(), "crs");
+				->getId(), ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS)
+				->getOperationId(), ilSrLpReportUIHookGUI::TYPE_CRS);
 
 			$vars["learning_progress_courses"] = array_map(function (ilMStListCourse $course): int {
 				return self::dic()->objDataCache()->lookupObjId($course->getCrsRefId());

@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrLpReport\Summary;
 
 use ilLPObjSettings;
-use ilObject;
 use ilObjectLP;
 use ilSrLpReportPlugin;
 use ilTrQuery;
@@ -35,7 +34,7 @@ class SummaryTableGUI extends TableGUI {
 		$parent_cmd) {
 
 		$this->ref_id = ReportFactory::getReportObjRefId();
-		$this->obj_id = ilObject::_lookupObjectId(ReportFactory::getReportObjRefId());
+		$this->obj_id = self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId());
 		$this->user_fields = [];
 
 		$this->setShowRowsSelector(false);
@@ -95,16 +94,16 @@ class SummaryTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initData()/*: void*/ {
-		$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->ref_id));
+		$olp = ilObjectLP::getInstance(self::dic()->objDataCache()->lookupObjId($this->ref_id));
 		if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL
 			|| $olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION
 			|| $olp->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR) {
 			$collection = $olp->getCollectionInstance();
 			$preselected_obj_ids[$this->obj_id][] = $this->ref_id;
 			foreach ($collection->getItems() as $item => $item_info) {
-				$tmp_lp = ilObjectLP::getInstance(ilObject::_lookupObjId($item_info));
+				$tmp_lp = ilObjectLP::getInstance(self::dic()->objDataCache()->lookupObjId($item_info));
 				if ($tmp_lp->isActive()) {
-					$preselected_obj_ids[ilObject::_lookupObjId($item_info)][] = $item_info;
+					$preselected_obj_ids[self::dic()->objDataCache()->lookupObjId($item_info)][] = $item_info;
 				}
 			}
 			//$filter = $this->getCurrentFilter();

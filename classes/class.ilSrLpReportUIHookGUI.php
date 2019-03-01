@@ -22,6 +22,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 	const PAR_TABS = "tabs";
 	const REDIRECT = "redirect";
+	const TYPE_CRS = "crs";
 	/**
 	 * @var bool[]
 	 */
@@ -53,32 +54,35 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 
 				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLPListOfObjectsGUI::class)) {
 
-					self::$load[self::REDIRECT] = true;
+					if (self::dic()->objDataCache()->lookupType(ReportFactory::getReportObjRefId()) === self::TYPE_CRS) {
 
-					switch (self::dic()->ctrl()->getCmd()) {
-						case "showUserObjectMatrix":
-							self::dic()->ctrl()
-								->setParameterByClass(MatrixGUI::class, ReportFactory::GET_PARAM_REF_ID, ReportFactory::getReportObjRefId());
+						self::$load[self::REDIRECT] = true;
 
-							self::dic()->ctrl()->redirectByClass(array( ilUIPluginRouterGUI::class, BaseGUI::class, MatrixGUI::class ));
-							break;
+						switch (self::dic()->ctrl()->getCmd()) {
+							case "showUserObjectMatrix":
+								self::dic()->ctrl()
+									->setParameterByClass(MatrixGUI::class, ReportFactory::GET_PARAM_REF_ID, ReportFactory::getReportObjRefId());
 
-						case "showObjectSummary":
-							self::dic()->ctrl()
-								->setParameterByClass(SummaryGUI::class, ReportFactory::GET_PARAM_REF_ID, ReportFactory::getReportObjRefId());
+								self::dic()->ctrl()->redirectByClass(array( ilUIPluginRouterGUI::class, BaseGUI::class, MatrixGUI::class ));
+								break;
 
-							self::dic()->ctrl()->redirectByClass(array( ilUIPluginRouterGUI::class, BaseGUI::class, SummaryGUI::class ));
-							break;
+							case "showObjectSummary":
+								self::dic()->ctrl()
+									->setParameterByClass(SummaryGUI::class, ReportFactory::GET_PARAM_REF_ID, ReportFactory::getReportObjRefId());
 
-						case "":
-							self::dic()->ctrl()
-								->setParameterByClass(UserGUI::class, ReportFactory::GET_PARAM_REF_ID, ReportFactory::getReportObjRefId());
+								self::dic()->ctrl()->redirectByClass(array( ilUIPluginRouterGUI::class, BaseGUI::class, SummaryGUI::class ));
+								break;
 
-							self::dic()->ctrl()->redirectByClass(array( ilUIPluginRouterGUI::class, BaseGUI::class, UserGUI::class ));
-							break;
+							case "":
+								self::dic()->ctrl()
+									->setParameterByClass(UserGUI::class, ReportFactory::GET_PARAM_REF_ID, ReportFactory::getReportObjRefId());
 
-						default:
-							break;
+								self::dic()->ctrl()->redirectByClass(array( ilUIPluginRouterGUI::class, BaseGUI::class, UserGUI::class ));
+								break;
+
+							default:
+								break;
+						}
 					}
 				}
 			}
