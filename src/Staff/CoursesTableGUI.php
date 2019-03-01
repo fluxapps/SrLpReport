@@ -5,9 +5,13 @@ namespace srag\Plugins\SrLpReport\Staff;
 use ilAdvancedSelectionListGUI;
 use ilSrLpReportPlugin;
 use ilTextInputGUI;
+use ilUIPluginRouterGUI;
 use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
+use srag\Plugins\SrLpReport\GUI\BaseGUI;
+use srag\Plugins\SrLpReport\Report\ReportFactory;
+use srag\Plugins\SrLpReport\User\UserGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -157,8 +161,15 @@ class CoursesTableGUI extends TableGUI {
 		$row)/*: void*/ {
 		parent::fillRow($row);
 
+		self::dic()->ctrl()->setParameterByClass(UserGUI::class, ReportFactory::GET_PARAM_REF_ID, $row["crs_ref_id"]);
+
 		$actions = new ilAdvancedSelectionListGUI();
 		$actions->setListTitle(self::dic()->language()->txt("actions"));
+		$actions->addItem(self::dic()->language()->txt("details"), "", self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			BaseGUI::class,
+			UserGUI::class
+		]));
 		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
 		$this->tpl->parseCurrentBlock();
 	}

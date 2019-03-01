@@ -329,8 +329,6 @@ abstract class AbstractReportTableGUI extends TableGUI {
 
 			switch ($key) {
 				case "status":
-					self::dic()->language()->loadLanguageModule('trac');
-
 					$this->filter_fields[$key] = [
 						PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
 						PropertyFormGUI::PROPERTY_OPTIONS => [

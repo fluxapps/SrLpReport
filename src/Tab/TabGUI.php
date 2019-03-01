@@ -67,6 +67,8 @@ final class TabGUI {
 	 * @throws DICException
 	 */
 	public function setTabs()/*: void*/ {
+		self::dic()->language()->loadLanguageModule("trac");
+
 		self::dic()->ctrl()->saveParameterByClass(ilLearningProgressGUI::class, ReportFactory::GET_PARAM_REF_ID);
 
 		self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("course"), ilLink::_getLink(ReportFactory::getReportObjRefId()));
