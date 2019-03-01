@@ -2,11 +2,11 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
-use ilAdvancedSelectionListGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use ilUserSearchOptions;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
+use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 
 /**
@@ -144,20 +144,17 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 
 
 	/**
-	 * @param array $row
+	 * @inheritdoc
 	 */
 	protected function fillRow(/*array*/
 		$row)/*: void*/ {
+		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
+
 		$this->tpl->setCurrentBlock("column");
 		$this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->image()
 			->standard($row["usr_obj"]->getPersonalPicturePath("small"), $row["usr_obj"]->getPublicName())));
 		$this->tpl->parseCurrentBlock();
 
 		parent::fillRow($row);
-
-		$actions = new ilAdvancedSelectionListGUI();
-		$actions->setListTitle(self::dic()->language()->txt("actions"));
-		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
-		$this->tpl->parseCurrentBlock();
 	}
 }

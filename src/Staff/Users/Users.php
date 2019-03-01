@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
 use Closure;
+use ilAdvancedSelectionListGUI;
 use ilMStListCourse;
 use ilMStListCourses;
 use ilMStListUser;
@@ -13,8 +14,11 @@ use ilOrgUnitOperationQueries;
 use ilOrgUnitPathStorage;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
+use ilUIPluginRouterGUI;
 use ilUserSearchOptions;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Staff\Courses\CoursesStaffGUI;
+use srag\Plugins\SrLpReport\Staff\StaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -135,5 +139,17 @@ final class Users {
 		$paths = $where->getArray("ref_id", "path");
 
 		return $paths;
+	}
+
+
+	/**
+	 * @param ilAdvancedSelectionListGUI $actions
+	 */
+	public function fillActions(ilAdvancedSelectionListGUI $actions) {
+		$actions->addItem(self::dic()->language()->txt("courses"), "", self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			StaffGUI::class,
+			CoursesStaffGUI::class
+		]));
 	}
 }

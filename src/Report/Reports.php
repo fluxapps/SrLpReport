@@ -7,42 +7,20 @@ use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
- * Class ReportFactory
+ * Class Reports
  *
  * @package srag\Plugins\SrLpReport\Report
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ReportFactory {
+final class Reports {
 
 	use SrLpReportTrait;
 	use DICTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 	const GET_PARAM_REF_ID = "ref_id";
+	const GET_PARAM_USR_ID = "usr_id";
 	const GET_PARAM_TARGET = "target";
-	/**
-	 * @var self[]
-	 */
-	protected static $instances = [];
-	const REPORT_OBJECT_TYPE_SINGLE = 1;
-	const REPORT_OBJECT_TYPE_ALL = 2;
-	const REPORT_USER_TYPE_SINGLE = 1;
-	const REPORT_USER_TYPE_ALL = 2;
-	const REPORT_VIEW_TYPE_LIST = 1;
-	const REPORT_VIEW_TYPE_MATRIX = 2;
-	const REPORT_VIEW_TYPE_SUMMARY = 2;
-	/**
-	 * @var int
-	 */
-	protected $report_object_type;
-	/**
-	 * @var int
-	 */
-	protected $report_user_type;
-	/**
-	 * @var int
-	 */
-	protected $report_view_type;
 	/**
 	 * @var self
 	 */
@@ -62,7 +40,7 @@ class ReportFactory {
 
 
 	/**
-	 * ReportFactory constructor
+	 * Reports constructor
 	 */
 	private function __construct() {
 
@@ -70,9 +48,9 @@ class ReportFactory {
 
 
 	/**
-	 * @return int
+	 * @return int|null
 	 */
-	public static function getReportObjRefId(): int {
+	public function getReportObjRefId()/*: ?int*/ {
 		$obj_ref_id = filter_input(INPUT_GET, self::GET_PARAM_REF_ID);
 
 		if ($obj_ref_id === NULL) {
@@ -85,6 +63,22 @@ class ReportFactory {
 
 		if ($obj_ref_id > 0) {
 			return $obj_ref_id;
+		} else {
+			return NULL;
+		}
+	}
+
+
+	/**
+	 * @return int|null
+	 */
+	public function getUsrId()/*: ?int*/ {
+		$usr_id = filter_input(INPUT_GET, self::GET_PARAM_USR_ID);
+
+		$usr_id = intval($usr_id);
+
+		if ($usr_id > 0) {
+			return $usr_id;
 		} else {
 			return NULL;
 		}

@@ -7,7 +7,7 @@ use ilObjectLP;
 use ilTrQuery;
 use ilUtil;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
-use srag\Plugins\SrLpReport\Report\ReportFactory;
+use srag\Plugins\SrLpReport\Report\Reports;
 
 /**
  * Class SummaryTableGUI
@@ -27,8 +27,8 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 	public function __construct($parent, /*string*/
 		$parent_cmd) {
 
-		$this->ref_id = ReportFactory::getReportObjRefId();
-		$this->obj_id = self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId());
+		$this->ref_id = self::reports()->getReportObjRefId();
+		$this->obj_id = self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId());
 		$this->user_fields = [];
 
 		$this->setShowRowsSelector(false);

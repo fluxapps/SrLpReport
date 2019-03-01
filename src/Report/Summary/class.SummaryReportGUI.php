@@ -22,7 +22,7 @@ class SummaryReportGUI extends AbstractReportGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getTable(): AbstractReportTableGUI {
-		return new SummaryTableGUI($this, self::dic()->ctrl()->getCmd());
+	protected function getTable(string $cmd = self::CMD_INDEX): AbstractReportTableGUI {
+		return new SummaryTableGUI($this, $cmd);
 	}
 }

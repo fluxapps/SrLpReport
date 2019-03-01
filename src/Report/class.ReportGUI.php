@@ -49,7 +49,7 @@ class ReportGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
-		if (!self::access()->hasLPReadAccess(ReportFactory::getReportObjRefId())) {
+		if (!self::access()->hasLPReadAccess(self::reports()->getReportObjRefId())) {
 			ilUtil::sendFailure(self::dic()->language()->txt("permission_denied"), true);
 
 			self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);
@@ -81,10 +81,10 @@ class ReportGUI {
 	protected function setTabs()/*: void*/ {
 		self::dic()->language()->loadLanguageModule("trac");
 
-		self::dic()->ctrl()->saveParameterByClass(ilLearningProgressGUI::class, ReportFactory::GET_PARAM_REF_ID);
-		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, ReportFactory::GET_PARAM_REF_ID);
+		self::dic()->ctrl()->saveParameterByClass(ilLearningProgressGUI::class, Reports::GET_PARAM_REF_ID);
+		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 
-		self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("course"), ilLink::_getLink(ReportFactory::getReportObjRefId()));
+		self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()->getReportObjRefId()));
 
 		self::dic()->tabs()->addTab(self::TAB_LEARNING_PROGRESS, self::dic()->language()->txt("learning_progress"), self::dic()->ctrl()
 			->getLinkTargetByClass([
@@ -112,7 +112,7 @@ class ReportGUI {
 			SummaryReportGUI::class
 		]));
 
-		if (self::access()->hasLPWriteAccess(ReportFactory::getReportObjRefId())) {
+		if (self::access()->hasLPWriteAccess(self::reports()->getReportObjRefId())) {
 			self::dic()->tabs()->addSubTabTarget(self::TAB_SETTINGS, self::dic()->ctrl()->getLinkTargetByClass([
 				ilRepositoryGUI::class,
 				ilObjCourseGUI::class,

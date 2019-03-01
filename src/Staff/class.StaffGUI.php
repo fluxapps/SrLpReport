@@ -71,9 +71,9 @@ class StaffGUI {
 		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("my_staff"));
 
 		self::dic()->tabs()->addTab(UsersStaffGUI::TAB_ID, self::dic()->language()->txt("users"), self::dic()->ctrl()
-			->getLinkTargetByClass(UsersStaffGUI::class, UsersStaffGUI::CMD_INDEX));
+			->getLinkTargetByClass(UsersStaffGUI::class));
 
 		self::dic()->tabs()->addTab(CoursesStaffGUI::TAB_ID, self::dic()->language()->txt("courses"), self::dic()->ctrl()
-			->getLinkTargetByClass(CoursesStaffGUI::class, CoursesStaffGUI::CMD_INDEX));
+			->getLinkTargetByClass(CoursesStaffGUI::class));
 	}
 }

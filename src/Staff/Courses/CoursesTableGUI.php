@@ -2,13 +2,9 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Courses;
 
-use ilAdvancedSelectionListGUI;
 use ilTextInputGUI;
-use ilUIPluginRouterGUI;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
-use srag\Plugins\SrLpReport\Report\ReportFactory;
-use srag\Plugins\SrLpReport\Report\ReportGUI;
-use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
+use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 
 /**
@@ -136,22 +132,12 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 
 
 	/**
-	 * @param array $row
+	 * @inheritdoc
 	 */
 	protected function fillRow(/*array*/
 		$row)/*: void*/ {
+		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_REF_ID, $row["crs_ref_id"]);
+
 		parent::fillRow($row);
-
-		self::dic()->ctrl()->setParameterByClass(UserReportGUI::class, ReportFactory::GET_PARAM_REF_ID, $row["crs_ref_id"]);
-
-		$actions = new ilAdvancedSelectionListGUI();
-		$actions->setListTitle(self::dic()->language()->txt("actions"));
-		$actions->addItem(self::dic()->language()->txt("details"), "", self::dic()->ctrl()->getLinkTargetByClass([
-			ilUIPluginRouterGUI::class,
-			ReportGUI::class,
-			UserReportGUI::class
-		]));
-		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
-		$this->tpl->parseCurrentBlock();
 	}
 }

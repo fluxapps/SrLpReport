@@ -9,7 +9,6 @@ use ilObjUser;
 use ilUtil;
 use srag\Plugins\SrLpReport\Report\AbstractReportGUI;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
-use srag\Plugins\SrLpReport\Report\ReportFactory;
 
 /**
  * Class MatrixReportGUI
@@ -48,8 +47,8 @@ class MatrixReportGUI extends AbstractReportGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getTable(): AbstractReportTableGUI {
-		return new MatrixTableGUI($this, self::dic()->ctrl()->getCmd());
+	protected function getTable(string $cmd = self::CMD_INDEX): AbstractReportTableGUI {
+		return new MatrixTableGUI($this, $cmd);
 	}
 
 
@@ -73,7 +72,7 @@ class MatrixReportGUI extends AbstractReportGUI {
 		$sig = NULL;
 
 		// repository-object-specific
-		$ref_id = ReportFactory::getReportObjRefId();
+		$ref_id = self::reports()->getReportObjRefId();
 		if ($ref_id) {
 			$obj_lp = ilObjectLP::getInstance(self::dic()->objDataCache()->lookupObjId($ref_id));
 			$tmpl_id = $obj_lp->getMailTemplateId();

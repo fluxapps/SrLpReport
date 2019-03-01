@@ -21,6 +21,7 @@ abstract class AbstractStaffGUI {
 	const CMD_INDEX = "index";
 	const CMD_APPLY_FILTER = "applyFilter";
 	const CMD_RESET_FILTER = "resetFilter";
+	const CMD_GET_ACTIONS = "getActions";
 	/**
 	 * @var string
 	 *
@@ -47,12 +48,13 @@ abstract class AbstractStaffGUI {
 
 		switch (strtolower($next_class)) {
 			default:
-				$cmd = self::dic()->ctrl()->getCmd();
+				$cmd = self::dic()->ctrl()->getCmd(self::CMD_INDEX);
 
 				switch ($cmd) {
 					case self::CMD_INDEX:
 					case self::CMD_APPLY_FILTER:
 					case self::CMD_RESET_FILTER:
+					case self::CMD_GET_ACTIONS:
 						$this->{$cmd}();
 						break;
 
@@ -82,7 +84,7 @@ abstract class AbstractStaffGUI {
 
 		$table->writeFilterToSession();
 
-		self::dic()->ctrl()->redirect($this, self::CMD_INDEX);
+		self::dic()->ctrl()->redirect($this);
 	}
 
 
@@ -96,7 +98,7 @@ abstract class AbstractStaffGUI {
 
 		$table->resetOffset();
 
-		self::dic()->ctrl()->redirect($this, self::CMD_INDEX);
+		self::dic()->ctrl()->redirect($this);
 	}
 
 
@@ -106,4 +108,11 @@ abstract class AbstractStaffGUI {
 	 * @return AbstractStaffTableGUI
 	 */
 	protected abstract function getTable(string $cmd = self::CMD_INDEX): AbstractStaffTableGUI;
+
+
+	/**
+	 *
+	 */
+	protected abstract function getActions()/*: void*/
+	;
 }

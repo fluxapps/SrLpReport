@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrLpReport\Staff\Courses;
 
 use Closure;
+use ilAdvancedSelectionListGUI;
 use ilMStListCourse;
 use ilMStListCourses;
 use ilMyStaffAccess;
@@ -10,7 +11,11 @@ use ilOrgUnitOperation;
 use ilOrgUnitOperationQueries;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
+use ilUIPluginRouterGUI;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Report\ReportGUI;
+use srag\Plugins\SrLpReport\Report\Reports;
+use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -117,5 +122,19 @@ final class Courses {
 		}, []));
 
 		return $data;
+	}
+
+
+	/**
+	 * @param ilAdvancedSelectionListGUI $actions
+	 */
+	public function fillActions(ilAdvancedSelectionListGUI $actions) {
+		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
+
+		$actions->addItem(self::dic()->language()->txt("details"), "", self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			ReportGUI::class,
+			UserReportGUI::class
+		]));
 	}
 }

@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
+use ilAdvancedSelectionListGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 
@@ -26,5 +27,17 @@ class UsersStaffGUI extends AbstractStaffGUI {
 		$table = new UsersTableGUI($this, $cmd);
 
 		return $table;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getActions()/*: void*/ {
+		$actions = new ilAdvancedSelectionListGUI();
+
+		self::ilias()->staff()->users()->fillActions($actions);
+
+		self::output()->output($actions->getHTML(true));
 	}
 }

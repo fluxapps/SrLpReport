@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff;
 
+use ilAdvancedSelectionListGUI;
 use ilSrLpReportPlugin;
 use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
@@ -26,5 +27,22 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 	 */
 	protected function initExport()/*: void*/ {
 		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function fillRow(/*array*/
+		$row)/*: void*/ {
+		parent::fillRow($row);
+
+		$actions = new ilAdvancedSelectionListGUI();
+		$actions->setListTitle(self::dic()->language()->txt("actions"));
+		$actions->setAsynch(true);
+		$actions->setAsynchUrl(str_replace("\\", "\\\\", self::dic()->ctrl()
+			->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)));
+		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
+		$this->tpl->parseCurrentBlock();
 	}
 }

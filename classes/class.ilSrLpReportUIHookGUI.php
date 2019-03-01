@@ -4,7 +4,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
-use srag\Plugins\SrLpReport\Report\ReportFactory;
+use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 use srag\Plugins\SrLpReport\Report\Summary\SummaryReportGUI;
 use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
@@ -57,13 +57,13 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 
 				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLPListOfObjectsGUI::class)) {
 
-					if (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId()))
+					if (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId()))
 						=== self::TYPE_CRS) {
 
 						self::$load[self::REDIRECT] = true;
 
 						self::dic()->ctrl()
-							->setParameterByClass(ReportGUI::class, ReportFactory::GET_PARAM_REF_ID, ReportFactory::getReportObjRefId());
+							->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
 
 						switch (self::dic()->ctrl()->getCmd()) {
 							case "showUserObjectMatrix":
@@ -94,7 +94,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 						ilUIPluginRouterGUI::class,
 						StaffGUI::class,
 						UsersStaffGUI::class
-					], UsersStaffGUI::CMD_INDEX);
+					]);
 
 					return;
 				}
@@ -106,7 +106,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 						ilUIPluginRouterGUI::class,
 						StaffGUI::class,
 						CoursesStaffGUI::class
-					], CoursesStaffGUI::CMD_INDEX);
+					]);
 				}
 			}
 		}

@@ -76,14 +76,14 @@ abstract class AbstractReportGUI {
 	protected function initGUI()/*: void*/ {
 		self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
 
-		$type = self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId()));
+		$type = self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId()));
 
 		$icon = ilObject::_getIcon("", "tiny", $type);
 
 		self::dic()->mainTemplate()->setTitleIcon($icon);
 
 		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress") . " " . self::dic()->objDataCache()
-				->lookupTitle(self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId())));
+				->lookupTitle(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId())));
 	}
 
 
@@ -101,7 +101,7 @@ abstract class AbstractReportGUI {
 	 * @throws ilTemplateException
 	 */
 	protected function applyFilter()/*: void*/ {
-		$table = $this->getTable();
+		$table = $this->getTable(self::CMD_APPLY_FILTER);
 
 		$table->writeFilterToSession();
 
@@ -116,7 +116,7 @@ abstract class AbstractReportGUI {
 	 * @throws ilTemplateException
 	 */
 	protected function resetFilter()/*: void*/ {
-		$table = $this->getTable();
+		$table = $this->getTable(self::CMD_RESET_FILTER);
 
 		$table->resetOffset();
 
@@ -144,10 +144,9 @@ abstract class AbstractReportGUI {
 
 
 	/**
-	 * @return AbstractReportTableGUI
+	 * @param string $cmd
 	 *
-	 * @throws DICException
-	 * @throws ilTemplateException
+	 * @return AbstractReportTableGUI
 	 */
-	protected abstract function getTable(): AbstractReportTableGUI;
+	protected abstract function getTable(string $cmd = self::CMD_INDEX): AbstractReportTableGUI;
 }

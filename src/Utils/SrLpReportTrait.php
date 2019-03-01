@@ -4,7 +4,7 @@ namespace srag\Plugins\SrLpReport\Utils;
 
 use srag\Plugins\SrLpReport\Access\Access;
 use srag\Plugins\SrLpReport\Access\Ilias;
-use srag\Plugins\SrLpReport\Report\ReportFactory;
+use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Tab\TabGUI;
 
 /**
@@ -33,9 +33,9 @@ trait SrLpReportTrait {
 
 
 	/**
-	 * @return ReportFactory
+	 * @return Reports
 	 */
-	protected static function report(): ReportFactory {
-		return ReportFactory::getInstance();
+	protected static function reports(): Reports {
+		return Reports::getInstance();
 	}
 }
