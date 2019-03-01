@@ -20,24 +20,6 @@ class SummaryReportGUI extends AbstractReportGUI {
 
 
 	/**
-	 *
-	 */
-	protected function initJS()/*: void*/ {
-		self::dic()->mainTemplate()->addJavaScript(self::plugin()->directory() . "/vendor/srag/custominputguis/node_modules/d3/dist/d3.min.js");
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function executeCommand()/*: void*/ {
-		$this->initJS();
-
-		parent::executeCommand();
-	}
-
-
-	/**
 	 * @inheritdoc
 	 */
 	protected function getTable(): AbstractReportTableGUI {
