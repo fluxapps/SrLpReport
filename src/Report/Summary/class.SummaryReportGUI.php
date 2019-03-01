@@ -1,20 +1,20 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\Summary;
+namespace srag\Plugins\SrLpReport\Report\Summary;
 
-use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
-use srag\Plugins\SrLpReport\GUI\AbstractGUI;
+use srag\Plugins\SrLpReport\Report\AbstractReportGUI;
+use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 
 /**
- * Class SummaryGUI
+ * Class SummaryReportGUI
  *
- * @package           srag\Plugins\SrLpReport\Summary
+ * @package           srag\Plugins\SrLpReport\Report\Summary
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy srag\Plugins\SrLpReport\Summary\SummaryGUI: srag\Plugins\SrLpReport\GUI\BaseGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrLpReport\Report\Summary\SummaryReportGUI: srag\Plugins\SrLpReport\Report\ReportGUI
  */
-class SummaryGUI extends AbstractGUI {
+class SummaryReportGUI extends AbstractReportGUI {
 
 	const TAB_ID = "trac_summary";
 
@@ -40,7 +40,7 @@ class SummaryGUI extends AbstractGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getTable(): TableGUI {
+	protected function getTable(): AbstractReportTableGUI {
 		return new SummaryTableGUI($this, self::dic()->ctrl()->getCmd());
 	}
 }

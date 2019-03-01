@@ -1,26 +1,22 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\GUI;
+namespace srag\Plugins\SrLpReport\Report;
 
-use ilLink;
 use ilObject;
 use ilSrLpReportPlugin;
 use ilTemplateException;
-use ilUtil;
-use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\DIC\SrLpReport\Exception\DICException;
-use srag\Plugins\SrLpReport\Report\ReportFactory;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
- * Class AbstractGUI
+ * Class AbstractReportGUI
  *
- * @package srag\Plugins\SrLpReport\GUI
+ * @package srag\Plugins\SrLpReport\Report
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractGUI {
+abstract class AbstractReportGUI {
 
 	use DICTrait;
 	use SrLpReportTrait;
@@ -37,7 +33,7 @@ abstract class AbstractGUI {
 
 
 	/**
-	 * AbstractGUI constructor
+	 * AbstractReportGUI constructor
 	 */
 	public function __construct() {
 
@@ -49,34 +45,27 @@ abstract class AbstractGUI {
 	 * @throws ilTemplateException
 	 */
 	public function executeCommand()/*: void*/ {
-		if (!$this->hasAccess()) {
-			ilUtil::sendFailure(self::dic()->language()->txt("permission_denied"), true);
-
-			self::dic()->ctrl()->redirectToURL(ilLink::_getLink(ReportFactory::getReportObjRefId()));
-		}
+		self::dic()->tabs()->activateSubTab(static::TAB_ID);
 
 		$this->initGUI();
 
-		$cmd = self::dic()->ctrl()->getCmd(self::CMD_INDEX);
+		$next_class = self::dic()->ctrl()->getNextClass($this);
 
-		switch ($cmd) {
-			case self::CMD_INDEX:
-			case self::CMD_APPLY_FILTER:
-			case self::CMD_RESET_FILTER:
-				$this->{$cmd}();
-				break;
-
+		switch (strtolower($next_class)) {
 			default:
-				break;
+				$cmd = self::dic()->ctrl()->getCmd(self::CMD_INDEX);
+
+				switch ($cmd) {
+					case self::CMD_INDEX:
+					case self::CMD_APPLY_FILTER:
+					case self::CMD_RESET_FILTER:
+						$this->{$cmd}();
+						break;
+
+					default:
+						break;
+				}
 		}
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function hasAccess(): bool {
-		return self::access()->hasLPReadAccess(ReportFactory::getReportObjRefId());
 	}
 
 
@@ -85,10 +74,6 @@ abstract class AbstractGUI {
 	 * @throws ilTemplateException
 	 */
 	protected function initGUI()/*: void*/ {
-		self::tabgui()->setTabs();
-
-		self::dic()->ctrl()->saveParameter($this, ReportFactory::GET_PARAM_REF_ID);
-
 		self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
 
 		$type = self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(ReportFactory::getReportObjRefId()));
@@ -152,17 +137,17 @@ abstract class AbstractGUI {
 
 		$tpl->setVariable("REPORT", self::output()->getHTML($this->getTable()));
 
-		$tpl->setVariable('LEGEND', BaseGUI::getLegendHTML());
+		$tpl->setVariable('LEGEND', ReportGUI::getLegendHTML());
 
 		return self::output()->getHTML($tpl);
 	}
 
 
 	/**
-	 * @return TableGUI
+	 * @return AbstractReportTableGUI
 	 *
 	 * @throws DICException
 	 * @throws ilTemplateException
 	 */
-	protected abstract function getTable(): TableGUI;
+	protected abstract function getTable(): AbstractReportTableGUI;
 }

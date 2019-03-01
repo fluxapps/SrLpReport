@@ -1,28 +1,29 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\Matrix;
+namespace srag\Plugins\SrLpReport\Report\User;
 
 use ilLink;
 use ilMailFormCall;
 use ilObjectLP;
 use ilObjUser;
 use ilUtil;
-use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
-use srag\Plugins\SrLpReport\GUI\AbstractGUI;
+use srag\Plugins\SrLpReport\Report\AbstractReportGUI;
+use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 use srag\Plugins\SrLpReport\Report\ReportFactory;
 
 /**
- * Class MatrixGUI
+ * Class UserReportGUI
  *
- * @package           srag\Plugins\SrLpReport\Matrix
+ * @package           srag\Plugins\SrLpReport\Report\User
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy srag\Plugins\SrLpReport\Matrix\MatrixGUI: srag\Plugins\SrLpReport\GUI\BaseGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrLpReport\Report\User\UserReportGUI: srag\Plugins\SrLpReport\Report\ReportGUI
  */
-class MatrixGUI extends AbstractGUI {
+class UserReportGUI extends AbstractReportGUI {
 
-	const TAB_ID = "trac_matrix";
+	const TAB_ID = "trac_crs_objects";
+	const CMD_EDIT = "edit";
 	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
 
 
@@ -48,8 +49,8 @@ class MatrixGUI extends AbstractGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getTable(): TableGUI {
-		return new MatrixTableGUI($this, self::dic()->ctrl()->getCmd());
+	protected function getTable(): AbstractReportTableGUI {
+		return new UserTableGUI($this, self::dic()->ctrl()->getCmd());
 	}
 
 
@@ -60,7 +61,7 @@ class MatrixGUI extends AbstractGUI {
 		// see ilObjCourseGUI::sendMailToSelectedUsersObject()
 
 		if (count($_POST["usr_id"]) == 0) {
-			ilUtil::sendFailure(self::dic()->language()->txt("no_checkbox"), true);
+			ilUtil::sendFailure(self::dic()->language()->txt("no_checkbox"), false);
 			self::dic()->ctrl()->redirect($this);
 		}
 

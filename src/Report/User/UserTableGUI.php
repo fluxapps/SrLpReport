@@ -1,17 +1,17 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\User;
+namespace srag\Plugins\SrLpReport\Report\User;
 
-use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
+use srag\Plugins\SrLpReport\Report\AbstractReport2TableGUI;
 
 /**
  * Class UserTableGUI
  *
- * @package srag\Plugins\SrLpReport\User
+ * @package srag\Plugins\SrLpReport\Report\User
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class UserTableGUI extends AbstractReportTableGUI {
+class UserTableGUI extends AbstractReport2TableGUI {
 
 	/**
 	 * @inheritdoc

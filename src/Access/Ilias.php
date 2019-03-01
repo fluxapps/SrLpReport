@@ -46,15 +46,7 @@ final class Ilias {
 
 
 	/**
-	 * @return Roles
-	 */
-	public static function roles(): Roles {
-		return Roles::getInstance();
-	}
-
-
-	/**
-	 * @return Roles
+	 * @return Staff
 	 */
 	public static function staff(): Staff {
 		return Staff::getInstance();

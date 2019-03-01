@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\Matrix;
+namespace srag\Plugins\SrLpReport\Report\Matrix;
 
 use ilExcel;
 use ilLearningProgressAccess;
@@ -10,17 +10,17 @@ use ilObjectLP;
 use ilObjSession;
 use ilPathGUI;
 use ilTrQuery;
-use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
+use srag\Plugins\SrLpReport\Report\AbstractReport2TableGUI;
 
 /**
  * Class MatrixTableGUI
  *
- * @package srag\Plugins\SrLpReport\Matrix
+ * @package srag\Plugins\SrLpReport\Report\Matrix
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  */
-class MatrixTableGUI extends AbstractReportTableGUI {
+class MatrixTableGUI extends AbstractReport2TableGUI {
 
 	/**
 	 * @inheritdoc

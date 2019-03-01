@@ -1,28 +1,22 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\Summary;
+namespace srag\Plugins\SrLpReport\Report\Summary;
 
 use ilLPObjSettings;
 use ilObjectLP;
-use ilSrLpReportPlugin;
 use ilTrQuery;
 use ilUtil;
-use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
-use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
+use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 use srag\Plugins\SrLpReport\Report\ReportFactory;
 
 /**
  * Class SummaryTableGUI
  *
- * @package srag\Plugins\SrLpReport\Summary
+ * @package srag\Plugins\SrLpReport\Report\Summary
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class SummaryTableGUI extends TableGUI {
-
-	use CustomInputGUIsTrait;
-	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-
+class SummaryTableGUI extends AbstractReportTableGUI {
 
 	/**
 	 * SummaryTableGUI constructor

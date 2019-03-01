@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\Staff;
+namespace srag\Plugins\SrLpReport\Staff\Courses;
 
 use Closure;
 use ilMStListCourse;
@@ -16,7 +16,7 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 /**
  * Class Courses
  *
- * @package srag\Plugins\SrLpReport\Staff
+ * @package srag\Plugins\SrLpReport\Staff\Courses
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

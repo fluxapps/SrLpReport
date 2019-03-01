@@ -33,14 +33,6 @@ trait SrLpReportTrait {
 
 
 	/**
-	 * @return Ilias
-	 */
-	protected static function tabgui(): TabGUI {
-		return TabGUI::getInstance();
-	}
-
-
-	/**
 	 * @return ReportFactory
 	 */
 	protected static function report(): ReportFactory {

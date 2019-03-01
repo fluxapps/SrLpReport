@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\Report;
+namespace srag\Plugins\SrLpReport\Staff;
 
 use ilSrLpReportPlugin;
 use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
@@ -8,13 +8,13 @@ use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
- * Class AbstractReportTableGUI
+ * Class AbstractStaffTableGUI
  *
- * @package srag\Plugins\SrLpReport\Report
+ * @package srag\Plugins\SrLpReport\Staff
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractReportTableGUI extends TableGUI {
+abstract class AbstractStaffTableGUI extends TableGUI {
 
 	use SrLpReportTrait;
 	use CustomInputGUIsTrait;
