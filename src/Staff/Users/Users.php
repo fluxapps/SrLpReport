@@ -158,7 +158,6 @@ final class Users {
 	 * @param ilAdvancedSelectionListGUI $actions
 	 */
 	public function fillActions(ilAdvancedSelectionListGUI $actions) {
-
 		self::dic()->ctrl()->saveParameterByClass(ilMStShowUserGUI::class, Reports::GET_PARAM_USR_ID);
 
 		$actions->addItem(

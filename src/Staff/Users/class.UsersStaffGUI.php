@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
+use srag\Plugins\SrLpReport\Staff\StaffGUI;
 use ilAdvancedSelectionListGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
