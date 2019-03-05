@@ -49,7 +49,7 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 		$columns = [
 			"crs_title" => [
 				"default" => true,
-				"txt" => self::dic()->language()->txt("title"),
+				"txt" => self::dic()->language()->txt("title")
 			],
 			"learning_progress_users" => [
 				"default" => true,
