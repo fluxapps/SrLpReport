@@ -90,47 +90,47 @@ class ReportGUI {
 
 		if (filter_input(INPUT_GET, "return")) {
 			self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
-						ilUIPluginRouterGUI::class,
-						StaffGUI::class,
-						CoursesStaffGUI::class
-					]));
+				ilUIPluginRouterGUI::class,
+				StaffGUI::class,
+				CoursesStaffGUI::class
+			]));
 		} else {
 			self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()->getReportObjRefId()));
 		}
 
 		self::dic()->tabs()->addTab(self::TAB_LEARNING_PROGRESS, self::dic()->language()->txt("learning_progress"), self::dic()->ctrl()
 			->getLinkTargetByClass([
-					ilRepositoryGUI::class,
-					ilObjCourseGUI::class,
-					ilLearningProgressGUI::class
-				]));
+				ilRepositoryGUI::class,
+				ilObjCourseGUI::class,
+				ilLearningProgressGUI::class
+			]));
 		self::dic()->tabs()->activateTab(self::TAB_LEARNING_PROGRESS);
 
 		self::dic()->tabs()->addSubTabTarget(UserReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass([
-				ilUIPluginRouterGUI::class,
-				ReportGUI::class,
-				UserReportGUI::class
-			]));
+			ilUIPluginRouterGUI::class,
+			ReportGUI::class,
+			UserReportGUI::class
+		]));
 
 		self::dic()->tabs()->addSubTabTarget(MatrixReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass([
-				ilUIPluginRouterGUI::class,
-				ReportGUI::class,
-				MatrixReportGUI::class
-			]));
+			ilUIPluginRouterGUI::class,
+			ReportGUI::class,
+			MatrixReportGUI::class
+		]));
 
 		self::dic()->tabs()->addSubTabTarget(SummaryReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass([
-				ilUIPluginRouterGUI::class,
-				ReportGUI::class,
-				SummaryReportGUI::class
-			]));
+			ilUIPluginRouterGUI::class,
+			ReportGUI::class,
+			SummaryReportGUI::class
+		]));
 
 		if (self::access()->hasLPWriteAccess(self::reports()->getReportObjRefId())) {
 			self::dic()->tabs()->addSubTabTarget(self::TAB_SETTINGS, self::dic()->ctrl()->getLinkTargetByClass([
-					ilRepositoryGUI::class,
-					ilObjCourseGUI::class,
-					ilLearningProgressGUI::class,
-					ilLPListOfSettingsGUI::class
-				]));
+				ilRepositoryGUI::class,
+				ilObjCourseGUI::class,
+				ilLearningProgressGUI::class,
+				ilLPListOfSettingsGUI::class
+			]));
 		}
 	}
 
