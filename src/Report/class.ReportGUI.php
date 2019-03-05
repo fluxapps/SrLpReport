@@ -88,7 +88,7 @@ class ReportGUI {
 
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, "return");
 
-		if (filter_input(INPUT_GET, "return")) {
+		if (!empty(filter_input(INPUT_GET, "return"))) {
 			self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
 				ilUIPluginRouterGUI::class,
 				StaffGUI::class,
