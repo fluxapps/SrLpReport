@@ -90,7 +90,7 @@ final class Users {
 			"sort" => [
 				"field" => $order,
 				"direction" => $order_direction,
-			],
+			]
 		];
 
 		$data["max_count"] = ilMStListUsers::getData($arr_usr_id, $options);
@@ -152,7 +152,7 @@ final class Users {
 		$actions->addItem(self::dic()->language()->txt("courses"), "", self::dic()->ctrl()->getLinkTargetByClass([
 				ilPersonalDesktopGUI::class,
 				ilMyStaffGUI::class,
-				ilMStShowUserGUI::class,
+				ilMStShowUserGUI::class
 			]));
 	}
 }

@@ -56,11 +56,11 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 			"learning_progress_users" => [
 				"default" => true,
 				"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("users")
-			],
+			]
 		];
 
 		$no_sort = [
-			"learning_progress_users",
+			"learning_progress_users"
 		];
 
 		foreach ($columns as $id => &$column) {
@@ -111,7 +111,7 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 		$this->filter_fields = [
 			"crs_title" => [
 				PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => $this->dic()->language()->txt("title"),
+				"setTitle" => $this->dic()->language()->txt("title")
 			],
 		];
 	}

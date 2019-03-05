@@ -55,7 +55,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 
 		$columns["learning_progress_courses"] = [
 			"default" => true,
-			"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("courses"),
+			"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("courses")
 		];
 
 		$no_sort = [
@@ -63,7 +63,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 			"interests_general",
 			"interests_help_offered",
 			"interests_help_looking",
-			"learning_progress_courses",
+			"learning_progress_courses"
 		];
 
 		foreach ($columns as $id => &$column) {
@@ -117,7 +117,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 			"user" => [
 				PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
 				"setTitle" => $this->dic()->language()->txt("login") . "/" . $this->dic()->language()->txt("email") . "/" . $this->dic()->language()
-						->txt("name"),
+						->txt("name")
 			],
 			"org_unit" => [
 				PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
@@ -125,7 +125,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 						->getOrgUnits(),
 				PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units")),
 				"setTitle" => $this->dic()->language()->txt("obj_orgu"),
-			],
+			]
 		];
 	}
 

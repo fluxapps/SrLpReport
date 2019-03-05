@@ -68,7 +68,7 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 			"id" => "title",
 			"sort" => "title",
 			"txt" => self::dic()->language()->txt("title"),
-			"default" => true,
+			"default" => true
 		);
 
 		// default fields
@@ -76,7 +76,7 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 			"id" => "status",
 			"sort" => "status",
 			"txt" => self::dic()->language()->txt("status"),
-			"default" => true,
+			"default" => true
 		);
 
 		return $cols;
