@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff;
 
+use ilAdvancedSelectionListGUI;
 use ilSrLpReportPlugin;
 use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
@@ -39,13 +40,23 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 
 		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_REF_ID, $row["crs_ref_id"]);
 
-		$this->parseActions($row);
+		$actions = new ilAdvancedSelectionListGUI();
+		$actions->setListTitle(self::dic()->language()->txt("actions"));
+		$actions->setAsynch(true);
+		$this->extendsActionsMenu($actions, $row);
+		$actions->setAsynchUrl(str_replace("\\", "\\\\", self::dic()->ctrl()
+			->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)));
+		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
+		$this->tpl->parseCurrentBlock();
 	}
 
 
 	/**
-	 * @param array $row
+	 * @param ilAdvancedSelectionListGUI $actions
+	 * @param array                      $row
+	 *
+	 * @return mixed
 	 */
-	protected abstract function parseActions(array $row)/*: void*/
+	protected abstract function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/
 	;
 }

@@ -6,7 +6,6 @@ use ilAdvancedSelectionListGUI;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
-use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 
 /**
@@ -146,16 +145,9 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function parseActions(array $row)/*: void*/ {
+	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
 		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_REF_ID, $row["crs_ref_id"]);
 
-		$actions = new ilAdvancedSelectionListGUI();
 		$actions->setId($row["crs_ref_id"]);
-		$actions->setListTitle(self::dic()->language()->txt("actions"));
-		$actions->setAsynch(true);
-		$actions->setAsynchUrl(str_replace("\\", "\\\\", self::dic()->ctrl()
-			->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)));
-		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
-		$this->tpl->parseCurrentBlock();
 	}
 }
