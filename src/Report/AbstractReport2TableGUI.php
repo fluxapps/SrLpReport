@@ -44,7 +44,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		$this->setShowRowsSelector(false);
 		$this->setSelectAllCheckbox('usr_id');
 
-		parent::__construct($parent, $parent_cmd);
+		parent::__construct($parent,$parent_cmd);
 	}
 
 
@@ -64,7 +64,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 
 				break;
 			default:
-				return strval(is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
+				return strval(is_array($row[$column]) ? implode(", ",$row[$column]) : $row[$column]);
 				break;
 		}
 	}
@@ -76,7 +76,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	 *
 	 * @return string
 	 */
-	protected function getLearningProgressRepresentation(int $status = 0, int $percentage = 0): string {
+	protected function getLearningProgressRepresentation(int $status = 0,int $percentage = 0): string {
 		switch ($status) {
 			case 0:
 				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
@@ -88,7 +88,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 				break;
 		}
 
-		$representation = ilUtil::img($path, $text);
+		$representation = ilUtil::img($path,$text);
 		if ($percentage > 0) {
 			$representation = $representation . " " . $percentage . "%";
 		}
@@ -103,7 +103,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	 *
 	 * @return string
 	 */
-	protected function getLearningProgressRepresentationExport(int $status = 0, int $percentage = 0): string {
+	protected function getLearningProgressRepresentationExport(int $status = 0,int $percentage = 0): string {
 		if ($percentage > 0) {
 			return $percentage . "%";
 		}
@@ -121,7 +121,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	 * @inheritdoc
 	 */
 	protected function initColumns()/*: void*/ {
-		$this->addColumn("", "");
+		$this->addColumn("","");
 
 		foreach ($this->getSelectableColumns() as $column) {
 			if ($this->isColumnSelected($column["id"])) {
@@ -131,7 +131,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 					$column['txt'] = $icon . ' ' . $column['txt'];
 				}
 
-				$this->addColumn($column["txt"], ($column["sort"] ? $column["id"] : NULL), "", false, "", $column["path"]);
+				$this->addColumn($column["txt"],($column["sort"] ? $column["id"] : NULL),"",false,"",$column["path"]);
 			}
 		}
 	}
@@ -149,7 +149,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 			"sort" => "login",
 			"txt" => self::dic()->language()->txt("login"),
 			"default" => true,
-			"all_reports" => true,
+			"all_reports" => true
 		);
 
 		$cols["firstname"] = array(
@@ -157,7 +157,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 			"sort" => "firstname",
 			"txt" => self::dic()->language()->txt("firstname"),
 			"default" => true,
-			"all_reports" => true,
+			"all_reports" => true
 		);
 
 		$cols["lastname"] = array(
@@ -165,7 +165,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 			"sort" => "lastname",
 			"txt" => self::dic()->language()->txt("lastname"),
 			"default" => true,
-			"all_reports" => true,
+			"all_reports" => true
 		);
 
 		$user_profile = new ilUserProfile();
@@ -181,7 +181,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 					"sort" => $key,
 					"txt" => self::dic()->language()->txt($key),
 					"default" => true,
-					"all_reports" => true,
+					"all_reports" => true
 				);
 			}
 		}
@@ -203,7 +203,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 					"sort" => "udf_" . $definition["field_id"],
 					"txt" => $definition["field_name"],
 					"default" => true,
-					"all_reports" => true,
+					"all_reports" => true
 				);
 
 				$this->user_fields[] = $cols["udf_" . $definition["field_id"]];
@@ -255,7 +255,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		if ($olp->isActive()) {
 
 			$type = self::dic()->objDataCache()->lookupType($this->obj_id);
-			$icon = ilObject::_getIcon("", "tiny", $type);
+			$icon = ilObject::_getIcon("","tiny",$type);
 
 			$cols["status"] = array(
 				"id" => "status",
@@ -263,7 +263,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 				"txt" => self::dic()->language()->txt("learning_progress") . " " . self::dic()->objDataCache()->lookupTitle($this->obj_id),
 				"default" => true,
 				"all_reports" => true,
-				"icon" => $icon,
+				"icon" => $icon
 			);
 		}
 
@@ -277,7 +277,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	protected function initData()/*: void*/ {
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
-		$this->setLimit(99999999999, 99999999999);
+		$this->setLimit(99999999999,99999999999);
 		$this->determineOffsetAndOrder(true);
 
 		$filter = $this->getFilterValues2();
@@ -286,11 +286,11 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 
 		$check_agreement = false;
 
-		$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $filter, $additional_fields, $check_agreement, $this->user_fields);
+		$tr_data = ilTrQuery::getUserDataForObject($this->ref_id,ilUtil::stripSlashes($this->getOrderField()),ilUtil::stripSlashes($this->getOrderDirection()),ilUtil::stripSlashes($this->getOffset()),ilUtil::stripSlashes($this->getLimit()),$filter,$additional_fields,$check_agreement,$this->user_fields);
 
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
 			$this->resetOffset();
-			$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $filter, $additional_fields, $check_agreement, $this->user_fields);
+			$tr_data = ilTrQuery::getUserDataForObject($this->ref_id,ilUtil::stripSlashes($this->getOrderField()),ilUtil::stripSlashes($this->getOrderDirection()),ilUtil::stripSlashes($this->getOffset()),ilUtil::stripSlashes($this->getLimit()),$filter,$additional_fields,$check_agreement,$this->user_fields);
 		}
 
 		foreach ($this->user_fields as $key => $value) {
@@ -355,8 +355,8 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		parent::fillRow($row);
 
 		$this->tpl->setCurrentBlock("checkbox");
-		$this->tpl->setVariable("CHECKBOX_POST_VAR", 'usr_id');
-		$this->tpl->setVariable("ID", $row['usr_id']);
+		$this->tpl->setVariable("CHECKBOX_POST_VAR",'usr_id');
+		$this->tpl->setVariable("ID",$row['usr_id']);
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -375,8 +375,8 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	protected function initCommands()/*: void*/ {
 		// see ilObjCourseGUI::addMailToMemberButton()
 		$mail = new ilMail(self::dic()->user()->getId());
-		if (self::dic()->rbacsystem()->checkAccess("internal_mail", $mail->getMailObjectReferenceId())) {
-			$this->addMultiCommand("mailselectedusers", $this->lng->txt("send_mail"));
+		if (self::dic()->rbacsystem()->checkAccess("internal_mail",$mail->getMailObjectReferenceId())) {
+			$this->addMultiCommand("mailselectedusers",$this->lng->txt("send_mail"));
 		}
 	}
 
@@ -391,7 +391,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		$result)/*: void*/ {
 		$col = 0;
 		foreach ($this->getSelectableColumns() as $column) {
-			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
+			$excel->setCell($row,$col,$this->getColumnValue($column["id"],$result,true));
 			$col ++;
 		}
 	}
@@ -405,7 +405,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		$csv, /*array*/
 		$row)/*: void*/ {
 		foreach ($this->getSelectableColumns() as $column) {
-			$csv->addColumn($this->getColumnValue($column["id"], $row, true));
+			$csv->addColumn($this->getColumnValue($column["id"],$row,true));
 		}
 
 		$csv->addRow();
