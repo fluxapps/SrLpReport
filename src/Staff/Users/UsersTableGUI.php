@@ -165,8 +165,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function parseActions(/*array*/
-		$row)/*: void*/ {
+	protected function parseActions(array $row)/*: void*/ {
 
 		self::dic()->ctrl()->setParameterByClass(ilMStShowUserGUI::class, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
 
