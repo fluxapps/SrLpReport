@@ -2,6 +2,9 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
+use ilPersonalDesktopGUI;
+use ilMyStaffGUI;
+use ilMStShowUserGUI;
 use Closure;
 use ilAdvancedSelectionListGUI;
 use ilMStListCourse;
@@ -19,6 +22,7 @@ use ilUserSearchOptions;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Staff\Courses\CoursesStaffGUI;
 use srag\Plugins\SrLpReport\Staff\StaffGUI;
+use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -36,14 +40,14 @@ final class Users {
 	/**
 	 * @var self
 	 */
-	protected static $instance = NULL;
+	protected static $instance = null;
 
 
 	/**
 	 * @return self
 	 */
 	public static function getInstance(): self {
-		if (self::$instance === NULL) {
+		if (self::$instance === null) {
 			self::$instance = new self();
 		}
 
@@ -84,47 +88,55 @@ final class Users {
 
 		$options = [
 			"filters" => $filter,
-			"limit" => [],
-			"count" => true,
-			"sort" => [
-				"field" => $order,
+			"limit"   => [],
+			"count"   => true,
+			"sort"    => [
+				"field"     => $order,
 				"direction" => $order_direction,
-			]
+			],
 		];
 
 		$data["max_count"] = ilMStListUsers::getData($arr_usr_id, $options);
 
 		$options["limit"] = [
 			"start" => $limit_start,
-			"end" => $limit_end,
+			"end"   => $limit_end,
 		];
 		$options["count"] = false;
 
-		$data["data"] = array_map(function (ilMStListUser $user): array {
-			$vars = Closure::bind(function (): array {
-				$vars = get_object_vars($this);
+		$data["data"] = array_map(
+			function (ilMStListUser $user): array {
+				$vars = Closure::bind(
+					function (): array {
+						$vars = get_object_vars($this);
 
-				$vars["usr_obj"] = $this->returnIlUserObj();
+						$vars["usr_obj"] = $this->returnIlUserObj();
+
+						return $vars;
+					}, $user, ilMStListUser::class
+				)();
+
+				$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($vars["usr_id"]);
+
+				$vars["interests_general"] = $vars["usr_obj"]->getGeneralInterestsAsText();
+
+				$vars["interests_help_offered"] = $vars["usr_obj"]->getOfferingHelpAsText();
+
+				ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
+					self::dic()->user()
+						->getId(), ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS)
+						->getOperationId(), ilSrLpReportUIHookGUI::TYPE_CRS
+				);
+
+				$vars["learning_progress_courses"] = array_map(
+					function (ilMStListCourse $course): int {
+						return self::dic()->objDataCache()->lookupObjId($course->getCrsRefId());
+					}, ilMStListCourses::getData([$vars["usr_id"]]) ?: []
+				);
 
 				return $vars;
-			}, $user, ilMStListUser::class)();
-
-			$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($vars["usr_id"]);
-
-			$vars["interests_general"] = $vars["usr_obj"]->getGeneralInterestsAsText();
-
-			$vars["interests_help_offered"] = $vars["usr_obj"]->getOfferingHelpAsText();
-
-			ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext(self::dic()->user()
-				->getId(), ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS)
-				->getOperationId(), ilSrLpReportUIHookGUI::TYPE_CRS);
-
-			$vars["learning_progress_courses"] = array_map(function (ilMStListCourse $course): int {
-				return self::dic()->objDataCache()->lookupObjId($course->getCrsRefId());
-			}, ilMStListCourses::getData([ $vars["usr_id"] ]) ?: []);
-
-			return $vars;
-		}, ilMStListUsers::getData($arr_usr_id, $options) ?: []);
+			}, ilMStListUsers::getData($arr_usr_id, $options) ?: []
+		);
 
 		return $data;
 	}
@@ -146,10 +158,17 @@ final class Users {
 	 * @param ilAdvancedSelectionListGUI $actions
 	 */
 	public function fillActions(ilAdvancedSelectionListGUI $actions) {
-		$actions->addItem(self::dic()->language()->txt("courses"), "", self::dic()->ctrl()->getLinkTargetByClass([
-			ilUIPluginRouterGUI::class,
-			StaffGUI::class,
-			CoursesStaffGUI::class
-		]));
+
+		self::dic()->ctrl()->saveParameterByClass(ilMStShowUserGUI::class, Reports::GET_PARAM_USR_ID);
+
+		$actions->addItem(
+			self::dic()->language()->txt("courses"), "", self::dic()->ctrl()->getLinkTargetByClass(
+			[
+				ilPersonalDesktopGUI::class,
+				ilMyStaffGUI::class,
+				ilMStShowUserGUI::class,
+			]
+		)
+		);
 	}
 }

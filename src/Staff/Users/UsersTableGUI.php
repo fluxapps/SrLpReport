@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
+use ilMStShowUserGUI;
 use ilAdvancedSelectionListGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
@@ -177,6 +178,9 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	protected function parseActions(/*array*/
 		$row
 	)/*: void*/ {
+
+		self::dic()->ctrl()->setParameterByClass(ilMStShowUserGUI::class, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
+
 		$actions = new ilAdvancedSelectionListGUI();
 		$actions->setId($row["usr_id"]);
 		$actions->setListTitle(self::dic()->language()->txt("actions"));
