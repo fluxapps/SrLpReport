@@ -1,31 +1,27 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\Staff\Courses;
+namespace srag\Plugins\SrLpReport\Staff\User;
 
 use Closure;
 use ilAdvancedSelectionListGUI;
 use ilMStListCourse;
-use ilMStListCourses;
+use ilMStShowUserCourses;
 use ilMyStaffAccess;
 use ilOrgUnitOperation;
 use ilOrgUnitOperationQueries;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
-use ilUIPluginRouterGUI;
 use srag\DIC\SrLpReport\DICTrait;
-use srag\Plugins\SrLpReport\Report\ReportGUI;
-use srag\Plugins\SrLpReport\Report\Reports;
-use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
- * Class Courses
+ * Class User
  *
- * @package srag\Plugins\SrLpReport\Staff\Courses
+ * @package srag\Plugins\SrLpReport\Staff\User
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Courses {
+final class User {
 
 	use DICTrait;
 	use SrLpReportTrait;
@@ -49,7 +45,7 @@ final class Courses {
 
 
 	/**
-	 * Courses constructor
+	 * User constructor
 	 */
 	private function __construct() {
 
@@ -57,6 +53,7 @@ final class Courses {
 
 
 	/**
+	 * @param int    $user_id
 	 * @param array  $filter
 	 * @param string $order
 	 * @param string $order_direction
@@ -65,7 +62,7 @@ final class Courses {
 	 *
 	 * @return array
 	 */
-	public function getData(array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
+	public function getData(int $user_id, array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
 		$data = [];
 
 		ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext(self::dic()->user()
@@ -79,10 +76,11 @@ final class Courses {
 			"sort" => [
 				"field" => $order,
 				"direction" => $order_direction,
-			]
+			],
+			"usr_id" => $user_id
 		];
 
-		$data["max_count"] = ilMStListCourses::getData([], $options);
+		$data["max_count"] = ilMStShowUserCourses::getData([], $options);
 
 		$options["limit"] = [
 			"start" => $limit_start,
@@ -90,7 +88,7 @@ final class Courses {
 		];
 		$options["count"] = false;
 
-		$data = array_map(function (ilMStListCourse $course): array {
+		$data["data"] = array_map(function (ilMStListCourse $course): array {
 			$vars = Closure::bind(function (): array {
 				$vars = get_object_vars($this);
 
@@ -100,26 +98,12 @@ final class Courses {
 				return $vars;
 			}, $course, ilMStListCourse::class)();
 
-			$vars["crs_obj_id"] = self::dic()->objDataCache()->lookupObjId($vars["crs_ref_id"]);
+			$vars["learning_progress_courses"] = array_map(function (array $child): int {
+				return intval($child["child"]);
+			}, self::dic()->tree()->getChilds($vars["crs_ref_id"]));
 
 			return $vars;
-		}, ilMStListCourses::getData([], $options) ?: []);
-
-		$data["data"] = array_map(function (array $course) use ($data): array {
-			$course["learning_progress_users"] = array_reduce(array_filter($data, function (array $course_) use ($course): bool {
-				return ($course_["crs_ref_id"] === $course["crs_ref_id"]);
-			}), function (array $users, array $course): array {
-				$users[] = intval($course["usr_id"]);
-
-				return $users;
-			}, []);
-
-			return $course;
-		}, array_reduce($data, function (array $data, array $course): array {
-			$data[$course["crs_ref_id"]] = $course;
-
-			return $data;
-		}, []));
+		}, ilMStShowUserCourses::getData([], $options) ?: []);
 
 		return $data;
 	}
@@ -129,13 +113,6 @@ final class Courses {
 	 * @param ilAdvancedSelectionListGUI $actions
 	 */
 	public function fillActions(ilAdvancedSelectionListGUI $actions) {
-		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
-		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, CoursesStaffGUI::class);
 
-		$actions->addItem(self::dic()->language()->txt("details"), "", self::dic()->ctrl()->getLinkTargetByClass([
-			ilUIPluginRouterGUI::class,
-			ReportGUI::class,
-			UserReportGUI::class
-		]));
 	}
 }

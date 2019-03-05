@@ -86,9 +86,9 @@ class ReportGUI {
 		self::dic()->ctrl()->saveParameterByClass(ilLearningProgressGUI::class, Reports::GET_PARAM_REF_ID);
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 
-		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, "return");
+		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN);
 
-		if (!empty(filter_input(INPUT_GET, "return"))) {
+		if (!empty(filter_input(INPUT_GET, Reports::GET_PARAM_RETURN))) {
 			self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
 				ilUIPluginRouterGUI::class,
 				StaffGUI::class,

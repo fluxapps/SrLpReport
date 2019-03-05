@@ -21,6 +21,7 @@ final class Reports {
 	const GET_PARAM_REF_ID = "ref_id";
 	const GET_PARAM_USR_ID = "usr_id";
 	const GET_PARAM_TARGET = "target";
+	const GET_PARAM_RETURN = "return";
 	/**
 	 * @var self
 	 */

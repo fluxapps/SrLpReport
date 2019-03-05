@@ -135,16 +135,6 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function fillRow(/*array*/
-		$row)/*: void*/ {
-
-		parent::fillRow($row);
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
 	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
 		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_REF_ID, $row["crs_ref_id"]);
 

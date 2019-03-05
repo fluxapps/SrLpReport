@@ -23,6 +23,14 @@ class CoursesStaffGUI extends AbstractStaffGUI {
 	/**
 	 * @inheritdoc
 	 */
+	protected function setTabs()/*: void*/ {
+
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function getTable(string $cmd = self::CMD_INDEX): AbstractStaffTableGUI {
 		$table = new CoursesTableGUI($this, $cmd);
 
@@ -33,11 +41,7 @@ class CoursesStaffGUI extends AbstractStaffGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getActions()/*: void*/ {
-		$actions = new ilAdvancedSelectionListGUI();
-
+	protected function fillActions(ilAdvancedSelectionListGUI $actions)/*: void*/ {
 		self::ilias()->staff()->courses()->fillActions($actions);
-
-		self::output()->output($actions->getHTML(true));
 	}
 }

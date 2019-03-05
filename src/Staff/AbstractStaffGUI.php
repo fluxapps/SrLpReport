@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff;
 
+use ilAdvancedSelectionListGUI;
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -42,6 +43,8 @@ abstract class AbstractStaffGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
+		$this->setTabs();
+
 		self::dic()->tabs()->activateTab(static::TAB_ID);
 
 		$next_class = self::dic()->ctrl()->getNextClass($this);
@@ -103,6 +106,25 @@ abstract class AbstractStaffGUI {
 
 
 	/**
+	 *
+	 */
+	protected function getActions()/*: void*/ {
+		$actions = new ilAdvancedSelectionListGUI();
+
+		$this->fillActions($actions);
+
+		self::output()->output($actions->getHTML(true));
+	}
+
+
+	/**
+	 *
+	 */
+	protected abstract function setTabs()/*: void*/
+	;
+
+
+	/**
 	 * @param string $cmd
 	 *
 	 * @return AbstractStaffTableGUI
@@ -111,8 +133,8 @@ abstract class AbstractStaffGUI {
 
 
 	/**
-	 *
+	 * @param ilAdvancedSelectionListGUI $actions
 	 */
-	protected abstract function getActions()/*: void*/
+	protected abstract function fillActions(ilAdvancedSelectionListGUI $actions)/*: void*/
 	;
 }

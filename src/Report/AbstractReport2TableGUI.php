@@ -127,7 +127,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 			if ($this->isColumnSelected($column["id"])) {
 				if (isset($column["icon"])) {
 					$alt = self::dic()->language()->txt($column["type"]);
-					$icon = '<img src="' . $column["icon"] . '" alt="' . $alt . '" />';
+					$icon = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column["icon"], $alt));
 					$column['txt'] = $icon . ' ' . $column['txt'];
 				}
 

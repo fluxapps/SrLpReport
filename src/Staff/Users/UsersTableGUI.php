@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
 use ilAdvancedSelectionListGUI;
-use ilMStShowUserGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use ilUserSearchOptions;
@@ -150,8 +149,6 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	 */
 	protected function fillRow(/*array*/
 		$row)/*: void*/ {
-		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
-
 		$this->tpl->setCurrentBlock("column");
 		$this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->image()
 			->standard($row["usr_obj"]->getPersonalPicturePath("small"), $row["usr_obj"]->getPublicName())));
@@ -165,7 +162,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
-		self::dic()->ctrl()->setParameterByClass(ilMStShowUserGUI::class, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
+		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
 
 		$actions->setId($row["usr_id"]);
 	}

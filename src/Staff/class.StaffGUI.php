@@ -8,6 +8,7 @@ use ilUtil;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Staff\Courses\CoursesStaffGUI;
 use srag\Plugins\SrLpReport\Staff\Users\UsersStaffGUI;
+use srag\Plugins\SrLpReport\Staff\Users\UserStaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -51,6 +52,9 @@ class StaffGUI {
 		switch (strtolower($next_class)) {
 			case strtolower(UsersStaffGUI::class):
 				self::dic()->ctrl()->forwardCommand(new UsersStaffGUI());
+				break;
+			case strtolower(UserStaffGUI::class):
+				self::dic()->ctrl()->forwardCommand(new UserStaffGUI());
 				break;
 			case strtolower(CoursesStaffGUI::class):
 				self::dic()->ctrl()->forwardCommand(new CoursesStaffGUI());
