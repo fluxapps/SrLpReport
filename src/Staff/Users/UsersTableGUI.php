@@ -2,11 +2,13 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
+use ilAdvancedSelectionListGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use ilUserSearchOptions;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
+use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 
 /**
@@ -24,12 +26,15 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	protected function getColumnValue(/*string*/
 		$column, /*array*/
 		$row, /*bool*/
-		$raw_export = false): string {
+		$raw_export = false
+	): string {
 		switch ($column) {
 			case "learning_progress_courses":
 				if (!$raw_export) {
-					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
-						->withUsrId($row["usr_id"])->withId($row["usr_id"]));
+					$column = self::output()->getHTML(
+						self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
+							->withUsrId($row["usr_id"])->withId($row["usr_id"])
+					);
 				} else {
 					$column = "";
 				}
@@ -52,7 +57,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 
 		$columns["learning_progress_courses"] = [
 			"default" => true,
-			"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("courses")
+			"txt"     => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("courses"),
 		];
 
 		$no_sort = [
@@ -60,7 +65,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 			"interests_general",
 			"interests_help_offered",
 			"interests_help_looking",
-			"learning_progress_courses"
+			"learning_progress_courses",
 		];
 
 		foreach ($columns as $id => &$column) {
@@ -98,8 +103,10 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 		$this->determineLimit();
 		$this->determineOffsetAndOrder();
 
-		$data = self::ilias()->staff()->users()->getData(self::dic()->user()
-			->getId(), $this->getFilterValues(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
+		$data = self::ilias()->staff()->users()->getData(
+			self::dic()->user()
+				->getId(), $this->getFilterValues(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit()
+		);
 
 		$this->setMaxCount($data["max_count"]);
 		$this->setData($data["data"]);
@@ -111,18 +118,18 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	 */
 	protected function initFilterFields()/*: void*/ {
 		$this->filter_fields = [
-			"user" => [
+			"user"     => [
 				PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => $this->dic()->language()->txt("login") . "/" . $this->dic()->language()->txt("email") . "/" . $this->dic()->language()
-						->txt("name")
+				"setTitle"                      => $this->dic()->language()->txt("login") . "/" . $this->dic()->language()->txt("email") . "/" . $this->dic()->language()
+						->txt("name"),
 			],
 			"org_unit" => [
-				PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
-				PropertyFormGUI::PROPERTY_OPTIONS => [ 0 => self::dic()->language()->txt("mst_opt_all") ] + self::ilias()->staff()->users()
+				PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
+				PropertyFormGUI::PROPERTY_OPTIONS => [0 => self::dic()->language()->txt("mst_opt_all")] + self::ilias()->staff()->users()
 						->getOrgUnits(),
 				PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units")),
-				"setTitle" => $this->dic()->language()->txt("obj_orgu"),
-			]
+				"setTitle"                        => $this->dic()->language()->txt("obj_orgu"),
+			],
 		];
 	}
 
@@ -147,14 +154,40 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function fillRow(/*array*/
-		$row)/*: void*/ {
+		$row
+	)/*: void*/ {
 		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
 
 		$this->tpl->setCurrentBlock("column");
-		$this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->image()
-			->standard($row["usr_obj"]->getPersonalPicturePath("small"), $row["usr_obj"]->getPublicName())));
+		$this->tpl->setVariable(
+			"COLUMN", self::output()->getHTML(
+			self::dic()->ui()->factory()->image()
+				->standard($row["usr_obj"]->getPersonalPicturePath("small"), $row["usr_obj"]->getPublicName())
+		)
+		);
 		$this->tpl->parseCurrentBlock();
 
 		parent::fillRow($row);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function parseActions(/*array*/
+		$row
+	)/*: void*/ {
+		$actions = new ilAdvancedSelectionListGUI();
+		$actions->setId($row["usr_id"]);
+		$actions->setListTitle(self::dic()->language()->txt("actions"));
+		$actions->setAsynch(true);
+		$actions->setAsynchUrl(
+			str_replace(
+				"\\", "\\\\", self::dic()->ctrl()
+				->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)
+			)
+		);
+		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
+		$this->tpl->parseCurrentBlock();
 	}
 }

@@ -33,8 +33,10 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	 * @param object $parent
 	 * @param string $parent_cmd
 	 */
-	public function __construct($parent, /*string*/
-		$parent_cmd) {
+	public function __construct(
+		$parent, /*string*/
+		$parent_cmd
+	) {
 
 		$this->course = true;
 		$this->ref_id = self::reports()->getReportObjRefId();
@@ -51,9 +53,11 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue($column, /*array*/
+	protected function getColumnValue(
+		$column, /*array*/
 		$row, /*bool*/
-		$raw_export = false): string {
+		$raw_export = false
+	): string {
 		switch ($column) {
 			case "status":
 				if ($raw_export) {
@@ -131,7 +135,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 					$column['txt'] = $icon . ' ' . $column['txt'];
 				}
 
-				$this->addColumn($column["txt"], ($column["sort"] ? $column["id"] : NULL), "", false, "", $column["path"]);
+				$this->addColumn($column["txt"], ($column["sort"] ? $column["id"] : null), "", false, "", $column["path"]);
 			}
 		}
 	}
@@ -145,27 +149,27 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 
 		// default fields
 		$cols["login"] = array(
-			"id" => "login",
-			"sort" => "login",
-			"txt" => self::dic()->language()->txt("login"),
-			"default" => true,
-			"all_reports" => true
+			"id"          => "login",
+			"sort"        => "login",
+			"txt"         => self::dic()->language()->txt("login"),
+			"default"     => true,
+			"all_reports" => true,
 		);
 
 		$cols["firstname"] = array(
-			"id" => "firstname",
-			"sort" => "firstname",
-			"txt" => self::dic()->language()->txt("firstname"),
-			"default" => true,
-			"all_reports" => true
+			"id"          => "firstname",
+			"sort"        => "firstname",
+			"txt"         => self::dic()->language()->txt("firstname"),
+			"default"     => true,
+			"all_reports" => true,
 		);
 
 		$cols["lastname"] = array(
-			"id" => "lastname",
-			"sort" => "lastname",
-			"txt" => self::dic()->language()->txt("lastname"),
-			"default" => true,
-			"all_reports" => true
+			"id"          => "lastname",
+			"sort"        => "lastname",
+			"txt"         => self::dic()->language()->txt("lastname"),
+			"default"     => true,
+			"all_reports" => true,
 		);
 
 		$user_profile = new ilUserProfile();
@@ -177,11 +181,11 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		foreach ($user_standard_fields as $key => $field) {
 			if (self::dic()->settings()->get("usr_settings_course_export_" . $key)) {
 				$cols[$key] = array(
-					"id" => $key,
-					"sort" => $key,
-					"txt" => self::dic()->language()->txt($key),
-					"default" => true,
-					"all_reports" => true
+					"id"          => $key,
+					"sort"        => $key,
+					"txt"         => self::dic()->language()->txt($key),
+					"default"     => true,
+					"all_reports" => true,
 				);
 			}
 		}
@@ -199,11 +203,11 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		foreach ($user_defined_fields_for_course as $definition) {
 			if ($definition["field_type"] != UDF_TYPE_WYSIWYG) {
 				$cols["udf_" . $definition["field_id"]] = array(
-					"id" => "udf_" . $definition["field_id"],
-					"sort" => "udf_" . $definition["field_id"],
-					"txt" => $definition["field_name"],
-					"default" => true,
-					"all_reports" => true
+					"id"          => "udf_" . $definition["field_id"],
+					"sort"        => "udf_" . $definition["field_id"],
+					"txt"         => $definition["field_name"],
+					"default"     => true,
+					"all_reports" => true,
 				);
 
 				$this->user_fields[] = $cols["udf_" . $definition["field_id"]];
@@ -258,12 +262,12 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 			$icon = ilObject::_getIcon("", "tiny", $type);
 
 			$cols["status"] = array(
-				"id" => "status",
-				"sort" => "status",
-				"txt" => self::dic()->language()->txt("learning_progress") . " " . self::dic()->objDataCache()->lookupTitle($this->obj_id),
-				"default" => true,
+				"id"          => "status",
+				"sort"        => "status",
+				"txt"         => self::dic()->language()->txt("learning_progress") . " " . self::dic()->objDataCache()->lookupTitle($this->obj_id),
+				"default"     => true,
 				"all_reports" => true,
-				"icon" => $icon
+				"icon"        => $icon,
 			);
 		}
 
@@ -286,11 +290,13 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 
 		$check_agreement = false;
 
-		$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $filter, $additional_fields, $check_agreement, $this->user_fields);
+		$tr_data
+			= ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $filter, $additional_fields, $check_agreement, $this->user_fields);
 
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
 			$this->resetOffset();
-			$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $filter, $additional_fields, $check_agreement, $this->user_fields);
+			$tr_data
+				= ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $filter, $additional_fields, $check_agreement, $this->user_fields);
 		}
 
 		foreach ($this->user_fields as $key => $value) {
@@ -323,21 +329,21 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 			switch ($key) {
 				case "status":
 					$this->filter_fields[$key] = [
-						PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
+						PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
 						PropertyFormGUI::PROPERTY_OPTIONS => [
-							0 => self::dic()->language()->txt("trac_all"),
+							0                                           => self::dic()->language()->txt("trac_all"),
 							ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
-							ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
-							ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_COMPLETED)
+							ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1   => self::dic()->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+							ilLPStatus::LP_STATUS_COMPLETED_NUM + 1     => self::dic()->language()->txt(ilLPStatus::LP_STATUS_COMPLETED)
 							//ilLPStatus::LP_STATUS_FAILED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_FAILED)
 						],
-						"setTitle" => $value['txt']
+						"setTitle"                        => $value['txt'],
 					];
 					break;
 				default:
 					$this->filter_fields[$key] = [
 						PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
-						"setTitle" => $value['txt']
+						"setTitle"                      => $value['txt'],
 					];
 					break;
 			}
@@ -349,7 +355,8 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	 * @param array $row
 	 */
 	protected function fillRow(/*array*/
-		$row)/*: void*/ {
+		$row
+	)/*: void*/ {
 		$this->tpl->setCurrentBlock("column");
 
 		parent::fillRow($row);
@@ -386,13 +393,15 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	 * @param int     $row
 	 * @param array   $result
 	 */
-	protected function fillRowExcel(ilExcel $excel, /*int*/
+	protected function fillRowExcel(
+		ilExcel $excel, /*int*/
 		&$row, /*array*/
-		$result)/*: void*/ {
+		$result
+	)/*: void*/ {
 		$col = 0;
 		foreach ($this->getSelectableColumns() as $column) {
 			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
-			$col ++;
+			$col++;
 		}
 	}
 
@@ -403,7 +412,8 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	 */
 	protected function fillRowCSV(/*ilCSVWriter*/
 		$csv, /*array*/
-		$row)/*: void*/ {
+		$row
+	)/*: void*/ {
 		foreach ($this->getSelectableColumns() as $column) {
 			$csv->addColumn($this->getColumnValue($column["id"], $row, true));
 		}

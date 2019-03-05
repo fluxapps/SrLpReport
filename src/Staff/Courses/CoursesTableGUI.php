@@ -2,9 +2,11 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Courses;
 
+use ilAdvancedSelectionListGUI;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
+use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 
 /**
@@ -22,12 +24,15 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 	protected function getColumnValue(/*string*/
 		$column, /*array*/
 		$row, /*bool*/
-		$raw_export = false): string {
+		$raw_export = false
+	): string {
 		switch ($column) {
 			case "learning_progress_users":
 				if (!$raw_export) {
-					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->usrIds()->withObjId($row["crs_obj_id"])
-						->withUsrIds($row[$column])->withId($row["crs_ref_id"]));
+					$column = self::output()->getHTML(
+						self::customInputGUIs()->learningProgressPie()->usrIds()->withObjId($row["crs_obj_id"])
+							->withUsrIds($row[$column])->withId($row["crs_ref_id"])
+					);
 				} else {
 					$column = "";
 				}
@@ -47,18 +52,18 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 	 */
 	public function getSelectableColumns2(): array {
 		$columns = [
-			"crs_title" => [
+			"crs_title"               => [
 				"default" => true,
-				"txt" => self::dic()->language()->txt("title"),
+				"txt"     => self::dic()->language()->txt("title"),
 			],
 			"learning_progress_users" => [
 				"default" => true,
-				"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("users")
-			]
+				"txt"     => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("users"),
+			],
 		];
 
 		$no_sort = [
-			"learning_progress_users"
+			"learning_progress_users",
 		];
 
 		foreach ($columns as $id => &$column) {
@@ -109,8 +114,8 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 		$this->filter_fields = [
 			"crs_title" => [
 				PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => $this->dic()->language()->txt("title")
-			]
+				"setTitle"                      => $this->dic()->language()->txt("title"),
+			],
 		];
 	}
 
@@ -135,9 +140,33 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function fillRow(/*array*/
-		$row)/*: void*/ {
-		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_REF_ID, $row["crs_ref_id"]);
+		$row
+	)/*: void*/ {
 
 		parent::fillRow($row);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function parseActions(/*array*/
+		$row
+	)/*: void*/ {
+
+		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_REF_ID, $row["crs_ref_id"]);
+
+		$actions = new ilAdvancedSelectionListGUI();
+		$actions->setId($row["crs_ref_id"]);
+		$actions->setListTitle(self::dic()->language()->txt("actions"));
+		$actions->setAsynch(true);
+		$actions->setAsynchUrl(
+			str_replace(
+				"\\", "\\\\", self::dic()->ctrl()
+				->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)
+			)
+		);
+		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
+		$this->tpl->parseCurrentBlock();
 	}
 }
