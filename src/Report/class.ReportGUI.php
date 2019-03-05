@@ -17,9 +17,9 @@ use srag\DIC\SrLpReport\Exception\DICException;
 use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
 use srag\Plugins\SrLpReport\Report\Summary\SummaryReportGUI;
 use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
-use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
-use srag\Plugins\SrLpReport\Staff\StaffGUI;
 use srag\Plugins\SrLpReport\Staff\Courses\CoursesStaffGUI;
+use srag\Plugins\SrLpReport\Staff\StaffGUI;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class BaseGUI
@@ -86,76 +86,51 @@ class ReportGUI {
 		self::dic()->ctrl()->saveParameterByClass(ilLearningProgressGUI::class, Reports::GET_PARAM_REF_ID);
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 
-
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, "return");
 
 		if (filter_input(INPUT_GET, "return")) {
-			self::dic()->tabs()->setBackTarget(
-				self::dic()->language()->txt("back"), self::dic()->ctrl()
-				->getLinkTargetByClass(
-					[ilUIPluginRouterGUI::class,
-					 StaffGUI::class,
-					 CoursesStaffGUI::class,
-					]
-				)
-			);
+			self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
+						ilUIPluginRouterGUI::class,
+						StaffGUI::class,
+						CoursesStaffGUI::class,
+					]));
 		} else {
 			self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()->getReportObjRefId()));
 		}
 
-		self::dic()->tabs()->addTab(
-			self::TAB_LEARNING_PROGRESS, self::dic()->language()->txt("learning_progress"), self::dic()->ctrl()
-			->getLinkTargetByClass(
-				[
+		self::dic()->tabs()->addTab(self::TAB_LEARNING_PROGRESS, self::dic()->language()->txt("learning_progress"), self::dic()->ctrl()
+			->getLinkTargetByClass([
 					ilRepositoryGUI::class,
 					ilObjCourseGUI::class,
 					ilLearningProgressGUI::class,
-				]
-			)
-		);
+				]));
 		self::dic()->tabs()->activateTab(self::TAB_LEARNING_PROGRESS);
 
-		self::dic()->tabs()->addSubTabTarget(
-			UserReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass(
-			[
+		self::dic()->tabs()->addSubTabTarget(UserReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass([
 				ilUIPluginRouterGUI::class,
 				ReportGUI::class,
 				UserReportGUI::class,
-			]
-		)
-		);
+			]));
 
-		self::dic()->tabs()->addSubTabTarget(
-			MatrixReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass(
-			[
+		self::dic()->tabs()->addSubTabTarget(MatrixReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass([
 				ilUIPluginRouterGUI::class,
 				ReportGUI::class,
 				MatrixReportGUI::class,
-			]
-		)
-		);
+			]));
 
-		self::dic()->tabs()->addSubTabTarget(
-			SummaryReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass(
-			[
+		self::dic()->tabs()->addSubTabTarget(SummaryReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass([
 				ilUIPluginRouterGUI::class,
 				ReportGUI::class,
 				SummaryReportGUI::class,
-			]
-		)
-		);
+			]));
 
 		if (self::access()->hasLPWriteAccess(self::reports()->getReportObjRefId())) {
-			self::dic()->tabs()->addSubTabTarget(
-				self::TAB_SETTINGS, self::dic()->ctrl()->getLinkTargetByClass(
-				[
+			self::dic()->tabs()->addSubTabTarget(self::TAB_SETTINGS, self::dic()->ctrl()->getLinkTargetByClass([
 					ilRepositoryGUI::class,
 					ilObjCourseGUI::class,
 					ilLearningProgressGUI::class,
 					ilLPListOfSettingsGUI::class,
-				]
-			)
-			);
+				]));
 		}
 	}
 

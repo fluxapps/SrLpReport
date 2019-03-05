@@ -7,7 +7,6 @@ use ilObjectLP;
 use ilTrQuery;
 use ilUtil;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
-use srag\Plugins\SrLpReport\Report\Reports;
 
 /**
  * Class SummaryTableGUI

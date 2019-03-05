@@ -129,7 +129,7 @@ final class Courses {
 	 * @param ilAdvancedSelectionListGUI $actions
 	 */
 	public function fillActions(ilAdvancedSelectionListGUI $actions) {
-		self::dic()->ctrl()->setParameterByClass(ReportGUI::class,"return","CoursesStaffGUI");
+		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, "return", "CoursesStaffGUI");
 
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 

@@ -4,8 +4,8 @@ require_once __DIR__ . "/../vendor/autoload.php";
 
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
-use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
+use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Report\Summary\SummaryReportGUI;
 use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
 use srag\Plugins\SrLpReport\Staff\Courses\CoursesStaffGUI;
@@ -62,8 +62,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 
 						self::$load[self::REDIRECT] = true;
 
-						self::dic()->ctrl()
-							->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
+						self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
 
 						switch (self::dic()->ctrl()->getCmd()) {
 							case "showUserObjectMatrix":

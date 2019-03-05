@@ -26,7 +26,7 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initExport()/*: void*/ {
-		$this->setExportFormats([self::EXPORT_EXCEL, self::EXPORT_CSV]);
+		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
 	}
 
 
@@ -34,8 +34,7 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function fillRow(/*array*/
-		$row
-	)/*: void*/ {
+		$row)/*: void*/ {
 		parent::fillRow($row);
 
 		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_REF_ID, $row["crs_ref_id"]);
@@ -48,7 +47,6 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected abstract function parseActions(/*array*/
-		$row
-	)/*: void*/
+		$row)/*: void*/
 	;
 }
