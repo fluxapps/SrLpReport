@@ -150,9 +150,9 @@ final class Users {
 		self::dic()->ctrl()->saveParameterByClass(ilMStShowUserGUI::class, Reports::GET_PARAM_USR_ID);
 
 		$actions->addItem(self::dic()->language()->txt("courses"), "", self::dic()->ctrl()->getLinkTargetByClass([
-				ilPersonalDesktopGUI::class,
-				ilMyStaffGUI::class,
-				ilMStShowUserGUI::class
-			]));
+			ilPersonalDesktopGUI::class,
+			ilMyStaffGUI::class,
+			ilMStShowUserGUI::class
+		]));
 	}
 }

@@ -156,7 +156,7 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 		$actions->setListTitle(self::dic()->language()->txt("actions"));
 		$actions->setAsynch(true);
 		$actions->setAsynchUrl(str_replace("\\", "\\\\", self::dic()->ctrl()
-				->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)));
+			->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)));
 		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
 		$this->tpl->parseCurrentBlock();
 	}
