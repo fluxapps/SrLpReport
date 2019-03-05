@@ -331,13 +331,13 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 							ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_COMPLETED)
 							//ilLPStatus::LP_STATUS_FAILED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_FAILED)
 						],
-						"setTitle" => $value['txt'],
+						"setTitle" => $value['txt']
 					];
 					break;
 				default:
 					$this->filter_fields[$key] = [
 						PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
-						"setTitle" => $value['txt'],
+						"setTitle" => $value['txt']
 					];
 					break;
 			}
