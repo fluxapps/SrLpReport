@@ -44,9 +44,8 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 
 
 	/**
-	 *
+	 * @param array $row
 	 */
-	protected abstract function parseActions(/*array*/
-		$row)/*: void*/
+	protected abstract function parseActions(array $row)/*: void*/
 	;
 }
