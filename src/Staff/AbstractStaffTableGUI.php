@@ -44,7 +44,7 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 
 
 	/**
-	 * @inheritdoc
+	 *
 	 */
 	protected abstract function parseActions(/*array*/
 		$row)/*: void*/
