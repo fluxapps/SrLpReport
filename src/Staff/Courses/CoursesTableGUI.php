@@ -112,7 +112,7 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 			"crs_title" => [
 				PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
 				"setTitle" => $this->dic()->language()->txt("title")
-			],
+			]
 		];
 	}
 
