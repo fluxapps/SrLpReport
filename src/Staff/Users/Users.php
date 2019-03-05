@@ -8,17 +8,18 @@ use ilMStListCourse;
 use ilMStListCourses;
 use ilMStListUser;
 use ilMStListUsers;
+use ilMStShowUserGUI;
 use ilMyStaffAccess;
+use ilMyStaffGUI;
 use ilOrgUnitOperation;
 use ilOrgUnitOperationQueries;
 use ilOrgUnitPathStorage;
+use ilPersonalDesktopGUI;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
-use ilUIPluginRouterGUI;
 use ilUserSearchOptions;
 use srag\DIC\SrLpReport\DICTrait;
-use srag\Plugins\SrLpReport\Staff\Courses\CoursesStaffGUI;
-use srag\Plugins\SrLpReport\Staff\StaffGUI;
+use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -146,10 +147,12 @@ final class Users {
 	 * @param ilAdvancedSelectionListGUI $actions
 	 */
 	public function fillActions(ilAdvancedSelectionListGUI $actions) {
+		self::dic()->ctrl()->saveParameterByClass(ilMStShowUserGUI::class, Reports::GET_PARAM_USR_ID);
+
 		$actions->addItem(self::dic()->language()->txt("courses"), "", self::dic()->ctrl()->getLinkTargetByClass([
-			ilUIPluginRouterGUI::class,
-			StaffGUI::class,
-			CoursesStaffGUI::class
+			ilPersonalDesktopGUI::class,
+			ilMyStaffGUI::class,
+			ilMStShowUserGUI::class
 		]));
 	}
 }

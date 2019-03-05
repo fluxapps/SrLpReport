@@ -17,6 +17,8 @@ use srag\DIC\SrLpReport\Exception\DICException;
 use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
 use srag\Plugins\SrLpReport\Report\Summary\SummaryReportGUI;
 use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
+use srag\Plugins\SrLpReport\Staff\Courses\CoursesStaffGUI;
+use srag\Plugins\SrLpReport\Staff\StaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -84,7 +86,17 @@ class ReportGUI {
 		self::dic()->ctrl()->saveParameterByClass(ilLearningProgressGUI::class, Reports::GET_PARAM_REF_ID);
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 
-		self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()->getReportObjRefId()));
+		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, "return");
+
+		if (!empty(filter_input(INPUT_GET, "return"))) {
+			self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
+				ilUIPluginRouterGUI::class,
+				StaffGUI::class,
+				CoursesStaffGUI::class
+			]));
+		} else {
+			self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()->getReportObjRefId()));
+		}
 
 		self::dic()->tabs()->addTab(self::TAB_LEARNING_PROGRESS, self::dic()->language()->txt("learning_progress"), self::dic()->ctrl()
 			->getLinkTargetByClass([

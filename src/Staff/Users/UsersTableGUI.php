@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
+use ilAdvancedSelectionListGUI;
+use ilMStShowUserGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use ilUserSearchOptions;
@@ -156,5 +158,15 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 		$this->tpl->parseCurrentBlock();
 
 		parent::fillRow($row);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
+		self::dic()->ctrl()->setParameterByClass(ilMStShowUserGUI::class, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
+
+		$actions->setId($row["usr_id"]);
 	}
 }
