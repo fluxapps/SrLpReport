@@ -87,7 +87,7 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 					}
 
 					// #16453
-					$relpath = NULL;
+					$relpath = null;
 					$path = new ilPathGUI();
 					$path = $path->getPath($this->ref_id, $ref_id);
 					if ($path) {

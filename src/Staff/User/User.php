@@ -8,7 +8,6 @@ use ilMStListCourse;
 use ilMStShowUserCourses;
 use ilMyStaffAccess;
 use ilOrgUnitOperation;
-use ilOrgUnitOperationQueries;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
 use srag\DIC\SrLpReport\DICTrait;
@@ -29,14 +28,14 @@ final class User {
 	/**
 	 * @var self
 	 */
-	protected static $instance = NULL;
+	protected static $instance = null;
 
 
 	/**
 	 * @return self
 	 */
 	public static function getInstance(): self {
-		if (self::$instance === NULL) {
+		if (self::$instance === null) {
 			self::$instance = new self();
 		}
 
@@ -65,10 +64,6 @@ final class User {
 	public function getData(int $user_id, array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
 		$data = [];
 
-		ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext(self::dic()->user()
-			->getId(), ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS)
-			->getOperationId(), ilSrLpReportUIHookGUI::TYPE_CRS);
-
 		$options = [
 			"filters" => $filter,
 			"limit" => [],
@@ -80,7 +75,10 @@ final class User {
 			"usr_id" => $user_id
 		];
 
-		$data["max_count"] = ilMStShowUserCourses::getData([], $options);
+		$users = ilMyStaffAccess::getInstance()->getUsersForUserOperationAndContext(self::dic()->user()
+			->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS);
+
+		$data["max_count"] = ilMStShowUserCourses::getData($users, $options);
 
 		$options["limit"] = [
 			"start" => $limit_start,
@@ -103,7 +101,7 @@ final class User {
 			}, self::dic()->tree()->getChilds($vars["crs_ref_id"]));
 
 			return $vars;
-		}, ilMStShowUserCourses::getData([], $options) ?: []);
+		}, ilMStShowUserCourses::getData($users, $options) ?: []);
 
 		return $data;
 	}

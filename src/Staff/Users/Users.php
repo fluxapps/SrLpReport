@@ -5,12 +5,11 @@ namespace srag\Plugins\SrLpReport\Staff\Users;
 use Closure;
 use ilAdvancedSelectionListGUI;
 use ilMStListCourse;
-use ilMStListCourses;
 use ilMStListUser;
 use ilMStListUsers;
+use ilMStShowUserCourses;
 use ilMyStaffAccess;
 use ilOrgUnitOperation;
-use ilOrgUnitOperationQueries;
 use ilOrgUnitPathStorage;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
@@ -36,14 +35,14 @@ final class Users {
 	/**
 	 * @var self
 	 */
-	protected static $instance = NULL;
+	protected static $instance = null;
 
 
 	/**
 	 * @return self
 	 */
 	public static function getInstance(): self {
-		if (self::$instance === NULL) {
+		if (self::$instance === null) {
 			self::$instance = new self();
 		}
 
@@ -80,7 +79,7 @@ final class Users {
 	public function getData(int $usr_id, array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
 		$data = [];
 
-		$arr_usr_id = ilMyStaffAccess::getInstance()->getUsersForUser($usr_id);
+		$users = ilMyStaffAccess::getInstance()->getUsersForUser($usr_id);
 
 		$options = [
 			"filters" => $filter,
@@ -92,7 +91,7 @@ final class Users {
 			]
 		];
 
-		$data["max_count"] = ilMStListUsers::getData($arr_usr_id, $options);
+		$data["max_count"] = ilMStListUsers::getData($users, $options);
 
 		$options["limit"] = [
 			"start" => $limit_start,
@@ -115,16 +114,13 @@ final class Users {
 
 			$vars["interests_help_offered"] = $vars["usr_obj"]->getOfferingHelpAsText();
 
-			ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext(self::dic()->user()
-				->getId(), ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS)
-				->getOperationId(), ilSrLpReportUIHookGUI::TYPE_CRS);
-
 			$vars["learning_progress_courses"] = array_map(function (ilMStListCourse $course): int {
 				return self::dic()->objDataCache()->lookupObjId($course->getCrsRefId());
-			}, ilMStListCourses::getData([ $vars["usr_id"] ]) ?: []);
+			}, ilMStShowUserCourses::getData(ilMyStaffAccess::getInstance()
+				->getUsersForUserOperationAndContext($vars["usr_id"], ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS)) ?: []);
 
 			return $vars;
-		}, ilMStListUsers::getData($arr_usr_id, $options) ?: []);
+		}, ilMStListUsers::getData($users, $options) ?: []);
 
 		return $data;
 	}

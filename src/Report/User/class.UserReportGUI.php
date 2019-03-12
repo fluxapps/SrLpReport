@@ -70,7 +70,7 @@ class UserReportGUI extends AbstractReportGUI {
 		}
 
 		$template = [];
-		$sig = NULL;
+		$sig = null;
 
 		// repository-object-specific
 		$ref_id = self::reports()->getReportObjRefId();

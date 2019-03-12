@@ -7,10 +7,7 @@ use ilAdvancedSelectionListGUI;
 use ilMStListCourse;
 use ilMStListCourses;
 use ilMyStaffAccess;
-use ilOrgUnitOperation;
-use ilOrgUnitOperationQueries;
 use ilSrLpReportPlugin;
-use ilSrLpReportUIHookGUI;
 use ilUIPluginRouterGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
@@ -33,14 +30,14 @@ final class Courses {
 	/**
 	 * @var self
 	 */
-	protected static $instance = NULL;
+	protected static $instance = null;
 
 
 	/**
 	 * @return self
 	 */
 	public static function getInstance(): self {
-		if (self::$instance === NULL) {
+		if (self::$instance === null) {
 			self::$instance = new self();
 		}
 
@@ -68,9 +65,7 @@ final class Courses {
 	public function getData(array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
 		$data = [];
 
-		ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext(self::dic()->user()
-			->getId(), ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS)
-			->getOperationId(), ilSrLpReportUIHookGUI::TYPE_CRS);
+		$users = ilMyStaffAccess::getInstance()->getUsersForUser(self::dic()->user()->getId());
 
 		$options = [
 			"filters" => $filter,
@@ -82,7 +77,7 @@ final class Courses {
 			]
 		];
 
-		$data["max_count"] = ilMStListCourses::getData([], $options);
+		$data["max_count"] = ilMStListCourses::getData($users, $options);
 
 		$options["limit"] = [
 			"start" => $limit_start,
@@ -103,7 +98,7 @@ final class Courses {
 			$vars["crs_obj_id"] = self::dic()->objDataCache()->lookupObjId($vars["crs_ref_id"]);
 
 			return $vars;
-		}, ilMStListCourses::getData([], $options) ?: []);
+		}, ilMStListCourses::getData($users, $options) ?: []);
 
 		$data["data"] = array_map(function (array $course) use ($data): array {
 			$course["learning_progress_users"] = array_reduce(array_filter($data, function (array $course_) use ($course): bool {

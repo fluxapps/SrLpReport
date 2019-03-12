@@ -25,14 +25,14 @@ final class Reports {
 	/**
 	 * @var self
 	 */
-	protected static $instance = NULL;
+	protected static $instance = null;
 
 
 	/**
 	 * @return self
 	 */
 	public static function getInstance(): self {
-		if (self::$instance === NULL) {
+		if (self::$instance === null) {
 			self::$instance = new self();
 		}
 
@@ -54,7 +54,7 @@ final class Reports {
 	public function getReportObjRefId()/*: ?int*/ {
 		$obj_ref_id = filter_input(INPUT_GET, self::GET_PARAM_REF_ID);
 
-		if ($obj_ref_id === NULL) {
+		if ($obj_ref_id === null) {
 			$param_target = filter_input(INPUT_GET, self::GET_PARAM_TARGET);
 
 			$obj_ref_id = explode("_", $param_target)[1];
@@ -65,7 +65,7 @@ final class Reports {
 		if ($obj_ref_id > 0) {
 			return $obj_ref_id;
 		} else {
-			return NULL;
+			return null;
 		}
 	}
 
@@ -81,7 +81,7 @@ final class Reports {
 		if ($usr_id > 0) {
 			return $usr_id;
 		} else {
-			return NULL;
+			return null;
 		}
 	}
 }

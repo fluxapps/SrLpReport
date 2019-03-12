@@ -131,7 +131,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 					$column['txt'] = $icon . ' ' . $column['txt'];
 				}
 
-				$this->addColumn($column["txt"], ($column["sort"] ? $column["id"] : NULL), "", false, "", $column["path"]);
+				$this->addColumn($column["txt"], ($column["sort"] ? $column["id"] : null), "", false, "", $column["path"]);
 			}
 		}
 	}
