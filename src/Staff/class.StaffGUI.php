@@ -7,8 +7,8 @@ use ilSrLpReportPlugin;
 use ilUtil;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Staff\Courses\CoursesStaffGUI;
+use srag\Plugins\SrLpReport\Staff\User\UserStaffGUI;
 use srag\Plugins\SrLpReport\Staff\Users\UsersStaffGUI;
-use srag\Plugins\SrLpReport\Staff\Users\UserStaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**

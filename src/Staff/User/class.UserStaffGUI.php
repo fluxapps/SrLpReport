@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\Staff\Users;
+namespace srag\Plugins\SrLpReport\Staff\User;
 
 use ilAdvancedSelectionListGUI;
 use ilUIPluginRouterGUI;
@@ -8,16 +8,16 @@ use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 use srag\Plugins\SrLpReport\Staff\StaffGUI;
-use srag\Plugins\SrLpReport\Staff\User\UserTableGUI;
+use srag\Plugins\SrLpReport\Staff\Users\UsersStaffGUI;
 
 /**
  * Class UserStaffGUI
  *
- * @package           srag\Plugins\SrLpReport\Staff\Users
+ * @package           srag\Plugins\SrLpReport\Staff\User
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy srag\Plugins\SrLpReport\Staff\Users\UserStaffGUI: srag\Plugins\SrLpReport\Staff\StaffGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrLpReport\Staff\User\UserStaffGUI: srag\Plugins\SrLpReport\Staff\StaffGUI
  */
 class UserStaffGUI extends AbstractStaffGUI {
 

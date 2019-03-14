@@ -10,6 +10,7 @@ use srag\Plugins\SrLpReport\Report\Summary\SummaryReportGUI;
 use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
 use srag\Plugins\SrLpReport\Staff\Courses\CoursesStaffGUI;
 use srag\Plugins\SrLpReport\Staff\StaffGUI;
+use srag\Plugins\SrLpReport\Staff\User\UserStaffGUI;
 use srag\Plugins\SrLpReport\Staff\Users\UsersStaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -106,6 +107,16 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 						ilUIPluginRouterGUI::class,
 						StaffGUI::class,
 						CoursesStaffGUI::class
+					]);
+				}
+
+				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMStShowUserGUI::class)) {
+					self::$load[self::REDIRECT] = true;
+
+					self::dic()->ctrl()->redirectByClass([
+						ilUIPluginRouterGUI::class,
+						StaffGUI::class,
+						UserStaffGUI::class
 					]);
 				}
 			}
