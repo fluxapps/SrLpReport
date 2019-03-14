@@ -71,12 +71,13 @@ final class User {
 			"sort" => [
 				"field" => $order,
 				"direction" => $order_direction,
-			],
-			"usr_id" => $user_id
+			]
 		];
 
 		$users = ilMyStaffAccess::getInstance()->getUsersForUserOperationAndContext(self::dic()->user()
 			->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS);
+
+		$options["filters"]["usr_id"] = $user_id;
 
 		$data["max_count"] = ilMStShowUserCourses::getData($users, $options);
 
@@ -101,7 +102,7 @@ final class User {
 			}, self::dic()->tree()->getChilds($vars["crs_ref_id"]));
 
 			return $vars;
-		}, ilMStShowUserCourses::getData($users, $options) ?: []);
+		}, ilMStShowUserCourses::getData($users, $options));
 
 		return $data;
 	}

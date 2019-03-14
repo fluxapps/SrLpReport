@@ -117,10 +117,10 @@ final class Users {
 			$vars["learning_progress_courses"] = array_map(function (ilMStListCourse $course): int {
 				return self::dic()->objDataCache()->lookupObjId($course->getCrsRefId());
 			}, ilMStShowUserCourses::getData(ilMyStaffAccess::getInstance()
-				->getUsersForUserOperationAndContext($vars["usr_id"], ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS)) ?: []);
+				->getUsersForUserOperationAndContext($vars["usr_id"], ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS)));
 
 			return $vars;
-		}, ilMStListUsers::getData($users, $options) ?: []);
+		}, ilMStListUsers::getData($users, $options));
 
 		return $data;
 	}

@@ -38,7 +38,7 @@ class UserStaffGUI extends AbstractStaffGUI {
 			UsersStaffGUI::class
 		]));
 
-		self::dic()->tabs()->addTab(UserStaffGUI::TAB_ID, self::dic()->language()->txt("user"), self::dic()->ctrl()
+		self::dic()->tabs()->addTab(UserStaffGUI::TAB_ID, self::dic()->language()->txt("courses"), self::dic()->ctrl()
 			->getLinkTargetByClass(UserStaffGUI::class));
 		self::dic()->tabs()->activateTab(UserStaffGUI::TAB_ID);
 	}

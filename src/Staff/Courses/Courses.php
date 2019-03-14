@@ -85,7 +85,7 @@ final class Courses {
 		];
 		$options["count"] = false;
 
-		$data = array_map(function (ilMStListCourse $course): array {
+		$data_ = array_map(function (ilMStListCourse $course): array {
 			$vars = Closure::bind(function (): array {
 				$vars = get_object_vars($this);
 
@@ -98,10 +98,10 @@ final class Courses {
 			$vars["crs_obj_id"] = self::dic()->objDataCache()->lookupObjId($vars["crs_ref_id"]);
 
 			return $vars;
-		}, ilMStListCourses::getData($users, $options) ?: []);
+		}, ilMStListCourses::getData($users, $options));
 
-		$data["data"] = array_map(function (array $course) use ($data): array {
-			$course["learning_progress_users"] = array_reduce(array_filter($data, function (array $course_) use ($course): bool {
+		$data["data"] = array_map(function (array $course) use ($data_): array {
+			$course["learning_progress_users"] = array_reduce(array_filter($data_, function (array $course_) use ($course): bool {
 				return ($course_["crs_ref_id"] === $course["crs_ref_id"]);
 			}), function (array $users, array $course): array {
 				$users[] = intval($course["usr_id"]);
@@ -110,7 +110,7 @@ final class Courses {
 			}, []);
 
 			return $course;
-		}, array_reduce($data, function (array $data, array $course): array {
+		}, array_reduce($data_, function (array $data, array $course): array {
 			$data[$course["crs_ref_id"]] = $course;
 
 			return $data;
