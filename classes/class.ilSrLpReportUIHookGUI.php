@@ -53,6 +53,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 		$a_par = [])/*: void*/ {
 		if (!self::$load[self::REDIRECT]) {
 
+			// Redirect not to early, causes endless loop because wrong baseClass in URL!
 			if ($a_part === self::PAR_TABS) {
 
 				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLPListOfObjectsGUI::class)) {
