@@ -81,7 +81,7 @@ final class Courses {
 
 		$options["limit"] = [
 			"start" => $limit_start,
-			"end" => $limit_end,
+			"end" => $limit_end
 		];
 		$options["count"] = false;
 
