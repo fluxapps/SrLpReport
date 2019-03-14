@@ -113,6 +113,8 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMStShowUserGUI::class)) {
 					self::$load[self::REDIRECT] = true;
 
+					self::dic()->ctrl()->saveParameterByClass(StaffGUI::class, Reports::GET_PARAM_USR_ID);
+
 					self::dic()->ctrl()->redirectByClass([
 						ilUIPluginRouterGUI::class,
 						StaffGUI::class,

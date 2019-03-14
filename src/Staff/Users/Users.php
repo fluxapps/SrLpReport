@@ -18,6 +18,7 @@ use ilUserSearchOptions;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\StaffGUI;
+use srag\Plugins\SrLpReport\Staff\User\UserStaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
