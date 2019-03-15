@@ -40,7 +40,7 @@ class UserTableGUI extends AbstractStaffTableGUI {
 			case "learning_progress_courses":
 				if (!$raw_export) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
-						->withUsrId($row["usr_id"])->withId($row["usr_id"]));
+						->withUsrId($row["usr_id"])->withId($row["crs_ref_id"]));
 				} else {
 					$column = "";
 				}

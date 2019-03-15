@@ -115,14 +115,16 @@ final class Users {
 
 			$vars["interests_help_offered"] = $vars["usr_obj"]->getOfferingHelpAsText();
 
-			$vars["learning_progress_courses"] = array_map(function (ilMStListCourse $course): int {
-				return self::dic()->objDataCache()->lookupObjId($course->getCrsRefId());
-			}, ilMStShowUserCourses::getData(ilMyStaffAccess::getInstance()
-				->getUsersForUserOperationAndContext($vars["usr_id"], ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS), [
+			$users = ilMyStaffAccess::getInstance()->getUsersForUserOperationAndContext(self::dic()->user()
+				->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS);
+			$options = [
 				"filters" => [
 					"usr_id" => $vars["usr_id"]
 				]
-			]));
+			];
+			$vars["learning_progress_courses"] = array_map(function (ilMStListCourse $course): int {
+				return self::dic()->objDataCache()->lookupObjId($course->getCrsRefId());
+			}, ilMStShowUserCourses::getData($users, $options));
 
 			return $vars;
 		}, ilMStListUsers::getData($users, $options));
