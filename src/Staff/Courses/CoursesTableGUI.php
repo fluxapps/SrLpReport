@@ -28,7 +28,7 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 			case "learning_progress_users":
 				if (!$raw_export) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->usrIds()->withObjId($row["crs_obj_id"])
-						->withUsrIds($row[$column])->withId($row["crs_ref_id"]));
+						->withUsrIds($row[$column])->withId($row["crs_obj_id"]));
 				} else {
 					$column = "";
 				}

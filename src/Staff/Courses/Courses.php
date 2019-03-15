@@ -73,7 +73,7 @@ final class Courses {
 			"count" => true,
 			"sort" => [
 				"field" => $order,
-				"direction" => $order_direction,
+				"direction" => $order_direction
 			]
 		];
 
