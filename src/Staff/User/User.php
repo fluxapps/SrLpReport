@@ -97,6 +97,8 @@ final class User {
 				return $vars;
 			}, $course, ilMStListCourse::class)();
 
+			$vars["crs_obj_id"] = self::dic()->objDataCache()->lookupObjId($vars["crs_ref_id"]);
+
 			$vars["learning_progress_courses"] = array_map(function (array $child): int {
 				return intval($child["child"]);
 			}, self::dic()->tree()->getChilds($vars["crs_ref_id"]));
