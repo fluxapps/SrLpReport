@@ -4,6 +4,7 @@ namespace srag\Plugins\SrLpReport\Staff\User;
 
 use ilAdvancedSelectionListGUI;
 use ilLearningProgressBaseGUI;
+use ilLink;
 use ilLPStatus;
 use ilMStListCourse;
 use ilPublicUserProfileGUI;
@@ -29,6 +30,11 @@ class UserTableGUI extends AbstractStaffTableGUI {
 		$row, /*bool*/
 		$raw_export = false): string {
 		switch ($column) {
+			case "crs_title":
+				$column = self::output()->getHTML(self::dic()->ui()->factory()->link()
+					->standard($row[$column], ilLink::_getLink($row["crs_ref_id"])));
+				break;
+
 			case "usr_reg_status":
 				$column = ilMStListCourse::getMembershipStatusText($row[$column]);
 				break;

@@ -23,14 +23,14 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 	/**
 	 * @var self|null
 	 */
-	protected static $instance = NULL;
+	protected static $instance = null;
 
 
 	/**
 	 * @return self
 	 */
 	public static function getInstance(): self {
-		if (self::$instance === NULL) {
+		if (self::$instance === null) {
 			self::$instance = new self();
 		}
 

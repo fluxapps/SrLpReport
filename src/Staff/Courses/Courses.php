@@ -127,10 +127,18 @@ final class Courses {
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, CoursesStaffGUI::class);
 
-		$actions->addItem(self::dic()->language()->txt("learning_progress"), "", self::dic()->ctrl()->getLinkTargetByClass([
-			ilUIPluginRouterGUI::class,
-			ReportGUI::class,
-			UserReportGUI::class
-		]));
+		if (self::access()->hasLPReadAccess(self::reports()->getReportObjRefId())) {
+			$actions->addItem(self::dic()->language()->txt("learning_progress"), "", self::dic()->ctrl()->getLinkTargetByClass([
+				ilUIPluginRouterGUI::class,
+				ReportGUI::class,
+				UserReportGUI::class
+			]));
+		} else {
+			$actions->addItem(self::dic()->language()->txt("participants"), "", self::dic()->ctrl()->getLinkTargetByClass([
+				ilUIPluginRouterGUI::class,
+				ReportGUI::class,
+				UserReportGUI::class
+			]));
+		}
 	}
 }
