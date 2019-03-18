@@ -59,6 +59,32 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 
 
 	/**
+	 * @return array
+	 */
+	protected final function getFilterValues2(): array {
+		$filter = $this->getFilterValues();
+
+		if (isset($filter["status"])) {
+			if ($filter["status"] > 0) {
+				$filter["status"] -= 1;
+			} else {
+				unset($filter["status"]);
+			}
+		}
+
+		if (isset($filter["lp_status"])) {
+			if ($filter["lp_status"] > 0) {
+				$filter["lp_status"] -= 1;
+			} else {
+				unset($filter["lp_status"]);
+			}
+		}
+
+		return $filter;
+	}
+
+
+	/**
 	 * @param ilAdvancedSelectionListGUI $actions
 	 * @param array                      $row
 	 */

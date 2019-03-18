@@ -96,7 +96,7 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 		$this->determineOffsetAndOrder();
 
 		$data = self::ilias()->staff()->courses()
-			->getData($this->getFilterValues(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
+			->getData($this->getFilterValues2(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
 
 		$this->setMaxCount($data["max_count"]);
 		$this->setData($data["data"]);

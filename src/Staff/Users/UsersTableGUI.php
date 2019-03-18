@@ -100,7 +100,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 		$this->determineOffsetAndOrder();
 
 		$data = self::ilias()->staff()->users()->getData(self::dic()->user()
-			->getId(), $this->getFilterValues(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
+			->getId(), $this->getFilterValues2(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
 
 		$this->setMaxCount($data["max_count"]);
 		$this->setData($data["data"]);

@@ -45,10 +45,20 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	protected final function getFilterValues2(): array {
 		$filter = $this->getFilterValues();
 
-		if ($filter["status"] > 0) {
-			$filter["status"] -= 1;
-		} else {
-			unset($filter["status"]);
+		if (isset($filter["status"])) {
+			if ($filter["status"] > 0) {
+				$filter["status"] -= 1;
+			} else {
+				unset($filter["status"]);
+			}
+		}
+
+		if (isset($filter["lp_status"])) {
+			if ($filter["lp_status"] > 0) {
+				$filter["lp_status"] -= 1;
+			} else {
+				unset($filter["lp_status"]);
+			}
 		}
 
 		return $filter;
