@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report\Matrix;
 
+use ilAdvancedSelectionListGUI;
 use ilExcel;
 use ilLearningProgressAccess;
 use ilLPObjSettings;
@@ -11,6 +12,7 @@ use ilObjSession;
 use ilPathGUI;
 use ilTrQuery;
 use srag\Plugins\SrLpReport\Report\AbstractReport2TableGUI;
+use srag\Plugins\SrLpReport\Report\Reports;
 
 /**
  * Class MatrixTableGUI
@@ -46,9 +48,7 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 			}
 		}
 
-		return parent::getColumnValue($column, /*array*/
-			$row, /*bool*/
-			$raw_export);
+		return parent::getColumnValue($column, $row, $raw_export);
 	}
 
 
@@ -199,7 +199,22 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 	}
 
 
-	protected function isPercentageAvailable($a_obj_id) {
+	/**
+	 * @inheritdoc
+	 */
+	protected function initColumns()/*: void*/ {
+		parent::initColumns();
+
+		$this->addColumn(self::dic()->language()->txt("actions"));
+	}
+
+
+	/**
+	 * @param int $a_obj_id
+	 *
+	 * @return bool
+	 */
+	protected function isPercentageAvailable(int $a_obj_id) {
 		// TODO:
 		$olp = ilObjectLP::getInstance($a_obj_id);
 		$mode = $olp->getCurrentMode();
@@ -222,6 +237,8 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 	 */
 	protected function fillRow(/*array*/
 		$row)/*: void*/ {
+		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
+
 		$this->tpl->setCurrentBlock("column");
 
 		foreach ($this->getSelectableColumns() as $column) {
@@ -241,6 +258,14 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 		$this->tpl->setCurrentBlock("checkbox");
 		$this->tpl->setVariable("CHECKBOX_POST_VAR", 'usr_id');
 		$this->tpl->setVariable("ID", $row['usr_id']);
+		$this->tpl->parseCurrentBlock();
+
+		$actions = new ilAdvancedSelectionListGUI();
+		$actions->setListTitle(self::dic()->language()->txt("actions"));
+		$actions->setAsynch(true);
+		$actions->setAsynchUrl(str_replace("\\", "\\\\", self::dic()->ctrl()
+			->getLinkTarget($this->parent_obj, MatrixReportGUI::CMD_GET_ACTIONS, "", true)));
+		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
 		$this->tpl->parseCurrentBlock();
 	}
 

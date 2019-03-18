@@ -2,13 +2,18 @@
 
 namespace srag\Plugins\SrLpReport\Report\Matrix;
 
+use ilAdvancedSelectionListGUI;
 use ilLink;
 use ilMailFormCall;
 use ilObjectLP;
 use ilObjUser;
+use ilUIPluginRouterGUI;
 use ilUtil;
 use srag\Plugins\SrLpReport\Report\AbstractReportGUI;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
+use srag\Plugins\SrLpReport\Report\Matrix\Single\MatrixSingleReportGUI;
+use srag\Plugins\SrLpReport\Report\ReportGUI;
+use srag\Plugins\SrLpReport\Report\Reports;
 
 /**
  * Class MatrixReportGUI
@@ -23,6 +28,7 @@ class MatrixReportGUI extends AbstractReportGUI {
 
 	const TAB_ID = "trac_matrix";
 	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
+	const CMD_GET_ACTIONS = "getActions";
 
 
 	/**
@@ -35,6 +41,7 @@ class MatrixReportGUI extends AbstractReportGUI {
 
 		switch ($cmd) {
 			case self::CMD_MAIL_SELECTED_USERS:
+			case self::CMD_GET_ACTIONS:
 				$this->{$cmd}();
 				break;
 
@@ -94,5 +101,23 @@ class MatrixReportGUI extends AbstractReportGUI {
 			'rcp_to' => implode(',', $rcps),
 			'sig' => $sig
 		), $template));
+	}
+
+
+	/**
+	 *
+	 */
+	protected function getActions()/*: void*/ {
+		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_USR_ID);
+
+		$actions = new ilAdvancedSelectionListGUI();
+
+		$actions->addItem(self::dic()->language()->txt("details"), "", self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			ReportGUI::class,
+			MatrixSingleReportGUI::class
+		]));
+
+		self::output()->output($actions->getHTML(true));
 	}
 }

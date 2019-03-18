@@ -33,7 +33,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	 * @param object $parent
 	 * @param string $parent_cmd
 	 */
-	public function __construct($parent, /*string*/
+	public function __construct($parent, string
 		$parent_cmd) {
 
 		$this->course = true;

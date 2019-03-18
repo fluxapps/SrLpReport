@@ -123,6 +123,8 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\Plugins\\SrLpReport\\Report\\AbstractReportTableGUI' => __DIR__ . '/../..' . '/src/Report/AbstractReportTableGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\Matrix\\MatrixReportGUI' => __DIR__ . '/../..' . '/src/Report/Matrix/class.MatrixReportGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\Matrix\\MatrixTableGUI' => __DIR__ . '/../..' . '/src/Report/Matrix/MatrixTableGUI.php',
+        'srag\\Plugins\\SrLpReport\\Report\\Matrix\\Single\\MatrixSingleReportGUI' => __DIR__ . '/../..' . '/src/Report/Matrix/Single/class.MatrixSingleReportGUI.php',
+        'srag\\Plugins\\SrLpReport\\Report\\Matrix\\Single\\MatrixSingleTableGUI' => __DIR__ . '/../..' . '/src/Report/Matrix/Single/MatrixSingleTableGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\ReportGUI' => __DIR__ . '/../..' . '/src/Report/class.ReportGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\Reports' => __DIR__ . '/../..' . '/src/Report/Reports.php',
         'srag\\Plugins\\SrLpReport\\Report\\Summary\\SummaryReportGUI' => __DIR__ . '/../..' . '/src/Report/Summary/class.SummaryReportGUI.php',

@@ -83,6 +83,8 @@ return array(
     'srag\\Plugins\\SrLpReport\\Report\\AbstractReportTableGUI' => $baseDir . '/src/Report/AbstractReportTableGUI.php',
     'srag\\Plugins\\SrLpReport\\Report\\Matrix\\MatrixReportGUI' => $baseDir . '/src/Report/Matrix/class.MatrixReportGUI.php',
     'srag\\Plugins\\SrLpReport\\Report\\Matrix\\MatrixTableGUI' => $baseDir . '/src/Report/Matrix/MatrixTableGUI.php',
+    'srag\\Plugins\\SrLpReport\\Report\\Matrix\\Single\\MatrixSingleReportGUI' => $baseDir . '/src/Report/Matrix/Single/class.MatrixSingleReportGUI.php',
+    'srag\\Plugins\\SrLpReport\\Report\\Matrix\\Single\\MatrixSingleTableGUI' => $baseDir . '/src/Report/Matrix/Single/MatrixSingleTableGUI.php',
     'srag\\Plugins\\SrLpReport\\Report\\ReportGUI' => $baseDir . '/src/Report/class.ReportGUI.php',
     'srag\\Plugins\\SrLpReport\\Report\\Reports' => $baseDir . '/src/Report/Reports.php',
     'srag\\Plugins\\SrLpReport\\Report\\Summary\\SummaryReportGUI' => $baseDir . '/src/Report/Summary/class.SummaryReportGUI.php',

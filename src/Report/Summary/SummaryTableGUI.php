@@ -20,11 +20,10 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 	/**
 	 * SummaryTableGUI constructor
 	 *
-	 * @param object $parent
-	 * @param string $parent_cmd
+	 * @param SummaryReportGUI $parent
+	 * @param string           $parent_cmd
 	 */
-	public function __construct($parent, /*string*/
-		$parent_cmd) {
+	public function __construct(SummaryReportGUI $parent, string $parent_cmd) {
 
 		$this->ref_id = self::reports()->getReportObjRefId();
 		$this->obj_id = self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId());
@@ -32,8 +31,7 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 
 		$this->setShowRowsSelector(false);
 
-		parent::__construct($parent, /*string*/
-			$parent_cmd);
+		parent::__construct($parent, $parent_cmd);
 	}
 
 
