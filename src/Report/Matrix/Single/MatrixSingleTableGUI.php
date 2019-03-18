@@ -12,7 +12,6 @@ use ilPublicUserProfileGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use ilTrQuery;
-use ilUtil;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 
 /**
@@ -150,7 +149,8 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 				return $row['obj_title'];
 			}
 
-			return ilUtil::img($row['obj_icon'], $row['obj_title']) . " " . $row['obj_title'];
+			return self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($row['obj_icon'], $row['obj_title']) . " "
+				. $row['obj_title']);
 		}
 
 		if ($column == "status") {
@@ -158,7 +158,8 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 				return $row['status_text'];
 			}
 
-			return ilUtil::img($row['status_icon'], $row['status_text']) . " " . $row['status_text'];
+			return self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($row['status_icon'], $row['status_text']) . " "
+				. $row['status_text']);
 		}
 
 		return parent::getColumnValue($column, $row, $raw_export);

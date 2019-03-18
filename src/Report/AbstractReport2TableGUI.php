@@ -33,8 +33,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	 * @param object $parent
 	 * @param string $parent_cmd
 	 */
-	public function __construct($parent, string
-		$parent_cmd) {
+	public function __construct($parent, string $parent_cmd) {
 
 		$this->course = true;
 		$this->ref_id = self::reports()->getReportObjRefId();
@@ -88,7 +87,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 				break;
 		}
 
-		$representation = ilUtil::img($path, $text);
+		$representation = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($path, $text));
 		if ($percentage > 0) {
 			$representation = $representation . " " . $percentage . "%";
 		}
