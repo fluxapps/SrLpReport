@@ -26,11 +26,6 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 		$row, /*bool*/
 		$raw_export = false): string {
 		switch ($column) {
-			case "crs_title":
-				$column = self::output()->getHTML(self::dic()->ui()->factory()->link()
-					->standard($row[$column], ilLink::_getLink($row["crs_ref_id"])));
-				break;
-
 			case "learning_progress_users":
 				if (!$raw_export) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->usrIds()->withObjId($row["crs_obj_id"])

@@ -54,6 +54,14 @@ class MatrixReportGUI extends AbstractReportGUI {
 	/**
 	 * @inheritdoc
 	 */
+	protected function setTabs()/*: void*/ {
+
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function getTable(string $cmd = self::CMD_INDEX): AbstractReportTableGUI {
 		return new MatrixTableGUI($this, $cmd);
 	}

@@ -4,6 +4,7 @@ namespace srag\Plugins\SrLpReport\Staff\Courses;
 
 use Closure;
 use ilAdvancedSelectionListGUI;
+use ilLink;
 use ilMStListCourse;
 use ilMStListCourses;
 use ilMyStaffAccess;
@@ -126,6 +127,8 @@ final class Courses {
 	public function fillActions(ilAdvancedSelectionListGUI $actions) {
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, CoursesStaffGUI::class);
+
+		$actions->addItem(self::dic()->language()->txt("course"), "", ilLink::_getLink(self::reports()->getReportObjRefId()));
 
 		if (self::access()->hasLPReadAccess(self::reports()->getReportObjRefId())) {
 			$actions->addItem(self::dic()->language()->txt("learning_progress"), "", self::dic()->ctrl()->getLinkTargetByClass([

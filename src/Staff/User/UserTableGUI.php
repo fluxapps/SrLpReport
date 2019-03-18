@@ -191,6 +191,8 @@ class UserTableGUI extends AbstractStaffTableGUI {
 	 * @return string
 	 */
 	public function getHTML(): string {
-		return parent::getHTML() . (new ilPublicUserProfileGUI(self::reports()->getUsrId()))->getEmbeddable();
+		self::dic()->mainTemplate()->setRightContent((new ilPublicUserProfileGUI(self::reports()->getUsrId()))->getEmbeddable());
+
+		return parent::getHTML();
 	}
 }

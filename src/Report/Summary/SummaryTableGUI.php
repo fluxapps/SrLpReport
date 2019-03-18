@@ -45,7 +45,7 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 			case "status":
 				if (!$raw_export) {
 					return self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"])
-						->withId($row['obj_id'])->withShowLegend(true));
+						->withId($row['obj_id']));
 				} else {
 					return "";
 				}

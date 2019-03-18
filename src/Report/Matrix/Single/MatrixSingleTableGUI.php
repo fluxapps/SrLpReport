@@ -8,6 +8,7 @@ use ilLearningProgressBaseGUI;
 use ilLPStatus;
 use ilLPStatusWrapper;
 use ilObject;
+use ilPublicUserProfileGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use ilTrQuery;
@@ -278,5 +279,18 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 			default:
 				return ilLearningProgressBaseGUI::_getStatusText($status);
 		}
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getRightHTML(): string {
+		return self::output()->getHTML([
+			self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds(array_keys($this->row_data))->withUsrId(self::reports()->getUsrId())
+				->withId(self::reports()->getUsrId()),
+			(new ilPublicUserProfileGUI(self::reports()->getUsrId()))->getEmbeddable(),
+			parent::getRightHTML()
+		]);
 	}
 }

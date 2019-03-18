@@ -2,8 +2,12 @@
 
 namespace srag\Plugins\SrLpReport\Report\Matrix\Single;
 
+use ilUIPluginRouterGUI;
 use srag\Plugins\SrLpReport\Report\AbstractReportGUI;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
+use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
+use srag\Plugins\SrLpReport\Report\ReportGUI;
+use srag\Plugins\SrLpReport\Report\Reports;
 
 /**
  * Class MatrixSingleReportGUI
@@ -17,6 +21,22 @@ use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 class MatrixSingleReportGUI extends AbstractReportGUI {
 
 	const TAB_ID = "trac_matrix_single";
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function setTabs()/*: void*/ {
+		self::dic()->ctrl()->saveParameter($this, Reports::GET_PARAM_USR_ID);
+
+		self::dic()->tabs()->clearTargets();
+
+		self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			ReportGUI::class,
+			MatrixReportGUI::class
+		]));
+	}
 
 
 	/**

@@ -45,6 +45,8 @@ abstract class AbstractReportGUI {
 	 * @throws ilTemplateException
 	 */
 	public function executeCommand()/*: void*/ {
+		$this->setTabs();
+
 		self::dic()->tabs()->activateSubTab(static::TAB_ID);
 
 		$this->initGUI();
@@ -92,7 +94,7 @@ abstract class AbstractReportGUI {
 	 * @throws ilTemplateException
 	 */
 	protected function index()/*: void*/ {
-		self::output()->output($this->getTableAndFooterHtml(), true);
+		self::output()->output($this->getTable(), true);
 	}
 
 
@@ -127,20 +129,10 @@ abstract class AbstractReportGUI {
 
 
 	/**
-	 * @return string
 	 *
-	 * @throws DICException
-	 * @throws ilTemplateException
 	 */
-	protected function getTableAndFooterHtml(): string {
-		$tpl = self::plugin()->template("Report/report.html", false, false);
-
-		$tpl->setVariable("REPORT", self::output()->getHTML($this->getTable()));
-
-		$tpl->setVariable('LEGEND', ReportGUI::getLegendHTML());
-
-		return self::output()->getHTML($tpl);
-	}
+	protected abstract function setTabs()/*: void*/
+	;
 
 
 	/**
