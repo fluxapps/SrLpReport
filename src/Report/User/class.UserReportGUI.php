@@ -87,21 +87,21 @@ class UserReportGUI extends AbstractReportGUI {
 			$tmpl_id = $obj_lp->getMailTemplateId();
 
 			if ($tmpl_id) {
-				$template = array(
+				$template = [
 					ilMailFormCall::CONTEXT_KEY => $tmpl_id,
 					"ref_id" => $ref_id,
 					'ts' => time()
-				);
+				];
 			} else {
 				$sig = ilLink::_getLink($ref_id);
 				$sig = rawurlencode(base64_encode($sig));
 			}
 		}
 
-		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, self::dic()->ctrl()->getCmd(), [], array(
+		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, self::dic()->ctrl()->getCmd(), [], [
 			'type' => 'new',
 			'rcp_to' => implode(',', $rcps),
 			'sig' => $sig
-		), $template));
+		], $template));
 	}
 }

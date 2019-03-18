@@ -4,6 +4,7 @@ namespace srag\Plugins\SrLpReport\Staff\User;
 
 use Closure;
 use ilAdvancedSelectionListGUI;
+use ilLink;
 use ilMStListCourse;
 use ilMStShowUserCourses;
 use ilMyStaffAccess;
@@ -101,9 +102,11 @@ final class User {
 				return $vars;
 			}, $course, ilMStListCourse::class)();
 
+			$vars["ilMStListCourse"] = $course;
+
 			$vars["crs_obj_id"] = self::dic()->objDataCache()->lookupObjId($vars["crs_ref_id"]);
 
-			$vars["learning_progress_courses"] = array_map(function (array $child): int {
+			$vars["learning_progress_objects"] = array_map(function (array $child): int {
 				return intval($child["child"]);
 			}, self::dic()->tree()->getChilds($vars["crs_ref_id"]));
 
@@ -121,6 +124,8 @@ final class User {
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_USR_ID);
 		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, UserStaffGUI::class);
+
+		$actions->addItem(self::dic()->language()->txt("course"), "", ilLink::_getLink(self::reports()->getReportObjRefId()));
 
 		$actions->addItem(self::dic()->language()->txt("details"), "", self::dic()->ctrl()->getLinkTargetByClass([
 			ilUIPluginRouterGUI::class,

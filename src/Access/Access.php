@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrLpReport\Access;
 
 use ilLearningProgressAccess;
-use ilMyStaffAccess;
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -63,13 +62,5 @@ final class Access {
 	 */
 	public function hasLPWriteAccess(int $ref_id): bool {
 		return ilLearningProgressAccess::checkPermission("edit_learning_progress", $ref_id);
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function hasStaffAccess(): bool {
-		return boolval(ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff());
 	}
 }

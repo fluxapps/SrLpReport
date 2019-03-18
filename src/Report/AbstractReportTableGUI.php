@@ -2,9 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
-use ilPanelGUI;
 use ilSrLpReportPlugin;
-use ilUtil;
 use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -34,31 +32,31 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	/**
 	 * @return string
 	 */
-	protected function getRightHTML(): string {
-		$tpl = self::plugin()->template("LearningProgress/legend.html", false, false);
+	public function getHTML(): string {
+		self::dic()->mainTemplate()->setRightContent($this->getRightHTML());
 
-		$tpl->setVariable("IMG_NOT_ATTEMPTED", ilUtil::getImagePath("scorm/not_attempted.svg"));
-		$tpl->setVariable("IMG_IN_PROGRESS", ilUtil::getImagePath("scorm/incomplete.svg"));
-		$tpl->setVariable("IMG_COMPLETED", ilUtil::getImagePath("scorm/completed.svg"));
+		return parent::getHTML();
+	}
 
-		$tpl->setVariable("TXT_NOT_ATTEMPTED", self::dic()->language()->txt("trac_not_attempted"));
-		$tpl->setVariable("TXT_IN_PROGRESS", self::dic()->language()->txt("trac_in_progress"));
-		$tpl->setVariable("TXT_COMPLETED", self::dic()->language()->txt("trac_completed"));
 
-		$panel = ilPanelGUI::getInstance();
-		$panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
-		$panel->setBody(self::output()->getHTML($tpl));
+	/**
+	 * @return array
+	 */
+	protected final function getFilterValues2(): array {
+		$filter = $this->getFilterValues();
 
-		return self::output()->getHTML($panel);
+		if ($filter["status"] > 0) {
+			$filter["status"] -= 1;
+		} else {
+			unset($filter["status"]);
+		}
+
+		return $filter;
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function getHTML(): string {
-		self::dic()->mainTemplate()->setRightContent($this->getRightHTML());
-
-		return parent::getHTML();
-	}
+	protected abstract function getRightHTML(): string;
 }

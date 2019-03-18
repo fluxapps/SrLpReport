@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff;
 
+use ilMyStaffAccess;
 use ilRepositoryGUI;
 use ilSrLpReportPlugin;
 use ilUtil;
@@ -39,7 +40,7 @@ class StaffGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
-		if (!self::access()->hasStaffAccess()) {
+		if (!ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
 			ilUtil::sendFailure(self::dic()->language()->txt("permission_denied"), true);
 
 			self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);

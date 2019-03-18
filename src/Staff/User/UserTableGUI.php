@@ -3,14 +3,15 @@
 namespace srag\Plugins\SrLpReport\Staff\User;
 
 use ilAdvancedSelectionListGUI;
-use ilLearningProgressBaseGUI;
 use ilLink;
 use ilLPStatus;
 use ilMStListCourse;
+use ilMyStaffGUI;
 use ilPublicUserProfileGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
+use srag\Plugins\SrLpReport\Report\ReportGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 
@@ -31,20 +32,19 @@ class UserTableGUI extends AbstractStaffTableGUI {
 		$row, /*bool*/
 		$raw_export = false): string {
 		switch ($column) {
-			case "crs_title":
-				$column = self::output()->getHTML(self::dic()->ui()->factory()->link()
-					->standard($row[$column], ilLink::_getLink($row["crs_ref_id"])));
-				break;
-
 			case "usr_reg_status":
 				$column = ilMStListCourse::getMembershipStatusText($row[$column]);
 				break;
 
 			case "usr_lp_status":
-				$column = ilLearningProgressBaseGUI::_getStatusText($row[$column]);
+				if (!$raw_export) {
+					$column = ilMyStaffGUI::getUserLpStatusAsHtml($row["ilMStListCourse"]);
+				} else {
+					$column = ilMyStaffGUI::getUserLpStatusAsText($row["ilMStListCourse"]);
+				}
 				break;
 
-			case "learning_progress_courses":
+			case "learning_progress_objects":
 				if (!$raw_export) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
 						->withUsrId($row["usr_id"])->withId($row["crs_obj_id"]));
@@ -79,14 +79,14 @@ class UserTableGUI extends AbstractStaffTableGUI {
 				"default" => true,
 				"txt" => self::dic()->language()->txt("trac_learning_progress")
 			],
-			"learning_progress_courses" => [
+			"learning_progress_objects" => [
 				"default" => true,
-				"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("courses")
+				"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("objects")
 			]
 		];
 
 		$no_sort = [
-			"learning_progress_courses"
+			"learning_progress_objects"
 		];
 
 		foreach ($columns as $id => &$column) {
@@ -139,7 +139,7 @@ class UserTableGUI extends AbstractStaffTableGUI {
 				PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
 				"setTitle" => $this->dic()->language()->txt("title")
 			],
-			"usr_reg_status" => [
+			"memb_status" => [
 				PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
 				PropertyFormGUI::PROPERTY_OPTIONS => [
 					0 => self::dic()->language()->txt("trac_all"),
@@ -149,7 +149,7 @@ class UserTableGUI extends AbstractStaffTableGUI {
 				],
 				"setTitle" => self::dic()->language()->txt("member_status")
 			],
-			"usr_lp_status" => [
+			"lp_status" => [
 				PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
 				PropertyFormGUI::PROPERTY_OPTIONS => [
 					0 => self::dic()->language()->txt("trac_all"),
@@ -191,11 +191,13 @@ class UserTableGUI extends AbstractStaffTableGUI {
 
 
 	/**
-	 * @return string
+	 * @inheritdoc
 	 */
-	public function getHTML(): string {
-		self::dic()->mainTemplate()->setRightContent((new ilPublicUserProfileGUI(self::reports()->getUsrId()))->getEmbeddable());
-
-		return parent::getHTML();
+	protected function getRightHTML(): string {
+		return self::output()->getHTML([
+			(new ilPublicUserProfileGUI(self::reports()->getUsrId()))->getEmbeddable(),
+			"<br>",
+			ReportGUI::getLegendHTML()
+		]);
 	}
 }

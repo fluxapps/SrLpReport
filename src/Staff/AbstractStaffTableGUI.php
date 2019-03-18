@@ -49,9 +49,25 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 
 
 	/**
+	 * @return string
+	 */
+	public function getHTML(): string {
+		self::dic()->mainTemplate()->setRightContent($this->getRightHTML());
+
+		return parent::getHTML();
+	}
+
+
+	/**
 	 * @param ilAdvancedSelectionListGUI $actions
 	 * @param array                      $row
 	 */
 	protected abstract function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/
 	;
+
+
+	/**
+	 * @return string
+	 */
+	protected abstract function getRightHTML(): string;
 }

@@ -166,4 +166,12 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 
 		$actions->setId($row["usr_id"]);
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getRightHTML(): string {
+		return "";
+	}
 }

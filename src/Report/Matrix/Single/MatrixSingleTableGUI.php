@@ -12,7 +12,9 @@ use ilPublicUserProfileGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use ilTrQuery;
+use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
+use srag\Plugins\SrLpReport\Report\ReportGUI;
 
 /**
  * Class MatrixSingleTableGUI
@@ -60,26 +62,23 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	 * @inheritdoc
 	 */
 	protected function initFilterFields()/*: void*/ {
-		$item = new ilTextInputGUI(self::dic()->language()->txt("title"), "object");
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter["object"] = $item->getValue();
-
-		$item = new ilSelectInputGUI(self::dic()->language()->txt("status"), "status");
-		$item->setOptions(array(
-			"all" => self::dic()->language()->txt("trac_all"),
-			ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
-			ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
-			ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_COMPLETED),
-			ilLPStatus::LP_STATUS_FAILED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_FAILED)
-		));
-		$this->addFilterItem($item);
-		$item->readFromSession();
-
-		if ($item->getValue()) {
-			$this->filter["status"] = $item->getValue();
-			$this->filter["status"] --;
-		}
+		$this->filter_fields = [
+			"object" => [
+				PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
+				"setTitle" => self::dic()->language()->txt("title")
+			],
+			"status" => [
+				PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
+				PropertyFormGUI::PROPERTY_OPTIONS => [
+					0 => self::dic()->language()->txt("trac_all"),
+					ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
+					ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+					ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_COMPLETED)
+					//ilLPStatus::LP_STATUS_FAILED_NUM + 1 => self::dic()->language()->txt(ilLPStatus::LP_STATUS_FAILED)
+				],
+				"setTitle" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("objects")
+			]
+		];
 	}
 
 
@@ -98,20 +97,20 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	 */
 	protected function getStandardColumns(): array {
 		// default fields
-		$cols["object"] = array(
+		$cols["object"] = [
 			"id" => "object",
 			"sort" => "object",
 			"txt" => self::dic()->language()->txt("title"),
 			"default" => true,
-		);
+		];
 
 		// default fields
-		$cols["status"] = array(
+		$cols["status"] = [
 			"id" => "status",
 			"sort" => "status",
-			"txt" => self::dic()->language()->txt("status"),
+			"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("objects"),
 			"default" => true,
-		);
+		];
 
 		return $cols;
 	}
@@ -173,6 +172,8 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 		$collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true, true, [ self::reports()->getUsrId() ]);
 		$row = [];
 
+		$filter = $this->getFilterValues2();
+
 		if (count($collection["object_ids"]) > 0) {
 			foreach ($collection["object_ids"] as $collection_obj_id) {
 
@@ -180,14 +181,14 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 					continue;
 				}
 
-				if ($this->filter["status"] !== "all" && (!empty($this->filter["status"]) || $this->filter["status"] === 0)) {
-					if ($this->filter["status"] !== ilLPStatusWrapper::_determineStatus($collection_obj_id, self::reports()->getUsrId())) {
+				if (isset($filter["status"])) {
+					if ($filter["status"] !== ilLPStatusWrapper::_determineStatus($collection_obj_id, self::reports()->getUsrId())) {
 						continue;
 					}
 				}
 
-				if (strlen($this->filter["object"]) > 0) {
-					if (!preg_match('[' . strtolower($this->filter["object"]) . ']', strtolower(self::dic()->objDataCache()
+				if (strlen($filter["object"]) > 0) {
+					if (!preg_match('[' . strtolower($filter["object"]) . ']', strtolower(self::dic()->objDataCache()
 						->lookupTitle($collection_obj_id)))) {
 						continue;
 					}
@@ -290,8 +291,10 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 		return self::output()->getHTML([
 			self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds(array_keys($this->row_data))->withUsrId(self::reports()->getUsrId())
 				->withId(self::reports()->getUsrId()),
+			"<br>",
 			(new ilPublicUserProfileGUI(self::reports()->getUsrId()))->getEmbeddable(),
-			parent::getRightHTML()
+			"<br>",
+			ReportGUI::getLegendHTML()
 		]);
 	}
 }

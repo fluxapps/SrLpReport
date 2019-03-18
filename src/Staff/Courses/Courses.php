@@ -102,13 +102,17 @@ final class Courses {
 		}, ilMStListCourses::getData($users, $options));
 
 		$data["data"] = array_map(function (array $course) use ($data_): array {
-			$course["learning_progress_users"] = array_reduce(array_filter($data_, function (array $course_) use ($course): bool {
-				return ($course_["crs_ref_id"] === $course["crs_ref_id"]);
-			}), function (array $users, array $course): array {
-				$users[] = intval($course["usr_id"]);
+			if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($course["crs_ref_id"])) {
+				$course["learning_progress_users"] = array_reduce(array_filter($data_, function (array $course_) use ($course): bool {
+					return ($course_["crs_ref_id"] === $course["crs_ref_id"]);
+				}), function (array $users, array $course): array {
+					$users[] = intval($course["usr_id"]);
 
-				return $users;
-			}, []);
+					return $users;
+				}, []);
+			} else {
+				$course["learning_progress_users"] = [];
+			}
 
 			return $course;
 		}, array_reduce($data_, function (array $data, array $course): array {
@@ -130,14 +134,8 @@ final class Courses {
 
 		$actions->addItem(self::dic()->language()->txt("course"), "", ilLink::_getLink(self::reports()->getReportObjRefId()));
 
-		if (self::access()->hasLPReadAccess(self::reports()->getReportObjRefId())) {
+		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject(self::reports()->getReportObjRefId())) {
 			$actions->addItem(self::dic()->language()->txt("learning_progress"), "", self::dic()->ctrl()->getLinkTargetByClass([
-				ilUIPluginRouterGUI::class,
-				ReportGUI::class,
-				UserReportGUI::class
-			]));
-		} else {
-			$actions->addItem(self::dic()->language()->txt("participants"), "", self::dic()->ctrl()->getLinkTargetByClass([
 				ilUIPluginRouterGUI::class,
 				ReportGUI::class,
 				UserReportGUI::class

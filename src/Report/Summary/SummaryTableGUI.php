@@ -7,6 +7,7 @@ use ilObjectLP;
 use ilTrQuery;
 use ilUtil;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
+use srag\Plugins\SrLpReport\Report\ReportGUI;
 
 /**
  * Class SummaryTableGUI
@@ -62,20 +63,20 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 		$cols = [];
 
 		// default fields
-		$cols["title"] = array(
+		$cols["title"] =[
 			"id" => "title",
 			"sort" => "title",
 			"txt" => self::dic()->language()->txt("title"),
 			"default" => true
-		);
+		];
 
 		// default fields
-		$cols["status"] = array(
+		$cols["status"] = [
 			"id" => "status",
 			"sort" => "status",
 			"txt" => self::dic()->language()->txt("status"),
 			"default" => true
-		);
+		];
 
 		return $cols;
 	}
@@ -128,5 +129,13 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 	protected function initId()/*: void*/ {
 		$this->setId('srcrslp_summary');
 		$this->setPrefix('srcrslp_summary');
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getRightHTML(): string {
+		return ReportGUI::getLegendHTML();
 	}
 }

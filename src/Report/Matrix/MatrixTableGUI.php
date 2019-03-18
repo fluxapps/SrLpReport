@@ -64,10 +64,10 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 			$tmp_cols = [];
 			foreach ($collection['object_ids'] as $obj_id) {
 				if ($obj_id == $this->obj_id) {
-					$parent = array(
+					$parent = [
 						"txt" => $this->lng->txt("status"),
 						"default" => true
-					);
+					];
 				} else {
 					$no_perm = false;
 
@@ -94,7 +94,7 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 						$relpath = $this->lng->txt('path') . ': ' . $path;
 					}
 
-					$cols["obj_" . $obj_id] = array(
+					$cols["obj_" . $obj_id] = [
 						"id" => "obj_" . $obj_id,
 						"sort" => "obj_" . $obj_id,
 						"txt" => $title,
@@ -102,7 +102,7 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 						"no_permission" => $no_perm,
 						"path" => $relpath,
 						"icon" => $icon
-					);
+					];
 				}
 			}
 
@@ -218,13 +218,13 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 		// TODO:
 		$olp = ilObjectLP::getInstance($a_obj_id);
 		$mode = $olp->getCurrentMode();
-		if (in_array($mode, array(
+		if (in_array($mode, [
 			ilLPObjSettings::LP_MODE_TLT,
 			ilLPObjSettings::LP_MODE_VISITS,
 			ilLPObjSettings::LP_MODE_SCORM,
 			ilLPObjSettings::LP_MODE_VISITED_PAGES,
 			ilLPObjSettings::LP_MODE_TEST_PASSED
-		))) {
+		])) {
 			return true;
 		}
 

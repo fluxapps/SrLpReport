@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrLpReport\Staff\Courses;
 
 use ilAdvancedSelectionListGUI;
-use ilLink;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
@@ -140,5 +139,13 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_REF_ID, $row["crs_ref_id"]);
 
 		$actions->setId($row["crs_obj_id"]);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getRightHTML(): string {
+		return "";
 	}
 }

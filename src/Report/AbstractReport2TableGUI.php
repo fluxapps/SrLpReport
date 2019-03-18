@@ -143,29 +143,29 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		$cols = [];
 
 		// default fields
-		$cols["login"] = array(
+		$cols["login"] = [
 			"id" => "login",
 			"sort" => "login",
 			"txt" => self::dic()->language()->txt("login"),
 			"default" => true,
 			"all_reports" => true
-		);
+		];
 
-		$cols["firstname"] = array(
+		$cols["firstname"] = [
 			"id" => "firstname",
 			"sort" => "firstname",
 			"txt" => self::dic()->language()->txt("firstname"),
 			"default" => true,
 			"all_reports" => true
-		);
+		];
 
-		$cols["lastname"] = array(
+		$cols["lastname"] = [
 			"id" => "lastname",
 			"sort" => "lastname",
 			"txt" => self::dic()->language()->txt("lastname"),
 			"default" => true,
 			"all_reports" => true
-		);
+		];
 
 		$user_profile = new ilUserProfile();
 		$user_profile->skipGroup("preferences");
@@ -175,13 +175,13 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 
 		foreach ($user_standard_fields as $key => $field) {
 			if (self::dic()->settings()->get("usr_settings_course_export_" . $key)) {
-				$cols[$key] = array(
+				$cols[$key] = [
 					"id" => $key,
 					"sort" => $key,
 					"txt" => self::dic()->language()->txt($key),
 					"default" => true,
 					"all_reports" => true
-				);
+				];
 			}
 		}
 
@@ -197,13 +197,13 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		}*/
 		foreach ($user_defined_fields_for_course as $definition) {
 			if ($definition["field_type"] != UDF_TYPE_WYSIWYG) {
-				$cols["udf_" . $definition["field_id"]] = array(
+				$cols["udf_" . $definition["field_id"]] = [
 					"id" => "udf_" . $definition["field_id"],
 					"sort" => "udf_" . $definition["field_id"],
 					"txt" => $definition["field_name"],
 					"default" => true,
 					"all_reports" => true
-				);
+				];
 
 				$this->user_fields[] = $cols["udf_" . $definition["field_id"]];
 			}
@@ -215,36 +215,36 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		/*
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
 		{
-			$cols["first_access"] = array(
+			$cols["first_access"] = [
 				"id" => "first_access",
 				"txt" => self::dic()->language()->txt("trac_first_access"),
-				"default" => true);
-			$cols["last_access"] = array(
+				"default" => true];
+			$cols["last_access"] = [
 				"id" => "last_access",
 				"txt" => self::dic()->language()->txt("trac_last_access"),
-				"default" => true);
+				"default" => true];
 		}
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
 		{
-			$cols["read_count"] = array(
+			$cols["read_count"] = [
 				"id" => "read_count",
 				"txt" => self::dic()->language()->txt("trac_read_count"),
-				"default" => true);
+				"default" => true];
 		}
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS) &&
 			ilObjectLP::supportsSpentSeconds($this->type))
 		{
-			$cols["spent_seconds"] = array(
+			$cols["spent_seconds"] = [
 				"id" => "spent_seconds",
 				"txt" => self::dic()->language()->txt("trac_spent_seconds"),
-				"default" => true);
+				"default" => true];
 		}*/
 
 		/*if($this->isPercentageAvailable($this->obj_id))
 		{
-			$cols["percentage"] = array(
+			$cols["percentage"] = [
 				"txt" => self::dic()->language()->txt("trac_percentage"),
-				"default" => true);
+				"default" => true];
 		}*/
 
 		// do not show status if learning progress is deactivated
@@ -256,14 +256,14 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 			$type = self::dic()->objDataCache()->lookupType($this->obj_id);
 			$icon = ilObject::_getIcon("", "tiny", $type);
 
-			$cols["status"] = array(
+			$cols["status"] = [
 				"id" => "status",
 				"sort" => "status",
 				"txt" => self::dic()->language()->txt("learning_progress") . " " . self::dic()->objDataCache()->lookupTitle($this->obj_id),
 				"default" => true,
 				"all_reports" => true,
 				"icon" => $icon
-			);
+			];
 		}
 
 		return $cols;
@@ -412,17 +412,9 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
-	protected final function getFilterValues2(): array {
-		$filter = $this->getFilterValues();
-
-		if ($filter["status"] > 0) {
-			$filter["status"] -= 1;
-		} else {
-			unset($filter["status"]);
-		}
-
-		return $filter;
+	protected function getRightHTML(): string {
+		return ReportGUI::getLegendHTML();
 	}
 }
