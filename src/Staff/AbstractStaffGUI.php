@@ -47,6 +47,8 @@ abstract class AbstractStaffGUI {
 
 		self::dic()->tabs()->activateTab(static::TAB_ID);
 
+		self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
+
 		$next_class = self::dic()->ctrl()->getNextClass($this);
 
 		switch (strtolower($next_class)) {
