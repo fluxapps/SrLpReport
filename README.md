@@ -10,7 +10,14 @@ git clone https://github.com/studer-raimann/SrLpReport.git SrLpReport
 Update, activate and config the plugin in the ILIAS Plugin Administration
 
 ### Some screenshots
-TODO
+Staff users:
+![Staff users](./doc/screenshots/staff_users.png)
+
+Staff courses:
+![Staff courses](./doc/screenshots/staff_courses.png)
+
+Course report:
+![Course report](./doc/screenshots/course_report.png)
 
 ### Dependencies
 * ILIAS 5.3.14 or ILIAS 5.4
