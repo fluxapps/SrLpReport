@@ -139,6 +139,6 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
 		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_REF_ID, $row["crs_ref_id"]);
 
-		$actions->setId($row["crs_ref_id"]);
+		$actions->setId($row["crs_obj_id"]);
 	}
 }

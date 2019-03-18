@@ -10,7 +10,11 @@ use ilMyStaffAccess;
 use ilOrgUnitOperation;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
+use ilUIPluginRouterGUI;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Report\Matrix\Single\MatrixSingleReportGUI;
+use srag\Plugins\SrLpReport\Report\ReportGUI;
+use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -114,6 +118,14 @@ final class User {
 	 * @param ilAdvancedSelectionListGUI $actions
 	 */
 	public function fillActions(ilAdvancedSelectionListGUI $actions) {
+		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
+		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_USR_ID);
+		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, UserStaffGUI::class);
 
+		$actions->addItem(self::dic()->language()->txt("details"), "", self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			ReportGUI::class,
+			MatrixSingleReportGUI::class
+		]));
 	}
 }

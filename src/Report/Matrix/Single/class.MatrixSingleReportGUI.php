@@ -8,6 +8,8 @@ use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
+use srag\Plugins\SrLpReport\Staff\StaffGUI;
+use srag\Plugins\SrLpReport\Staff\User\UserStaffGUI;
 
 /**
  * Class MatrixSingleReportGUI
@@ -31,11 +33,21 @@ class MatrixSingleReportGUI extends AbstractReportGUI {
 
 		self::dic()->tabs()->clearTargets();
 
-		self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
-			ilUIPluginRouterGUI::class,
-			ReportGUI::class,
-			MatrixReportGUI::class
-		]));
+		if (!empty(filter_input(INPUT_GET, Reports::GET_PARAM_RETURN))) {
+			self::dic()->ctrl()->saveParameterByClass(StaffGUI::class, Reports::GET_PARAM_USR_ID);
+
+			self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
+				ilUIPluginRouterGUI::class,
+				StaffGUI::class,
+				UserStaffGUI::class
+			]));
+		} else {
+			self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
+				ilUIPluginRouterGUI::class,
+				ReportGUI::class,
+				MatrixReportGUI::class
+			]));
+		}
 	}
 
 
