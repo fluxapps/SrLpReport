@@ -3,10 +3,7 @@
 namespace srag\Plugins\SrLpReport\Staff\User;
 
 use ilAdvancedSelectionListGUI;
-use ilMyStaffAccess;
-use ilRepositoryGUI;
 use ilUIPluginRouterGUI;
-use ilUtil;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
@@ -25,20 +22,6 @@ use srag\Plugins\SrLpReport\Staff\Users\UsersStaffGUI;
 class UserStaffGUI extends AbstractStaffGUI {
 
 	const TAB_ID = "user";
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function executeCommand() {
-		if (!ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject(self::reports()->getReportObjRefId())) {
-			ilUtil::sendFailure(self::dic()->language()->txt("permission_denied"), true);
-
-			self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);
-		}
-
-		parent::executeCommand();
-	}
 
 
 	/**
