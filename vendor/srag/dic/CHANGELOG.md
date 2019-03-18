@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.14.13]
+- Add GlobalScreen for ILIAS 5.4
+
+## [0.14.12]
+- Add AsqFactory for ILIAS 6.0
+
+## [0.14.11]
+- Fixes
+
+## [0.14.10]
+- Fix stupid broken ilTable2GUI (render has only header without rows)
+
 ## [0.14.9]
 - Output getHTML change order check
 

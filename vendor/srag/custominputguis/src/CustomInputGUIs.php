@@ -2,8 +2,10 @@
 
 namespace srag\CustomInputGUIs\SrLpReport;
 
-use ILIAS\UI\Implementation\Component\Glyph\Factory as ProgressMeterFactoryCore;
+use ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory as ProgressMeterFactoryCore;
+use srag\CustomInputGUIs\SrLpReport\LearningProgressPie\LearningProgressPie;
 use srag\CustomInputGUIs\SrLpReport\ProgressMeter\Implementation\Factory as ProgressMeterFactory;
+use srag\CustomInputGUIs\SrLpReport\ViewControlModeGUI\ViewControlModeGUI;
 use srag\DIC\SrLpReport\DICTrait;
 
 /**
@@ -37,6 +39,14 @@ final class CustomInputGUIs {
 
 
 	/**
+	 * @return LearningProgressPie
+	 */
+	public function learningProgressPie() {
+		return new LearningProgressPie();
+	}
+
+
+	/**
 	 * @return ProgressMeterFactoryCore|ProgressMeterFactory
 	 *
 	 * @since ILIAS 5.4
@@ -47,5 +57,13 @@ final class CustomInputGUIs {
 		} else {
 			return new ProgressMeterFactory();
 		}
+	}
+
+
+	/**
+	 * @return ViewControlModeGUI
+	 */
+	public function viewControlModeGUI() {
+		return new ViewControlModeGUI();
 	}
 }
