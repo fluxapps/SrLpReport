@@ -2,9 +2,12 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
+use ilObjCourseGUI;
 use srag\DIC\SrLpReport\DICTrait;
-use srag\Plugins\SrLpReport\Block\CommentsBlock53;
-use srag\Plugins\SrLpReport\Block\CommentsBlock54;
+use srag\Plugins\SrLpReport\Block\CommentsCourseBlock53;
+use srag\Plugins\SrLpReport\Block\CommentsCourseBlock54;
+use srag\Plugins\SrLpReport\Block\CommentsPersonalDesktopBlock53;
+use srag\Plugins\SrLpReport\Block\CommentsPersonalDesktopBlock54;
 use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
@@ -30,7 +33,9 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 	const REDIRECT = "redirect";
 	const TYPE_CRS = "crs";
 	const PERSONAL_DESKTOP_INIT = "personal_desktop";
+	const COURSES_INIT = "courses";
 	const COMPONENT_PERSONAL_DESKTOP = "Services/PersonalDesktop";
+	const COMPONENT_CONTAINER = "Services/Container";
 	const PART_CENTER_RIGHT = "right_column";
 	/**
 	 * @var bool[]
@@ -67,8 +72,26 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 
 				return [
 					"mode" => self::PREPEND,
-					"html" => self::output()->getHTML(self::version()->is54() ? new CommentsBlock54() : new CommentsBlock53())
+					"html" => self::output()->getHTML(self::version()
+						->is54() ? new CommentsPersonalDesktopBlock54() : new CommentsPersonalDesktopBlock53())
 				];
+			}
+		}
+
+		if (!self::$load[self::COURSES_INIT]) {
+
+			if (Config::getField(Config::KEY_SHOW_ON_COURSES)) {
+
+				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCourseGUI::class) && $a_comp === self::COMPONENT_CONTAINER
+					&& $a_part === self::PART_CENTER_RIGHT) {
+
+					self::$load[self::COURSES_INIT] = true;
+
+					return [
+						"mode" => ilUIHookPluginGUI::PREPEND,
+						"html" => self::output()->getHTML(self::version()->is54() ? new CommentsCourseBlock54() : new CommentsCourseBlock53())
+					];
+				}
 			}
 		}
 

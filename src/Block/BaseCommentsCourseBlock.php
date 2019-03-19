@@ -6,23 +6,25 @@ use ilBlockGUI;
 use ilSrLpReportPlugin;
 use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
- * Class BaseCommentsBlock
+ * Class BaseCommentsCourseBlock
  *
  * @package srag\Plugins\SrLpReport\Block
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class BaseCommentsBlock extends ilBlockGUI {
+abstract class BaseCommentsCourseBlock extends ilBlockGUI {
 
 	use DICTrait;
+	use SrLpReportTrait;
 	use CommentsUITrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 
 
 	/**
-	 * BaseCommentsBlock constructor
+	 * BaseCommentsCourseBlock constructor
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -43,6 +45,6 @@ abstract class BaseCommentsBlock extends ilBlockGUI {
 	 *
 	 */
 	public function fillDataSection()/*: void*/ {
-		$this->setDataSection(self::output()->getHTML(self::commentsUI()->withComments(self::comments()->getCommentsForCurrentUser())));
+		$this->setDataSection(self::output()->getHTML(self::commentsUI()->withComments(self::comments()->getCommentsForCurrentUser(self::reports()->getReportObjRefId()))));
 	}
 }

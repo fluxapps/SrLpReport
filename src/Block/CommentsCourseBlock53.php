@@ -5,18 +5,18 @@ namespace srag\Plugins\SrLpReport\Block;
 use ilSrLpReportPlugin;
 
 /**
- * Class CommentsBlock54
+ * Class CommentsCourseBlock53
  *
  * @package srag\Plugins\SrLpReport\Block
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class CommentsBlock54 extends BaseCommentsBlock {
+class CommentsCourseBlock53 extends BaseCommentsPersonalDesktopBlock {
 
 	/**
 	 * @return string
 	 */
-	public function getBlockType(): string {
+	public static function getBlockType(): string {
 		return ilSrLpReportPlugin::PLUGIN_ID;
 	}
 
@@ -24,7 +24,7 @@ class CommentsBlock54 extends BaseCommentsBlock {
 	/**
 	 * @return bool
 	 */
-	protected function isRepositoryObject(): bool {
+	public static function isRepositoryObject(): bool {
 		return false;
 	}
 }

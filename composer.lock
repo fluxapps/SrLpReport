@@ -58,7 +58,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.studer-raimann.ch/ILIAS/Libraries/CommentsUI.git",
-                "reference": "fed2d24e5fff593803b481640445f2b669406d85"
+                "reference": "1a7ffc47422fbebfe1fdc1a26003fc67e00718e6"
             },
             "require": {
                 "php": ">=7.0",
@@ -91,7 +91,7 @@
             "support": {
                 "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LCOMMENTSUI"
             },
-            "time": "2019-03-19T14:59:50+00:00"
+            "time": "2019-03-19T15:08:55+00:00"
         },
         {
             "name": "srag/custominputguis",
