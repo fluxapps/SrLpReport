@@ -300,6 +300,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 			(new ilPublicUserProfileGUI(self::reports()->getUsrId()))->getEmbeddable(),
 			"<br>",
 			ReportGUI::getLegendHTML(),
+			"<br>",
 			Config::getField(Config::KEY_ENABLE_COMMENTS) ? self::commentsUI()->withComments(self::comments()->getCommentsForReport(self::dic()
 				->objDataCache()->lookupObjId(self::reports()->getReportObjRefId()), self::reports()->getUsrId())) : ""
 		]);
