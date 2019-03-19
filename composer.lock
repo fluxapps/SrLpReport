@@ -67,7 +67,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\CommentsUI\\": "src/"
+                    "srag\\CommentsUI\\SrLpReport\\": "src/"
                 }
             },
             "license": [
@@ -114,7 +114,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\CustomInputGUIs\\": "src/"
+                    "srag\\CustomInputGUIs\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -187,16 +187,16 @@
         },
         {
             "name": "srag/librariesnamespacechanger",
-            "version": "v0.5.1",
+            "version": "v0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/LibrariesNamespaceChanger.git",
-                "reference": "64a1728ed926f14d6d17b70caf4ebcc3d86df717"
+                "reference": "4db267d97b5768d31429c14acde288181bfa4928"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/64a1728ed926f14d6d17b70caf4ebcc3d86df717",
-                "reference": "64a1728ed926f14d6d17b70caf4ebcc3d86df717",
+                "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/4db267d97b5768d31429c14acde288181bfa4928",
+                "reference": "4db267d97b5768d31429c14acde288181bfa4928",
                 "shasum": ""
             },
             "require": {
@@ -226,7 +226,7 @@
                 "ILIAS",
                 "libraries"
             ],
-            "time": "2019-01-22T09:19:11+00:00"
+            "time": "2019-03-19T14:25:06+00:00"
         },
         {
             "name": "srag/removeplugindataconfirm",
