@@ -18,8 +18,11 @@ class Config extends ActiveRecordConfig {
 	use SrLpReportTrait;
 	const TABLE_NAME = "ui_uihk_srcrslp_config";
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
+	const KEY_ENABLE_COMMENTS = "enable_comments";
 	/**
 	 * @var array
 	 */
-	protected static $fields = [];
+	protected static $fields = [
+		self::KEY_ENABLE_COMMENTS => [ self::TYPE_BOOLEAN, false ]
+	];
 }

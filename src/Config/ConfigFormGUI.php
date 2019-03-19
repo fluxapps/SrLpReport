@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Config;
 
+use ilCheckboxInputGUI;
 use ilSrLpReportPlugin;
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfigFormGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -24,6 +25,11 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 	 * @inheritdoc
 	 */
 	protected function initFields()/*: void*/ {
-		$this->fields = [];
+		$this->fields = [
+			Config::KEY_ENABLE_COMMENTS => [
+				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+				"setTitle" => self::dic()->language()->txt("enable_comments")
+			]
+		];
 	}
 }
