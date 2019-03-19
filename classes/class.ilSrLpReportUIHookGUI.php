@@ -8,6 +8,7 @@ use srag\Plugins\SrLpReport\Block\CommentsCourseBlock53;
 use srag\Plugins\SrLpReport\Block\CommentsCourseBlock54;
 use srag\Plugins\SrLpReport\Block\CommentsPersonalDesktopBlock53;
 use srag\Plugins\SrLpReport\Block\CommentsPersonalDesktopBlock54;
+use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
@@ -64,33 +65,36 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 		$a_comp, /*string*/
 		$a_part, $a_par = []): array {
 
-		if (!self::$load[self::PERSONAL_DESKTOP_INIT]) {
+		if (Config::getField(Config::KEY_ENABLE_COMMENTS)) {
 
-			if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_CENTER_RIGHT) {
+			if (!self::$load[self::PERSONAL_DESKTOP_INIT]) {
 
-				self::$load[self::PERSONAL_DESKTOP_INIT] = true;
+				if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_CENTER_RIGHT) {
 
-				return [
-					"mode" => self::PREPEND,
-					"html" => self::output()->getHTML(self::version()
-						->is54() ? new CommentsPersonalDesktopBlock54() : new CommentsPersonalDesktopBlock53())
-				];
-			}
-		}
-
-		if (!self::$load[self::COURSES_INIT]) {
-
-			if (Config::getField(Config::KEY_SHOW_ON_COURSES)) {
-
-				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCourseGUI::class) && $a_comp === self::COMPONENT_CONTAINER
-					&& $a_part === self::PART_CENTER_RIGHT) {
-
-					self::$load[self::COURSES_INIT] = true;
+					self::$load[self::PERSONAL_DESKTOP_INIT] = true;
 
 					return [
-						"mode" => ilUIHookPluginGUI::PREPEND,
-						"html" => self::output()->getHTML(self::version()->is54() ? new CommentsCourseBlock54() : new CommentsCourseBlock53())
+						"mode" => self::PREPEND,
+						"html" => self::output()->getHTML(self::version()
+							->is54() ? new CommentsPersonalDesktopBlock54() : new CommentsPersonalDesktopBlock53())
 					];
+				}
+			}
+
+			if (!self::$load[self::COURSES_INIT]) {
+
+				if (Config::getField(Config::KEY_SHOW_ON_COURSES)) {
+
+					if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCourseGUI::class) && $a_comp === self::COMPONENT_CONTAINER
+						&& $a_part === self::PART_CENTER_RIGHT) {
+
+						self::$load[self::COURSES_INIT] = true;
+
+						return [
+							"mode" => ilUIHookPluginGUI::PREPEND,
+							"html" => self::output()->getHTML(self::version()->is54() ? new CommentsCourseBlock54() : new CommentsCourseBlock53())
+						];
+					}
 				}
 			}
 		}
