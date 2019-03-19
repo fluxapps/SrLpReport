@@ -19,9 +19,16 @@
   "support": {
     "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_SRLPREPORT"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://git.studer-raimann.ch/ILIAS/Libraries/CommentsUI.git"
+    }
+  ],
   "require": {
     "php": ">=7.0",
     "srag/activerecordconfig": ">=0.1.0",
+    "srag/commentsui": "dev-develop",
     "srag/custominputguis": ">=0.1.0",
     "srag/dic": ">=0.1.0",
     "srag/librariesnamespacechanger": ">=0.1.0",

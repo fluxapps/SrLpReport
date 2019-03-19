@@ -24,6 +24,7 @@ Course report:
 * PHP >=7.0
 * [composer](https://getcomposer.org)
 * [srag/activerecordconfig](https://packagist.org/packages/srag/activerecordconfig)
+* [srag/commentsui](https://packagist.org/packages/srag/commentsui)
 * [srag/custominputguis](https://packagist.org/packages/srag/custominputguis)
 * [srag/dic](https://packagist.org/packages/srag/dic)
 * [srag/librariesnamespacechanger](https://packagist.org/packages/srag/librariesnamespacechanger)
