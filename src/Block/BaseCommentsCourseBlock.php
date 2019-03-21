@@ -47,6 +47,6 @@ abstract class BaseCommentsCourseBlock extends ilBlockGUI {
 	 */
 	public function fillDataSection()/*: void*/ {
 		$this->setDataSection(self::output()->getHTML(self::commentsUI()->withComments(self::comments(Comment::class)
-			->getCommentsForCurrentUser(self::reports()->getReportObjRefId()))));
+			->getCommentsForCurrentUser(self::reports()->getReportObjRefId()))->withReadonly(true)));
 	}
 }

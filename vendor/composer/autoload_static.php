@@ -14,7 +14,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrLpReport\\' => 20,
             'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
-            'srag\\CommentsUI\\' => 16,
+            'srag\\CommentsUI\\SrLpReport\\' => 27,
             'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
         ),
     );
@@ -40,7 +40,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\CommentsUI\\' => 
+        'srag\\CommentsUI\\SrLpReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
@@ -64,6 +64,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\CommentsUI\\SrLpReport\\Comment\\Comment' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Comment.php',
         'srag\\CommentsUI\\SrLpReport\\Comment\\Factory' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Factory.php',
         'srag\\CommentsUI\\SrLpReport\\Comment\\Repository' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Repository.php',
+        'srag\\CommentsUI\\SrLpReport\\UI\\Ctrl' => __DIR__ . '/..' . '/srag/commentsui/src/UI/Ctrl.php',
         'srag\\CommentsUI\\SrLpReport\\UI\\UI' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UI.php',
         'srag\\CommentsUI\\SrLpReport\\Utils\\CommentsUITrait' => __DIR__ . '/..' . '/srag/commentsui/src/Utils/CommentsUITrait.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
@@ -134,6 +135,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock53' => __DIR__ . '/../..' . '/src/Block/CommentsPersonalDesktopBlock53.php',
         'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock54' => __DIR__ . '/../..' . '/src/Block/CommentsPersonalDesktopBlock54.php',
         'srag\\Plugins\\SrLpReport\\Comment\\Comment' => __DIR__ . '/../..' . '/src/Comment/Comment.php',
+        'srag\\Plugins\\SrLpReport\\Comment\\Ctrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl.php',
         'srag\\Plugins\\SrLpReport\\Config\\Config' => __DIR__ . '/../..' . '/src/Config/Config.php',
         'srag\\Plugins\\SrLpReport\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\AbstractReport2TableGUI' => __DIR__ . '/../..' . '/src/Report/AbstractReport2TableGUI.php',

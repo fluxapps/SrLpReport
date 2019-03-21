@@ -15,6 +15,7 @@ use ilTrQuery;
 use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrLpReport\Comment\Comment;
+use srag\Plugins\SrLpReport\Comment\Ctrl;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
@@ -303,8 +304,8 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 			ReportGUI::getLegendHTML(),
 			"<br>",
 			Config::getField(Config::KEY_ENABLE_COMMENTS) ? self::commentsUI()->withComments(self::comments(Comment::class)
-				->getCommentsForReport(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId()), self::reports()
-					->getUsrId())) : ""
+				->getCommentsForReport(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId()), self::reports()->getUsrId()))
+				->withAsyncClass(Ctrl::class, self::reports()->getReportObjRefId(), self::reports()->getUsrId()) : ""
 		]);
 	}
 }

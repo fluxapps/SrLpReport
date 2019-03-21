@@ -14,6 +14,7 @@ use ilUIPluginRouterGUI;
 use ilUtil;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\DIC\SrLpReport\Exception\DICException;
+use srag\Plugins\SrLpReport\Comment\Ctrl;
 use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
 use srag\Plugins\SrLpReport\Report\Matrix\Single\MatrixSingleReportGUI;
 use srag\Plugins\SrLpReport\Report\Summary\SummaryReportGUI;
@@ -74,6 +75,9 @@ class ReportGUI {
 				break;
 			case strtolower(SummaryReportGUI::class):
 				self::dic()->ctrl()->forwardCommand(new SummaryReportGUI());
+				break;
+			case strtolower(Ctrl::class):
+				self::dic()->ctrl()->forwardCommand(new Ctrl());
 				break;
 			default:
 				break;
