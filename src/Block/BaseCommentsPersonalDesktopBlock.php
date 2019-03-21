@@ -6,6 +6,7 @@ use ilBlockGUI;
 use ilSrLpReportPlugin;
 use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class BaseCommentsPersonalDesktopBlock
