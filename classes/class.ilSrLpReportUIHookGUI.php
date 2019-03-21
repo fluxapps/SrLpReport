@@ -2,7 +2,6 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
-use ilObjCourseGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Block\CommentsCourseBlock53;
 use srag\Plugins\SrLpReport\Block\CommentsCourseBlock54;
@@ -83,18 +82,15 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 
 			if (!self::$load[self::COURSES_INIT]) {
 
-				if (Config::getField(Config::KEY_SHOW_ON_COURSES)) {
+				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCourseGUI::class) && $a_comp === self::COMPONENT_CONTAINER
+					&& $a_part === self::PART_CENTER_RIGHT) {
 
-					if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCourseGUI::class) && $a_comp === self::COMPONENT_CONTAINER
-						&& $a_part === self::PART_CENTER_RIGHT) {
+					self::$load[self::COURSES_INIT] = true;
 
-						self::$load[self::COURSES_INIT] = true;
-
-						return [
-							"mode" => ilUIHookPluginGUI::PREPEND,
-							"html" => self::output()->getHTML(self::version()->is54() ? new CommentsCourseBlock54() : new CommentsCourseBlock53())
-						];
-					}
+					return [
+						"mode" => ilUIHookPluginGUI::PREPEND,
+						"html" => self::output()->getHTML(self::version()->is54() ? new CommentsCourseBlock54() : new CommentsCourseBlock53())
+					];
 				}
 			}
 		}
