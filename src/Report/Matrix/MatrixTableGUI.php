@@ -32,19 +32,20 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 		$raw_export = false): string {
 		if ($column == 'status') {
 			if ($raw_export) {
-				return strval($this->getLearningProgressRepresentationExport($row['obj_' . self::dic()->objDataCache()
-					->lookupObjId($this->ref_id)], 0));
+				return strval($this->getLearningProgressRepresentationExport(intval($row['obj_' . self::dic()->objDataCache()
+					->lookupObjId($this->ref_id)]), 0));
 			} else {
-				return strval($this->getLearningProgressRepresentation($row['obj_' . self::dic()->objDataCache()->lookupObjId($this->ref_id)], 0));
+				return strval($this->getLearningProgressRepresentation(intval($row['obj_' . self::dic()->objDataCache()
+					->lookupObjId($this->ref_id)]), 0));
 			}
 		}
 
 		if (count(explode('obj_', $column)) == 2) {
 			$percentage = intval($row[$column . "_perc"]);
 			if ($raw_export) {
-				return strval($this->getLearningProgressRepresentationExport($row[$column], $percentage));
+				return strval($this->getLearningProgressRepresentationExport(intval($row[$column]), $percentage));
 			} else {
-				return strval($this->getLearningProgressRepresentation($row[$column], $percentage));
+				return strval($this->getLearningProgressRepresentation(intval($row[$column], $percentage)));
 			}
 		}
 
