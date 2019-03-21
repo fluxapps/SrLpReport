@@ -64,4 +64,12 @@ class CourseCtrl extends AbstractCtrl {
 	public function deleteComment()/*: void*/ {
 
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function shareComment()/*: void*/ {
+
+	}
 }

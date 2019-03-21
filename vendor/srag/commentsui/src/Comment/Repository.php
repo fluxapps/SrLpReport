@@ -14,6 +14,7 @@ use srag\DIC\SrLpReport\DICTrait;
 final class Repository {
 
 	use DICTrait;
+	const EDIT_LIMIT_MINUTES = 5;
 	/**
 	 * @var self[]
 	 */
@@ -52,9 +53,41 @@ final class Repository {
 
 	/**
 	 * @param AbstractComment $comment
+	 * @param bool            $time_limit
+	 *
+	 * @return bool
+	 */
+	public function canBeStored(AbstractComment $comment, bool $time_limit = true): bool {
+		if (empty($comment->getId())) {
+			return true;
+		}
+
+		// TODO
+		/*if ($comment->isShared() || $comment->isDeleted()) {
+			return false;
+		}*/
+
+		if ($comment->getCreatedUserId() !== intval(self::dic()->user()->getId())) {
+			return false;
+		}
+
+		if (!$time_limit) {
+			return true;
+		}
+
+		$time = time();
+
+		return (($time - $comment->getCreatedTimestamp()) <= (self::EDIT_LIMIT_MINUTES * 60));
+	}
+
+
+	/**
+	 * @param AbstractComment $comment
 	 */
 	public function deleteComment(AbstractComment $comment)/*: void*/ {
-		$comment->delete();
+		$comment->setDeleted(true);
+
+		$this->storeComment($comment, false);
 	}
 
 
@@ -83,20 +116,6 @@ final class Repository {
 
 
 	/**
-	 * @return AbstractComment[]
-	 */
-	public function getComments(): array {
-		/**
-		 * @var AbstractComment[] $comments
-		 */
-
-		$comments = $this->comment_class::orderBy("updated_timestamp", "desc")->get();
-
-		return $comments;
-	}
-
-
-	/**
 	 * @param int $report_obj_id
 	 * @param int $report_user_id
 	 *
@@ -108,6 +127,7 @@ final class Repository {
 		 */
 
 		$comments = array_values($this->comment_class::where([
+			"deleted" => false,
 			"report_obj_id" => $report_obj_id,
 			"report_user_id" => $report_user_id
 		])->orderBy("updated_timestamp", "desc")->get());
@@ -128,6 +148,7 @@ final class Repository {
 		 */
 
 		$where = [
+			"deleted" => false,
 			"report_user_id" => self::dic()->user()->getId(),
 			"is_shared" => true
 		];
@@ -145,7 +166,22 @@ final class Repository {
 	/**
 	 * @param AbstractComment $comment
 	 */
-	public function storeInstance(AbstractComment $comment)/*: void*/ {
+	public function shareComment(AbstractComment $comment)/*: void*/ {
+		$comment->setIsShared(true);
+
+		$this->storeComment($comment, false);
+	}
+
+
+	/**
+	 * @param AbstractComment $comment
+	 * @param bool            $time_limit
+	 */
+	public function storeComment(AbstractComment $comment, bool $time_limit = true)/*: void*/ {
+		if (!$this->canBeStored($comment, $time_limit)) {
+			return;
+		}
+
 		$time = time();
 
 		if (empty($comment->getId())) {

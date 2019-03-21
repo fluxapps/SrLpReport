@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.8]
+- Implementation
+
+## [0.3.7]
+- Implementation
+
+## [0.3.6]
+- Implementation
+
+## [0.3.5]
+- Implementation
+
 ## [0.3.4]
 - Implementation
 
