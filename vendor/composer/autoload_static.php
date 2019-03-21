@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
+class ComposerStaticInit06901a3fc8b25ef2373f3623ac991335
 {
     public static $prefixLengthsPsr4 = array (
         's' => 
@@ -14,7 +14,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrLpReport\\' => 20,
             'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
-            'srag\\CommentsUI\\SrLpReport\\' => 27,
+            'srag\\CommentsUI\\' => 16,
             'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
         ),
     );
@@ -40,7 +40,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\CommentsUI\\SrLpReport\\' => 
+        'srag\\CommentsUI\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
@@ -61,10 +61,10 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordConfigTableGUI' => __DIR__ . '/..' . '/srag/activerecordconfig/src/ActiveRecordConfigTableGUI.php',
         'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordObjectFormGUI' => __DIR__ . '/..' . '/srag/activerecordconfig/src/ActiveRecordObjectFormGUI.php',
         'srag\\ActiveRecordConfig\\SrLpReport\\Exception\\ActiveRecordConfigException' => __DIR__ . '/..' . '/srag/activerecordconfig/src/Exception/ActiveRecordConfigException.php',
-        'srag\\CommentsUI\\SrLpReport\\Comment\\Comment' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Comment.php',
+        'srag\\CommentsUI\\SrLpReport\\Comment\\AbstractComment' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/AbstractComment.php',
         'srag\\CommentsUI\\SrLpReport\\Comment\\Factory' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Factory.php',
         'srag\\CommentsUI\\SrLpReport\\Comment\\Repository' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Repository.php',
-        'srag\\CommentsUI\\SrLpReport\\UI\\Ctrl' => __DIR__ . '/..' . '/srag/commentsui/src/UI/Ctrl.php',
+        'srag\\CommentsUI\\SrLpReport\\Ctrl\\AbstractCtrl' => __DIR__ . '/..' . '/srag/commentsui/src/Ctrl/AbstractCtrl.php',
         'srag\\CommentsUI\\SrLpReport\\UI\\UI' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UI.php',
         'srag\\CommentsUI\\SrLpReport\\Utils\\CommentsUITrait' => __DIR__ . '/..' . '/srag/commentsui/src/Utils/CommentsUITrait.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
@@ -135,7 +135,10 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock53' => __DIR__ . '/../..' . '/src/Block/CommentsPersonalDesktopBlock53.php',
         'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock54' => __DIR__ . '/../..' . '/src/Block/CommentsPersonalDesktopBlock54.php',
         'srag\\Plugins\\SrLpReport\\Comment\\Comment' => __DIR__ . '/../..' . '/src/Comment/Comment.php',
-        'srag\\Plugins\\SrLpReport\\Comment\\Ctrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl.php',
+        'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\AbstractCtrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl/AbstractCtrl.php',
+        'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\CourseCtrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl/class.CourseCtrl.php',
+        'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\PersonalDesktopCtrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl/class.PersonalDesktopCtrl.php',
+        'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\ReportCtrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl/class.ReportCtrl.php',
         'srag\\Plugins\\SrLpReport\\Config\\Config' => __DIR__ . '/../..' . '/src/Config/Config.php',
         'srag\\Plugins\\SrLpReport\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\AbstractReport2TableGUI' => __DIR__ . '/../..' . '/src/Report/AbstractReport2TableGUI.php',
@@ -175,9 +178,9 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4479cab79c29ce3e616277b719c89a45::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4479cab79c29ce3e616277b719c89a45::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit4479cab79c29ce3e616277b719c89a45::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit06901a3fc8b25ef2373f3623ac991335::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit06901a3fc8b25ef2373f3623ac991335::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit06901a3fc8b25ef2373f3623ac991335::$classMap;
 
         }, null, ClassLoader::class);
     }

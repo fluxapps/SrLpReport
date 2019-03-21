@@ -1,27 +1,28 @@
 <?php
 
-namespace srag\CommentsUI\SrLpReport\UI;
+namespace srag\CommentsUI\SrLpReport\Ctrl;
 
 use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\DIC\SrLpReport\DICTrait;
 
 /**
- * Class Ctrl
+ * Class AbstractCtrl
  *
- * @package srag\CommentsUI\SrLpReport\UI
+ * @package srag\CommentsUI\SrLpReport\Ctrl
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class Ctrl {
+abstract class AbstractCtrl {
 
 	use DICTrait;
 	use CommentsUITrait;
 	const CMD_CREATE_COMMENT = "createComment";
+	const CMD_GET_COMMENTS = "getComments";
 	const CMD_UPDATE_COMMENT = "updateComment";
 	const CMD_DELETE_COMMENT = "deleteComment";
 	const GET_PARAM_COMMENT_ID = "comment_id";
 	const GET_PARAM_REPORT_OBJ_ID = "report_obj_id";
-	const GET_PARAM_REPORT_USER_ID = "report_user_id ";
+	const GET_PARAM_REPORT_USER_ID = "report_user_id";
 	/**
 	 * @var string
 	 *
@@ -31,7 +32,7 @@ abstract class Ctrl {
 
 
 	/**
-	 * Ctrl constructor
+	 * AbstractCtrl constructor
 	 */
 	public function __construct() {
 
@@ -46,6 +47,7 @@ abstract class Ctrl {
 
 		switch ($cmd) {
 			case self::CMD_CREATE_COMMENT:
+			case self::CMD_GET_COMMENTS:
 			case self::CMD_UPDATE_COMMENT:
 			case self::CMD_DELETE_COMMENT:
 				$this->{$cmd}();
@@ -60,9 +62,20 @@ abstract class Ctrl {
 	/**
 	 *
 	 */
+	public function getComments()/*: void*/ {
+		$report_obj_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID));
+		$report_user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID));
+
+		self::output()->outputJSON($this->getCommentsArray($report_obj_id, $report_user_id));
+	}
+
+
+	/**
+	 *
+	 */
 	public function createComment()/*: void*/ {
-		$report_obj_id = filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID);
-		$report_user_id = filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID);
+		$report_obj_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID));
+		$report_user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID));
 
 		$comment = self::comments(static::COMMENTS_CLASS_NAME)->factory()->newInstance();
 
@@ -73,6 +86,8 @@ abstract class Ctrl {
 		$comment->setComment(filter_input(INPUT_POST, "content"));
 
 		self::comments(static::COMMENTS_CLASS_NAME)->storeInstance($comment);
+
+		self::output()->outputJSON($comment);
 	}
 
 
@@ -80,7 +95,7 @@ abstract class Ctrl {
 	 *
 	 */
 	public function updateComment()/*: void*/ {
-		$comment_id = filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID);
+		$comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
 
 		$comment = self::comments(static::COMMENTS_CLASS_NAME)->getCommentById($comment_id);
 
@@ -94,10 +109,41 @@ abstract class Ctrl {
 	 *
 	 */
 	public function deleteComment()/*: void*/ {
-		$comment_id = filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID);
+		$comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
 
 		$comment = self::comments(static::COMMENTS_CLASS_NAME)->getCommentById($comment_id);
 
 		self::comments(static::COMMENTS_CLASS_NAME)->deleteComment($comment);
 	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function getIsReadOnly(): bool {
+		return false;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getAsyncBaseUrl(): string {
+		return self::dic()->ctrl()->getLinkTargetByClass($this->getAsyncClass(), "", "", true, false);
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public abstract function getAsyncClass(): array;
+
+
+	/**
+	 * @param int $report_obj_id
+	 * @param int $report_user_id
+	 *
+	 * @return array
+	 */
+	public abstract function getCommentsArray(int $report_obj_id, int $report_user_id): array;
 }

@@ -6,7 +6,7 @@ use ilBlockGUI;
 use ilSrLpReportPlugin;
 use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\DIC\SrLpReport\DICTrait;
-use srag\Plugins\SrLpReport\Comment\Comment;
+use srag\Plugins\SrLpReport\Comment\Ctrl\PersonalDesktopCtrl;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -46,7 +46,6 @@ abstract class BaseCommentsPersonalDesktopBlock extends ilBlockGUI {
 	 *
 	 */
 	public function fillDataSection()/*: void*/ {
-		$this->setDataSection(self::output()->getHTML(self::commentsUI()->withComments(self::comments(Comment::class)->getCommentsForCurrentUser())
-			->withReadonly(true)));
+		$this->setDataSection(self::output()->getHTML(self::commentsUI()->withCtrlClass(new PersonalDesktopCtrl())));
 	}
 }
