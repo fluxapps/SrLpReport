@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bac042460b024f619fd8832ac8815f29",
+    "content-hash": "db883658f711b1e52796a9127cb45095",
     "packages": [
         {
             "name": "srag/activerecordconfig",
@@ -54,11 +54,17 @@
         },
         {
             "name": "srag/commentsui",
-            "version": "dev-develop",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
-                "url": "https://git.studer-raimann.ch/ILIAS/Libraries/CommentsUI.git",
-                "reference": "1a7ffc47422fbebfe1fdc1a26003fc67e00718e6"
+                "url": "https://github.com/studer-raimann/CommentsUI.git",
+                "reference": "6cfdbc537d204dd150ad3ae75af386200e849070"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/6cfdbc537d204dd150ad3ae75af386200e849070",
+                "reference": "6cfdbc537d204dd150ad3ae75af386200e849070",
+                "shasum": ""
             },
             "require": {
                 "php": ">=7.0",
@@ -70,6 +76,7 @@
                     "srag\\CommentsUI\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0-only"
             ],
@@ -81,17 +88,14 @@
                     "role": "Developer"
                 }
             ],
-            "description": "TODO",
+            "description": "Comments ui",
             "homepage": "https://github.com/studer-raimann/CommentsUI",
             "keywords": [
-                "Comments",
                 "ILIAS",
-                "UI"
+                "comments",
+                "ui"
             ],
-            "support": {
-                "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LCOMMENTSUI"
-            },
-            "time": "2019-03-19T15:08:55+00:00"
+            "time": "2019-03-21T06:52:43+00:00"
         },
         {
             "name": "srag/custominputguis",
@@ -279,9 +283,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "srag/commentsui": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

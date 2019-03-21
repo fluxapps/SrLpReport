@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'SrLpReportRemoveDataConfirm' => $baseDir . '/classes/uninstall/class.SrLpReportRemoveDataConfirm.php',
+    'ilSrLpReportConfigGUI' => $baseDir . '/classes/class.ilSrLpReportConfigGUI.php',
     'ilSrLpReportPlugin' => $baseDir . '/classes/class.ilSrLpReportPlugin.php',
     'ilSrLpReportUIHookGUI' => $baseDir . '/classes/class.ilSrLpReportUIHookGUI.php',
     'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordConfig' => $vendorDir . '/srag/activerecordconfig/src/ActiveRecordConfig.php',
