@@ -88,6 +88,7 @@ return array(
     'srag\\Plugins\\SrLpReport\\Block\\CommentsCourseBlock54' => $baseDir . '/src/Block/CommentsCourseBlock54.php',
     'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock53' => $baseDir . '/src/Block/CommentsPersonalDesktopBlock53.php',
     'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock54' => $baseDir . '/src/Block/CommentsPersonalDesktopBlock54.php',
+    'srag\\Plugins\\SrLpReport\\Comment\\Comment' => $baseDir . '/src/Comment/Comment.php',
     'srag\\Plugins\\SrLpReport\\Config\\Config' => $baseDir . '/src/Config/Config.php',
     'srag\\Plugins\\SrLpReport\\Config\\ConfigFormGUI' => $baseDir . '/src/Config/ConfigFormGUI.php',
     'srag\\Plugins\\SrLpReport\\Report\\AbstractReport2TableGUI' => $baseDir . '/src/Report/AbstractReport2TableGUI.php',
