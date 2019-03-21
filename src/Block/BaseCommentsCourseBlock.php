@@ -38,7 +38,7 @@ abstract class BaseCommentsCourseBlock extends ilBlockGUI {
 	 *
 	 */
 	protected function initBlock()/*: void*/ {
-		$this->setTitle(self::dic()->language()->txt("comments"));
+		$this->setTitle(self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("comments"));
 	}
 
 
