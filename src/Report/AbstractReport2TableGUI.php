@@ -60,11 +60,8 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 				} else {
 					return strval($this->getLearningProgressRepresentation(intval($row[$column])));
 				}
-
-				break;
 			default:
 				return strval(is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
-				break;
 		}
 	}
 
