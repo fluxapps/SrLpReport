@@ -28,7 +28,7 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 		$this->fields = [
 			Config::KEY_ENABLE_COMMENTS => [
 				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-				"setTitle" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("comments")
+				"setTitle" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("notes_comments")
 			]
 		];
 	}
