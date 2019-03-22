@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . "/../vendor/autoload.php";
-
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfigGUI;
 use srag\Plugins\SrLpReport\Config\ConfigFormGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
