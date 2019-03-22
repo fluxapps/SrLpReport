@@ -65,9 +65,8 @@ il.CommentsUI.prototype = {
 			success: function (comment) {
 				onSuccess(comment);
 
-				// TODO
-				//this.getCommentsUpdate();
-			},
+				this.getCommentsUpdate([comment]);
+			}.bind(this),
 			error: onError
 		});
 	},
@@ -114,8 +113,8 @@ il.CommentsUI.prototype = {
 				var commentElement = $(".comment[data-id=" + comment.id + "]", this.element);
 				var actions = $(" .actions", commentElement);
 
+				// Delete
 				if (comment.deletable) {
-					// Delete
 					var deleteButton = $('<button/>', {
 						class: "action delete",
 						text: "Delete",
@@ -125,12 +124,12 @@ il.CommentsUI.prototype = {
 				}
 
 				// Share
-				if (!comment.is_shared) {
+				if (comment.shareable) {
 					var shareButton = $('<button/>', {
 						class: "action share",
 						text: "Share",
 					});
-					shareButton.on("click", this.shareComment.bind(this, comment, shareButton));
+					shareButton.on("click", this.shareComment.bind(this, comment, shareButton, deleteButton));
 					actions.append(shareButton);
 				}
 			}, this);
@@ -169,14 +168,20 @@ il.CommentsUI.prototype = {
 	/**
 	 * @param {Object} comment
 	 * @param {jQuery} shareButton
+	 * @param {jQuery|undefined} deleteButton
 	 */
-	shareComment: function (comment, shareButton) {
+	shareComment: function (comment, shareButton, deleteButton) {
 		$.ajax({
 			type: "post",
 			url: this.async_base_url + "&cmd=shareComment&comment_id=" + comment.id,
-			success: function () {
+			success: function (comment) {
 				shareButton.remove();
-			},
+				if (deleteButton) {
+					deleteButton.remove();
+				}
+
+				this.getCommentsUpdate([comment]);
+			}.bind(this),
 			error: function () {
 			}
 		});
@@ -195,9 +200,8 @@ il.CommentsUI.prototype = {
 			success: function (comment) {
 				onSuccess(comment);
 
-				// TODO
-				//this.getCommentsUpdate();
-			},
+				this.getCommentsUpdate([comment]);
+			}.bind(this),
 			error: onError
 		});
 	}
