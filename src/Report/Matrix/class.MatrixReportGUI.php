@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrLpReport\Report\Matrix;
 
-use ilAdvancedSelectionListGUI;
 use ilLink;
 use ilMailFormCall;
 use ilObjectLP;
@@ -118,14 +117,12 @@ class MatrixReportGUI extends AbstractReportGUI {
 	protected function getActions()/*: void*/ {
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_USR_ID);
 
-		$actions = new ilAdvancedSelectionListGUI();
-
-		$actions->addItem(self::dic()->language()->txt("details"), "", self::dic()->ctrl()->getLinkTargetByClass([
-			ilUIPluginRouterGUI::class,
-			ReportGUI::class,
-			MatrixSingleReportGUI::class
-		]));
-
-		self::output()->output($actions->getHTML(true));
+		self::output()->output([
+			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("details"), self::dic()->ctrl()->getLinkTargetByClass([
+				ilUIPluginRouterGUI::class,
+				ReportGUI::class,
+				MatrixSingleReportGUI::class
+			]))
+		]);
 	}
 }

@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrLpReport\Staff\User;
 
 use Closure;
-use ilAdvancedSelectionListGUI;
 use ilLink;
 use ilMStListCourse;
 use ilMStShowUserCourses;
@@ -118,19 +117,21 @@ final class User {
 
 
 	/**
-	 * @param ilAdvancedSelectionListGUI $actions
+	 * @return array
 	 */
-	public function fillActions(ilAdvancedSelectionListGUI $actions) {
+	public function getActionsArray(): array {
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_USR_ID);
 		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, UserStaffGUI::class);
 
-		$actions->addItem(self::dic()->language()->txt("course"), "", ilLink::_getLink(self::reports()->getReportObjRefId()));
-
-		$actions->addItem(self::dic()->language()->txt("details"), "", self::dic()->ctrl()->getLinkTargetByClass([
-			ilUIPluginRouterGUI::class,
-			ReportGUI::class,
-			MatrixSingleReportGUI::class
-		]));
+		return [
+			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()
+				->getReportObjRefId())),
+			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("details"), self::dic()->ctrl()->getLinkTargetByClass([
+				ilUIPluginRouterGUI::class,
+				ReportGUI::class,
+				MatrixSingleReportGUI::class
+			]))
+		];
 	}
 }
