@@ -25,6 +25,9 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 	 * @inheritdoc
 	 */
 	protected function initFields()/*: void*/ {
+		self::dic()->language()->loadLanguageModule("trac");
+		self::dic()->language()->loadLanguageModule("notes");
+
 		$this->fields = [
 			Config::KEY_ENABLE_COMMENTS => [
 				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
