@@ -54,16 +54,16 @@
         },
         {
             "name": "srag/commentsui",
-            "version": "v0.4.2",
+            "version": "v0.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CommentsUI.git",
-                "reference": "ddd67110282b13733edaa7e454e8b7fec9187c55"
+                "reference": "dc9ccc1671235325752b34e011966f6835b1eb40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/ddd67110282b13733edaa7e454e8b7fec9187c55",
-                "reference": "ddd67110282b13733edaa7e454e8b7fec9187c55",
+                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/dc9ccc1671235325752b34e011966f6835b1eb40",
+                "reference": "dc9ccc1671235325752b34e011966f6835b1eb40",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
                 "comments",
                 "ui"
             ],
-            "time": "2019-03-22T07:34:56+00:00"
+            "time": "2019-03-25T15:01:56+00:00"
         },
         {
             "name": "srag/custominputguis",

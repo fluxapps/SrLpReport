@@ -46,6 +46,6 @@ abstract class BaseCommentsCourseBlock extends ilBlockGUI {
 	 *
 	 */
 	public function fillDataSection()/*: void*/ {
-		$this->setDataSection(self::output()->getHTML(self::commentsUI()->withCtrlClass(new CourseCtrl())));
+		$this->setDataSection(self::output()->getHTML(self::commentsUI()->setPlugin(self::plugin())->withCtrlClass(new CourseCtrl())));
 	}
 }
