@@ -111,7 +111,13 @@ abstract class AbstractStaffGUI {
 	 *
 	 */
 	protected function getActions()/*: void*/ {
-		self::output()->output($this->getActionsArray());
+		self::output()->output(array_map(function (Shy $button): string {
+			return self::output()->getHTML([
+				"<li>",
+				$button,
+				"</li>"
+			]);
+		}, $this->getActionsArray()));
 	}
 
 

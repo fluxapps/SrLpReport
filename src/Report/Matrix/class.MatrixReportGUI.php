@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report\Matrix;
 
+use ILIAS\UI\Component\Button\Shy;
 use ilLink;
 use ilMailFormCall;
 use ilObjectLP;
@@ -117,12 +118,18 @@ class MatrixReportGUI extends AbstractReportGUI {
 	protected function getActions()/*: void*/ {
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_USR_ID);
 
-		self::output()->output([
+		self::output()->output(array_map(function (Shy $button): string {
+			return self::output()->getHTML([
+				"<li>",
+				$button,
+				"</li>"
+			]);
+		}, [
 			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("details"), self::dic()->ctrl()->getLinkTargetByClass([
 				ilUIPluginRouterGUI::class,
 				ReportGUI::class,
 				MatrixSingleReportGUI::class
 			]))
-		]);
+		]));
 	}
 }
