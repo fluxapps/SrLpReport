@@ -1,13 +1,3 @@
-commentsui_add_comment#:#Add comment
-commentsui_delete#:#Delete
-commentsui_edit#:#Edit
-commentsui_edited#:#Edited
-commentsui_newest#:#Newest
-commentsui_no_comments#:#No comments
-commentsui_oldest#:#Oldest
-commentsui_save#:#Save
-commentsui_send#:#Sebd
-commentsui_share_comment_for_user#:#Share comment for user
 removeplugindataconfirm_cancel#:#Cancel
 removeplugindataconfirm_confirm_remove_data#:#Do you want to remove the %1$s data as well? At most, you just want to disable the %1$s plugin?
 removeplugindataconfirm_deactivate#:#Just deactivate %1$s plugin

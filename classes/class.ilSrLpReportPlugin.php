@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
+use srag\DIC\SrLpReport\Util\LibraryLanguageInstaller;
 use srag\Plugins\SrLpReport\Comment\Comment;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -51,6 +52,20 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 	 */
 	public function getPluginName(): string {
 		return self::PLUGIN_NAME;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function updateLanguages($a_lang_keys = null) {
+		parent::updateLanguages($a_lang_keys);
+
+		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
+			. "/../vendor/srag/removeplugindataconfirm/lang")->updateLanguages();
+
+		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__ . "/../vendor/srag/commentsui/lang")
+			->updateLanguages();
 	}
 
 
