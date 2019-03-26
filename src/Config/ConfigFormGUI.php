@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Config;
 
+use ilCheckboxInputGUI;
 use ilSrLpReportPlugin;
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfigFormGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -24,6 +25,14 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 	 * @inheritdoc
 	 */
 	protected function initFields()/*: void*/ {
-		$this->fields = [];
+		self::dic()->language()->loadLanguageModule("trac");
+		self::dic()->language()->loadLanguageModule("notes");
+
+		$this->fields = [
+			Config::KEY_ENABLE_COMMENTS => [
+				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+				"setTitle" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("notes_comments")
+			]
+		];
 	}
 }

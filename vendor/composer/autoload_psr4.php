@@ -11,5 +11,6 @@ return array(
     'srag\\LibrariesNamespaceChanger\\' => array($vendorDir . '/srag/librariesnamespacechanger/src'),
     'srag\\DIC\\SrLpReport\\' => array($vendorDir . '/srag/dic/src'),
     'srag\\CustomInputGUIs\\SrLpReport\\' => array($vendorDir . '/srag/custominputguis/src'),
+    'srag\\CommentsUI\\' => array($vendorDir . '/srag/commentsui/src'),
     'srag\\ActiveRecordConfig\\SrLpReport\\' => array($vendorDir . '/srag/activerecordconfig/src'),
 );

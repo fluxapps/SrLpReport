@@ -12,7 +12,10 @@ use ilPublicUserProfileGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use ilTrQuery;
+use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
+use srag\Plugins\SrLpReport\Comment\Ctrl\ReportCtrl;
+use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 
@@ -24,6 +27,9 @@ use srag\Plugins\SrLpReport\Report\ReportGUI;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class MatrixSingleTableGUI extends AbstractReportTableGUI {
+
+	use CommentsUITrait;
+
 
 	/**
 	 * MatrixSingleTableGUI constructor
@@ -294,7 +300,9 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 			"<br>",
 			(new ilPublicUserProfileGUI(self::reports()->getUsrId()))->getEmbeddable(),
 			"<br>",
-			ReportGUI::getLegendHTML()
+			ReportGUI::getLegendHTML(),
+			"<br>",
+			Config::getField(Config::KEY_ENABLE_COMMENTS) ? self::commentsUI()->withPlugin(self::plugin())->withCtrlClass(new ReportCtrl()) : ""
 		]);
 	}
 }

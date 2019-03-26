@@ -1,8 +1,11 @@
 <?php
 
-require_once __DIR__ . "/../vendor/autoload.php";
-
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Block\CommentsCourseBlock53;
+use srag\Plugins\SrLpReport\Block\CommentsCourseBlock54;
+use srag\Plugins\SrLpReport\Block\CommentsPersonalDesktopBlock53;
+use srag\Plugins\SrLpReport\Block\CommentsPersonalDesktopBlock54;
+use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
@@ -27,6 +30,11 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 	const PAR_TABS = "tabs";
 	const REDIRECT = "redirect";
 	const TYPE_CRS = "crs";
+	const PERSONAL_DESKTOP_INIT = "personal_desktop";
+	const COURSES_INIT = "courses";
+	const COMPONENT_PERSONAL_DESKTOP = "Services/PersonalDesktop";
+	const COMPONENT_CONTAINER = "Services/Container";
+	const PART_CENTER_RIGHT = "right_column";
 	/**
 	 * @var bool[]
 	 */
@@ -47,11 +55,58 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 	 * @param string $a_comp
 	 * @param string $a_part
 	 * @param array  $a_par
+	 *
+	 * @return array
+	 */
+	public function getHTML(/*string*/
+		$a_comp, /*string*/
+		$a_part, $a_par = []): array {
+
+		if (Config::getField(Config::KEY_ENABLE_COMMENTS)) {
+
+			if (!self::$load[self::PERSONAL_DESKTOP_INIT]) {
+
+				if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_CENTER_RIGHT) {
+
+					self::$load[self::PERSONAL_DESKTOP_INIT] = true;
+
+					return [
+						"mode" => self::PREPEND,
+						"html" => self::output()->getHTML(self::version()
+							->is54() ? new CommentsPersonalDesktopBlock54() : new CommentsPersonalDesktopBlock53())
+					];
+				}
+			}
+
+			if (!self::$load[self::COURSES_INIT]) {
+
+				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCourseGUI::class) && $a_comp === self::COMPONENT_CONTAINER
+					&& $a_part === self::PART_CENTER_RIGHT) {
+
+					self::$load[self::COURSES_INIT] = true;
+
+					return [
+						"mode" => ilUIHookPluginGUI::PREPEND,
+						"html" => self::output()->getHTML(self::version()->is54() ? new CommentsCourseBlock54() : new CommentsCourseBlock53())
+					];
+				}
+			}
+		}
+
+		return parent::getHTML($a_comp, $a_part, $a_par);
+	}
+
+
+	/**
+	 * @param string $a_comp
+	 * @param string $a_part
+	 * @param array  $a_par
 	 */
 	public function modifyGUI(/*string*/
 		$a_comp, /*string*/
 		$a_part, /*array*/
 		$a_par = [])/*: void*/ {
+
 		if (!self::$load[self::REDIRECT]) {
 
 			// Redirect not to early, causes endless loop because wrong baseClass in URL!

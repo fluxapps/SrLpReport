@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrLpReport\Staff\Courses;
 
 use Closure;
-use ilAdvancedSelectionListGUI;
 use ilLink;
 use ilMStListCourse;
 use ilMStListCourses;
@@ -126,20 +125,26 @@ final class Courses {
 
 
 	/**
-	 * @param ilAdvancedSelectionListGUI $actions
+	 * @return array
 	 */
-	public function fillActions(ilAdvancedSelectionListGUI $actions) {
+	public function getActionsArray(): array {
 		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, CoursesStaffGUI::class);
 
-		$actions->addItem(self::dic()->language()->txt("course"), "", ilLink::_getLink(self::reports()->getReportObjRefId()));
+		$actions = [
+			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()
+				->getReportObjRefId()))
+		];
 
 		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject(self::reports()->getReportObjRefId())) {
-			$actions->addItem(self::dic()->language()->txt("learning_progress"), "", self::dic()->ctrl()->getLinkTargetByClass([
-				ilUIPluginRouterGUI::class,
-				ReportGUI::class,
-				UserReportGUI::class
-			]));
+			$actions[] = self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("learning_progress"), self::dic()->ctrl()
+				->getLinkTargetByClass([
+					ilUIPluginRouterGUI::class,
+					ReportGUI::class,
+					UserReportGUI::class
+				]));
 		}
+
+		return $actions;
 	}
 }

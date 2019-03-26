@@ -2,6 +2,8 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
+use srag\DIC\SrLpReport\Util\LibraryLanguageInstaller;
+use srag\Plugins\SrLpReport\Comment\Comment;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\RemovePluginDataConfirm\SrLpReport\PluginUninstallTrait;
@@ -19,7 +21,6 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 	const PLUGIN_NAME = "SrLpReport";
 	const PLUGIN_CLASS_NAME = self::class;
 	const REMOVE_PLUGIN_DATA_CONFIRM_CLASS_NAME = SrLpReportRemoveDataConfirm::class;
-	const REMOVE_PLUGIN_DATA_CONFIRM = false;
 	/**
 	 * @var self|null
 	 */
@@ -57,7 +58,22 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 	/**
 	 * @inheritdoc
 	 */
+	public function updateLanguages(array $a_lang_keys = null) {
+		parent::updateLanguages($a_lang_keys);
+
+		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
+			. "/../vendor/srag/removeplugindataconfirm/lang")->updateLanguages();
+
+		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__ . "/../vendor/srag/commentsui/lang")
+			->updateLanguages();
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function deleteData()/*: void*/ {
 		self::dic()->database()->dropTable(Config::TABLE_NAME, false);
+		self::dic()->database()->dropTable(Comment::TABLE_NAME, false);
 	}
 }

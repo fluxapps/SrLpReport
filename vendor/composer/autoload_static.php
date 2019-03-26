@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
+class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
 {
     public static $prefixLengthsPsr4 = array (
         's' => 
@@ -14,6 +14,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrLpReport\\' => 20,
             'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
+            'srag\\CommentsUI\\' => 16,
             'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
         ),
     );
@@ -39,6 +40,10 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
+        'srag\\CommentsUI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/commentsui/src',
+        ),
         'srag\\ActiveRecordConfig\\SrLpReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
@@ -47,6 +52,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
 
     public static $classMap = array (
         'SrLpReportRemoveDataConfirm' => __DIR__ . '/../..' . '/classes/uninstall/class.SrLpReportRemoveDataConfirm.php',
+        'ilSrLpReportConfigGUI' => __DIR__ . '/../..' . '/classes/class.ilSrLpReportConfigGUI.php',
         'ilSrLpReportPlugin' => __DIR__ . '/../..' . '/classes/class.ilSrLpReportPlugin.php',
         'ilSrLpReportUIHookGUI' => __DIR__ . '/../..' . '/classes/class.ilSrLpReportUIHookGUI.php',
         'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordConfig' => __DIR__ . '/..' . '/srag/activerecordconfig/src/ActiveRecordConfig.php',
@@ -55,17 +61,23 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordConfigTableGUI' => __DIR__ . '/..' . '/srag/activerecordconfig/src/ActiveRecordConfigTableGUI.php',
         'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordObjectFormGUI' => __DIR__ . '/..' . '/srag/activerecordconfig/src/ActiveRecordObjectFormGUI.php',
         'srag\\ActiveRecordConfig\\SrLpReport\\Exception\\ActiveRecordConfigException' => __DIR__ . '/..' . '/srag/activerecordconfig/src/Exception/ActiveRecordConfigException.php',
+        'srag\\CommentsUI\\SrLpReport\\Comment\\AbstractComment' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/AbstractComment.php',
+        'srag\\CommentsUI\\SrLpReport\\Comment\\Factory' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Factory.php',
+        'srag\\CommentsUI\\SrLpReport\\Comment\\Repository' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Repository.php',
+        'srag\\CommentsUI\\SrLpReport\\Ctrl\\AbstractCtrl' => __DIR__ . '/..' . '/srag/commentsui/src/Ctrl/AbstractCtrl.php',
+        'srag\\CommentsUI\\SrLpReport\\UI\\UI' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UI.php',
+        'srag\\CommentsUI\\SrLpReport\\Utils\\CommentsUITrait' => __DIR__ . '/..' . '/srag/commentsui/src/Utils/CommentsUITrait.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CustomInputGUIsTrait' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIsTrait.php',
         'srag\\CustomInputGUIs\\SrLpReport\\DateDurationInputGUI\\DateDurationInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/DateDurationInputGUI/DateDurationInputGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\GlyphGUI\\GlyphGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/GlyphGUI/GlyphGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\HiddenInputGUI\\HiddenInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/HiddenInputGUI/HiddenInputGUI.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\AbstractLearningProgressPie' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPie/AbstractLearningProgressPie.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\CountLearningProgressPie' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPie/CountLearningProgressPie.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\LearningProgressPie' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPie/LearningProgressPie.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\ObjIdsLearningProgressPie' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPie/ObjIdsLearningProgressPie.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPie\\UsrIdsLearningProgressPie' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPie/UsrIdsLearningProgressPie.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPieUI\\AbstractLearningProgressPieUI' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPieUI/AbstractLearningProgressPieUI.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPieUI\\CountLearningProgressPieUI' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPieUI/CountLearningProgressPieUI.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPieUI\\LearningProgressPieUI' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPieUI/LearningProgressPieUI.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPieUI\\ObjIdsLearningProgressPieUI' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPieUI/ObjIdsLearningProgressPieUI.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPieUI\\UsrIdsLearningProgressPieUI' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPieUI/UsrIdsLearningProgressPieUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\MultiLineInputGUI\\MultiLineInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiLineInputGUI/MultiLineInputGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\MultiSelectSearchInputGUI\\MultiSelectSearchInput2GUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInput2GUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\MultiSelectSearchInputGUI\\MultiSelectSearchInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInputGUI.php',
@@ -93,7 +105,7 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\CustomInputGUIs\\SrLpReport\\Template\\Template' => __DIR__ . '/..' . '/srag/custominputguis/src/Template/Template.php',
         'srag\\CustomInputGUIs\\SrLpReport\\TextAreaInputGUI\\TextAreaInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/TextAreaInputGUI/TextAreaInputGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\TextInputGUI\\TextInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/TextInputGUI/TextInputGUI.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ViewControlModeGUI\\ViewControlModeGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/ViewControlModeGUI/ViewControlModeGUI.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\ViewControlModeUI\\ViewControlModeUI' => __DIR__ . '/..' . '/srag/custominputguis/src/ViewControlModeGUI/ViewControlModeUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\Waiter\\Waiter' => __DIR__ . '/..' . '/srag/custominputguis/src/Waiter/Waiter.php',
         'srag\\DIC\\SrLpReport\\DICStatic' => __DIR__ . '/..' . '/srag/dic/src/DICStatic.php',
         'srag\\DIC\\SrLpReport\\DICStaticInterface' => __DIR__ . '/..' . '/srag/dic/src/DICStaticInterface.php',
@@ -111,11 +123,23 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
         'srag\\DIC\\SrLpReport\\Plugin\\Plugin' => __DIR__ . '/..' . '/srag/dic/src/Plugin/Plugin.php',
         'srag\\DIC\\SrLpReport\\Plugin\\PluginInterface' => __DIR__ . '/..' . '/srag/dic/src/Plugin/PluginInterface.php',
         'srag\\DIC\\SrLpReport\\Plugin\\Pluginable' => __DIR__ . '/..' . '/srag/dic/src/Plugin/Pluginable.php',
+        'srag\\DIC\\SrLpReport\\Util\\LibraryLanguageInstaller' => __DIR__ . '/..' . '/srag/dic/src/Util/LibraryLanguageInstaller.php',
         'srag\\DIC\\SrLpReport\\Version\\Version' => __DIR__ . '/..' . '/srag/dic/src/Version/Version.php',
         'srag\\DIC\\SrLpReport\\Version\\VersionInterface' => __DIR__ . '/..' . '/srag/dic/src/Version/VersionInterface.php',
         'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
         'srag\\Plugins\\SrLpReport\\Access\\Access' => __DIR__ . '/../..' . '/src/Access/Access.php',
         'srag\\Plugins\\SrLpReport\\Access\\Ilias' => __DIR__ . '/../..' . '/src/Access/Ilias.php',
+        'srag\\Plugins\\SrLpReport\\Block\\BaseCommentsCourseBlock' => __DIR__ . '/../..' . '/src/Block/BaseCommentsCourseBlock.php',
+        'srag\\Plugins\\SrLpReport\\Block\\BaseCommentsPersonalDesktopBlock' => __DIR__ . '/../..' . '/src/Block/BaseCommentsPersonalDesktopBlock.php',
+        'srag\\Plugins\\SrLpReport\\Block\\CommentsCourseBlock53' => __DIR__ . '/../..' . '/src/Block/CommentsCourseBlock53.php',
+        'srag\\Plugins\\SrLpReport\\Block\\CommentsCourseBlock54' => __DIR__ . '/../..' . '/src/Block/CommentsCourseBlock54.php',
+        'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock53' => __DIR__ . '/../..' . '/src/Block/CommentsPersonalDesktopBlock53.php',
+        'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock54' => __DIR__ . '/../..' . '/src/Block/CommentsPersonalDesktopBlock54.php',
+        'srag\\Plugins\\SrLpReport\\Comment\\Comment' => __DIR__ . '/../..' . '/src/Comment/Comment.php',
+        'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\AbstractCtrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl/AbstractCtrl.php',
+        'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\CourseCtrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl/class.CourseCtrl.php',
+        'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\PersonalDesktopCtrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl/class.PersonalDesktopCtrl.php',
+        'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\ReportCtrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl/class.ReportCtrl.php',
         'srag\\Plugins\\SrLpReport\\Config\\Config' => __DIR__ . '/../..' . '/src/Config/Config.php',
         'srag\\Plugins\\SrLpReport\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\AbstractReport2TableGUI' => __DIR__ . '/../..' . '/src/Report/AbstractReport2TableGUI.php',
@@ -155,9 +179,9 @@ class ComposerStaticInit4479cab79c29ce3e616277b719c89a45
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4479cab79c29ce3e616277b719c89a45::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4479cab79c29ce3e616277b719c89a45::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit4479cab79c29ce3e616277b719c89a45::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc782db8ddd5f29172129184e2711b5cc::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc782db8ddd5f29172129184e2711b5cc::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc782db8ddd5f29172129184e2711b5cc::$classMap;
 
         }, null, ClassLoader::class);
     }

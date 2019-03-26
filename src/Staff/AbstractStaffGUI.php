@@ -2,7 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff;
 
-use ilAdvancedSelectionListGUI;
+use ILIAS\UI\Component\Button\Shy;
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -111,11 +111,13 @@ abstract class AbstractStaffGUI {
 	 *
 	 */
 	protected function getActions()/*: void*/ {
-		$actions = new ilAdvancedSelectionListGUI();
-
-		$this->fillActions($actions);
-
-		self::output()->output($actions->getHTML(true));
+		self::output()->output(array_map(function (Shy $button): string {
+			return self::output()->getHTML([
+				"<li>",
+				$button,
+				"</li>"
+			]);
+		}, $this->getActionsArray()));
 	}
 
 
@@ -135,8 +137,7 @@ abstract class AbstractStaffGUI {
 
 
 	/**
-	 * @param ilAdvancedSelectionListGUI $actions
+	 * @return Shy[]
 	 */
-	protected abstract function fillActions(ilAdvancedSelectionListGUI $actions)/*: void*/
-	;
+	protected abstract function getActionsArray(): array;
 }

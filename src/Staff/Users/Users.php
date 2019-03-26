@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
 use Closure;
-use ilAdvancedSelectionListGUI;
 use ilMStListCourse;
 use ilMStListUser;
 use ilMStListUsers;
@@ -146,15 +145,17 @@ final class Users {
 
 
 	/**
-	 * @param ilAdvancedSelectionListGUI $actions
+	 * @return array
 	 */
-	public function fillActions(ilAdvancedSelectionListGUI $actions) {
+	public function getActionsArray(): array {
 		self::dic()->ctrl()->saveParameterByClass(StaffGUI::class, Reports::GET_PARAM_USR_ID);
 
-		$actions->addItem(self::dic()->language()->txt("courses"), "", self::dic()->ctrl()->getLinkTargetByClass([
-			ilUIPluginRouterGUI::class,
-			StaffGUI::class,
-			UserStaffGUI::class
-		]));
+		return [
+			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("courses"), self::dic()->ctrl()->getLinkTargetByClass([
+				ilUIPluginRouterGUI::class,
+				StaffGUI::class,
+				UserStaffGUI::class
+			]))
+		];
 	}
 }
