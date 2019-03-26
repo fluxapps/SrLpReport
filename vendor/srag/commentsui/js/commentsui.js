@@ -50,7 +50,12 @@ il.CommentsUI.prototype = {
 	/**
 	 * @type {Object}
 	 */
-	LANGUAGES: {},
+	languages: {},
+
+	/**
+	 * @type {string}
+	 */
+	profileImageUrl: "",
 
 	/**
 	 * @type {boolean}
@@ -116,7 +121,7 @@ il.CommentsUI.prototype = {
 		if (!this.readonly) {
 			comments.forEach(function (comment) {
 				var commentElement = $(".comment[data-id=" + comment.id + "]", this.element);
-				var actions = $(" .actions", commentElement);
+				var actions = $(".actions", commentElement);
 
 				// Delete
 				if (comment.deletable) {
@@ -128,13 +133,15 @@ il.CommentsUI.prototype = {
 					actions.append(deleteButton);
 				}
 
+				var editButton = $(".action.edit", actions);
+
 				// Share
 				if (comment.shareable) {
 					var shareButton = $('<button/>', {
 						class: "action share",
 						text: this.txt("shareText"),
 					});
-					shareButton.on("click", this.shareComment.bind(this, comment, shareButton, deleteButton));
+					shareButton.on("click", this.shareComment.bind(this, comment, shareButton, deleteButton, editButton));
 					actions.append(shareButton);
 				}
 			}, this);
@@ -150,6 +157,8 @@ il.CommentsUI.prototype = {
 		}
 
 		var options = {
+			profilePictureURL: il.CommentsUI.profileImageUrl,
+
 			enableEditing: !this.readonly,
 
 			forceResponsive: false,
@@ -174,7 +183,7 @@ il.CommentsUI.prototype = {
 			},
 		};
 
-		Object.keys(il.CommentsUI.LANGUAGES).forEach(function (key) {
+		Object.keys(il.CommentsUI.languages).forEach(function (key) {
 			if (!options[key]) {
 				options[key] = key;
 			}
@@ -188,8 +197,9 @@ il.CommentsUI.prototype = {
 	 * @param {Object} comment
 	 * @param {jQuery} shareButton
 	 * @param {jQuery|undefined} deleteButton
+	 * @param {jQuery} editButton
 	 */
-	shareComment: function (comment, shareButton, deleteButton) {
+	shareComment: function (comment, shareButton, deleteButton, editButton) {
 		$.ajax({
 			type: "post",
 			url: this.async_base_url + "&cmd=shareComment&comment_id=" + comment.id,
@@ -198,6 +208,7 @@ il.CommentsUI.prototype = {
 				if (deleteButton) {
 					deleteButton.remove();
 				}
+				editButton.remove();
 
 				this.getCommentsUpdate([comment]);
 			}.bind(this),
@@ -212,8 +223,8 @@ il.CommentsUI.prototype = {
 	 * @returns {string}
 	 */
 	txt: function (key) {
-		if (key in il.CommentsUI.LANGUAGES) {
-			return il.CommentsUI.LANGUAGES[key];
+		if (key in il.CommentsUI.languages) {
+			return il.CommentsUI.languages[key];
 		} else {
 			return key;
 		}
