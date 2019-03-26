@@ -54,16 +54,16 @@
         },
         {
             "name": "srag/commentsui",
-            "version": "v0.4.6",
+            "version": "v0.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CommentsUI.git",
-                "reference": "a7c152dadc3a087256ea1e02d9fe777f30534906"
+                "reference": "d29d889ce4bd5a7f5e19e281f907c5f94962a6dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/a7c152dadc3a087256ea1e02d9fe777f30534906",
-                "reference": "a7c152dadc3a087256ea1e02d9fe777f30534906",
+                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/d29d889ce4bd5a7f5e19e281f907c5f94962a6dd",
+                "reference": "d29d889ce4bd5a7f5e19e281f907c5f94962a6dd",
                 "shasum": ""
             },
             "require": {
@@ -95,20 +95,20 @@
                 "comments",
                 "ui"
             ],
-            "time": "2019-03-26T07:51:15+00:00"
+            "time": "2019-03-26T10:49:45+00:00"
         },
         {
             "name": "srag/custominputguis",
-            "version": "v0.19.8",
+            "version": "v0.19.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-                "reference": "3d4618a946cf78fdc3676dfa9a258cb2d6d4a761"
+                "reference": "ad4420a2a53a82bbf109682ce6ebc9a01fd49202"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/3d4618a946cf78fdc3676dfa9a258cb2d6d4a761",
-                "reference": "3d4618a946cf78fdc3676dfa9a258cb2d6d4a761",
+                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/ad4420a2a53a82bbf109682ce6ebc9a01fd49202",
+                "reference": "ad4420a2a53a82bbf109682ce6ebc9a01fd49202",
                 "shasum": ""
             },
             "require": {
@@ -142,7 +142,7 @@
                 "input",
                 "table"
             ],
-            "time": "2019-03-26T08:02:24+00:00"
+            "time": "2019-03-26T09:38:29+00:00"
         },
         {
             "name": "srag/dic",
@@ -164,7 +164,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\DIC\\": "src/"
+                    "srag\\DIC\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -253,7 +253,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\RemovePluginDataConfirm\\": "src/"
+                    "srag\\RemovePluginDataConfirm\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
