@@ -302,7 +302,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 			"<br>",
 			ReportGUI::getLegendHTML(),
 			"<br>",
-			Config::getField(Config::KEY_ENABLE_COMMENTS) ? self::commentsUI()->setPlugin(self::plugin())->withCtrlClass(new ReportCtrl()) : ""
+			Config::getField(Config::KEY_ENABLE_COMMENTS) ? self::commentsUI()->withPlugin(self::plugin())->withCtrlClass(new ReportCtrl()) : ""
 		]);
 	}
 }

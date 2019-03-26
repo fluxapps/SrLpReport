@@ -46,6 +46,6 @@ abstract class BaseCommentsPersonalDesktopBlock extends ilBlockGUI {
 	 *
 	 */
 	public function fillDataSection()/*: void*/ {
-		$this->setDataSection(self::output()->getHTML(self::commentsUI()->setPlugin(self::plugin())->withCtrlClass(new PersonalDesktopCtrl())));
+		$this->setDataSection(self::output()->getHTML(self::commentsUI()->withPlugin(self::plugin())->withCtrlClass(new PersonalDesktopCtrl())));
 	}
 }
