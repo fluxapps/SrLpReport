@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report\Summary;
 
+use ilAdvancedSelectionListGUI;
 use ilLPObjSettings;
 use ilObjectLP;
 use ilTrQuery;
@@ -43,6 +44,15 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 		$row, /*bool*/
 		$raw_export = false): string {
 		switch ($column) {
+			case "title":
+				$column = $row[$column];
+				if (!$raw_export) {
+					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->courses()
+						->getCourseFilterLink($row["obj_id"])));
+				}
+
+				return $column;
+
 			case "status":
 				if (!$raw_export) {
 					return self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"])
@@ -63,7 +73,7 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 		$cols = [];
 
 		// default fields
-		$cols["title"] =[
+		$cols["title"] = [
 			"id" => "title",
 			"sort" => "title",
 			"txt" => self::dic()->language()->txt("title"),
@@ -129,6 +139,14 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 	protected function initId()/*: void*/ {
 		$this->setId('srcrslp_summary');
 		$this->setPrefix('srcrslp_summary');
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
+
 	}
 
 

@@ -2,18 +2,13 @@
 
 namespace srag\Plugins\SrLpReport\Report\Matrix;
 
-use ILIAS\UI\Component\Button\Shy;
 use ilLink;
 use ilMailFormCall;
 use ilObjectLP;
 use ilObjUser;
-use ilUIPluginRouterGUI;
 use ilUtil;
 use srag\Plugins\SrLpReport\Report\AbstractReportGUI;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
-use srag\Plugins\SrLpReport\Report\Matrix\Single\MatrixSingleReportGUI;
-use srag\Plugins\SrLpReport\Report\ReportGUI;
-use srag\Plugins\SrLpReport\Report\Reports;
 
 /**
  * Class MatrixReportGUI
@@ -27,8 +22,6 @@ use srag\Plugins\SrLpReport\Report\Reports;
 class MatrixReportGUI extends AbstractReportGUI {
 
 	const TAB_ID = "trac_matrix";
-	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
-	const CMD_GET_ACTIONS = "getActions";
 
 
 	/**
@@ -41,7 +34,6 @@ class MatrixReportGUI extends AbstractReportGUI {
 
 		switch ($cmd) {
 			case self::CMD_MAIL_SELECTED_USERS:
-			case self::CMD_GET_ACTIONS:
 				$this->{$cmd}();
 				break;
 
@@ -113,23 +105,12 @@ class MatrixReportGUI extends AbstractReportGUI {
 
 
 	/**
-	 *
+	 * @inheritdoc
 	 */
-	protected function getActions()/*: void*/ {
-		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_USR_ID);
-
-		self::output()->output(array_map(function (Shy $button): string {
-			return self::output()->getHTML([
-				"<li>",
-				$button,
-				"</li>"
-			]);
-		}, [
-			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("details"), self::dic()->ctrl()->getLinkTargetByClass([
-				ilUIPluginRouterGUI::class,
-				ReportGUI::class,
-				MatrixSingleReportGUI::class
-			]))
-		]));
+	protected function getActionsArray(): array {
+		return [
+			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("details"), self::ilias()->staff()->user()
+				->getLearningProgressLink(self::reports()->getReportObjRefId(), self::reports()->getUsrId()))
+		];
 	}
 }

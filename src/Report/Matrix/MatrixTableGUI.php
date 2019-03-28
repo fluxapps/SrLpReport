@@ -13,6 +13,7 @@ use ilPathGUI;
 use ilTrQuery;
 use srag\Plugins\SrLpReport\Report\AbstractReport2TableGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
+use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 
 /**
  * Class MatrixTableGUI
@@ -201,16 +202,6 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 
 
 	/**
-	 * @inheritdoc
-	 */
-	protected function initColumns()/*: void*/ {
-		parent::initColumns();
-
-		$this->addColumn(self::dic()->language()->txt("actions"));
-	}
-
-
-	/**
 	 * @param int $a_obj_id
 	 *
 	 * @return bool
@@ -238,8 +229,6 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 	 */
 	protected function fillRow(/*array*/
 		$row)/*: void*/ {
-		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
-
 		$this->tpl->setCurrentBlock("column");
 
 		foreach ($this->getSelectableColumns() as $column) {
@@ -264,8 +253,9 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 		$actions = new ilAdvancedSelectionListGUI();
 		$actions->setListTitle(self::dic()->language()->txt("actions"));
 		$actions->setAsynch(true);
+		$this->extendsActionsMenu($actions, $row);
 		$actions->setAsynchUrl(str_replace("\\", "\\\\", self::dic()->ctrl()
-			->getLinkTarget($this->parent_obj, MatrixReportGUI::CMD_GET_ACTIONS, "", true)));
+			->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)));
 		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
 		$this->tpl->parseCurrentBlock();
 	}
@@ -293,5 +283,13 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
 			$col ++;
 		}
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
+		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
 	}
 }

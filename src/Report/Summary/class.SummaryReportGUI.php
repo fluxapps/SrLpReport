@@ -33,4 +33,12 @@ class SummaryReportGUI extends AbstractReportGUI {
 	protected function getTable(string $cmd = self::CMD_INDEX): AbstractReportTableGUI {
 		return new SummaryTableGUI($this, $cmd);
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getActionsArray(): array {
+		return [];
+	}
 }

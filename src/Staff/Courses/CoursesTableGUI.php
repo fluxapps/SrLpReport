@@ -25,6 +25,16 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 		$row, /*bool*/
 		$raw_export = false): string {
 		switch ($column) {
+			case "crs_title":
+				$column = $row[$column];
+				if (!$raw_export) {
+					$learning_progress_link = self::ilias()->staff()->courses()->getLearningProgressLink($row["crs_ref_id"]);
+					if (!empty($learning_progress_link)) {
+						$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, $learning_progress_link));
+					}
+				}
+				break;
+
 			case "learning_progress_users":
 				if (!$raw_export) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->usrIds()->withObjId($row["crs_obj_id"])

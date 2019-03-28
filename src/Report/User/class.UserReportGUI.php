@@ -22,8 +22,6 @@ use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 class UserReportGUI extends AbstractReportGUI {
 
 	const TAB_ID = "trac_crs_objects";
-	const CMD_EDIT = "edit";
-	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
 
 
 	/**
@@ -103,5 +101,16 @@ class UserReportGUI extends AbstractReportGUI {
 			'rcp_to' => implode(',', $rcps),
 			'sig' => $sig
 		], $template));
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getActionsArray(): array {
+		return [
+			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("details"), self::ilias()->staff()->user()
+				->getLearningProgressLink(self::reports()->getReportObjRefId(), self::reports()->getUsrId()))
+		];
 	}
 }

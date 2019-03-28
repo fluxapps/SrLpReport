@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- Links
+
 ## [2.1.0]
 - Comments for matrix single gui
 

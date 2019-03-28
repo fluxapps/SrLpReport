@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report\Matrix\Single;
 
+use ilAdvancedSelectionListGUI;
 use ilCSVWriter;
 use ilExcel;
 use ilLearningProgressBaseGUI;
@@ -287,6 +288,14 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 			default:
 				return ilLearningProgressBaseGUI::_getStatusText($status);
 		}
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
+
 	}
 
 

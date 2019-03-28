@@ -61,7 +61,7 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 	/**
 	 * @return array
 	 */
-	protected final function getFilterValues2(): array {
+	public final function getFilterValues2(): array {
 		$filter = $this->getFilterValues();
 
 		if (isset($filter["status"])) {

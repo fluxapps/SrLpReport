@@ -8,6 +8,7 @@ use ilMStListUser;
 use ilMStListUsers;
 use ilMStShowUserCourses;
 use ilMyStaffAccess;
+use ilObjOrgUnitTree;
 use ilOrgUnitOperation;
 use ilOrgUnitPathStorage;
 use ilSrLpReportPlugin;
@@ -108,7 +109,10 @@ final class Users {
 				return $vars;
 			}, $user, ilMStListUser::class)();
 
-			$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($vars["usr_id"]);
+			//$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($vars["usr_id"]);
+			$vars["org_units"] = array_map(function (int $org_unit_id): string {
+				return self::dic()->objDataCache()->lookupTitle($org_unit_id);
+			}, ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($vars["usr_id"]));
 
 			$vars["interests_general"] = $vars["usr_obj"]->getGeneralInterestsAsText();
 
@@ -148,14 +152,41 @@ final class Users {
 	 * @return array
 	 */
 	public function getActionsArray(): array {
-		self::dic()->ctrl()->saveParameterByClass(StaffGUI::class, Reports::GET_PARAM_USR_ID);
-
 		return [
-			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("courses"), self::dic()->ctrl()->getLinkTargetByClass([
-				ilUIPluginRouterGUI::class,
-				StaffGUI::class,
-				UserStaffGUI::class
-			]))
+			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("courses"), $this->getUserCoursesLink(self::reports()
+				->getUsrId()))
 		];
+	}
+
+
+	/**
+	 * @param int $usr_id
+	 *
+	 * @return string
+	 */
+	public function getUserCoursesLink(int $usr_id): string {
+		self::dic()->ctrl()->setParameterByClass(UserStaffGUI::class, Reports::GET_PARAM_USR_ID, $usr_id);
+
+		return self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			StaffGUI::class,
+			UserStaffGUI::class
+		]);
+	}
+
+
+	/**
+	 * @param int $org_unit_id
+	 *
+	 * @return string
+	 */
+	public function getOrgUnitFilterLink(int $org_unit_id): string {
+		self::dic()->ctrl()->setParameterByClass(UsersStaffGUI::class, Reports::GET_PARAM_ORG_UNIT_ID, $org_unit_id);
+
+		return self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			StaffGUI::class,
+			UsersStaffGUI::class
+		], UsersStaffGUI::CMD_SET_ORG_UNIT_FILTER);
 	}
 }

@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
+use ILIAS\UI\Implementation\Component\Button\Shy;
 use ilObject;
 use ilSrLpReportPlugin;
 use ilTemplateException;
@@ -24,6 +25,8 @@ abstract class AbstractReportGUI {
 	const CMD_INDEX = "index";
 	const CMD_APPLY_FILTER = "applyFilter";
 	const CMD_RESET_FILTER = "resetFilter";
+	const CMD_GET_ACTIONS = "getActions";
+	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
 	/**
 	 * @var string
 	 *
@@ -61,6 +64,7 @@ abstract class AbstractReportGUI {
 					case self::CMD_INDEX:
 					case self::CMD_APPLY_FILTER:
 					case self::CMD_RESET_FILTER:
+					case self::CMD_GET_ACTIONS:
 						$this->{$cmd}();
 						break;
 
@@ -131,6 +135,20 @@ abstract class AbstractReportGUI {
 	/**
 	 *
 	 */
+	protected function getActions()/*: void*/ {
+		self::output()->output(array_map(function (Shy $button): string {
+			return self::output()->getHTML([
+				"<li>",
+				$button,
+				"</li>"
+			]);
+		}, $this->getActionsArray()));
+	}
+
+
+	/**
+	 *
+	 */
 	protected abstract function setTabs()/*: void*/
 	;
 
@@ -141,4 +159,10 @@ abstract class AbstractReportGUI {
 	 * @return AbstractReportTableGUI
 	 */
 	protected abstract function getTable(string $cmd = self::CMD_INDEX): AbstractReportTableGUI;
+
+
+	/**
+	 * @return Shy[]
+	 */
+	protected abstract function getActionsArray(): array;
 }
