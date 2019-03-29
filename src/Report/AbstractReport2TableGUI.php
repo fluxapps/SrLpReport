@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
+use ilAdvancedSelectionListGUI;
 use ilCSVWriter;
 use ilExcel;
 use ilLearningProgressBaseGUI;
@@ -9,7 +10,9 @@ use ilLPStatus;
 use ilMail;
 use ilObject;
 use ilObjectLP;
+use ilObjOrgUnitTree;
 use ilObjUserTracking;
+use ilOrgUnitPathStorage;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use ilTrQuery;
@@ -17,6 +20,7 @@ use ilUserDefinedFields;
 use ilUserProfile;
 use ilUtil;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
+use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 
 /**
  * Class AbstractReport2TableGUI
@@ -54,12 +58,39 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		$row, /*bool*/
 		$raw_export = false): string {
 		switch ($column) {
+			case "login":
+				$column = $row[$column];
+				if (!$raw_export) {
+					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->user()
+						->getLearningProgressLink(self::reports()->getReportObjRefId(), $row["usr_id"])));
+				}
+
+				return $column;
+
+			case "org_units":
+				$column = $row[$column];
+				if (!$raw_export) {
+					if (is_array($column)) {
+						$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, array_map(function (string $org_unit_title, int $org_unit_id): string {
+							return self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($org_unit_title, self::ilias()->staff()
+								->users()->getOrgUnitFilterLink($org_unit_id)));
+						}, $column, array_keys($column)));
+					} else {
+						$column = strval($column);
+					}
+				} else {
+					$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, $column);
+				}
+
+				return $column;
+
 			case "status":
 				if ($raw_export) {
 					return strval($this->getLearningProgressRepresentationExport(intval($row[$column])));
 				} else {
 					return strval($this->getLearningProgressRepresentation(intval($row[$column])));
 				}
+
 			default:
 				return strval(is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
 		}
@@ -130,6 +161,8 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 				$this->addColumn($column["txt"], ($column["sort"] ? $column["id"] : null), "", false, "", $column["path"]);
 			}
 		}
+
+		$this->addColumn(self::dic()->language()->txt("actions"));
 	}
 
 
@@ -301,6 +334,12 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 			}
 		}
 
+		foreach ($tr_data["set"] as &$row) {
+			$row["org_units"] = array_map(function (int $org_unit_id): string {
+				return self::dic()->objDataCache()->lookupTitle($org_unit_id);
+			}, ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($row["usr_id"]));
+		}
+
 		$this->setMaxCount($tr_data["cnt"]);
 		$this->setData($tr_data["set"]);
 	}
@@ -354,6 +393,15 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		$this->tpl->setVariable("CHECKBOX_POST_VAR", 'usr_id');
 		$this->tpl->setVariable("ID", $row['usr_id']);
 		$this->tpl->parseCurrentBlock();
+
+		$actions = new ilAdvancedSelectionListGUI();
+		$actions->setListTitle(self::dic()->language()->txt("actions"));
+		$actions->setAsynch(true);
+		$this->extendsActionsMenu($actions, $row);
+		$actions->setAsynchUrl(str_replace("\\", "\\\\", self::dic()->ctrl()
+			->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)));
+		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
+		$this->tpl->parseCurrentBlock();
 	}
 
 
@@ -372,7 +420,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		// see ilObjCourseGUI::addMailToMemberButton()
 		$mail = new ilMail(self::dic()->user()->getId());
 		if (self::dic()->rbacsystem()->checkAccess("internal_mail", $mail->getMailObjectReferenceId())) {
-			$this->addMultiCommand("mailselectedusers", $this->lng->txt("send_mail"));
+			$this->addMultiCommand(AbstractReportGUI::CMD_MAIL_SELECTED_USERS, $this->lng->txt("send_mail"));
 		}
 	}
 

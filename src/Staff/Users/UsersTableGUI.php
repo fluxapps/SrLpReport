@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
 use ilAdvancedSelectionListGUI;
+use ilOrgUnitPathStorage;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use ilUserSearchOptions;
@@ -27,6 +28,26 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 		$row, /*bool*/
 		$raw_export = false): string {
 		switch ($column) {
+			case "login":
+				$column = $row[$column];
+				if (!$raw_export) {
+					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->users()
+						->getUserCoursesLink($row["usr_id"])));
+				}
+				break;
+
+			case "org_units":
+				$column = $row[$column];
+				if (!$raw_export) {
+					$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, array_map(function (string $org_unit_title, int $org_unit_id): string {
+						return self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($org_unit_title, self::ilias()->staff()->users()
+							->getOrgUnitFilterLink($org_unit_id)));
+					}, $column, array_keys($column)));
+				} else {
+					$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, $column);
+				}
+				break;
+
 			case "learning_progress_courses":
 				if (!$raw_export) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])

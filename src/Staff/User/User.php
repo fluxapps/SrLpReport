@@ -120,18 +120,31 @@ final class User {
 	 * @return array
 	 */
 	public function getActionsArray(): array {
-		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
-		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_USR_ID);
-		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, UserStaffGUI::class);
-
 		return [
 			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()
 				->getReportObjRefId())),
-			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("details"), self::dic()->ctrl()->getLinkTargetByClass([
-				ilUIPluginRouterGUI::class,
-				ReportGUI::class,
-				MatrixSingleReportGUI::class
-			]))
+			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("details"), $this->getLearningProgressLink(self::reports()
+				->getReportObjRefId(), self::reports()->getUsrId(), UserStaffGUI::class))
 		];
+	}
+
+
+	/**
+	 * @param int    $crs_ref_id
+	 * @param int    $usr_id
+	 * @param string $return
+	 *
+	 * @return string
+	 */
+	public function getLearningProgressLink(int $crs_ref_id, int $usr_id, string $return = ""): string {
+		self::dic()->ctrl()->setParameterByClass(MatrixSingleReportGUI::class, Reports::GET_PARAM_REF_ID, $crs_ref_id);
+		self::dic()->ctrl()->setParameterByClass(MatrixSingleReportGUI::class, Reports::GET_PARAM_USR_ID, $usr_id);
+		self::dic()->ctrl()->setParameterByClass(MatrixSingleReportGUI::class, Reports::GET_PARAM_RETURN, $return);
+
+		return self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			ReportGUI::class,
+			MatrixSingleReportGUI::class
+		]);
 	}
 }

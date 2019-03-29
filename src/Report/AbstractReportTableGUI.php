@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
+use ilAdvancedSelectionListGUI;
 use ilSrLpReportPlugin;
 use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
@@ -42,7 +43,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	/**
 	 * @return array
 	 */
-	protected final function getFilterValues2(): array {
+	public final function getFilterValues2(): array {
 		$filter = $this->getFilterValues();
 
 		if (isset($filter["status"])) {
@@ -63,6 +64,14 @@ abstract class AbstractReportTableGUI extends TableGUI {
 
 		return $filter;
 	}
+
+
+	/**
+	 * @param ilAdvancedSelectionListGUI $actions
+	 * @param array                      $row
+	 */
+	protected abstract function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/
+	;
 
 
 	/**

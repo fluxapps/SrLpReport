@@ -13,6 +13,7 @@ use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
+use srag\Plugins\SrLpReport\Staff\StaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -128,7 +129,6 @@ final class Courses {
 	 * @return array
 	 */
 	public function getActionsArray(): array {
-		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, CoursesStaffGUI::class);
 
 		$actions = [
@@ -136,15 +136,47 @@ final class Courses {
 				->getReportObjRefId()))
 		];
 
-		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject(self::reports()->getReportObjRefId())) {
-			$actions[] = self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("learning_progress"), self::dic()->ctrl()
-				->getLinkTargetByClass([
-					ilUIPluginRouterGUI::class,
-					ReportGUI::class,
-					UserReportGUI::class
-				]));
+		$learning_progress_link = $this->getLearningProgressLink(self::reports()->getReportObjRefId());
+		if (!empty($learning_progress_link)) {
+			$actions[] = self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("learning_progress"), $learning_progress_link);
 		}
 
 		return $actions;
+	}
+
+
+	/**
+	 * @param int $crs_ref_id
+	 *
+	 * @return string
+	 */
+	public function getLearningProgressLink(int $crs_ref_id): string {
+		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($crs_ref_id)) {
+			self::dic()->ctrl()->setParameterByClass(UserReportGUI::class, Reports::GET_PARAM_REF_ID, $crs_ref_id);
+
+			return self::dic()->ctrl()->getLinkTargetByClass([
+				ilUIPluginRouterGUI::class,
+				ReportGUI::class,
+				UserReportGUI::class
+			]);
+		}
+
+		return "";
+	}
+
+
+	/**
+	 * @param int $crs_obj_id
+	 *
+	 * @return string
+	 */
+	public function getCourseFilterLink(int $crs_obj_id): string {
+		self::dic()->ctrl()->setParameterByClass(CoursesStaffGUI::class, Reports::GET_PARAM_COURSE_OBJ_ID, $crs_obj_id);
+
+		return self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			StaffGUI::class,
+			CoursesStaffGUI::class
+		], CoursesStaffGUI::CMD_SET_COURSE_FILTER);
 	}
 }

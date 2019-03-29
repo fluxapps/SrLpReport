@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Courses;
 
+use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 
@@ -17,6 +18,26 @@ use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 class CoursesStaffGUI extends AbstractStaffGUI {
 
 	const TAB_ID = "courses";
+	const CMD_SET_COURSE_FILTER = "setCourseFilter";
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function executeCommand()/*: void*/ {
+		parent::executeCommand();
+
+		$cmd = self::dic()->ctrl()->getCmd();
+
+		switch ($cmd) {
+			case self::CMD_SET_COURSE_FILTER:
+				$this->{$cmd}();
+				break;
+
+			default:
+				break;
+		}
+	}
 
 
 	/**
@@ -42,5 +63,20 @@ class CoursesStaffGUI extends AbstractStaffGUI {
 	 */
 	protected function getActionsArray(): array {
 		return self::ilias()->staff()->courses()->getActionsArray();
+	}
+
+
+	/**
+	 *
+	 */
+	protected function setCourseFilter()/*: void*/ {
+		$crs_obj_id = intval(filter_input(INPUT_GET, Reports::GET_PARAM_COURSE_OBJ_ID));
+
+		$table = $this->getTable(self::CMD_RESET_FILTER);
+		$table->resetFilter();
+		$table->resetOffset();
+
+		$_POST["crs_title"] = self::dic()->objDataCache()->lookupTitle($crs_obj_id);
+		$this->applyFilter();
 	}
 }

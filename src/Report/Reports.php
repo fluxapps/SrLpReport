@@ -20,6 +20,8 @@ final class Reports {
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 	const GET_PARAM_REF_ID = "ref_id";
 	const GET_PARAM_USR_ID = "usr_id";
+	const GET_PARAM_ORG_UNIT_ID = "org_unit_id";
+	const GET_PARAM_COURSE_OBJ_ID = "course_obj_id";
 	const GET_PARAM_TARGET = "target";
 	const GET_PARAM_RETURN = "return";
 	/**
