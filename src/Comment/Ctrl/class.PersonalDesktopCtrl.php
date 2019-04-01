@@ -30,7 +30,7 @@ class PersonalDesktopCtrl extends AbstractCtrl {
 	 * @inheritdoc
 	 */
 	public function getCommentsArray(int $report_obj_id, int $report_user_id): array {
-		return self::comments(self::COMMENTS_CLASS_NAME)->withOutputObjectTitles(true)->getCommentsForCurrentUser();
+		return self::comments()->withOutputObjectTitles(true)->getCommentsForCurrentUser();
 	}
 
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.2]
+- Implementation
+
+## [0.5.1]
+- Implementation
+
 ## [0.5.0]
 - Implementation
 
