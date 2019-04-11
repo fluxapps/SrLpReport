@@ -1,7 +1,8 @@
 # Changelog
 
 ## [x]
-- Links
+- Some more links
+- Fix reset offset
 
 ## [2.1.0]
 - Comments for matrix single gui
