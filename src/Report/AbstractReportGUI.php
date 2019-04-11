@@ -113,7 +113,8 @@ abstract class AbstractReportGUI {
 
 		$table->resetOffset();
 
-		self::dic()->ctrl()->redirect($this);
+		//self::dic()->ctrl()->redirect($this);
+		$this->index(); // Fix reset offset
 	}
 
 
@@ -128,7 +129,8 @@ abstract class AbstractReportGUI {
 
 		$table->resetFilter();
 
-		self::dic()->ctrl()->redirect($this);
+		//self::dic()->ctrl()->redirect($this);
+		$this->index(); // Fix reset offset
 	}
 
 
