@@ -5,7 +5,7 @@ namespace srag\Plugins\SrLpReport\Comment\Ctrl;
 use ilUIPluginRouterGUI;
 
 /**
- * Class class.PersonalDesktopCtrl
+ * Class PersonalDesktopCtrl
  *
  * @package           srag\Plugins\SrLpReport\Comment\Ctrl
  *
