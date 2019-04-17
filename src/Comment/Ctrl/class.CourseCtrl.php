@@ -20,7 +20,7 @@ class CourseCtrl extends AbstractCtrl {
 	 * @inheritdoc
 	 */
 	public function getAsyncClass(): array {
-		self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REPORT_OBJ_ID, self::dic()->objDataCache()->lookupObjId(filter_input(INPUT_GET, Reports::GET_PARM_REF_ID)));
+		self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REPORT_OBJ_ID, self::dic()->objDataCache()->lookupObjId(Reports::getReportObjRefId()));
 
 		self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REPORT_USER_ID, self::dic()->user()->getId());
 
