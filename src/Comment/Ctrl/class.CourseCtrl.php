@@ -19,6 +19,10 @@ class CourseCtrl extends AbstractCtrl {
 	 * @inheritdoc
 	 */
 	public function getAsyncClass(): array {
+		self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REPORT_OBJ_ID, self::dic()->objDataCache()->lookupObjId(filter_input(INPUT_GET, 'ref_id')));
+
+		self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REPORT_USER_ID, self::dic()->user()->getId());
+
 		return [
 			ilUIPluginRouterGUI::class,
 			self::class
