@@ -3,6 +3,7 @@
 ## [x]
 - Some more links
 - Fix reset offset
+- Course block: Show only comments of current course
 
 ## [2.1.0]
 - Comments for matrix single gui
