@@ -14,7 +14,7 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrLpReport\\' => 20,
             'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
-            'srag\\CommentsUI\\' => 16,
+            'srag\\CommentsUI\\SrLpReport\\' => 27,
             'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
         ),
     );
@@ -40,7 +40,7 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\CommentsUI\\' => 
+        'srag\\CommentsUI\\SrLpReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
@@ -135,7 +135,7 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         'srag\\Plugins\\SrLpReport\\Block\\CommentsCourseBlock54' => __DIR__ . '/../..' . '/src/Block/CommentsCourseBlock54.php',
         'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock53' => __DIR__ . '/../..' . '/src/Block/CommentsPersonalDesktopBlock53.php',
         'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock54' => __DIR__ . '/../..' . '/src/Block/CommentsPersonalDesktopBlock54.php',
-        'srag\\Plugins\\SrLpReport\\Comment\\Comment' => __DIR__ . '/../..' . '/src/Comment/Comment.php',
+        'srag\\Plugins\\SrLpReport\\Comment\\Comment\\Comment' => __DIR__ . '/../..' . '/src/Comment/Comment/Comment.php',
         'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\AbstractCtrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl/AbstractCtrl.php',
         'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\CourseCtrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl/class.CourseCtrl.php',
         'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\PersonalDesktopCtrl' => __DIR__ . '/../..' . '/src/Comment/Ctrl/class.PersonalDesktopCtrl.php',

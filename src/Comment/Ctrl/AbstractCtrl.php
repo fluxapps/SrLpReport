@@ -4,7 +4,7 @@ namespace srag\Plugins\SrLpReport\Comment\Ctrl;
 
 use ilSrLpReportPlugin;
 use srag\CommentsUI\SrLpReport\Ctrl\AbstractCtrl as AbstractCtrl_;
-use srag\Plugins\SrLpReport\Comment\Comment;
+use srag\Plugins\SrLpReport\Comment\Comment\Comment;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 

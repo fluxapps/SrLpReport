@@ -90,7 +90,7 @@ return array(
     'srag\\Plugins\\SrLpReport\\Block\\CommentsCourseBlock54' => $baseDir . '/src/Block/CommentsCourseBlock54.php',
     'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock53' => $baseDir . '/src/Block/CommentsPersonalDesktopBlock53.php',
     'srag\\Plugins\\SrLpReport\\Block\\CommentsPersonalDesktopBlock54' => $baseDir . '/src/Block/CommentsPersonalDesktopBlock54.php',
-    'srag\\Plugins\\SrLpReport\\Comment\\Comment' => $baseDir . '/src/Comment/Comment.php',
+    'srag\\Plugins\\SrLpReport\\Comment\\Comment\\Comment' => $baseDir . '/src/Comment/Comment/Comment.php',
     'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\AbstractCtrl' => $baseDir . '/src/Comment/Ctrl/AbstractCtrl.php',
     'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\CourseCtrl' => $baseDir . '/src/Comment/Ctrl/class.CourseCtrl.php',
     'srag\\Plugins\\SrLpReport\\Comment\\Ctrl\\PersonalDesktopCtrl' => $baseDir . '/src/Comment/Ctrl/class.PersonalDesktopCtrl.php',

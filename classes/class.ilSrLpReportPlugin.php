@@ -3,7 +3,7 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use srag\DIC\SrLpReport\Util\LibraryLanguageInstaller;
-use srag\Plugins\SrLpReport\Comment\Comment;
+use srag\Plugins\SrLpReport\Comment\Comment\Comment;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\RemovePluginDataConfirm\SrLpReport\PluginUninstallTrait;

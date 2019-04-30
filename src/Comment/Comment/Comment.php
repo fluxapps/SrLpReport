@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrLpReport\Comment;
+namespace srag\Plugins\SrLpReport\Comment\Comment;
 
 use srag\CommentsUI\SrLpReport\Comment\AbstractComment;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -8,7 +8,7 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 /**
  * Class Comment
  *
- * @package srag\Plugins\SrLpReport\Comment
+ * @package srag\Plugins\SrLpReport\Comment\Comment
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
