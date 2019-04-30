@@ -28,7 +28,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\ActiveRecordConfig\\": "src/"
+                    "srag\\ActiveRecordConfig\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -54,16 +54,16 @@
         },
         {
             "name": "srag/commentsui",
-            "version": "v0.6.0",
+            "version": "v0.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CommentsUI.git",
-                "reference": "3f6bf0144a9e1433b17ecf7a8272f451f0ac4484"
+                "reference": "3ecbda38f3f3c18c3e783617fde31dbc0f86318a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/3f6bf0144a9e1433b17ecf7a8272f451f0ac4484",
-                "reference": "3f6bf0144a9e1433b17ecf7a8272f451f0ac4484",
+                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/3ecbda38f3f3c18c3e783617fde31dbc0f86318a",
+                "reference": "3ecbda38f3f3c18c3e783617fde31dbc0f86318a",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
                 "comments",
                 "ui"
             ],
-            "time": "2019-04-30T07:22:15+00:00"
+            "time": "2019-04-30T07:53:18+00:00"
         },
         {
             "name": "srag/custominputguis",
@@ -118,7 +118,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\CustomInputGUIs\\": "src/"
+                    "srag\\CustomInputGUIs\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -164,7 +164,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\DIC\\": "src/"
+                    "srag\\DIC\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",

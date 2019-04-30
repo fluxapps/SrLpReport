@@ -49,24 +49,24 @@
     },
     {
         "name": "srag/commentsui",
-        "version": "v0.6.0",
-        "version_normalized": "0.6.0.0",
+        "version": "v0.6.1",
+        "version_normalized": "0.6.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/CommentsUI.git",
-            "reference": "3f6bf0144a9e1433b17ecf7a8272f451f0ac4484"
+            "reference": "3ecbda38f3f3c18c3e783617fde31dbc0f86318a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/3f6bf0144a9e1433b17ecf7a8272f451f0ac4484",
-            "reference": "3f6bf0144a9e1433b17ecf7a8272f451f0ac4484",
+            "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/3ecbda38f3f3c18c3e783617fde31dbc0f86318a",
+            "reference": "3ecbda38f3f3c18c3e783617fde31dbc0f86318a",
             "shasum": ""
         },
         "require": {
             "php": ">=7.0",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2019-04-30T07:22:15+00:00",
+        "time": "2019-04-30T07:53:18+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

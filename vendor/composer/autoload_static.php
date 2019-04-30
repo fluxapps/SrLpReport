@@ -12,10 +12,10 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
             'srag\\RemovePluginDataConfirm\\SrLpReport\\' => 40,
             'srag\\Plugins\\SrLpReport\\' => 24,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\' => 9,
-            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\DIC\\SrLpReport\\' => 20,
+            'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
             'srag\\CommentsUI\\' => 16,
-            'srag\\ActiveRecordConfig\\' => 24,
+            'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
         ),
     );
 
@@ -32,11 +32,11 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\' => 
+        'srag\\DIC\\SrLpReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrLpReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -44,7 +44,7 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
-        'srag\\ActiveRecordConfig\\' => 
+        'srag\\ActiveRecordConfig\\SrLpReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
