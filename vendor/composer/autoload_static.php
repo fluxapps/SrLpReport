@@ -12,10 +12,10 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
             'srag\\RemovePluginDataConfirm\\SrLpReport\\' => 40,
             'srag\\Plugins\\SrLpReport\\' => 24,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\SrLpReport\\' => 20,
-            'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
-            'srag\\CommentsUI\\SrLpReport\\' => 27,
-            'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
+            'srag\\DIC\\' => 9,
+            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CommentsUI\\' => 16,
+            'srag\\ActiveRecordConfig\\' => 24,
         ),
     );
 
@@ -32,19 +32,19 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\SrLpReport\\' => 
+        'srag\\DIC\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\SrLpReport\\' => 
+        'srag\\CustomInputGUIs\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\CommentsUI\\SrLpReport\\' => 
+        'srag\\CommentsUI\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
-        'srag\\ActiveRecordConfig\\SrLpReport\\' => 
+        'srag\\ActiveRecordConfig\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -62,10 +62,15 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         'srag\\ActiveRecordConfig\\SrLpReport\\ActiveRecordObjectFormGUI' => __DIR__ . '/..' . '/srag/activerecordconfig/src/ActiveRecordObjectFormGUI.php',
         'srag\\ActiveRecordConfig\\SrLpReport\\Exception\\ActiveRecordConfigException' => __DIR__ . '/..' . '/srag/activerecordconfig/src/Exception/ActiveRecordConfigException.php',
         'srag\\CommentsUI\\SrLpReport\\Comment\\AbstractComment' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/AbstractComment.php',
+        'srag\\CommentsUI\\SrLpReport\\Comment\\Comment' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Comment.php',
         'srag\\CommentsUI\\SrLpReport\\Comment\\Factory' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Factory.php',
+        'srag\\CommentsUI\\SrLpReport\\Comment\\FactoryInterface' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/FactoryInterface.php',
         'srag\\CommentsUI\\SrLpReport\\Comment\\Repository' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Repository.php',
+        'srag\\CommentsUI\\SrLpReport\\Comment\\RepositoryInterface' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/RepositoryInterface.php',
         'srag\\CommentsUI\\SrLpReport\\Ctrl\\AbstractCtrl' => __DIR__ . '/..' . '/srag/commentsui/src/Ctrl/AbstractCtrl.php',
+        'srag\\CommentsUI\\SrLpReport\\Ctrl\\CtrlInterface' => __DIR__ . '/..' . '/srag/commentsui/src/Ctrl/CtrlInterface.php',
         'srag\\CommentsUI\\SrLpReport\\UI\\UI' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UI.php',
+        'srag\\CommentsUI\\SrLpReport\\UI\\UIInterface' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UIInterface.php',
         'srag\\CommentsUI\\SrLpReport\\Utils\\CommentsUITrait' => __DIR__ . '/..' . '/srag/commentsui/src/Utils/CommentsUITrait.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',

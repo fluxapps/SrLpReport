@@ -45,7 +45,7 @@ class PersonalDesktopCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	public function createComment()/*: void*/ {
+	protected function createComment()/*: void*/ {
 
 	}
 
@@ -53,7 +53,7 @@ class PersonalDesktopCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	public function updateComment()/*: void*/ {
+	protected function updateComment()/*: void*/ {
 
 	}
 
@@ -61,7 +61,7 @@ class PersonalDesktopCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	public function deleteComment()/*: void*/ {
+	protected function deleteComment()/*: void*/ {
 
 	}
 
@@ -69,7 +69,7 @@ class PersonalDesktopCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	public function shareComment()/*: void*/ {
+	protected function shareComment()/*: void*/ {
 
 	}
 }
