@@ -62,6 +62,89 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 		$a_comp, /*string*/
 		$a_part, $a_par = []): array {
 
+		if (!self::$load[self::REDIRECT]) {
+
+			if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLPListOfObjectsGUI::class)) {
+
+				if (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId()))
+					=== self::TYPE_CRS) {
+
+					self::$load[self::REDIRECT] = true;
+
+					self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
+
+					switch (self::dic()->ctrl()->getCmd()) {
+						case "showUserObjectMatrix":
+							$this->fixRedicrect();
+
+							self::dic()->ctrl()->redirectByClass([ ilUIPluginRouterGUI::class, ReportGUI::class, MatrixReportGUI::class ]);
+							break;
+
+						case "showObjectSummary":
+							$this->fixRedicrect();
+
+							self::dic()->ctrl()->redirectByClass([ ilUIPluginRouterGUI::class, ReportGUI::class, SummaryReportGUI::class ]);
+							break;
+
+						case "":
+							$this->fixRedicrect();
+
+							self::dic()->ctrl()->redirectByClass([ ilUIPluginRouterGUI::class, ReportGUI::class, UserReportGUI::class ]);
+							break;
+
+						default:
+							break;
+					}
+
+					return parent::getHTML($a_comp, $a_part, $a_par);
+				}
+			}
+
+			if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMyStaffGUI::class)
+				|| self::dic()->ctrl()->getCmdClass() === strtolower(ilMStListUsersGUI::class)) {
+
+				self::$load[self::REDIRECT] = true;
+
+				$this->fixRedicrect();
+
+				self::dic()->ctrl()->redirectByClass([
+					ilUIPluginRouterGUI::class,
+					StaffGUI::class,
+					UsersStaffGUI::class
+				]);
+
+				return parent::getHTML($a_comp, $a_part, $a_par);
+			}
+
+			if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMStListCoursesGUI::class)) {
+
+				self::$load[self::REDIRECT] = true;
+
+				$this->fixRedicrect();
+
+				self::dic()->ctrl()->redirectByClass([
+					ilUIPluginRouterGUI::class,
+					StaffGUI::class,
+					CoursesStaffGUI::class
+				]);
+			}
+
+			if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMStShowUserGUI::class)) {
+
+				self::$load[self::REDIRECT] = true;
+
+				self::dic()->ctrl()->saveParameterByClass(StaffGUI::class, Reports::GET_PARAM_USR_ID);
+
+				$this->fixRedicrect();
+
+				self::dic()->ctrl()->redirectByClass([
+					ilUIPluginRouterGUI::class,
+					StaffGUI::class,
+					UserStaffGUI::class
+				]);
+			}
+		}
+
 		if (Config::getField(Config::KEY_ENABLE_COMMENTS)) {
 
 			if (!self::$load[self::PERSONAL_DESKTOP_INIT]) {
@@ -98,85 +181,10 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 
 
 	/**
-	 * @param string $a_comp
-	 * @param string $a_part
-	 * @param array  $a_par
+	 *
 	 */
-	public function modifyGUI(/*string*/
-		$a_comp, /*string*/
-		$a_part, /*array*/
-		$a_par = [])/*: void*/ {
-
-		if (!self::$load[self::REDIRECT]) {
-
-			// Redirect not to early, causes endless loop because wrong baseClass in URL!
-			if ($a_part === self::PAR_TABS) {
-
-				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLPListOfObjectsGUI::class)) {
-
-					if (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId()))
-						=== self::TYPE_CRS) {
-
-						self::$load[self::REDIRECT] = true;
-
-						self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
-
-						switch (self::dic()->ctrl()->getCmd()) {
-							case "showUserObjectMatrix":
-								self::dic()->ctrl()->redirectByClass([ ilUIPluginRouterGUI::class, ReportGUI::class, MatrixReportGUI::class ]);
-								break;
-
-							case "showObjectSummary":
-								self::dic()->ctrl()->redirectByClass([ ilUIPluginRouterGUI::class, ReportGUI::class, SummaryReportGUI::class ]);
-								break;
-
-							case "":
-								self::dic()->ctrl()->redirectByClass([ ilUIPluginRouterGUI::class, ReportGUI::class, UserReportGUI::class ]);
-								break;
-
-							default:
-								break;
-						}
-
-						return;
-					}
-				}
-
-				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMyStaffGUI::class)
-					|| self::dic()->ctrl()->getCmdClass() === strtolower(ilMStListUsersGUI::class)) {
-					self::$load[self::REDIRECT] = true;
-
-					self::dic()->ctrl()->redirectByClass([
-						ilUIPluginRouterGUI::class,
-						StaffGUI::class,
-						UsersStaffGUI::class
-					]);
-
-					return;
-				}
-
-				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMStListCoursesGUI::class)) {
-					self::$load[self::REDIRECT] = true;
-
-					self::dic()->ctrl()->redirectByClass([
-						ilUIPluginRouterGUI::class,
-						StaffGUI::class,
-						CoursesStaffGUI::class
-					]);
-				}
-
-				if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMStShowUserGUI::class)) {
-					self::$load[self::REDIRECT] = true;
-
-					self::dic()->ctrl()->saveParameterByClass(StaffGUI::class, Reports::GET_PARAM_USR_ID);
-
-					self::dic()->ctrl()->redirectByClass([
-						ilUIPluginRouterGUI::class,
-						StaffGUI::class,
-						UserStaffGUI::class
-					]);
-				}
-			}
-		}
+	protected function fixRedicrect()/*: void*/ {
+		self::dic()->ctrl()->setTargetScript("ilias.php"); // Fix ILIAS 5.3 bug
+		self::dic()->ctrl()->initBaseClass(ilUIPluginRouterGUI::class); // Fix ILIAS bug
 	}
 }
