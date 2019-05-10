@@ -147,11 +147,12 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue($column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
-		if ($column == "object") {
-			if ($raw_export) {
+	protected function getColumnValue(/*string*/
+		$column, /*array*/
+		$row, /*int*/
+		$format = self::DEFAULT_FORMAT): string {
+		if ($column === "object") {
+			if ($format) {
 				return $row['obj_title'];
 			}
 
@@ -160,7 +161,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 		}
 
 		if ($column == "status") {
-			if ($raw_export) {
+			if ($format) {
 				return $row['status_text'];
 			}
 
@@ -168,7 +169,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 				. $row['status_text'];
 		}
 
-		return parent::getColumnValue($column, $row, $raw_export);
+		return parent::getColumnValue($column, $row, $format);
 	}
 
 

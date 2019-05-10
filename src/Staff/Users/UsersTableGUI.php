@@ -25,12 +25,12 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	 */
 	protected function getColumnValue(/*string*/
 		$column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
+		$row, /*int*/
+		$format = self::DEFAULT_FORMAT): string {
 		switch ($column) {
 			case "login":
 				$column = $row[$column];
-				if (!$raw_export) {
+				if (!$format) {
 					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->users()
 						->getUserCoursesLink($row["usr_id"])));
 				}
@@ -38,7 +38,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 
 			case "org_units":
 				$column = $row[$column];
-				if (!$raw_export) {
+				if (!$format) {
 					$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, array_map(function (string $org_unit_title, int $org_unit_id): string {
 						return self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($org_unit_title, self::ilias()->staff()->users()
 							->getOrgUnitFilterLink($org_unit_id)));
@@ -49,7 +49,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 				break;
 
 			case "learning_progress_courses":
-				if (!$raw_export) {
+				if (!$format) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
 						->withUsrId($row["usr_id"])->withId($row["usr_id"]));
 				} else {

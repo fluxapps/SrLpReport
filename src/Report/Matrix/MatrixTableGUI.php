@@ -28,11 +28,12 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue($column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
+	protected function getColumnValue(/*string*/
+		$column, /*array*/
+		$row, /*int*/
+		$format = self::DEFAULT_FORMAT): string {
 		if ($column == 'status') {
-			if ($raw_export) {
+			if ($format) {
 				return strval($this->getLearningProgressRepresentationExport(intval($row['obj_' . self::dic()->objDataCache()
 					->lookupObjId($this->ref_id)]), 0));
 			} else {
@@ -43,14 +44,14 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 
 		if (count(explode('obj_', $column)) == 2) {
 			$percentage = intval($row[$column . "_perc"]);
-			if ($raw_export) {
+			if ($format) {
 				return strval($this->getLearningProgressRepresentationExport(intval($row[$column]), $percentage));
 			} else {
 				return strval($this->getLearningProgressRepresentation(intval($row[$column], $percentage)));
 			}
 		}
 
-		return parent::getColumnValue($column, $row, $raw_export);
+		return parent::getColumnValue($column, $row, $format);
 	}
 
 

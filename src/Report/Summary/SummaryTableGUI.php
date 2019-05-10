@@ -40,13 +40,14 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue($column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
+	protected function getColumnValue(/*string*/
+		$column, /*array*/
+		$row, /*int*/
+		$format = self::DEFAULT_FORMAT): string {
 		switch ($column) {
 			case "title":
 				$column = $row[$column];
-				if (!$raw_export) {
+				if (!$format) {
 					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->courses()
 						->getCourseFilterLink($row["obj_id"])));
 				}
@@ -54,7 +55,7 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 				return $column;
 
 			case "status":
-				if (!$raw_export) {
+				if (!$format) {
 					return self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"])
 						->withId($row['obj_id']));
 				} else {

@@ -22,12 +22,12 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 	 */
 	protected function getColumnValue(/*string*/
 		$column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
+		$row, /*int*/
+		$format = self::DEFAULT_FORMAT): string {
 		switch ($column) {
 			case "crs_title":
 				$column = $row[$column];
-				if (!$raw_export) {
+				if (!$format) {
 					$learning_progress_link = self::ilias()->staff()->courses()->getLearningProgressLink($row["crs_ref_id"]);
 					if (!empty($learning_progress_link)) {
 						$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, $learning_progress_link));
@@ -36,7 +36,7 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 				break;
 
 			case "learning_progress_users":
-				if (!$raw_export) {
+				if (!$format) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->usrIds()->withObjId($row["crs_obj_id"])
 						->withUsrIds($row[$column])->withId($row["crs_obj_id"]));
 				} else {

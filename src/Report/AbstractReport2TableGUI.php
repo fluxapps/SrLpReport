@@ -54,13 +54,14 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue($column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
+	protected function getColumnValue(/*string*/
+		$column, /*array*/
+		$row, /*int*/
+		$format = self::DEFAULT_FORMAT): string {
 		switch ($column) {
 			case "login":
 				$column = $row[$column];
-				if (!$raw_export) {
+				if (!$format) {
 					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->user()
 						->getLearningProgressLink(self::reports()->getReportObjRefId(), $row["usr_id"])));
 				}
@@ -69,7 +70,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 
 			case "org_units":
 				$column = $row[$column];
-				if (!$raw_export) {
+				if (!$format) {
 					if (is_array($column)) {
 						$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, array_map(function (string $org_unit_title, int $org_unit_id): string {
 							return self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($org_unit_title, self::ilias()->staff()
@@ -85,7 +86,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 				return $column;
 
 			case "status":
-				if ($raw_export) {
+				if ($format) {
 					return strval($this->getLearningProgressRepresentationExport(intval($row[$column])));
 				} else {
 					return strval($this->getLearningProgressRepresentation(intval($row[$column])));
