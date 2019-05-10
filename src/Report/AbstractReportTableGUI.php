@@ -26,7 +26,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initExport()/*: void*/ {
-		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
+		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV, self::EXPORT_PDF ]);
 	}
 
 

@@ -1,6 +1,7 @@
 # Changelog
 
 ## [x]
+- PDF table export
 - Some more links
 - Fix reset offset
 - Course block: Show only comments of current course

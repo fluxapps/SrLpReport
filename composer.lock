@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "srag/activerecordconfig",
-            "version": "v0.15.1",
+            "version": "v0.16.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/ActiveRecordConfig.git",
-                "reference": "a004b786de3a7f8362709cdfd8cbc8c115cc3a8d"
+                "reference": "d1b6274f206afe02d58cb02335bae06fae212b67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/ActiveRecordConfig/zipball/a004b786de3a7f8362709cdfd8cbc8c115cc3a8d",
-                "reference": "a004b786de3a7f8362709cdfd8cbc8c115cc3a8d",
+                "url": "https://api.github.com/repos/studer-raimann/ActiveRecordConfig/zipball/d1b6274f206afe02d58cb02335bae06fae212b67",
+                "reference": "d1b6274f206afe02d58cb02335bae06fae212b67",
                 "shasum": ""
             },
             "require": {
@@ -50,20 +50,20 @@
                 "activerecord",
                 "config"
             ],
-            "time": "2019-04-11T11:24:17+00:00"
+            "time": "2019-05-09T09:05:20+00:00"
         },
         {
             "name": "srag/commentsui",
-            "version": "v0.6.1",
+            "version": "v0.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CommentsUI.git",
-                "reference": "3ecbda38f3f3c18c3e783617fde31dbc0f86318a"
+                "reference": "5f76d80f5c1efa98883dbe4fb0dbb8e1049113ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/3ecbda38f3f3c18c3e783617fde31dbc0f86318a",
-                "reference": "3ecbda38f3f3c18c3e783617fde31dbc0f86318a",
+                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/5f76d80f5c1efa98883dbe4fb0dbb8e1049113ad",
+                "reference": "5f76d80f5c1efa98883dbe4fb0dbb8e1049113ad",
                 "shasum": ""
             },
             "require": {
@@ -73,7 +73,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\CommentsUI\\": "src/"
+                    "srag\\CommentsUI\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -95,20 +95,20 @@
                 "comments",
                 "ui"
             ],
-            "time": "2019-04-30T07:53:18+00:00"
+            "time": "2019-05-03T09:38:43+00:00"
         },
         {
             "name": "srag/custominputguis",
-            "version": "v0.19.11",
+            "version": "v0.20.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-                "reference": "db5b36b4f230cb3259989a7fb840cf8ef67f44c7"
+                "reference": "8f37f8d2acabaa66f2df9d91d0feab21687e2392"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/db5b36b4f230cb3259989a7fb840cf8ef67f44c7",
-                "reference": "db5b36b4f230cb3259989a7fb840cf8ef67f44c7",
+                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/8f37f8d2acabaa66f2df9d91d0feab21687e2392",
+                "reference": "8f37f8d2acabaa66f2df9d91d0feab21687e2392",
                 "shasum": ""
             },
             "require": {
@@ -118,7 +118,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\CustomInputGUIs\\SrLpReport\\": "src/"
+                    "srag\\CustomInputGUIs\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -142,7 +142,7 @@
                 "input",
                 "table"
             ],
-            "time": "2019-04-09T11:06:27+00:00"
+            "time": "2019-05-10T11:21:07+00:00"
         },
         {
             "name": "srag/dic",
@@ -191,16 +191,16 @@
         },
         {
             "name": "srag/librariesnamespacechanger",
-            "version": "v0.5.3",
+            "version": "v0.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/LibrariesNamespaceChanger.git",
-                "reference": "3bd70ad7c32bd988209c7a0bf5a69c900bfe2880"
+                "reference": "323df7e5538f20e789b4cb5fcf4e37dcacd14f45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/3bd70ad7c32bd988209c7a0bf5a69c900bfe2880",
-                "reference": "3bd70ad7c32bd988209c7a0bf5a69c900bfe2880",
+                "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/323df7e5538f20e789b4cb5fcf4e37dcacd14f45",
+                "reference": "323df7e5538f20e789b4cb5fcf4e37dcacd14f45",
                 "shasum": ""
             },
             "require": {
@@ -230,7 +230,7 @@
                 "ILIAS",
                 "libraries"
             ],
-            "time": "2019-03-29T12:24:17+00:00"
+            "time": "2019-05-03T10:57:26+00:00"
         },
         {
             "name": "srag/removeplugindataconfirm",

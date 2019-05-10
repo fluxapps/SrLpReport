@@ -233,14 +233,6 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 
 
 	/**
-	 * @inheritdoc
-	 */
-	protected function initExport()/*: void*/ {
-		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
-	}
-
-
-	/**
 	 * @param ilExcel $excel
 	 * @param int     $row
 	 * @param array   $result
