@@ -58,9 +58,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 	 *
 	 * @return array
 	 */
-	public function getHTML(/*string*/
-		$a_comp, /*string*/
-		$a_part, $a_par = []): array {
+	public function getHTML(/*string*/ $a_comp, /*string*/ $a_part, $a_par = []): array {
 
 		if (!self::$load[self::REDIRECT]) {
 
@@ -71,11 +69,12 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 
 					self::$load[self::REDIRECT] = true;
 
-					self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
-
 					switch (self::dic()->ctrl()->getCmd()) {
 						case "showUserObjectMatrix":
 							$this->fixRedicrect();
+
+							self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()
+								->getReportObjRefId());
 
 							self::dic()->ctrl()->redirectByClass([ ilUIPluginRouterGUI::class, ReportGUI::class, MatrixReportGUI::class ]);
 							break;
@@ -83,11 +82,17 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 						case "showObjectSummary":
 							$this->fixRedicrect();
 
+							self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()
+								->getReportObjRefId());
+
 							self::dic()->ctrl()->redirectByClass([ ilUIPluginRouterGUI::class, ReportGUI::class, SummaryReportGUI::class ]);
 							break;
 
 						case "":
 							$this->fixRedicrect();
+
+							self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()
+								->getReportObjRefId());
 
 							self::dic()->ctrl()->redirectByClass([ ilUIPluginRouterGUI::class, ReportGUI::class, UserReportGUI::class ]);
 							break;
@@ -133,9 +138,9 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 
 				self::$load[self::REDIRECT] = true;
 
-				self::dic()->ctrl()->saveParameterByClass(StaffGUI::class, Reports::GET_PARAM_USR_ID);
-
 				$this->fixRedicrect();
+
+				self::dic()->ctrl()->saveParameterByClass(StaffGUI::class, Reports::GET_PARAM_USR_ID);
 
 				self::dic()->ctrl()->redirectByClass([
 					ilUIPluginRouterGUI::class,
