@@ -54,16 +54,16 @@
         },
         {
             "name": "srag/commentsui",
-            "version": "v0.6.2",
+            "version": "v0.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CommentsUI.git",
-                "reference": "5f76d80f5c1efa98883dbe4fb0dbb8e1049113ad"
+                "reference": "ab52ab9d554fa5341934eac6549255fb06caa2db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/5f76d80f5c1efa98883dbe4fb0dbb8e1049113ad",
-                "reference": "5f76d80f5c1efa98883dbe4fb0dbb8e1049113ad",
+                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/ab52ab9d554fa5341934eac6549255fb06caa2db",
+                "reference": "ab52ab9d554fa5341934eac6549255fb06caa2db",
                 "shasum": ""
             },
             "require": {
@@ -73,7 +73,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\CommentsUI\\SrLpReport\\": "src/"
+                    "srag\\CommentsUI\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -95,20 +95,20 @@
                 "comments",
                 "ui"
             ],
-            "time": "2019-05-03T09:38:43+00:00"
+            "time": "2019-05-20T12:20:47+00:00"
         },
         {
             "name": "srag/custominputguis",
-            "version": "v0.20.2",
+            "version": "v0.20.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-                "reference": "e3c8b9598b68fb5a8652800a3b08e352c91b823b"
+                "reference": "7e7613ba01a9cf0330d6f702ab14a1839ac66f5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/e3c8b9598b68fb5a8652800a3b08e352c91b823b",
-                "reference": "e3c8b9598b68fb5a8652800a3b08e352c91b823b",
+                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/7e7613ba01a9cf0330d6f702ab14a1839ac66f5e",
+                "reference": "7e7613ba01a9cf0330d6f702ab14a1839ac66f5e",
                 "shasum": ""
             },
             "require": {
@@ -118,7 +118,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\CustomInputGUIs\\": "src/"
+                    "srag\\CustomInputGUIs\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -142,24 +142,24 @@
                 "input",
                 "table"
             ],
-            "time": "2019-05-10T11:57:06+00:00"
+            "time": "2019-05-20T08:16:10+00:00"
         },
         {
             "name": "srag/dic",
-            "version": "0.15.6",
+            "version": "v0.17.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/DIC.git",
-                "reference": "574eea5823cd75636ee1a7dcba4ed9e8cef47fe8"
+                "reference": "0572582c0591ee059d6d7d6d5c818eef79a95def"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/574eea5823cd75636ee1a7dcba4ed9e8cef47fe8",
-                "reference": "574eea5823cd75636ee1a7dcba4ed9e8cef47fe8",
+                "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/0572582c0591ee059d6d7d6d5c818eef79a95def",
+                "reference": "0572582c0591ee059d6d7d6d5c818eef79a95def",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6"
+                "php": ">=7.0"
             },
             "type": "library",
             "autoload": {
@@ -187,7 +187,7 @@
                 "globals",
                 "trait"
             ],
-            "time": "2019-04-29T06:15:24+00:00"
+            "time": "2019-05-20T10:32:00+00:00"
         },
         {
             "name": "srag/librariesnamespacechanger",

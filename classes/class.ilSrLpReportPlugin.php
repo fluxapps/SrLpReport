@@ -77,6 +77,6 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 	 */
 	protected function deleteData()/*: void*/ {
 		self::dic()->database()->dropTable(Config::TABLE_NAME, false);
-		self::dic()->database()->dropTable(Comment::TABLE_NAME, false);
+		Comment::dropDB_();
 	}
 }

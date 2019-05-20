@@ -4,5 +4,9 @@
 ?>
 <#2>
 <?php
-\srag\Plugins\SrLpReport\Comment\Comment\Comment::updateDB();
+\srag\Plugins\SrLpReport\Comment\Comment\Comment::updateDB_();
+?>
+<#3>
+<?php
+\srag\Plugins\SrLpReport\Comment\Comment\Comment::updateDB_();
 ?>
