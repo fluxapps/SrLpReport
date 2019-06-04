@@ -68,7 +68,7 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 			->updateLanguages();
 
 		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
-			. "/../vendor/srag/custominputguis/lang")->updateLanguages();
+			. "/../vendor/srag/custominputguis/src/TableGUI/lang")->updateLanguages();
 	}
 
 

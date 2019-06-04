@@ -20,10 +20,7 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue(/*string*/
-		$column, /*array*/
-		$row, /*int*/
-		$format = self::DEFAULT_FORMAT): string {
+	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
 		switch ($column) {
 			case "crs_title":
 				$column = $row[$column];
@@ -38,7 +35,7 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 			case "learning_progress_users":
 				if (!$format) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->usrIds()->withObjId($row["crs_obj_id"])
-						->withUsrIds($row[$column])->withId($row["crs_obj_id"]));
+						->withUsrIds($row[$column]));
 				} else {
 					$column = "";
 				}

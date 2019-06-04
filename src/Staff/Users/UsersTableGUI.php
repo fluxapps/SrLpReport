@@ -23,10 +23,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue(/*string*/
-		$column, /*array*/
-		$row, /*int*/
-		$format = self::DEFAULT_FORMAT): string {
+	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
 		switch ($column) {
 			case "login":
 				$column = $row[$column];
@@ -51,7 +48,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 			case "learning_progress_courses":
 				if (!$format) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
-						->withUsrId($row["usr_id"])->withId($row["usr_id"]));
+						->withUsrId($row["usr_id"]));
 				} else {
 					$column = "";
 				}
@@ -168,8 +165,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function fillRow(/*array*/
-		$row)/*: void*/ {
+	protected function fillRow(/*array*/ $row)/*: void*/ {
 		$this->tpl->setCurrentBlock("column");
 		$this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->image()
 			->standard($row["usr_obj"]->getPersonalPicturePath("small"), $row["usr_obj"]->getPublicName())));

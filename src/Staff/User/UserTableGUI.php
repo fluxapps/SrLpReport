@@ -26,10 +26,7 @@ class UserTableGUI extends AbstractStaffTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue(/*string*/
-		$column, /*array*/
-		$row, /*int*/
-		$format = self::DEFAULT_FORMAT): string {
+	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
 		switch ($column) {
 			case "crs_title":
 				$column = $row[$column];
@@ -54,7 +51,7 @@ class UserTableGUI extends AbstractStaffTableGUI {
 			case "learning_progress_objects":
 				if (!$format) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
-						->withUsrId($row["usr_id"])->withId($row["crs_obj_id"]));
+						->withUsrId($row["usr_id"]));
 				} else {
 					$column = "";
 				}

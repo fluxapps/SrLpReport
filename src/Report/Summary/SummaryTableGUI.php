@@ -40,10 +40,7 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue(/*string*/
-		$column, /*array*/
-		$row, /*int*/
-		$format = self::DEFAULT_FORMAT): string {
+	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
 		switch ($column) {
 			case "title":
 				$column = $row[$column];
@@ -56,8 +53,7 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 
 			case "status":
 				if (!$format) {
-					return self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"])
-						->withId($row['obj_id']));
+					return self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"]));
 				} else {
 					return "";
 				}

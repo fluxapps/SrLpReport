@@ -126,8 +126,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	/**
 	 * @param array $row
 	 */
-	protected function fillRow(/*array*/
-		$row)/*: void*/ {
+	protected function fillRow(/*array*/ $row)/*: void*/ {
 		$this->tpl->setCurrentBlock("column");
 
 		foreach ($this->getStandardColumns() as $column) {
@@ -147,10 +146,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue(/*string*/
-		$column, /*array*/
-		$row, /*int*/
-		$format = self::DEFAULT_FORMAT): string {
+	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
 		if ($column === "object") {
 			if ($format) {
 				return $row['obj_title'];
@@ -238,9 +234,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	 * @param int     $row
 	 * @param array   $result
 	 */
-	protected function fillRowExcel(ilExcel $excel, /*int*/
-		&$row, /*array*/
-		$result)/*: void*/ {
+	protected function fillRowExcel(ilExcel $excel, /*int*/ &$row, /*array*/ $result)/*: void*/ {
 		$col = 0;
 		foreach ($this->getSelectableColumns() as $column) {
 			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
@@ -253,9 +247,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	 * @param ilCSVWriter $csv
 	 * @param array       $row
 	 */
-	protected function fillRowCSV(/*ilCSVWriter*/
-		$csv, /*array*/
-		$row)/*: void*/ {
+	protected function fillRowCSV(/*ilCSVWriter*/ $csv, /*array*/ $row)/*: void*/ {
 		foreach ($this->getSelectableColumns() as $column) {
 			$csv->addColumn($this->getColumnValue($column["id"], $row, true));
 		}
@@ -297,8 +289,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	 */
 	public function getRightHTML(): string {
 		return self::output()->getHTML([
-			self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds(array_keys($this->row_data))->withUsrId(self::reports()->getUsrId())
-				->withId(self::reports()->getUsrId()),
+			self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds(array_keys($this->row_data))->withUsrId(self::reports()->getUsrId()),
 			"<br>",
 			(new ilPublicUserProfileGUI(self::reports()->getUsrId()))->getEmbeddable(),
 			"<br>",
