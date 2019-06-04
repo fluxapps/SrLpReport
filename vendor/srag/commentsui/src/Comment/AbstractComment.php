@@ -80,7 +80,7 @@ abstract class AbstractComment extends ActiveRecord implements Comment {
 	 * @con_is_notnull  true
 	 * @con_is_primary  true
 	 */
-	protected $id;
+	protected $id = 0;
 	/**
 	 * @var string
 	 *
@@ -168,7 +168,7 @@ abstract class AbstractComment extends ActiveRecord implements Comment {
 	 * @param arConnector|null $connector
 	 */
 	public function __construct(/*int*/ $primary_key_value = 0, /*?*/ arConnector $connector = null) {
-		parent::__construct($primary_key_value, $connector);
+		//parent::__construct($primary_key_value, $connector);
 	}
 
 
