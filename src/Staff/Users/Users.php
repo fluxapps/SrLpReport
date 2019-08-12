@@ -111,10 +111,10 @@ final class Users {
 				return $vars;
 			}, $user, ilMStListUser::class)();
 
-			//$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($vars["usr_id"]);
-			$vars["org_units"] = array_map(function (int $org_unit_id): string {
+			$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($vars["usr_id"]);
+			/*$vars["org_units"] = array_map(function (int $org_unit_id): string {
 				return self::dic()->objDataCache()->lookupTitle($org_unit_id);
-			}, ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($vars["usr_id"]));
+			}, ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($vars["usr_id"]));*/
 
 			$vars["interests_general"] = $vars["usr_obj"]->getGeneralInterestsAsText();
 

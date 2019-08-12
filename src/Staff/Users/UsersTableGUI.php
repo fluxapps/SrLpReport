@@ -33,7 +33,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 				}
 				break;
 
-			case "org_units":
+			/*case "org_units":
 				$column = $row[$column];
 				if (!$format) {
 					$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, array_map(function (string $org_unit_title, int $org_unit_id): string {
@@ -44,7 +44,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 				} else {
 					$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, $column);
 				}
-				break;
+				break;*/
 
 			case "learning_progress_courses":
 				if (!$format) {
