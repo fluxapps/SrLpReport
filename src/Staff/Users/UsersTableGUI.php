@@ -37,6 +37,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 				$column = $row[$column];
 				if (!$format) {
 					$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, array_map(function (string $org_unit_title, int $org_unit_id): string {
+
 						return self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($org_unit_title, self::ilias()->staff()->users()
 							->getOrgUnitFilterLink($org_unit_id)));
 					}, $column, array_keys($column)));
