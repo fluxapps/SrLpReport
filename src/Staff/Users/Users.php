@@ -82,6 +82,8 @@ final class Users {
 
 		$users = ilMyStaffAccess::getInstance()->getUsersForUser($usr_id);
 
+		$filter['activation']  =  "active";
+
 		$options = [
 			"filters" => $filter,
 			"limit" => [],
@@ -122,7 +124,7 @@ final class Users {
 				->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS);
 			$options = [
 				"filters" => [
-					"usr_id" => $vars["usr_id"]
+					"usr_id" => $vars["usr_id"],
 				]
 			];
 			$vars["learning_progress_courses"] = array_map(function (ilMStListCourse $course): int {
