@@ -6,7 +6,9 @@ use ilAdvancedSelectionListGUI;
 use ilLPStatus;
 use ilMStListCourse;
 use ilMyStaffGUI;
+use ilObjCourseGUI;
 use ilPublicUserProfileGUI;
+use ilRepositoryGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
@@ -31,8 +33,9 @@ class UserTableGUI extends AbstractStaffTableGUI {
 			case "crs_title":
 				$column = $row[$column];
 				if (!$format) {
-					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->user()
-						->getLearningProgressLink($row["crs_ref_id"], $row["usr_id"], UserStaffGUI::class)));
+					$course_gui = new ilObjCourseGUI();
+					 self::dic()->ctrl()->setParameter($course_gui,'ref_id',$row["crs_ref_id"]);
+					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::dic()->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class,ilObjCourseGUI::class])));
 				}
 				break;
 
@@ -180,7 +183,7 @@ class UserTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function initTitle()/*: void*/ {
-		$this->setTitle(self::dic()->language()->txt("user") . " " . self::dic()->objDataCache()->lookupTitle(self::reports()->getUsrId()));
+		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("my_staff") . " " . self::dic()->objDataCache()->lookupTitle(self::reports()->getUsrId()));
 	}
 
 
