@@ -3,12 +3,15 @@
 namespace srag\Plugins\SrLpReport\Report;
 
 use ilAdvancedSelectionListGUI;
+use ilCourseParticipants;
 use ilCSVWriter;
+use ilDateTime;
 use ilExcel;
 use ilLearningProgressBaseGUI;
 use ilLPStatus;
 use ilMail;
 use ilObject;
+use ilObject2;
 use ilObjectLP;
 use ilObjOrgUnitTree;
 use ilObjUserTracking;
@@ -294,6 +297,10 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 			];
 		}
 
+
+
+
+
 		return $cols;
 	}
 
@@ -312,6 +319,11 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		$additional_fields = $this->getSelectedColumns();
 
 		$check_agreement = false;
+
+		if(count($additional_fields) > 0) {
+			unset($additional_fields["condition_passed"]);
+		}
+
 
 		$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $filter, $additional_fields, $check_agreement, $this->user_fields);
 
