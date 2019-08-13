@@ -157,6 +157,13 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 		}
 
 		if ($column == "status") {
+
+			if ($format) {
+				return strval($this->getLearningProgressRepresentationExport(intval($row['status']), 0));
+			} else {
+				return strval($this->getLearningProgressRepresentation(intval($row['status']), 0));
+			}
+
 			if ($format) {
 				return $row['status_text'];
 			}
@@ -253,26 +260,6 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 		}
 
 		$csv->addRow();
-	}
-
-
-	/**
-	 * @param int $status
-	 * @param int $percentage
-	 *
-	 * @return string
-	 */
-	protected function getLearningProgressRepresentationExport(int $status = 0, int $percentage = 0): string {
-		if ($percentage > 0) {
-			return $percentage . "%";
-		}
-
-		switch ($status) {
-			case 0:
-				return self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
-			default:
-				return ilLearningProgressBaseGUI::_getStatusText($status);
-		}
 	}
 
 

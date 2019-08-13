@@ -3,10 +3,13 @@
 namespace srag\Plugins\SrLpReport\Staff\User;
 
 use ilAdvancedSelectionListGUI;
+use ilCourseParticipants;
+use ilDateTime;
 use ilLPStatus;
 use ilMStListCourse;
 use ilMyStaffGUI;
 use ilObjCourseGUI;
+use ilObject2;
 use ilPublicUserProfileGUI;
 use ilRepositoryGUI;
 use ilSelectInputGUI;
@@ -15,6 +18,7 @@ use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
+use srag\Plugins\SrLpReport\Staff\StaffGUI;
 
 /**
  * Class UserTableGUI
@@ -45,9 +49,9 @@ class UserTableGUI extends AbstractStaffTableGUI {
 
 			case "usr_lp_status":
 				if (!$format) {
-					$column = ilMyStaffGUI::getUserLpStatusAsHtml($row["ilMStListCourse"]);
+					$column = StaffGUI::getUserLpStatusAsHtml($row["ilMStListCourse"]);
 				} else {
-					$column = ilMyStaffGUI::getUserLpStatusAsText($row["ilMStListCourse"]);
+					$column = StaffGUI::getUserLpStatusAsText($row["ilMStListCourse"]);
 				}
 				break;
 
@@ -55,6 +59,20 @@ class UserTableGUI extends AbstractStaffTableGUI {
 				if (!$format) {
 					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
 						->withUsrId($row["usr_id"]));
+				} else {
+					$column = "";
+				}
+				break;
+			//TODO Performance
+			case "condition_passed":
+				$course_participant = new ilCourseParticipants(ilObject2::_lookupObjectId($row["crs_ref_id"]));
+				$passed_info = $course_participant->getPassedInfo($row["usr_id"]);
+				if(is_array($passed_info)) {
+					/**
+					 * @var ilDatetime $datetime
+					 */
+					$datetime = $passed_info['timestamp'];
+					$column = $datetime->get(IL_CAL_DATE);
 				} else {
 					$column = "";
 				}
@@ -89,10 +107,17 @@ class UserTableGUI extends AbstractStaffTableGUI {
 			"learning_progress_objects" => [
 				"default" => true,
 				"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("objects")
-			]
+			],
+			"condition_passed" => [
+			"default" => true,
+			"txt" => self::dic()->language()->txt("condition_passed")
+		]
+
+
 		];
 
 		$no_sort = [
+			"condition_passed",
 			"learning_progress_objects"
 		];
 
@@ -120,8 +145,8 @@ class UserTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function initData()/*: void*/ {
-		$this->setExternalSorting(true);
-		$this->setExternalSegmentation(true);
+		$this->setExternalSorting(false);
+		$this->setExternalSegmentation(false);
 
 		$this->setDefaultOrderField("crs_title");
 		$this->setDefaultOrderDirection("asc");
@@ -130,7 +155,7 @@ class UserTableGUI extends AbstractStaffTableGUI {
 		$this->determineOffsetAndOrder();
 
 		$data = self::ilias()->staff()->user()->getData(self::reports()
-			->getUsrId(), $this->getFilterValues2(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
+			->getUsrId(), $this->getFilterValues2(), "","", 0, 0);
 
 		$this->setMaxCount($data["max_count"]);
 		$this->setData($data["data"]);

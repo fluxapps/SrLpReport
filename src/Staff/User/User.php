@@ -72,11 +72,14 @@ final class User {
 			"filters" => $filter,
 			"limit" => [],
 			"count" => true,
-			"sort" => [
+		];
+
+		if(strlen($order) > 0) {
+			$options["sort"] =  [
 				"field" => $order,
 				"direction" => $order_direction
-			]
-		];
+			];
+		}
 
 		$users = self::access()->getUsersForUserOperationAndContext(self::dic()->user()
 			->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS);
@@ -85,10 +88,13 @@ final class User {
 
 		$data["max_count"] = ilMStShowUserCourses::getData($users, $options);
 
-		$options["limit"] = [
-			"start" => $limit_start,
-			"end" => $limit_end
-		];
+		if($limit_end > 0) {
+			$options["limit"] = [
+				"start" => $limit_start,
+				"end" => $limit_end
+			];
+		}
+
 		$options["count"] = false;
 
 		$data["data"] = array_map(function (ilMStListCourse $course): array {

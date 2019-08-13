@@ -93,8 +93,8 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function initData()/*: void*/ {
-		$this->setExternalSorting(true);
-		$this->setExternalSegmentation(true);
+		$this->setExternalSorting(false);
+		$this->setExternalSegmentation(false);
 
 		$this->setDefaultOrderField("crs_title");
 		$this->setDefaultOrderDirection("asc");
@@ -103,7 +103,7 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 		$this->determineOffsetAndOrder();
 
 		$data = self::ilias()->staff()->courses()
-			->getData($this->getFilterValues2(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
+			->getData($this->getFilterValues2(), $this->getOrderField(), $this->getOrderDirection(),0,0);
 
 		$this->setMaxCount($data["max_count"]);
 		$this->setData($data["data"]);

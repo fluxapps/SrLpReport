@@ -2,6 +2,10 @@
 
 namespace srag\Plugins\SrLpReport\Staff\User;
 
+use ilLearningProgressBaseGUI;
+use ilLPStatus;
+use ilMStListCourse;
+use ilMyStaffAccess;
 use ilUIPluginRouterGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;

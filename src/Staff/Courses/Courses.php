@@ -80,10 +80,13 @@ final class Courses {
 
 		$data["max_count"] = ilMStListCourses::getData($users, $options);
 
-		$options["limit"] = [
-			"start" => $limit_start,
-			"end" => $limit_end
-		];
+		if($limit_end > 0) {
+			$options["limit"] = [
+				"start" => $limit_start,
+				"end" => $limit_end
+			];
+		}
+
 		$options["count"] = false;
 
 		$data_ = array_map(function (ilMStListCourse $course): array {

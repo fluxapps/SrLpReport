@@ -69,19 +69,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 				return $column;
 
 			case "org_units":
-				$column = $row[$column];
-				if (!$format) {
-					if (is_array($column)) {
-						$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, array_map(function (string $org_unit_title, int $org_unit_id): string {
-							return self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($org_unit_title, self::ilias()->staff()
-								->users()->getOrgUnitFilterLink($org_unit_id)));
-						}, $column, array_keys($column)));
-					} else {
-						$column = strval($column);
-					}
-				} else {
-					$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, $column);
-				}
+				$column = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row["usr_id"]);
 
 				return $column;
 
@@ -116,6 +104,10 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 				break;
 		}
 
+		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM && !$percentage) {
+			$percentage = 100;
+		}
+
 		$representation = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($path, $text));
 		if ($percentage > 0) {
 			$representation = $representation . " " . $percentage . "%";
@@ -132,6 +124,11 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	 * @return string
 	 */
 	protected function getLearningProgressRepresentationExport(int $status = 0, int $percentage = 0): string {
+
+		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM && !$percentage) {
+			$percentage = 100;
+		}
+
 		if ($percentage > 0) {
 			return $percentage . "%";
 		}
@@ -336,9 +333,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 		}
 
 		foreach ($tr_data["set"] as &$row) {
-			$row["org_units"] = array_map(function (int $org_unit_id): string {
-				return self::dic()->objDataCache()->lookupTitle($org_unit_id);
-			}, ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($row["usr_id"]));
+			$row["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row["usr_id"]);
 		}
 
 		$this->setMaxCount($tr_data["cnt"]);

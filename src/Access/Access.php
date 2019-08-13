@@ -56,6 +56,15 @@ final class Access {
         return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
     }
 
+	public function hasCurrentUserAccessToLearningProgressInObject($csr_ref_id) {
+		global $DIC;
+		if($DIC->rbac()->review()->isAssigned($DIC->user()->getId(),self::ROLE_OBJECT_ID_ADMINISTRATOR)) {
+			return true;
+		}
+
+		return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($csr_ref_id);
+	}
+
     public function getUsersForUser(int $usr_id) {
         global $DIC;
 

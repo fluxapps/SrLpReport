@@ -3,6 +3,8 @@
 namespace srag\Plugins\SrLpReport\Report;
 
 use ilAdvancedSelectionListGUI;
+use ilLearningProgressBaseGUI;
+use ilLPStatus;
 use ilSrLpReportPlugin;
 use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
@@ -78,4 +80,59 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	 * @return string
 	 */
 	protected abstract function getRightHTML(): string;
+
+	/**
+	 * @param int $status
+	 * @param int $percentage
+	 *
+	 * @return string
+	 */
+	protected function getLearningProgressRepresentation(int $status = 0, int $percentage = 0): string {
+		switch ($status) {
+			case 0:
+				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+				$text = self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
+				break;
+			default:
+				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+				$text = ilLearningProgressBaseGUI::_getStatusText($status);
+				break;
+		}
+
+		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM && !$percentage) {
+			$percentage = 100;
+		}
+
+		$representation = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($path, $text));
+		if ($percentage > 0) {
+			$representation = $representation . " " . $percentage . "%";
+		}
+
+		return $representation;
+	}
+
+
+	/**
+	 * @param int $status
+	 * @param int $percentage
+	 *
+	 * @return string
+	 */
+	protected function getLearningProgressRepresentationExport(int $status = 0, int $percentage = 0): string {
+
+		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM && !$percentage) {
+			$percentage = 100;
+		}
+
+		if ($percentage > 0) {
+			return $percentage . "%";
+		}
+
+		switch ($status) {
+			case 0:
+				return self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
+			default:
+				return ilLearningProgressBaseGUI::_getStatusText($status);
+		}
+	}
 }
