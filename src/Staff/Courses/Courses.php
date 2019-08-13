@@ -66,7 +66,7 @@ final class Courses {
 	public function getData(array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
 		$data = [];
 
-		$users = ilMyStaffAccess::getInstance()->getUsersForUser(self::dic()->user()->getId());
+		$users = self::access()->getUsersForUser(self::dic()->user()->getId());
 
 		$options = [
 			"filters" => $filter,

@@ -78,7 +78,7 @@ final class User {
 			]
 		];
 
-		$users = ilMyStaffAccess::getInstance()->getUsersForUserOperationAndContext(self::dic()->user()
+		$users = self::access()->getUsersForUserOperationAndContext(self::dic()->user()
 			->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS);
 
 		$options["filters"]["usr_id"] = $user_id;

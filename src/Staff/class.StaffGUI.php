@@ -40,9 +40,8 @@ class StaffGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
-		if (!ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+		if (!self::access()->hasCurrentUserAccessToMyStaff()) {
 			ilUtil::sendFailure(self::dic()->language()->txt("permission_denied"), true);
-
 			self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);
 		}
 

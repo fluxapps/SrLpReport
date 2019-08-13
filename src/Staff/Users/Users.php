@@ -80,7 +80,7 @@ final class Users {
 	public function getData(int $usr_id, array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
 		$data = [];
 
-		$users = ilMyStaffAccess::getInstance()->getUsersForUser($usr_id);
+		$users = self::access()->getUsersForUser($usr_id);
 
 		$filter['activation']  =  "active";
 
@@ -102,6 +102,7 @@ final class Users {
 		];
 		$options["count"] = false;
 
+		//TODO Performance Killer!
 		$data["data"] = array_map(function (ilMStListUser $user): array {
 			$vars = Closure::bind(function (): array {
 				$vars = get_object_vars($this);
@@ -111,16 +112,16 @@ final class Users {
 				return $vars;
 			}, $user, ilMStListUser::class)();
 
-			$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($vars["usr_id"]);
-			/*$vars["org_units"] = array_map(function (int $org_unit_id): string {
+			//$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($vars["usr_id"]);
+			$vars["org_units"] = array_map(function (int $org_unit_id): string {
 				return self::dic()->objDataCache()->lookupTitle($org_unit_id);
-			}, ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($vars["usr_id"]));*/
+			}, ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($vars["usr_id"]));
 
 			$vars["interests_general"] = $vars["usr_obj"]->getGeneralInterestsAsText();
 
 			$vars["interests_help_offered"] = $vars["usr_obj"]->getOfferingHelpAsText();
 
-			$users = ilMyStaffAccess::getInstance()->getUsersForUserOperationAndContext(self::dic()->user()
+			$users = self::access()->getUsersForUserOperationAndContext(self::dic()->user()
 				->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS);
 			$options = [
 				"filters" => [

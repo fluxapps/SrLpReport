@@ -26,6 +26,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
 		switch ($column) {
 			case "login":
+            case "lastname":
 				$column = $row[$column];
 				if (!$format) {
 					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->users()
@@ -33,18 +34,18 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 				}
 				break;
 
-			/*case "org_units":
+			case "org_units":
 				$column = $row[$column];
-				if (!$format) {
+				/*if (!$format) {
 					$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, array_map(function (string $org_unit_title, int $org_unit_id): string {
 
 						return self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($org_unit_title, self::ilias()->staff()->users()
 							->getOrgUnitFilterLink($org_unit_id)));
 					}, $column, array_keys($column)));
-				} else {
+				} else {*/
 					$column = implode(ilOrgUnitPathStorage::ORG_SEPARATOR, $column);
-				}
-				break;*/
+				//}
+				break;
 
 			case "learning_progress_courses":
 				if (!$format) {
