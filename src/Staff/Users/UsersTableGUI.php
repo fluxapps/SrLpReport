@@ -130,7 +130,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 			],
 			"org_unit" => [
 				PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
-				PropertyFormGUI::PROPERTY_OPTIONS => [ 0 => self::dic()->language()->txt("mst_opt_all") ] + self::ilias()->staff()->users()
+				PropertyFormGUI::PROPERTY_OPTIONS => [ 0 => "--"] + self::ilias()->staff()->users()
 						->getOrgUnits(),
 				PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units")),
 				"setTitle" => $this->dic()->language()->txt("obj_orgu"),

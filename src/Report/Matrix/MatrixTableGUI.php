@@ -8,6 +8,7 @@ use ilLearningProgressAccess;
 use ilLPObjSettings;
 use ilObject;
 use ilObjectLP;
+use ilObjOrgUnitTree;
 use ilObjSession;
 use ilPathGUI;
 use ilTrQuery;
@@ -43,11 +44,15 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 		}
 
 		if (count(explode('obj_', $column)) == 2) {
+        /*echo $column;
+		echo $row[$column];
+		echo strval($this->getLearningProgressRepresentationExport(intval($row[$column]), 100));
+		exit;*/
 			$percentage = intval($row[$column . "_perc"]);
 			if ($format) {
 				return strval($this->getLearningProgressRepresentationExport(intval($row[$column]), $percentage));
 			} else {
-				return strval($this->getLearningProgressRepresentation(intval($row[$column], $percentage)));
+				return $this->getLearningProgressRepresentation(intval($row[$column]), $percentage);
 			}
 		}
 
@@ -160,6 +165,26 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 			}
 
 			//filter
+            if($filter['org_units'] > 0) {
+                $employees = ilObjOrgUnitTree::_getInstance()->getEmployees($filter['org_units'], true);
+                $superior = ilObjOrgUnitTree::_getInstance()->getSuperiors($filter['org_units'], true);
+
+                $usr_ids_filtered_by_orgu =  array_merge(array_values($employees), array_values($superior));
+                $usr_ids_filtered_by_orgu =  array_unique($usr_ids_filtered_by_orgu);
+            }
+            //print_r($data["set"]);exit;
+            if($filter['org_units'] > 0) {
+                foreach ($data["set"] as $key => $usr_orgu) {
+                    if (count($usr_ids_filtered_by_orgu) == 0 || !in_array($usr_orgu['usr_id'],$usr_ids_filtered_by_orgu)) {
+                        unset($data["set"][$key]);
+                    }
+                }
+            }
+            unset($filter['org_units']);
+
+
+            //TODO filter contains unusual values...
+            unset($filter['gender']);
 			$table_data = [];
 			if (count($data["set"]) > 0) {
 				foreach ($data["set"] as $row) {

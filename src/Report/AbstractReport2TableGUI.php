@@ -21,6 +21,7 @@ use ilTextInputGUI;
 use ilTrQuery;
 use ilUserDefinedFields;
 use ilUserProfile;
+use ilUserSearchOptions;
 use ilUtil;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
@@ -49,6 +50,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 
 		$this->setShowRowsSelector(false);
 		$this->setSelectAllCheckbox('usr_id');
+		$this->setFilterCols(4);
 
 		parent::__construct($parent, $parent_cmd);
 	}
@@ -107,7 +109,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 				break;
 		}
 
-		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM && !$percentage) {
+		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM && $percentage == 0) {
 			$percentage = 100;
 		}
 
@@ -128,13 +130,10 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 	 */
 	protected function getLearningProgressRepresentationExport(int $status = 0, int $percentage = 0): string {
 
-		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM && !$percentage) {
+		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM && $percentage == 0) {
 			$percentage = 100;
 		}
 
-		if ($percentage > 0) {
-			return $percentage . "%";
-		}
 
 		switch ($status) {
 			case 0:
@@ -316,6 +315,10 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 
 		$filter = $this->getFilterValues2();
 
+		//TODO filter enhält merkwürdige felder!
+		//
+        unset($filter['gender']);
+
 		$additional_fields = $this->getSelectedColumns();
 
 		$check_agreement = false;
@@ -332,9 +335,17 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 			$tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $filter, $additional_fields, $check_agreement, $this->user_fields);
 		}
 
+        //Filter OrgUnits
+        if($filter['org_units'] > 0) {
+            $employees = ilObjOrgUnitTree::_getInstance()->getEmployees($filter['org_units'], true);
+            $superior = ilObjOrgUnitTree::_getInstance()->getSuperiors($filter['org_units'], true);
+
+            $usr_ids_filtered_by_orgu =  array_merge(array_values($employees), array_values($superior));
+            $usr_ids_filtered_by_orgu =  array_unique($usr_ids_filtered_by_orgu);
+        }
+
 		foreach ($this->user_fields as $key => $value) {
 			if ($filter[$value['id']]) {
-
 				foreach ($tr_data["set"] as $key => $data) {
 					if ($data[$value['id']] != $filter[$value['id']]) {
 						unset($tr_data["set"][$key]);
@@ -342,9 +353,24 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 					}
 				}
 			}
+
+
 		}
 
-		foreach ($tr_data["set"] as &$row) {
+        if($filter['org_units'] > 0) {
+            foreach ($tr_data["set"] as $key => $data) {
+                if (count($usr_ids_filtered_by_orgu) == 0 || !in_array($data['usr_id'],$usr_ids_filtered_by_orgu)) {
+                    unset($tr_data["set"][$key]);
+                    $tr_data["cnt"] = $tr_data["cnt"] - 1;
+                }
+            }
+        }
+
+
+
+
+
+		foreach ($tr_data["set"] as $key => &$row) {
 			$row["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row["usr_id"]);
 		}
 
@@ -377,6 +403,13 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI {
 						"setTitle" => $value['txt']
 					];
 					break;
+                case "org_units":
+                    $this->filter_fields[$key] = [
+                    PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
+                    PropertyFormGUI::PROPERTY_OPTIONS => [ 0 => "--" ] + self::ilias()->staff()->users()
+                            ->getOrgUnits(),
+                    PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units"))];
+                    break;
 				default:
 					$this->filter_fields[$key] = [
 						PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,

@@ -44,11 +44,6 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 		switch ($column) {
 			case "title":
 				$column = $row[$column];
-				if (!$format) {
-					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->courses()
-						->getCourseFilterLink($row["obj_id"])));
-				}
-
 				return $column;
 
 			case "status":
