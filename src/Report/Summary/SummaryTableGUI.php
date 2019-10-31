@@ -41,17 +41,26 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 	 * @inheritdoc
 	 */
 	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
-		switch ($column) {
-			case "title":
+		switch (true) {
+			case $column === "title":
 				$column = $row[$column];
 				return $column;
 
-			case "status":
+			case $column === "status":
 				if (!$format) {
-					return self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"]));
+					return self::output()->getHTML($row["pie"]);
 				} else {
-					return "";
+                    return "";
 				}
+
+            case $column === "status_count":
+                return strval($row["pie"]->getData()["count"]);
+
+            case strpos($column, "status_") === 0:
+                $status = intval(substr($column, strlen("status_")));
+
+                return strval($row["pie"]->getData()["data"][$status]["value"]);
+
 			default:
 				return strval(is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
 		}
@@ -67,18 +76,32 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 		// default fields
 		$cols["title"] = [
 			"id" => "title",
-			"sort" => "title",
+			"sort" => true,
 			"txt" => self::dic()->language()->txt("title"),
 			"default" => true
 		];
 
-		// default fields
-		$cols["status"] = [
-			"id" => "status",
-			"sort" => "status",
-			"txt" => self::dic()->language()->txt("status"),
-			"default" => true
-		];
+        if ($this->getExportMode()) {
+            $columns["status_count"] = [
+                "default" => true,
+                "txt"     => self::dic()->language()->txt("total")
+            ];
+            foreach (self::customInputGUIs()->learningProgressPie()->count()->getTitles() as $status => $title) {
+                $columns["status_" . $status] = [
+                    "id" => "status_" . $status,
+                    "sort" => true,
+                    "txt"     => $title,
+                    "default" => true
+                ];
+            }
+        } else {
+            $cols["status"] = [
+                "id" => "status",
+                "sort" => false,
+                "txt" => self::dic()->language()->txt("status"),
+                "default" => true
+            ];
+        }
 
 		return $cols;
 	}
@@ -104,6 +127,16 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 		}
 
 		$data = ilTrQuery::getObjectsSummaryForObject($this->obj_id, $this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), [], $this->getSelectedColumns(), $preselected_obj_ids);
+
+        $data["set"] = array_map(function (array $row) : array {
+            $row["pie"] = self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"]);
+
+            if ($this->getExportMode()) {
+                $row["pie"] = $row["pie"]->withShowEmpty(true);
+            }
+
+            return $row;
+        }, $data["set"]);
 
 		$this->setData($data["set"]);
 	}
