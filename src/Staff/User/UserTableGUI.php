@@ -33,8 +33,8 @@ class UserTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
-		switch ($column) {
-			case "crs_title":
+		switch (true) {
+			case $column === "crs_title":
 				$column = $row[$column];
 				if (!$format) {
 					$course_gui = new ilObjCourseGUI();
@@ -43,11 +43,11 @@ class UserTableGUI extends AbstractStaffTableGUI {
 				}
 				break;
 
-			case "usr_reg_status":
+			case $column === "usr_reg_status":
 				$column = ilMStListCourse::getMembershipStatusText($row[$column]);
 				break;
 
-			case "usr_lp_status":
+			case $column === "usr_lp_status":
 				if (!$format) {
 					$column = StaffGUI::getUserLpStatusAsHtml($row["ilMStListCourse"]);
 				} else {
@@ -55,16 +55,25 @@ class UserTableGUI extends AbstractStaffTableGUI {
 				}
 				break;
 
-			case "learning_progress_objects":
+			case $column === "learning_progress_objects":
 				if (!$format) {
-					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
-						->withUsrId($row["usr_id"]));
+					$column = self::output()->getHTML($row["pie"]);
 				} else {
-					$column = "";
+                    $column = "";
 				}
 				break;
+
+            case $column === "learning_progress_objects_count":
+                return $column = $row["pie"]->getData()["count"];
+
+            case strpos($column, "learning_progress_objects_") === 0:
+                $status = intval(substr($column, strlen("learning_progress_objects_")));
+
+                $column = $row["pie"]->getData()["data"][$status]["value"];
+                break;
+
 			//TODO Performance
-			case "condition_passed":
+			case $column === "condition_passed":
 				$course_participant = new ilCourseParticipants(ilObject2::_lookupObjectId($row["crs_ref_id"]));
 				$passed_info = $course_participant->getPassedInfo($row["usr_id"]);
 				if(is_array($passed_info)) {
@@ -104,10 +113,6 @@ class UserTableGUI extends AbstractStaffTableGUI {
 				"default" => true,
 				"txt" => self::dic()->language()->txt("trac_learning_progress")
 			],
-			"learning_progress_objects" => [
-				"default" => true,
-				"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("objects")
-			],
 			"condition_passed" => [
 			"default" => true,
 			"txt" => self::dic()->language()->txt("condition_passed")
@@ -115,6 +120,24 @@ class UserTableGUI extends AbstractStaffTableGUI {
 
 
 		];
+
+        if ($this->getExportMode()) {
+            $columns["learning_progress_objects_count"] = [
+                "default" => true,
+                "txt"     => self::dic()->language()->txt("total") . " " . self::dic()->language()->txt("objects")
+            ];
+            foreach (self::customInputGUIs()->learningProgressPie()->objIds()->getTitles() as $status => $title) {
+                $columns["learning_progress_objects_" . $status] = [
+                    "default" => true,
+                    "txt"     => $title
+                ];
+            }
+        } else {
+            $columns["learning_progress_objects"] = [
+                "default" => true,
+                "txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("objects")
+            ];
+        }
 
 		$no_sort = [
 			"condition_passed",
@@ -156,6 +179,16 @@ class UserTableGUI extends AbstractStaffTableGUI {
 
 		$data = self::ilias()->staff()->user()->getData(self::reports()
 			->getUsrId(), $this->getFilterValues2(), "","", 0, 0);
+
+        $data["data"] = array_map(function (array $row) : array {
+            $row["pie"] = self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row["learning_progress_objects"])->withUsrId($row["usr_id"]);
+
+            if ($this->getExportMode()) {
+                $row["pie"] = $row["pie"]->withShowEmpty(true);
+            }
+
+            return $row;
+        }, $data["data"]);
 
 		$this->setMaxCount($data["max_count"]);
 		$this->setData($data["data"]);

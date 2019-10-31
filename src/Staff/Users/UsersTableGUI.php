@@ -24,9 +24,9 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
-		switch ($column) {
-			case "login":
-            case "lastname":
+		switch (true) {
+			case $column === "login":
+            case $column === "lastname":
 				$column = $row[$column];
 				if (!$format) {
 					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->users()
@@ -34,18 +34,26 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 				}
 				break;
 
-			case "org_units":
+			case $column === "org_units":
 				$column =  ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row["usr_id"]);
 				break;
 
-			case "learning_progress_courses":
+			case $column === "learning_progress_courses":
 				if (!$format) {
-					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
-						->withUsrId($row["usr_id"]));
+					$column = self::output()->getHTML($row["pie"]);
 				} else {
-					$column = "";
+                    $column = "";
 				}
 				break;
+
+            case $column === "learning_progress_courses_count":
+                return $column = $row["pie"]->getData()["count"];
+
+            case strpos($column, "learning_progress_courses_") === 0:
+                $status = intval(substr($column, strlen("learning_progress_courses_")));
+
+                $column = $row["pie"]->getData()["data"][$status]["value"];
+                break;
 
 			default:
 				$column = $row[$column];
@@ -62,10 +70,23 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	public function getSelectableColumns2(): array {
 		$columns = self::ilias()->staff()->users()->getColumns();
 
-		$columns["learning_progress_courses"] = [
-			"default" => true,
-			"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("courses")
-		];
+        if ($this->getExportMode()) {
+            $columns["learning_progress_courses_count"] = [
+                "default" => true,
+                "txt"     => self::dic()->language()->txt("total") . " " . self::dic()->language()->txt("courses")
+            ];
+            foreach (self::customInputGUIs()->learningProgressPie()->objIds()->getTitles() as $status => $title) {
+                $columns["learning_progress_courses_" . $status] = [
+                    "default" => true,
+                    "txt"     => $title
+                ];
+            }
+        } else {
+            $columns["learning_progress_courses"] = [
+                "default" => true,
+                "txt"     => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("courses")
+            ];
+        }
 
 		$no_sort = [
 			"org_units",
@@ -112,6 +133,16 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 
 		$data = self::ilias()->staff()->users()->getData(self::dic()->user()
 			->getId(), $this->getFilterValues2(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
+
+        $data["data"] = array_map(function (array $row) : array {
+            $row["pie"] = self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row["learning_progress_courses"])->withUsrId($row["usr_id"]);
+
+            if ($this->getExportMode()) {
+                $row["pie"] = $row["pie"]->withShowEmpty(true);
+            }
+
+            return $row;
+        }, $data["data"]);
 
 		$this->setMaxCount($data["max_count"]);
 		$this->setData($data["data"]);
