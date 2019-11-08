@@ -2,9 +2,10 @@
 
 namespace srag\CustomInputGUIs\SrLpReport\LearningProgressPieUI;
 
+use ILIAS\Data\Color;
 use ilLearningProgressBaseGUI;
 use ilLPStatus;
-use ilTemplate;
+use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
 use srag\DIC\SrLpReport\DICTrait;
 
 /**
@@ -17,6 +18,7 @@ use srag\DIC\SrLpReport\DICTrait;
 abstract class AbstractLearningProgressPieUI {
 
 	use DICTrait;
+	use CustomInputGUIsTrait;
 	const LP_STATUS = [
 		ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,
 		ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
@@ -24,24 +26,27 @@ abstract class AbstractLearningProgressPieUI {
 		//ilLPStatus::LP_STATUS_FAILED_NUM
 	];
 	const LP_STATUS_COLOR = [
-		ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => "#DDDDDD",
-		ilLPStatus::LP_STATUS_IN_PROGRESS_NUM => "#F6D842",
-		ilLPStatus::LP_STATUS_COMPLETED_NUM => "#BDCF32",
-		ilLPStatus::LP_STATUS_FAILED => "#B06060"
+		ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => [ 221, 221, 221 ],
+		ilLPStatus::LP_STATUS_IN_PROGRESS_NUM => [ 246, 216, 66 ],
+		ilLPStatus::LP_STATUS_COMPLETED_NUM => [ 189, 207, 50 ],
+		ilLPStatus::LP_STATUS_FAILED => [ 176, 96, 96 ]
 	];
-	const BASE_ID = "learningprogresspie_";
 	/**
 	 * @var bool
 	 */
 	protected static $init = false;
 	/**
-	 * @var string
-	 */
-	protected $id = "";
-	/**
 	 * @var bool
 	 */
 	protected $show_legend = true;
+    /**
+     * @var bool
+     */
+	protected $show_empty = false;
+    /**
+     * @var array|null
+     */
+    protected $cache = null;
 
 
 	/**
@@ -49,18 +54,6 @@ abstract class AbstractLearningProgressPieUI {
 	 */
 	public function __construct() {
 
-	}
-
-
-	/**
-	 * @param string $id
-	 *
-	 * @return self
-	 */
-	public function withId(string $id): self {
-		$this->id = $id;
-
-		return $this;
 	}
 
 
@@ -76,61 +69,84 @@ abstract class AbstractLearningProgressPieUI {
 	}
 
 
-	/**
-	 *
-	 */
-	private function initJs()/*: void*/ {
-		if (self::$init === false) {
-			self::$init = true;
+    /**
+     * @param bool $show_empty
+     *
+     * @return self
+     */
+    public function withShowEmpty(bool $show_empty): self {
+        $this->show_empty = $show_empty;
 
-			$dir = __DIR__;
-			$dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1);
+        return $this;
+    }
 
-			self::dic()->mainTemplate()->addJavaScript($dir . "/../../node_modules/d3/dist/d3.min.js");
 
-			self::dic()->mainTemplate()->addCss($dir . "/css/learningprogresspie.css");
-		}
-	}
+    /**
+     * @return array
+     */
+    public function getTitles() : array
+    {
+        return array_map(function (int $status) : string {
+            return $this->getText($status);
+        }, self::LP_STATUS);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getData() : array
+    {
+        if ($this->cache === null) {
+
+            $data = $this->parseData();
+
+            $data = array_map(function (int $status) use ($data): array {
+                return [
+                    "color" => self::LP_STATUS_COLOR[$status],
+                    "title" => $this->getText($status),
+                    "value" => ($data[$status] ?: 0)
+                ];
+            }, self::LP_STATUS);
+
+            if (!$this->show_empty) {
+                $data = array_filter($data, function (array $data) : bool {
+                    return ($data["value"] > 0);
+                });
+            }
+
+            $this->cache = [
+                "data"  => $data,
+                "count" => $this->getCount()
+            ];
+        }
+
+        return $this->cache;
+    }
 
 
 	/**
 	 * @return string
 	 */
 	public function render(): string {
-		$data = $this->parseData();
+        $data = $this->getData();
+        $count = $data["count"];
+        $data = $data["data"];
 
-		if (count($data) > 0) {
+        if (count($data) > 0) {
 
-			$data = array_map(function (int $status) use ($data): array {
-				return [
-					"color" => self::LP_STATUS_COLOR[$status],
-					"label" => $data[$status],
-					"title" => $this->getText($status),
-					"value" => $data[$status]
-				];
-			}, self::LP_STATUS);
+            $data = array_values($data);
 
-			$data = array_filter($data, function (array $data): bool {
-				return ($data["value"] > 0);
-			});
+            $data = array_map(function (array $data)/*: PieChartItemInterface*/ {
+                return self::customInputGUIs()
+                    ->pieChartItem($data["title"], $data["value"], new Color($data["color"][0], $data["color"][1], $data["color"][2]));
+            }, $data);
 
-			$data = array_values($data);
+            return self::output()->getHTML(self::customInputGUIs()->pieChart($data)->withShowLegend($this->show_legend)
+                ->withCustomTotalValue($count));
+        }
 
-			if (count($data) > 0) {
-				$this->initJs();
-
-				$tpl = new ilTemplate(__DIR__ . "/templates/chart.html", false, false);
-
-				$tpl->setVariable("ID", self::BASE_ID . $this->id);
-				$tpl->setVariable("DATA", json_encode($data));
-				$tpl->setVariable("COUNT", json_encode($this->getCount()));
-				$tpl->setVariable("SHOW_LEGEND", json_encode($this->show_legend));
-
-				return self::output()->getHTML($tpl);
-			}
-		}
-
-		return "";
+        return "";
 	}
 
 

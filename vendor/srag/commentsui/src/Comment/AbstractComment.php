@@ -4,8 +4,6 @@ namespace srag\CommentsUI\SrLpReport\Comment;
 
 use ActiveRecord;
 use arConnector;
-use ilDateTime;
-use JsonSerializable;
 use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\DIC\SrLpReport\DICTrait;
 use stdClass;
@@ -17,16 +15,18 @@ use stdClass;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractComment extends ActiveRecord implements JsonSerializable {
+abstract class AbstractComment extends ActiveRecord implements Comment {
 
 	use DICTrait;
 	use CommentsUITrait;
+
+
 	/**
-	 * @var string
-	 *
-	 * @abstract
+	 * @inheritdoc
 	 */
-	const TABLE_NAME = "";
+	protected static function comments(): RepositoryInterface {
+		return Repository::getInstance(static::class);
+	}
 
 
 	/**
@@ -48,6 +48,30 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
+	 *
+	 */
+	public static function updateDB_()/*: void*/ {
+		self::updateDB();
+
+		if (self::dic()->database()->sequenceExists(static::TABLE_NAME)) {
+			self::dic()->database()->dropSequence(static::TABLE_NAME);
+		}
+
+		self::dic()->database()->createAutoIncrement(static::TABLE_NAME, "id");
+	}
+
+
+	/**
+	 *
+	 */
+	public static function dropDB_()/*: void*/ {
+		self::dic()->database()->dropTable(static::TABLE_NAME, false);
+
+		self::dic()->database()->dropAutoIncrementTable(static::TABLE_NAME);
+	}
+
+
+	/**
 	 * @var int
 	 *
 	 * @con_has_field   true
@@ -55,9 +79,8 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 	 * @con_length      8
 	 * @con_is_notnull  true
 	 * @con_is_primary  true
-	 * @con_sequence    true
 	 */
-	protected $id;
+	protected $id = 0;
 	/**
 	 * @var string
 	 *
@@ -144,69 +167,13 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 	 * @param int              $primary_key_value
 	 * @param arConnector|null $connector
 	 */
-	public function __construct(/*int*/
-		$primary_key_value = 0, /*?*/
-		arConnector $connector = null) {
-		parent::__construct($primary_key_value, $connector);
+	public function __construct(/*int*/ $primary_key_value = 0, /*?*/ arConnector $connector = null) {
+		//parent::__construct($primary_key_value, $connector);
 	}
 
 
 	/**
-	 * @param string $field_name
-	 *
-	 * @return mixed|null
-	 */
-	public function sleep(/*string*/
-		$field_name) {
-		$field_value = $this->{$field_name};
-
-		switch ($field_name) {
-			case "is_shared":
-			case "deleted":
-				return ($field_value ? 1 : 0);
-
-			case "created_timestamp":
-			case "updated_timestamp":
-				return (new ilDateTime($field_value, IL_CAL_UNIX))->get(IL_CAL_DATETIME);
-
-			default:
-				return null;
-		}
-	}
-
-
-	/**
-	 * @param string $field_name
-	 * @param mixed  $field_value
-	 *
-	 * @return mixed|null
-	 */
-	public function wakeUp(/*string*/
-		$field_name, $field_value) {
-		switch ($field_name) {
-			case "id":
-			case "report_obj_id":
-			case "report_user_id":
-			case "created_user_id":
-			case "updated_user_id":
-				return intval($field_value);
-
-			case "is_shared":
-			case "deleted":
-				return boolval($field_value);
-
-			case "created_timestamp":
-			case "updated_timestamp":
-				return (new ilDateTime($field_value, IL_CAL_DATETIME))->getUnixTime();
-
-			default:
-				return null;
-		}
-	}
-
-
-	/**
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getId(): int {
 		return $this->id;
@@ -214,7 +181,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @param int $id
+	 * @inheritdoc
 	 */
 	public function setId(int $id)/*: void*/ {
 		$this->id = $id;
@@ -222,7 +189,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function getComment(): string {
 		return $this->comment;
@@ -230,7 +197,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @param string $comment
+	 * @inheritdoc
 	 */
 	public function setComment(string $comment)/*: void*/ {
 		$this->comment = $comment;
@@ -238,7 +205,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getReportObjId(): int {
 		return $this->report_obj_id;
@@ -246,7 +213,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @param int $report_obj_id
+	 * @inheritdoc
 	 */
 	public function setReportObjId(int $report_obj_id)/*: void*/ {
 		$this->report_obj_id = $report_obj_id;
@@ -254,7 +221,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getReportUserId(): int {
 		return $this->report_user_id;
@@ -262,7 +229,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @param int $report_user_id
+	 * @inheritdoc
 	 */
 	public function setReportUserId(int $report_user_id)/*: void*/ {
 		$this->report_user_id = $report_user_id;
@@ -270,7 +237,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getCreatedTimestamp(): int {
 		return $this->created_timestamp;
@@ -278,7 +245,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @param int $created_timestamp
+	 * @inheritdoc
 	 */
 	public function setCreatedTimestamp(int $created_timestamp)/*: void*/ {
 		$this->created_timestamp = $created_timestamp;
@@ -286,7 +253,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getCreatedUserId(): int {
 		return $this->created_user_id;
@@ -294,7 +261,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @param int $created_user_id
+	 * @inheritdoc
 	 */
 	public function setCreatedUserId(int $created_user_id)/*: void*/ {
 		$this->created_user_id = $created_user_id;
@@ -302,7 +269,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getUpdatedTimestamp(): int {
 		return $this->updated_timestamp;
@@ -310,7 +277,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @param int $updated_timestamp
+	 * @inheritdoc
 	 */
 	public function setUpdatedTimestamp(int $updated_timestamp)/*: void*/ {
 		$this->updated_timestamp = $updated_timestamp;
@@ -318,7 +285,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getUpdatedUserId(): int {
 		return $this->updated_user_id;
@@ -326,7 +293,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @param int $updated_user_id
+	 * @inheritdoc
 	 */
 	public function setUpdatedUserId(int $updated_user_id)/*: void*/ {
 		$this->updated_user_id = $updated_user_id;
@@ -334,7 +301,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @return bool
+	 * @inheritdoc
 	 */
 	public function isShared(): bool {
 		return $this->is_shared;
@@ -342,7 +309,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @param bool $is_shared
+	 * @inheritdoc
 	 */
 	public function setIsShared(bool $is_shared)/*: void*/ {
 		$this->is_shared = $is_shared;
@@ -350,7 +317,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @return bool
+	 * @inheritdoc
 	 */
 	public function isDeleted(): bool {
 		return $this->deleted;
@@ -358,7 +325,7 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @param bool $deleted
+	 * @inheritdoc
 	 */
 	public function setDeleted(bool $deleted)/*: void*/ {
 		$this->deleted = $deleted;
@@ -366,9 +333,9 @@ abstract class AbstractComment extends ActiveRecord implements JsonSerializable 
 
 
 	/**
-	 * @return stdClass
+	 * @inheritdoc
 	 */
 	public function jsonSerialize(): stdClass {
-		return self::comments(static::class)->toJson($this);
+		return self::comments()->toJson($this);
 	}
 }

@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
 use ilAdvancedSelectionListGUI;
+use ilOrgUnitPathStorage;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use ilUserSearchOptions;
@@ -22,19 +23,37 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue(/*string*/
-		$column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
-		switch ($column) {
-			case "learning_progress_courses":
-				if (!$raw_export) {
-					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
-						->withUsrId($row["usr_id"])->withId($row["usr_id"]));
-				} else {
-					$column = "";
+	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
+		switch (true) {
+			case $column === "login":
+            case $column === "lastname":
+				$column = $row[$column];
+				if (!$format) {
+					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->users()
+						->getUserCoursesLink($row["usr_id"])));
 				}
 				break;
+
+			case $column === "org_units":
+				$column =  ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row["usr_id"]);
+				break;
+
+			case $column === "learning_progress_courses":
+				if (!$format) {
+					$column = self::output()->getHTML($row["pie"]);
+				} else {
+                    $column = "";
+				}
+				break;
+
+            case $column === "learning_progress_courses_count":
+                return $column = $row["pie"]->getData()["count"];
+
+            case strpos($column, "learning_progress_courses_") === 0:
+                $status = intval(substr($column, strlen("learning_progress_courses_")));
+
+                $column = $row["pie"]->getData()["data"][$status]["value"];
+                break;
 
 			default:
 				$column = $row[$column];
@@ -51,10 +70,23 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	public function getSelectableColumns2(): array {
 		$columns = self::ilias()->staff()->users()->getColumns();
 
-		$columns["learning_progress_courses"] = [
-			"default" => true,
-			"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("courses")
-		];
+        if ($this->getExportMode()) {
+            $columns["learning_progress_courses_count"] = [
+                "default" => true,
+                "txt"     => self::dic()->language()->txt("total") . " " . self::dic()->language()->txt("courses")
+            ];
+            foreach (self::customInputGUIs()->learningProgressPie()->objIds()->getTitles() as $status => $title) {
+                $columns["learning_progress_courses_" . $status] = [
+                    "default" => true,
+                    "txt"     => $title
+                ];
+            }
+        } else {
+            $columns["learning_progress_courses"] = [
+                "default" => true,
+                "txt"     => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("courses")
+            ];
+        }
 
 		$no_sort = [
 			"org_units",
@@ -102,6 +134,16 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 		$data = self::ilias()->staff()->users()->getData(self::dic()->user()
 			->getId(), $this->getFilterValues2(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
 
+        $data["data"] = array_map(function (array $row) : array {
+            $row["pie"] = self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row["learning_progress_courses"])->withUsrId($row["usr_id"]);
+
+            if ($this->getExportMode()) {
+                $row["pie"] = $row["pie"]->withShowEmpty(true);
+            }
+
+            return $row;
+        }, $data["data"]);
+
 		$this->setMaxCount($data["max_count"]);
 		$this->setData($data["data"]);
 	}
@@ -119,7 +161,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 			],
 			"org_unit" => [
 				PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
-				PropertyFormGUI::PROPERTY_OPTIONS => [ 0 => self::dic()->language()->txt("mst_opt_all") ] + self::ilias()->staff()->users()
+				PropertyFormGUI::PROPERTY_OPTIONS => [ 0 => "--"] + self::ilias()->staff()->users()
 						->getOrgUnits(),
 				PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units")),
 				"setTitle" => $this->dic()->language()->txt("obj_orgu"),
@@ -147,8 +189,7 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function fillRow(/*array*/
-		$row)/*: void*/ {
+	protected function fillRow(/*array*/ $row)/*: void*/ {
 		$this->tpl->setCurrentBlock("column");
 		$this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->image()
 			->standard($row["usr_obj"]->getPersonalPicturePath("small"), $row["usr_obj"]->getPublicName())));

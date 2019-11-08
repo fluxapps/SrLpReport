@@ -7,7 +7,7 @@ use ilTextAreaInputGUI;
 use srag\DIC\SrLpReport\DICTrait;
 
 /**
- * Class TextInputGUI
+ * Class TextAreaInputGUI
  *
  * @package srag\CustomInputGUIs\SrLpReport\TextAreaInputGUI
  *

@@ -37,6 +37,6 @@ class ReportCtrl extends AbstractCtrl {
 	 * @inheritdoc
 	 */
 	public function getCommentsArray(int $report_obj_id, int $report_user_id): array {
-		return self::comments(self::COMMENTS_CLASS_NAME)->getCommentsForReport($report_obj_id, $report_user_id);
+		return self::comments()->getCommentsForReport($report_obj_id, $report_user_id);
 	}
 }

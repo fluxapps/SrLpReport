@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report\Matrix\Single;
 
+use ilAdvancedSelectionListGUI;
 use ilCSVWriter;
 use ilExcel;
 use ilLearningProgressBaseGUI;
@@ -125,8 +126,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	/**
 	 * @param array $row
 	 */
-	protected function fillRow(/*array*/
-		$row)/*: void*/ {
+	protected function fillRow(/*array*/ $row)/*: void*/ {
 		$this->tpl->setCurrentBlock("column");
 
 		foreach ($this->getStandardColumns() as $column) {
@@ -146,11 +146,9 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue($column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
-		if ($column == "object") {
-			if ($raw_export) {
+	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
+		if ($column === "object") {
+			if ($format) {
 				return $row['obj_title'];
 			}
 
@@ -159,7 +157,14 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 		}
 
 		if ($column == "status") {
-			if ($raw_export) {
+
+			if ($format) {
+				return strval($this->getLearningProgressRepresentationExport(intval($row['status']), 0));
+			} else {
+				return strval($this->getLearningProgressRepresentation(intval($row['status']), 0));
+			}
+
+			if ($format) {
 				return $row['status_text'];
 			}
 
@@ -167,7 +172,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 				. $row['status_text'];
 		}
 
-		return parent::getColumnValue($column, $row, $raw_export);
+		return parent::getColumnValue($column, $row, $format);
 	}
 
 
@@ -232,21 +237,11 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 
 
 	/**
-	 * @inheritdoc
-	 */
-	protected function initExport()/*: void*/ {
-		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
-	}
-
-
-	/**
 	 * @param ilExcel $excel
 	 * @param int     $row
 	 * @param array   $result
 	 */
-	protected function fillRowExcel(ilExcel $excel, /*int*/
-		&$row, /*array*/
-		$result)/*: void*/ {
+	protected function fillRowExcel(ilExcel $excel, /*int*/ &$row, /*array*/ $result)/*: void*/ {
 		$col = 0;
 		foreach ($this->getSelectableColumns() as $column) {
 			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
@@ -259,9 +254,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	 * @param ilCSVWriter $csv
 	 * @param array       $row
 	 */
-	protected function fillRowCSV(/*ilCSVWriter*/
-		$csv, /*array*/
-		$row)/*: void*/ {
+	protected function fillRowCSV(/*ilCSVWriter*/ $csv, /*array*/ $row)/*: void*/ {
 		foreach ($this->getSelectableColumns() as $column) {
 			$csv->addColumn($this->getColumnValue($column["id"], $row, true));
 		}
@@ -271,22 +264,10 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 
 
 	/**
-	 * @param int $status
-	 * @param int $percentage
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
-	protected function getLearningProgressRepresentationExport(int $status = 0, int $percentage = 0): string {
-		if ($percentage > 0) {
-			return $percentage . "%";
-		}
+	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
 
-		switch ($status) {
-			case 0:
-				return self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
-			default:
-				return ilLearningProgressBaseGUI::_getStatusText($status);
-		}
 	}
 
 
@@ -295,8 +276,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI {
 	 */
 	public function getRightHTML(): string {
 		return self::output()->getHTML([
-			self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds(array_keys($this->row_data))->withUsrId(self::reports()->getUsrId())
-				->withId(self::reports()->getUsrId()),
+			self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds(array_keys($this->row_data))->withUsrId(self::reports()->getUsrId()),
 			"<br>",
 			(new ilPublicUserProfileGUI(self::reports()->getUsrId()))->getEmbeddable(),
 			"<br>",

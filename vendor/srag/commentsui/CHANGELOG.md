@@ -1,5 +1,38 @@
 # Changelog
 
+## [0.7.5]
+- Fixes
+
+## [0.7.4]
+- Fixes
+
+## [0.7.3]
+- Fixes
+
+## [0.7.2]
+- Fixes
+
+## [0.7.1]
+- Fixes
+
+## [0.7.0]
+- Use database
+
+## [0.6.2]
+- Optimizations
+
+## [0.6.1]
+- Interfaces
+
+## [0.6.0]
+- Interfaces
+
+## [0.5.2]
+- Implementation
+
+## [0.5.1]
+- Implementation
+
 ## [0.5.0]
 - Implementation
 

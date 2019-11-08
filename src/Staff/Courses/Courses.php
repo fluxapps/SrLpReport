@@ -13,6 +13,7 @@ use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
+use srag\Plugins\SrLpReport\Staff\StaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -65,7 +66,7 @@ final class Courses {
 	public function getData(array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
 		$data = [];
 
-		$users = ilMyStaffAccess::getInstance()->getUsersForUser(self::dic()->user()->getId());
+		$users = self::access()->getUsersForUser(self::dic()->user()->getId());
 
 		$options = [
 			"filters" => $filter,
@@ -79,10 +80,13 @@ final class Courses {
 
 		$data["max_count"] = ilMStListCourses::getData($users, $options);
 
-		$options["limit"] = [
-			"start" => $limit_start,
-			"end" => $limit_end
-		];
+		if($limit_end > 0) {
+			$options["limit"] = [
+				"start" => $limit_start,
+				"end" => $limit_end
+			];
+		}
+
 		$options["count"] = false;
 
 		$data_ = array_map(function (ilMStListCourse $course): array {
@@ -128,7 +132,6 @@ final class Courses {
 	 * @return array
 	 */
 	public function getActionsArray(): array {
-		self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
 		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, CoursesStaffGUI::class);
 
 		$actions = [
@@ -136,15 +139,47 @@ final class Courses {
 				->getReportObjRefId()))
 		];
 
-		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject(self::reports()->getReportObjRefId())) {
-			$actions[] = self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("learning_progress"), self::dic()->ctrl()
-				->getLinkTargetByClass([
-					ilUIPluginRouterGUI::class,
-					ReportGUI::class,
-					UserReportGUI::class
-				]));
+		$learning_progress_link = $this->getLearningProgressLink(self::reports()->getReportObjRefId());
+		if (!empty($learning_progress_link)) {
+			$actions[] = self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("learning_progress"), $learning_progress_link);
 		}
 
 		return $actions;
+	}
+
+
+	/**
+	 * @param int $crs_ref_id
+	 *
+	 * @return string
+	 */
+	public function getLearningProgressLink(int $crs_ref_id): string {
+		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($crs_ref_id)) {
+			self::dic()->ctrl()->setParameterByClass(UserReportGUI::class, Reports::GET_PARAM_REF_ID, $crs_ref_id);
+
+			return self::dic()->ctrl()->getLinkTargetByClass([
+				ilUIPluginRouterGUI::class,
+				ReportGUI::class,
+				UserReportGUI::class
+			]);
+		}
+
+		return "";
+	}
+
+
+	/**
+	 * @param int $crs_obj_id
+	 *
+	 * @return string
+	 */
+	public function getCourseFilterLink(int $crs_obj_id): string {
+		self::dic()->ctrl()->setParameterByClass(CoursesStaffGUI::class, Reports::GET_PARAM_COURSE_OBJ_ID, $crs_obj_id);
+
+		return self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			StaffGUI::class,
+			CoursesStaffGUI::class
+		], CoursesStaffGUI::CMD_SET_COURSE_FILTER);
 	}
 }

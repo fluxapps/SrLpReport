@@ -8,11 +8,13 @@ use ilLearningProgressAccess;
 use ilLPObjSettings;
 use ilObject;
 use ilObjectLP;
+use ilObjOrgUnitTree;
 use ilObjSession;
 use ilPathGUI;
 use ilTrQuery;
 use srag\Plugins\SrLpReport\Report\AbstractReport2TableGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
+use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 
 /**
  * Class MatrixTableGUI
@@ -27,11 +29,12 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue($column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
+	protected function getColumnValue(/*string*/
+		$column, /*array*/
+		$row, /*int*/
+		$format = self::DEFAULT_FORMAT): string {
 		if ($column == 'status') {
-			if ($raw_export) {
+			if ($format) {
 				return strval($this->getLearningProgressRepresentationExport(intval($row['obj_' . self::dic()->objDataCache()
 					->lookupObjId($this->ref_id)]), 0));
 			} else {
@@ -41,15 +44,19 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 		}
 
 		if (count(explode('obj_', $column)) == 2) {
+        /*echo $column;
+		echo $row[$column];
+		echo strval($this->getLearningProgressRepresentationExport(intval($row[$column]), 100));
+		exit;*/
 			$percentage = intval($row[$column . "_perc"]);
-			if ($raw_export) {
+			if ($format) {
 				return strval($this->getLearningProgressRepresentationExport(intval($row[$column]), $percentage));
 			} else {
-				return strval($this->getLearningProgressRepresentation(intval($row[$column], $percentage)));
+				return $this->getLearningProgressRepresentation(intval($row[$column]), $percentage);
 			}
 		}
 
-		return parent::getColumnValue($column, $row, $raw_export);
+		return parent::getColumnValue($column, $row, $format);
 	}
 
 
@@ -158,6 +165,26 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 			}
 
 			//filter
+            if($filter['org_units'] > 0) {
+                $employees = ilObjOrgUnitTree::_getInstance()->getEmployees($filter['org_units'], true);
+                $superior = ilObjOrgUnitTree::_getInstance()->getSuperiors($filter['org_units'], true);
+
+                $usr_ids_filtered_by_orgu =  array_merge(array_values($employees), array_values($superior));
+                $usr_ids_filtered_by_orgu =  array_unique($usr_ids_filtered_by_orgu);
+            }
+            //print_r($data["set"]);exit;
+            if($filter['org_units'] > 0) {
+                foreach ($data["set"] as $key => $usr_orgu) {
+                    if (count($usr_ids_filtered_by_orgu) == 0 || !in_array($usr_orgu['usr_id'],$usr_ids_filtered_by_orgu)) {
+                        unset($data["set"][$key]);
+                    }
+                }
+            }
+            unset($filter['org_units']);
+
+
+            //TODO filter contains unusual values...
+            unset($filter['gender']);
 			$table_data = [];
 			if (count($data["set"]) > 0) {
 				foreach ($data["set"] as $row) {
@@ -201,16 +228,6 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 
 
 	/**
-	 * @inheritdoc
-	 */
-	protected function initColumns()/*: void*/ {
-		parent::initColumns();
-
-		$this->addColumn(self::dic()->language()->txt("actions"));
-	}
-
-
-	/**
 	 * @param int $a_obj_id
 	 *
 	 * @return bool
@@ -238,8 +255,6 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 	 */
 	protected function fillRow(/*array*/
 		$row)/*: void*/ {
-		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
-
 		$this->tpl->setCurrentBlock("column");
 
 		foreach ($this->getSelectableColumns() as $column) {
@@ -264,8 +279,9 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 		$actions = new ilAdvancedSelectionListGUI();
 		$actions->setListTitle(self::dic()->language()->txt("actions"));
 		$actions->setAsynch(true);
+		$this->extendsActionsMenu($actions, $row);
 		$actions->setAsynchUrl(str_replace("\\", "\\\\", self::dic()->ctrl()
-			->getLinkTarget($this->parent_obj, MatrixReportGUI::CMD_GET_ACTIONS, "", true)));
+			->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)));
 		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
 		$this->tpl->parseCurrentBlock();
 	}
@@ -293,5 +309,13 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 			$excel->setCell($row, $col, $this->getColumnValue($column["id"], $result, true));
 			$col ++;
 		}
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
+		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
 	}
 }

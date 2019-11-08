@@ -57,4 +57,12 @@ class MatrixSingleReportGUI extends AbstractReportGUI {
 	protected function getTable(string $cmd = self::CMD_INDEX): AbstractReportTableGUI {
 		return new MatrixSingleTableGUI($this, $cmd);
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getActionsArray(): array {
+		return [];
+	}
 }

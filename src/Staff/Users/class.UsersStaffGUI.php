@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
+use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 
@@ -17,6 +18,26 @@ use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
 class UsersStaffGUI extends AbstractStaffGUI {
 
 	const TAB_ID = "users";
+	const CMD_SET_ORG_UNIT_FILTER = "setOrgUnitFilter";
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function executeCommand()/*: void*/ {
+		parent::executeCommand();
+
+		$cmd = self::dic()->ctrl()->getCmd();
+
+		switch ($cmd) {
+			case self::CMD_SET_ORG_UNIT_FILTER:
+				$this->{$cmd}();
+				break;
+
+			default:
+				break;
+		}
+	}
 
 
 	/**
@@ -42,5 +63,20 @@ class UsersStaffGUI extends AbstractStaffGUI {
 	 */
 	protected function getActionsArray(): array {
 		return self::ilias()->staff()->users()->getActionsArray();
+	}
+
+
+	/**
+	 *
+	 */
+	protected function setOrgUnitFilter()/*: void*/ {
+		$org_unit_id = intval(filter_input(INPUT_GET, Reports::GET_PARAM_ORG_UNIT_ID));
+
+		$table = $this->getTable(self::CMD_RESET_FILTER);
+		$table->resetFilter();
+		$table->resetOffset();
+
+		$_POST["org_unit"] = $org_unit_id;
+		$this->applyFilter();
 	}
 }

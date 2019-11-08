@@ -2,6 +2,9 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
+use ilAdvancedSelectionListGUI;
+use ilLearningProgressBaseGUI;
+use ilLPStatus;
 use ilSrLpReportPlugin;
 use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
@@ -25,7 +28,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initExport()/*: void*/ {
-		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
+		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV, self::EXPORT_PDF ]);
 	}
 
 
@@ -42,7 +45,7 @@ abstract class AbstractReportTableGUI extends TableGUI {
 	/**
 	 * @return array
 	 */
-	protected final function getFilterValues2(): array {
+	public final function getFilterValues2(): array {
 		$filter = $this->getFilterValues();
 
 		if (isset($filter["status"])) {
@@ -66,7 +69,70 @@ abstract class AbstractReportTableGUI extends TableGUI {
 
 
 	/**
+	 * @param ilAdvancedSelectionListGUI $actions
+	 * @param array                      $row
+	 */
+	protected abstract function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/
+	;
+
+
+	/**
 	 * @return string
 	 */
 	protected abstract function getRightHTML(): string;
+
+	/**
+	 * @param int $status
+	 * @param int $percentage
+	 *
+	 * @return string
+	 */
+	protected function getLearningProgressRepresentation(int $status = 0, int $percentage = 0): string {
+		switch ($status) {
+			case 0:
+				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+				$text = self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
+				break;
+			default:
+				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+				$text = ilLearningProgressBaseGUI::_getStatusText($status);
+				break;
+		}
+
+		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM && !$percentage) {
+			$percentage = 100;
+		}
+
+		$representation = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($path, $text));
+		if ($percentage > 0) {
+			$representation = $representation . " " . $percentage . "%";
+		}
+
+		return $representation;
+	}
+
+
+	/**
+	 * @param int $status
+	 * @param int $percentage
+	 *
+	 * @return string
+	 */
+	protected function getLearningProgressRepresentationExport(int $status = 0, int $percentage = 0): string {
+
+		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM && !$percentage) {
+			$percentage = 100;
+		}
+
+		if ($percentage > 0) {
+			return $percentage . "%";
+		}
+
+		switch ($status) {
+			case 0:
+				return self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
+			default:
+				return ilLearningProgressBaseGUI::_getStatusText($status);
+		}
+	}
 }

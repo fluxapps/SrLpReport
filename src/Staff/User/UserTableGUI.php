@@ -3,17 +3,22 @@
 namespace srag\Plugins\SrLpReport\Staff\User;
 
 use ilAdvancedSelectionListGUI;
-use ilLink;
+use ilCourseParticipants;
+use ilDateTime;
 use ilLPStatus;
 use ilMStListCourse;
 use ilMyStaffGUI;
+use ilObjCourseGUI;
+use ilObject2;
 use ilPublicUserProfileGUI;
+use ilRepositoryGUI;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
+use srag\Plugins\SrLpReport\Staff\StaffGUI;
 
 /**
  * Class UserTableGUI
@@ -27,27 +32,56 @@ class UserTableGUI extends AbstractStaffTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue(/*string*/
-		$column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
-		switch ($column) {
-			case "usr_reg_status":
-				$column = ilMStListCourse::getMembershipStatusText($row[$column]);
-				break;
-
-			case "usr_lp_status":
-				if (!$raw_export) {
-					$column = ilMyStaffGUI::getUserLpStatusAsHtml($row["ilMStListCourse"]);
-				} else {
-					$column = ilMyStaffGUI::getUserLpStatusAsText($row["ilMStListCourse"]);
+	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
+		switch (true) {
+			case $column === "crs_title":
+				$column = $row[$column];
+				if (!$format) {
+					$course_gui = new ilObjCourseGUI();
+					 self::dic()->ctrl()->setParameter($course_gui,'ref_id',$row["crs_ref_id"]);
+					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::dic()->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class,ilObjCourseGUI::class])));
 				}
 				break;
 
-			case "learning_progress_objects":
-				if (!$raw_export) {
-					$column = self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row[$column])
-						->withUsrId($row["usr_id"])->withId($row["crs_obj_id"]));
+			case $column === "usr_reg_status":
+				$column = ilMStListCourse::getMembershipStatusText($row[$column]);
+				break;
+
+			case $column === "usr_lp_status":
+				if (!$format) {
+					$column = StaffGUI::getUserLpStatusAsHtml($row["ilMStListCourse"]);
+				} else {
+					$column = StaffGUI::getUserLpStatusAsText($row["ilMStListCourse"]);
+				}
+				break;
+
+			case $column === "learning_progress_objects":
+				if (!$format) {
+					$column = self::output()->getHTML($row["pie"]);
+				} else {
+                    $column = "";
+				}
+				break;
+
+            case $column === "learning_progress_objects_count":
+                return $column = $row["pie"]->getData()["count"];
+
+            case strpos($column, "learning_progress_objects_") === 0:
+                $status = intval(substr($column, strlen("learning_progress_objects_")));
+
+                $column = $row["pie"]->getData()["data"][$status]["value"];
+                break;
+
+			//TODO Performance
+			case $column === "condition_passed":
+				$course_participant = new ilCourseParticipants(ilObject2::_lookupObjectId($row["crs_ref_id"]));
+				$passed_info = $course_participant->getPassedInfo($row["usr_id"]);
+				if(is_array($passed_info)) {
+					/**
+					 * @var ilDatetime $datetime
+					 */
+					$datetime = $passed_info['timestamp'];
+					$column = $datetime->get(IL_CAL_DATE);
 				} else {
 					$column = "";
 				}
@@ -79,13 +113,34 @@ class UserTableGUI extends AbstractStaffTableGUI {
 				"default" => true,
 				"txt" => self::dic()->language()->txt("trac_learning_progress")
 			],
-			"learning_progress_objects" => [
-				"default" => true,
-				"txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("objects")
-			]
+			"condition_passed" => [
+			"default" => true,
+			"txt" => self::dic()->language()->txt("condition_passed")
+		]
+
+
 		];
 
+        if ($this->getExportMode()) {
+            $columns["learning_progress_objects_count"] = [
+                "default" => true,
+                "txt"     => self::dic()->language()->txt("total") . " " . self::dic()->language()->txt("objects")
+            ];
+            foreach (self::customInputGUIs()->learningProgressPie()->objIds()->getTitles() as $status => $title) {
+                $columns["learning_progress_objects_" . $status] = [
+                    "default" => true,
+                    "txt"     => $title
+                ];
+            }
+        } else {
+            $columns["learning_progress_objects"] = [
+                "default" => true,
+                "txt" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("objects")
+            ];
+        }
+
 		$no_sort = [
+			"condition_passed",
 			"learning_progress_objects"
 		];
 
@@ -113,8 +168,8 @@ class UserTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function initData()/*: void*/ {
-		$this->setExternalSorting(true);
-		$this->setExternalSegmentation(true);
+		$this->setExternalSorting(false);
+		$this->setExternalSegmentation(false);
 
 		$this->setDefaultOrderField("crs_title");
 		$this->setDefaultOrderDirection("asc");
@@ -123,7 +178,17 @@ class UserTableGUI extends AbstractStaffTableGUI {
 		$this->determineOffsetAndOrder();
 
 		$data = self::ilias()->staff()->user()->getData(self::reports()
-			->getUsrId(), $this->getFilterValues2(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
+			->getUsrId(), $this->getFilterValues2(), "","", 0, 0);
+
+        $data["data"] = array_map(function (array $row) : array {
+            $row["pie"] = self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row["learning_progress_objects"])->withUsrId($row["usr_id"]);
+
+            if ($this->getExportMode()) {
+                $row["pie"] = $row["pie"]->withShowEmpty(true);
+            }
+
+            return $row;
+        }, $data["data"]);
 
 		$this->setMaxCount($data["max_count"]);
 		$this->setData($data["data"]);
@@ -176,7 +241,7 @@ class UserTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function initTitle()/*: void*/ {
-		$this->setTitle(self::dic()->language()->txt("user") . " " . self::dic()->objDataCache()->lookupTitle(self::reports()->getUsrId()));
+		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("my_staff") . " " . self::dic()->objDataCache()->lookupTitle(self::reports()->getUsrId()));
 	}
 
 

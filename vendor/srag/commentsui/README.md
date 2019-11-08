@@ -34,7 +34,7 @@ Add an update step to your `dbupdate.php`
 ...
 <#x>
 <?php
-\srag\Plugins\x\Comment\Comment::updateDB();
+\srag\Plugins\x\Comment\Comment::updateDB_();
 ?>
 ```
 
@@ -43,7 +43,7 @@ and not forget to add an uninstaller step in your plugin class too
 ...
 use srag\Plugins\x\Comment\Comment;
 ...
-self::dic()->database()->dropTable(Comment::TABLE_NAME, false);
+Comment::dropDB_();
 ...
 ```
 
@@ -56,9 +56,9 @@ use srag\Plugins\x\Comment\Comment;
 /**
  * ...
  *
- * @ilCtrl_isCalledBy srag\Plugins\x\Comment\Ctrl\Ctrl: ilUIPluginRouterGUI
+ * @ilCtrl_isCalledBy srag\Plugins\x\Comment\Ctrl\XCtrl: ilUIPluginRouterGUI
  */
-class Ctrl extends AbstractCtrl {
+class XCtrl extends AbstractCtrl {
 	...
 	const COMMENTS_CLASS_NAME = Comment::class;
 	...
@@ -79,7 +79,7 @@ Expand you plugin class for installing languages of the library to your plugin
 	/**
 	 * @inheritdoc
 	 */
-	public function updateLanguages(array $a_lang_keys = null) {
+	public function updateLanguages($a_lang_keys = null) {
 		parent::updateLanguages($a_lang_keys);
 
 		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__ . "/../vendor/srag/commentsui/lang")
@@ -103,20 +103,14 @@ use CommentsUITrait;
 #### UI usage
 ```php
 ...
-use srag\Plugins\x\Comment\Ctrl\Ctrl;
+use srag\Plugins\x\Comment\Ctrl\XCtrl;
 ...
-self::output()->getHTML(self::commentsUI()->withPlugin(self::plugin())->withCtrlClass(new Ctrl()));
+self::output()->getHTML(self::commentsUI()->withPlugin(self::plugin())->withCtrlClass(new XCtrl()));
 ```
 
-### Dependencies
+### Requirements
 * ILIAS 5.3 or ILIAS 5.4
 * PHP >=7.0
-* [composer](https://getcomposer.org)
-* [npm](https://nodejs.org)
-* [jquery-comments](https://www.npmjs.com/package/jquery-comments)
-* [srag/dic](https://packagist.org/packages/srag/dic)
-
-Please use it for further development!
 
 ### Adjustment suggestions
 * Adjustment suggestions by pull requests

@@ -26,7 +26,7 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initExport()/*: void*/ {
-		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV ]);
+		$this->setExportFormats([ self::EXPORT_EXCEL, self::EXPORT_CSV, self::EXPORT_PDF ]);
 	}
 
 
@@ -61,7 +61,7 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 	/**
 	 * @return array
 	 */
-	protected final function getFilterValues2(): array {
+	public final function getFilterValues2(): array {
 		$filter = $this->getFilterValues();
 
 		if (isset($filter["status"])) {

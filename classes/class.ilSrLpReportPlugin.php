@@ -3,7 +3,7 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use srag\DIC\SrLpReport\Util\LibraryLanguageInstaller;
-use srag\Plugins\SrLpReport\Comment\Comment;
+use srag\Plugins\SrLpReport\Comment\Comment\Comment;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\RemovePluginDataConfirm\SrLpReport\PluginUninstallTrait;
@@ -66,6 +66,9 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 
 		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__ . "/../vendor/srag/commentsui/lang")
 			->updateLanguages();
+
+		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
+			. "/../vendor/srag/custominputguis/src/TableGUI/lang")->updateLanguages();
 	}
 
 
@@ -74,6 +77,6 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 	 */
 	protected function deleteData()/*: void*/ {
 		self::dic()->database()->dropTable(Config::TABLE_NAME, false);
-		self::dic()->database()->dropTable(Comment::TABLE_NAME, false);
+		Comment::dropDB_();
 	}
 }

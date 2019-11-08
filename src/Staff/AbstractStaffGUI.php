@@ -89,7 +89,10 @@ abstract class AbstractStaffGUI {
 
 		$table->writeFilterToSession();
 
-		self::dic()->ctrl()->redirect($this);
+		$table->resetOffset();
+
+		//self::dic()->ctrl()->redirect($this);
+		$this->index(); // Fix reset offset
 	}
 
 
@@ -103,7 +106,8 @@ abstract class AbstractStaffGUI {
 
 		$table->resetOffset();
 
-		self::dic()->ctrl()->redirect($this);
+		//self::dic()->ctrl()->redirect($this);
+		$this->index(); // Fix reset offset
 	}
 
 

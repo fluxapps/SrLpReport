@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report\Summary;
 
+use ilAdvancedSelectionListGUI;
 use ilLPObjSettings;
 use ilObjectLP;
 use ilTrQuery;
@@ -39,17 +40,27 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue($column, /*array*/
-		$row, /*bool*/
-		$raw_export = false): string {
-		switch ($column) {
-			case "status":
-				if (!$raw_export) {
-					return self::output()->getHTML(self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"])
-						->withId($row['obj_id']));
+	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
+		switch (true) {
+			case $column === "title":
+				$column = $row[$column];
+				return $column;
+
+			case $column === "status":
+				if (!$format) {
+					return self::output()->getHTML($row["pie"]);
 				} else {
-					return "";
+                    return "";
 				}
+
+            case $column === "status_count":
+                return strval($row["pie"]->getData()["count"]);
+
+            case strpos($column, "status_") === 0:
+                $status = intval(substr($column, strlen("status_")));
+
+                return strval($row["pie"]->getData()["data"][$status]["value"]);
+
 			default:
 				return strval(is_array($row[$column]) ? implode(", ", $row[$column]) : $row[$column]);
 		}
@@ -63,20 +74,34 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 		$cols = [];
 
 		// default fields
-		$cols["title"] =[
+		$cols["title"] = [
 			"id" => "title",
-			"sort" => "title",
+			"sort" => true,
 			"txt" => self::dic()->language()->txt("title"),
 			"default" => true
 		];
 
-		// default fields
-		$cols["status"] = [
-			"id" => "status",
-			"sort" => "status",
-			"txt" => self::dic()->language()->txt("status"),
-			"default" => true
-		];
+        if ($this->getExportMode()) {
+            $columns["status_count"] = [
+                "default" => true,
+                "txt"     => self::dic()->language()->txt("total")
+            ];
+            foreach (self::customInputGUIs()->learningProgressPie()->count()->getTitles() as $status => $title) {
+                $columns["status_" . $status] = [
+                    "id" => "status_" . $status,
+                    "sort" => true,
+                    "txt"     => $title,
+                    "default" => true
+                ];
+            }
+        } else {
+            $cols["status"] = [
+                "id" => "status",
+                "sort" => false,
+                "txt" => self::dic()->language()->txt("status"),
+                "default" => true
+            ];
+        }
 
 		return $cols;
 	}
@@ -102,6 +127,16 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 		}
 
 		$data = ilTrQuery::getObjectsSummaryForObject($this->obj_id, $this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()), ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), [], $this->getSelectedColumns(), $preselected_obj_ids);
+
+        $data["set"] = array_map(function (array $row) : array {
+            $row["pie"] = self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"]);
+
+            if ($this->getExportMode()) {
+                $row["pie"] = $row["pie"]->withShowEmpty(true);
+            }
+
+            return $row;
+        }, $data["set"]);
 
 		$this->setData($data["set"]);
 	}
@@ -129,6 +164,14 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 	protected function initId()/*: void*/ {
 		$this->setId('srcrslp_summary');
 		$this->setPrefix('srcrslp_summary');
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
+
 	}
 
 

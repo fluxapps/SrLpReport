@@ -19,6 +19,11 @@ class CourseCtrl extends AbstractCtrl {
 	 * @inheritdoc
 	 */
 	public function getAsyncClass(): array {
+		self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REPORT_OBJ_ID, self::dic()->objDataCache()->lookupObjId(self::reports()
+			->getReportObjRefId()));
+
+		self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REPORT_USER_ID, self::dic()->user()->getId());
+
 		return [
 			ilUIPluginRouterGUI::class,
 			self::class
@@ -30,7 +35,7 @@ class CourseCtrl extends AbstractCtrl {
 	 * @inheritdoc
 	 */
 	public function getCommentsArray(int $report_obj_id, int $report_user_id): array {
-		return self::comments(self::COMMENTS_CLASS_NAME)->getCommentsForCurrentUser($report_obj_id);
+		return self::comments()->getCommentsForCurrentUser($report_obj_id);
 	}
 
 
@@ -45,7 +50,7 @@ class CourseCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	public function createComment()/*: void*/ {
+	protected function createComment()/*: void*/ {
 
 	}
 
@@ -53,7 +58,7 @@ class CourseCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	public function updateComment()/*: void*/ {
+	protected function updateComment()/*: void*/ {
 
 	}
 
@@ -61,7 +66,7 @@ class CourseCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	public function deleteComment()/*: void*/ {
+	protected function deleteComment()/*: void*/ {
 
 	}
 
@@ -69,7 +74,7 @@ class CourseCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	public function shareComment()/*: void*/ {
+	protected function shareComment()/*: void*/ {
 
 	}
 }

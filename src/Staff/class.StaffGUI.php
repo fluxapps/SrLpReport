@@ -2,6 +2,9 @@
 
 namespace srag\Plugins\SrLpReport\Staff;
 
+use ilLearningProgressBaseGUI;
+use ilLPStatus;
+use ilMStListCourse;
 use ilMyStaffAccess;
 use ilRepositoryGUI;
 use ilSrLpReportPlugin;
@@ -40,9 +43,8 @@ class StaffGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
-		if (!ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+		if (!self::access()->hasCurrentUserAccessToMyStaff()) {
 			ilUtil::sendFailure(self::dic()->language()->txt("permission_denied"), true);
-
 			self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);
 		}
 
@@ -80,5 +82,44 @@ class StaffGUI {
 
 		self::dic()->tabs()->addTab(CoursesStaffGUI::TAB_ID, self::dic()->language()->txt("courses"), self::dic()->ctrl()
 			->getLinkTargetByClass(CoursesStaffGUI::class));
+	}
+
+	/**
+	 * @param ilMStListCourse $my_staff_course
+	 *
+	 * @return string
+	 */
+	public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course) {
+		global $DIC;
+
+		if (self::access()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
+			$lp_icon = $DIC->ui()->factory()->image()
+				->standard(ilLearningProgressBaseGUI::_getImagePathForStatus($my_staff_course->getUsrLpStatus()), ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus())));
+
+			$status = $DIC->ui()->renderer()->render($lp_icon) . ' '
+				. ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));
+
+			if($my_staff_course->getUsrLpStatus() == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+				$status .= " - 100%";
+			}
+
+			return $status;
+		}
+
+		return '&nbsp';
+	}
+
+	/**
+	 * @param ilMStListCourse $my_staff_course
+	 *
+	 * @return string
+	 */
+	public static function getUserLpStatusAsText(ilMStListCourse $my_staff_course) {
+		if (self::access()->hasCurrentUserAccessToLearningProgressInObject
+($my_staff_course->getCrsRefId())) {
+			return ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));
+		}
+
+		return '';
 	}
 }

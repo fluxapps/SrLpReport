@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
+use ILIAS\UI\Implementation\Component\Button\Shy;
 use ilObject;
 use ilSrLpReportPlugin;
 use ilTemplateException;
@@ -24,6 +25,8 @@ abstract class AbstractReportGUI {
 	const CMD_INDEX = "index";
 	const CMD_APPLY_FILTER = "applyFilter";
 	const CMD_RESET_FILTER = "resetFilter";
+	const CMD_GET_ACTIONS = "getActions";
+	const CMD_MAIL_SELECTED_USERS = 'mailselectedusers';
 	/**
 	 * @var string
 	 *
@@ -61,6 +64,7 @@ abstract class AbstractReportGUI {
 					case self::CMD_INDEX:
 					case self::CMD_APPLY_FILTER:
 					case self::CMD_RESET_FILTER:
+					case self::CMD_GET_ACTIONS:
 						$this->{$cmd}();
 						break;
 
@@ -78,11 +82,8 @@ abstract class AbstractReportGUI {
 	protected function initGUI()/*: void*/ {
 		self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
 
-		$type = self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId()));
-
-		$icon = ilObject::_getIcon("", "tiny", $type);
-
-		self::dic()->mainTemplate()->setTitleIcon($icon);
+		self::dic()->mainTemplate()->setTitleIcon(ilObject::_getIcon("", "tiny", self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()
+			->lookupObjId(self::reports()->getReportObjRefId()))));
 
 		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress") . " " . self::dic()->objDataCache()
 				->lookupTitle(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId())));
@@ -109,7 +110,8 @@ abstract class AbstractReportGUI {
 
 		$table->resetOffset();
 
-		self::dic()->ctrl()->redirect($this);
+		//self::dic()->ctrl()->redirect($this);
+		$this->index(); // Fix reset offset
 	}
 
 
@@ -124,15 +126,29 @@ abstract class AbstractReportGUI {
 
 		$table->resetFilter();
 
-		self::dic()->ctrl()->redirect($this);
+		//self::dic()->ctrl()->redirect($this);
+		$this->index(); // Fix reset offset
 	}
 
 
 	/**
 	 *
 	 */
-	protected abstract function setTabs()/*: void*/
-	;
+	protected function getActions()/*: void*/ {
+		self::output()->output(array_map(function (Shy $button): string {
+			return self::output()->getHTML([
+				"<li>",
+				$button,
+				"</li>"
+			]);
+		}, $this->getActionsArray()));
+	}
+
+
+	/**
+	 *
+	 */
+	protected abstract function setTabs()/*: void*/ ;
 
 
 	/**
@@ -141,4 +157,10 @@ abstract class AbstractReportGUI {
 	 * @return AbstractReportTableGUI
 	 */
 	protected abstract function getTable(string $cmd = self::CMD_INDEX): AbstractReportTableGUI;
+
+
+	/**
+	 * @return Shy[]
+	 */
+	protected abstract function getActionsArray(): array;
 }

@@ -8,6 +8,7 @@ use ilMStListUser;
 use ilMStListUsers;
 use ilMStShowUserCourses;
 use ilMyStaffAccess;
+use ilObjOrgUnitTree;
 use ilOrgUnitOperation;
 use ilOrgUnitPathStorage;
 use ilSrLpReportPlugin;
@@ -79,7 +80,9 @@ final class Users {
 	public function getData(int $usr_id, array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
 		$data = [];
 
-		$users = ilMyStaffAccess::getInstance()->getUsersForUser($usr_id);
+		$users = self::access()->getUsersForUser($usr_id);
+
+		$filter['activation']  =  "active";
 
 		$options = [
 			"filters" => $filter,
@@ -99,6 +102,7 @@ final class Users {
 		];
 		$options["count"] = false;
 
+		//TODO Performance Killer!
 		$data["data"] = array_map(function (ilMStListUser $user): array {
 			$vars = Closure::bind(function (): array {
 				$vars = get_object_vars($this);
@@ -108,17 +112,20 @@ final class Users {
 				return $vars;
 			}, $user, ilMStListUser::class)();
 
-			$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($vars["usr_id"]);
+			//$vars["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($vars["usr_id"]);
+			$vars["org_units"] = array_map(function (int $org_unit_id): string {
+				return self::dic()->objDataCache()->lookupTitle($org_unit_id);
+			}, ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($vars["usr_id"]));
 
 			$vars["interests_general"] = $vars["usr_obj"]->getGeneralInterestsAsText();
 
 			$vars["interests_help_offered"] = $vars["usr_obj"]->getOfferingHelpAsText();
 
-			$users = ilMyStaffAccess::getInstance()->getUsersForUserOperationAndContext(self::dic()->user()
+			$users = self::access()->getUsersForUserOperationAndContext(self::dic()->user()
 				->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS);
 			$options = [
 				"filters" => [
-					"usr_id" => $vars["usr_id"]
+					"usr_id" => $vars["usr_id"],
 				]
 			];
 			$vars["learning_progress_courses"] = array_map(function (ilMStListCourse $course): int {
@@ -148,14 +155,41 @@ final class Users {
 	 * @return array
 	 */
 	public function getActionsArray(): array {
-		self::dic()->ctrl()->saveParameterByClass(StaffGUI::class, Reports::GET_PARAM_USR_ID);
-
 		return [
-			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("courses"), self::dic()->ctrl()->getLinkTargetByClass([
-				ilUIPluginRouterGUI::class,
-				StaffGUI::class,
-				UserStaffGUI::class
-			]))
+			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("courses"), $this->getUserCoursesLink(self::reports()
+				->getUsrId()))
 		];
+	}
+
+
+	/**
+	 * @param int $usr_id
+	 *
+	 * @return string
+	 */
+	public function getUserCoursesLink(int $usr_id): string {
+		self::dic()->ctrl()->setParameterByClass(UserStaffGUI::class, Reports::GET_PARAM_USR_ID, $usr_id);
+
+		return self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			StaffGUI::class,
+			UserStaffGUI::class
+		]);
+	}
+
+
+	/**
+	 * @param int $org_unit_id
+	 *
+	 * @return string
+	 */
+	public function getOrgUnitFilterLink(int $org_unit_id): string {
+		self::dic()->ctrl()->setParameterByClass(UsersStaffGUI::class, Reports::GET_PARAM_ORG_UNIT_ID, $org_unit_id);
+
+		return self::dic()->ctrl()->getLinkTargetByClass([
+			ilUIPluginRouterGUI::class,
+			StaffGUI::class,
+			UsersStaffGUI::class
+		], UsersStaffGUI::CMD_SET_ORG_UNIT_FILTER);
 	}
 }
