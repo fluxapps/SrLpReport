@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.2.0]
+## [2.2.5]
 - PDF table export
 - Some more links
 - Fix reset offset
