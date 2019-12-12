@@ -26,61 +26,65 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrLpReport\Staff\StaffGUI: ilUIPluginRouterGUI
  */
-class StaffGUI {
+class StaffGUI
+{
 
-	use DICTrait;
-	use SrLpReportTrait;
-	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-
-
-	/**
-	 * StaffGUI constructor
-	 */
-	public function __construct() {
-
-	}
+    use DICTrait;
+    use SrLpReportTrait;
+    const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 
 
-	/**
-	 *
-	 */
-	public function executeCommand()/*: void*/ {
-		if (!self::access()->hasCurrentUserAccessToMyStaff()) {
-			ilUtil::sendFailure(self::dic()->language()->txt("permission_denied"), true);
-			self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);
-		}
+    /**
+     * StaffGUI constructor
+     */
+    public function __construct()
+    {
 
-		$this->setTabs();
+    }
 
-		$next_class = self::dic()->ctrl()->getNextClass($this);
 
-		switch (strtolower($next_class)) {
-			case strtolower(UsersStaffGUI::class):
-				self::dic()->ctrl()->forwardCommand(new UsersStaffGUI());
-				break;
-			case strtolower(UserStaffGUI::class):
-				self::dic()->ctrl()->forwardCommand(new UserStaffGUI());
-				break;
-			case strtolower(CoursesStaffGUI::class):
-				self::dic()->ctrl()->forwardCommand(new CoursesStaffGUI());
-				break;
+    /**
+     *
+     */
+    public function executeCommand()/*: void*/
+    {
+        if (!self::access()->hasCurrentUserAccessToMyStaff()) {
+            ilUtil::sendFailure(self::dic()->language()->txt("permission_denied"), true);
+            self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);
+        }
+
+        $this->setTabs();
+
+        $next_class = self::dic()->ctrl()->getNextClass($this);
+
+        switch (strtolower($next_class)) {
+            case strtolower(UsersStaffGUI::class):
+                self::dic()->ctrl()->forwardCommand(new UsersStaffGUI());
+                break;
+            case strtolower(UserStaffGUI::class):
+                self::dic()->ctrl()->forwardCommand(new UserStaffGUI());
+                break;
+            case strtolower(CoursesStaffGUI::class):
+                self::dic()->ctrl()->forwardCommand(new CoursesStaffGUI());
+                break;
             case strtolower(CourseAdministrationStaffGUI::class):
                 self::dic()->ctrl()->forwardCommand(new CourseAdministrationStaffGUI());
                 break;
-			default:
-				break;
-		}
-	}
+            default:
+                break;
+        }
+    }
 
 
-	/**
-	 *
-	 */
-	protected function setTabs()/*: void*/ {
-		self::dic()->language()->loadLanguageModule("mst");
-		self::dic()->language()->loadLanguageModule("trac");
+    /**
+     *
+     */
+    protected function setTabs()/*: void*/
+    {
+        self::dic()->language()->loadLanguageModule("mst");
+        self::dic()->language()->loadLanguageModule("trac");
 
-		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("my_staff"));
+        self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("my_staff"));
 
         if (Config::getField(Config::KEY_ENABLE_USERS_VIEW)) {
             self::dic()->tabs()->addTab(UsersStaffGUI::TAB_ID, self::dic()->language()->txt("users"), self::dic()->ctrl()
@@ -96,44 +100,50 @@ class StaffGUI {
             self::dic()->tabs()->addTab(CourseAdministrationStaffGUI::TAB_ID, self::plugin()->translate("title", CourseAdministrationStaffGUI::LANG_MODULE), self::dic()->ctrl()
                 ->getLinkTargetByClass(CourseAdministrationStaffGUI::class));
         }
-	}
+    }
 
-	/**
-	 * @param ilMStListCourse $my_staff_course
-	 *
-	 * @return string
-	 */
-	public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course) {
-		global $DIC;
 
-		if (self::access()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
-			$lp_icon = $DIC->ui()->factory()->image()
-				->standard(ilLearningProgressBaseGUI::_getImagePathForStatus($my_staff_course->getUsrLpStatus()), ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus())));
+    /**
+     * @param ilMStListCourse $my_staff_course
+     *
+     * @return string
+     */
+    public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course)
+    {
+        global $DIC;
 
-			$status = $DIC->ui()->renderer()->render($lp_icon) . ' '
-				. ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));
+        if (self::access()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
+            $lp_icon = $DIC->ui()->factory()->image()
+                ->standard(ilLearningProgressBaseGUI::_getImagePathForStatus($my_staff_course->getUsrLpStatus()),
+                    ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus())));
 
-			if($my_staff_course->getUsrLpStatus() == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-				$status .= " - 100%";
-			}
+            $status = $DIC->ui()->renderer()->render($lp_icon) . ' '
+                . ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));
 
-			return $status;
-		}
+            if ($my_staff_course->getUsrLpStatus() == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+                $status .= " - 100%";
+            }
 
-		return '&nbsp';
-	}
+            return $status;
+        }
 
-	/**
-	 * @param ilMStListCourse $my_staff_course
-	 *
-	 * @return string
-	 */
-	public static function getUserLpStatusAsText(ilMStListCourse $my_staff_course) {
-		if (self::access()->hasCurrentUserAccessToLearningProgressInObject
-($my_staff_course->getCrsRefId())) {
-			return ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));
-		}
+        return '&nbsp';
+    }
 
-		return '';
-	}
+
+    /**
+     * @param ilMStListCourse $my_staff_course
+     *
+     * @return string
+     */
+    public static function getUserLpStatusAsText(ilMStListCourse $my_staff_course)
+    {
+        if (self::access()->hasCurrentUserAccessToLearningProgressInObject
+        ($my_staff_course->getCrsRefId())
+        ) {
+            return ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));
+        }
+
+        return '';
+    }
 }

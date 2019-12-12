@@ -11,15 +11,16 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
  *
  * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ilSrLpReportConfigGUI extends ActiveRecordConfigGUI {
+class ilSrLpReportConfigGUI extends ActiveRecordConfigGUI
+{
 
-	use SrLpReportTrait;
-	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const CMD_GET_COURSES_AUTO_COMPLETE = "getCoursesAutoComplete";
-	/**
-	 * @var array
-	 */
-	protected static $tabs = [ self::TAB_CONFIGURATION => ConfigFormGUI::class ];
+    use SrLpReportTrait;
+    const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
+    const CMD_GET_COURSES_AUTO_COMPLETE = "getCoursesAutoComplete";
+    /**
+     * @var array
+     */
+    protected static $tabs = [self::TAB_CONFIGURATION => ConfigFormGUI::class];
     /**
      * @var array
      */

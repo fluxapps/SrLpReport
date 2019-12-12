@@ -15,21 +15,22 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractStaffGUI {
+abstract class AbstractStaffGUI
+{
 
-	use DICTrait;
-	use SrLpReportTrait;
-	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const CMD_INDEX = "index";
-	const CMD_APPLY_FILTER = "applyFilter";
-	const CMD_RESET_FILTER = "resetFilter";
-	const CMD_GET_ACTIONS = "getActions";
-	/**
-	 * @var string
-	 *
-	 * @abstract
-	 */
-	const TAB_ID = "";
+    use DICTrait;
+    use SrLpReportTrait;
+    const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
+    const CMD_INDEX = "index";
+    const CMD_APPLY_FILTER = "applyFilter";
+    const CMD_RESET_FILTER = "resetFilter";
+    const CMD_GET_ACTIONS = "getActions";
+    /**
+     * @var string
+     *
+     * @abstract
+     */
+    const TAB_ID = "";
     /**
      * @var string
      *
@@ -37,121 +38,128 @@ abstract class AbstractStaffGUI {
      */
     const ENABLE_CONFIG_KEY = "";
 
-	/**
-	 * AbstractStaffGUI constructor
-	 */
-	public function __construct() {
 
-	}
+    /**
+     * AbstractStaffGUI constructor
+     */
+    public function __construct()
+    {
+
+    }
 
 
-	/**
-	 *
-	 */
-	public function executeCommand()/*: void*/ {
+    /**
+     *
+     */
+    public function executeCommand()/*: void*/
+    {
         if (!Config::getField(static::ENABLE_CONFIG_KEY)) {
             die();
         }
 
-		$this->setTabs();
+        $this->setTabs();
 
-		self::dic()->tabs()->activateTab(static::TAB_ID);
+        self::dic()->tabs()->activateTab(static::TAB_ID);
 
-		self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
+        self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
 
-		$next_class = self::dic()->ctrl()->getNextClass($this);
+        $next_class = self::dic()->ctrl()->getNextClass($this);
 
-		switch (strtolower($next_class)) {
-			default:
-				$cmd = self::dic()->ctrl()->getCmd(self::CMD_INDEX);
+        switch (strtolower($next_class)) {
+            default:
+                $cmd = self::dic()->ctrl()->getCmd(self::CMD_INDEX);
 
-				switch ($cmd) {
-					case self::CMD_INDEX:
-					case self::CMD_APPLY_FILTER:
-					case self::CMD_RESET_FILTER:
-					case self::CMD_GET_ACTIONS:
-						$this->{$cmd}();
-						break;
+                switch ($cmd) {
+                    case self::CMD_INDEX:
+                    case self::CMD_APPLY_FILTER:
+                    case self::CMD_RESET_FILTER:
+                    case self::CMD_GET_ACTIONS:
+                        $this->{$cmd}();
+                        break;
 
-					default:
-						break;
-				}
-				break;
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	protected function index()/*: void*/ {
-		$table = $this->getTable();
-
-		self::output()->output($table, true);
-	}
+                    default:
+                        break;
+                }
+                break;
+        }
+    }
 
 
-	/**
-	 *
-	 */
-	protected function applyFilter()/*: void*/ {
-		$table = $this->getTable(self::CMD_APPLY_FILTER);
+    /**
+     *
+     */
+    protected function index()/*: void*/
+    {
+        $table = $this->getTable();
 
-		$table->writeFilterToSession();
-
-		$table->resetOffset();
-
-		//self::dic()->ctrl()->redirect($this);
-		$this->index(); // Fix reset offset
-	}
+        self::output()->output($table, true);
+    }
 
 
-	/**
-	 *
-	 */
-	protected function resetFilter()/*: void*/ {
-		$table = $this->getTable(self::CMD_RESET_FILTER);
+    /**
+     *
+     */
+    protected function applyFilter()/*: void*/
+    {
+        $table = $this->getTable(self::CMD_APPLY_FILTER);
 
-		$table->resetFilter();
+        $table->writeFilterToSession();
 
-		$table->resetOffset();
+        $table->resetOffset();
 
-		//self::dic()->ctrl()->redirect($this);
-		$this->index(); // Fix reset offset
-	}
-
-
-	/**
-	 *
-	 */
-	protected function getActions()/*: void*/ {
-		self::output()->output(array_map(function (Shy $button): string {
-			return self::output()->getHTML([
-				"<li>",
-				$button,
-				"</li>"
-			]);
-		}, $this->getActionsArray()));
-	}
+        //self::dic()->ctrl()->redirect($this);
+        $this->index(); // Fix reset offset
+    }
 
 
-	/**
-	 *
-	 */
-	protected abstract function setTabs()/*: void*/
-	;
+    /**
+     *
+     */
+    protected function resetFilter()/*: void*/
+    {
+        $table = $this->getTable(self::CMD_RESET_FILTER);
+
+        $table->resetFilter();
+
+        $table->resetOffset();
+
+        //self::dic()->ctrl()->redirect($this);
+        $this->index(); // Fix reset offset
+    }
 
 
-	/**
-	 * @param string $cmd
-	 *
-	 * @return AbstractStaffTableGUI
-	 */
-	protected abstract function getTable(string $cmd = self::CMD_INDEX): AbstractStaffTableGUI;
+    /**
+     *
+     */
+    protected function getActions()/*: void*/
+    {
+        self::output()->output(array_map(function (Shy $button) : string {
+            return self::output()->getHTML([
+                "<li>",
+                $button,
+                "</li>"
+            ]);
+        }, $this->getActionsArray()));
+    }
 
 
-	/**
-	 * @return Shy[]
-	 */
-	protected abstract function getActionsArray(): array;
+    /**
+     *
+     */
+    protected abstract function setTabs()/*: void*/
+    ;
+
+
+    /**
+     * @param string $cmd
+     *
+     * @return AbstractStaffTableGUI
+     */
+    protected abstract function getTable(string $cmd = self::CMD_INDEX) : AbstractStaffTableGUI;
+
+
+    /**
+     * @return Shy[]
+     */
+    protected abstract function getActionsArray() : array;
 }

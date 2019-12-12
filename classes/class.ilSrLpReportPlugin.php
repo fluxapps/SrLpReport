@@ -15,39 +15,42 @@ use srag\RemovePluginDataConfirm\SrLpReport\PluginUninstallTrait;
  *
  * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
+class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin
+{
 
-	use PluginUninstallTrait;
-	use SrLpReportTrait;
-	use CommentsUITrait;
-	const PLUGIN_ID = "srlprep";
-	const PLUGIN_NAME = "SrLpReport";
-	const PLUGIN_CLASS_NAME = self::class;
-	const REMOVE_PLUGIN_DATA_CONFIRM_CLASS_NAME = SrLpReportRemoveDataConfirm::class;
-	/**
-	 * @var self|null
-	 */
-	protected static $instance = null;
-
-
-	/**
-	 * @return self
-	 */
-	public static function getInstance(): self {
-		if (self::$instance === null) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+    use PluginUninstallTrait;
+    use SrLpReportTrait;
+    use CommentsUITrait;
+    const PLUGIN_ID = "srlprep";
+    const PLUGIN_NAME = "SrLpReport";
+    const PLUGIN_CLASS_NAME = self::class;
+    const REMOVE_PLUGIN_DATA_CONFIRM_CLASS_NAME = SrLpReportRemoveDataConfirm::class;
+    /**
+     * @var self|null
+     */
+    protected static $instance = null;
 
 
-	/**
-	 * ilSrLpReportPlugin constructor
-	 */
-	public function __construct() {
-		parent::__construct();
-	}
+    /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+
+    /**
+     * ilSrLpReportPlugin constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
 
     /**
@@ -60,11 +63,12 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 
 
     /**
-	 * @return string
-	 */
-	public function getPluginName(): string {
-		return self::PLUGIN_NAME;
-	}
+     * @return string
+     */
+    public function getPluginName() : string
+    {
+        return self::PLUGIN_NAME;
+    }
 
 
     /**
@@ -76,7 +80,7 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
             case "Modules/Course":
                 switch ($a_event) {
                     case "addParticipant":
-                        self::ilias()->staff()->courseAdministration()->createEnrollment($a_parameter["obj_id"],$a_parameter["usr_id"]);
+                        self::ilias()->staff()->courseAdministration()->createEnrollment($a_parameter["obj_id"], $a_parameter["usr_id"]);
                         break;
 
                     default:
@@ -90,29 +94,31 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
     }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function updateLanguages($a_lang_keys = null) {
-		parent::updateLanguages($a_lang_keys);
+    /**
+     * @inheritdoc
+     */
+    public function updateLanguages($a_lang_keys = null)
+    {
+        parent::updateLanguages($a_lang_keys);
 
-		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
-			. "/../vendor/srag/removeplugindataconfirm/lang")->updateLanguages();
+        LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
+            . "/../vendor/srag/removeplugindataconfirm/lang")->updateLanguages();
 
         self::comments()->installLanguages();
 
-		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
-			. "/../vendor/srag/custominputguis/src/TableGUI/lang")->updateLanguages();
-	}
+        LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
+            . "/../vendor/srag/custominputguis/src/TableGUI/lang")->updateLanguages();
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function deleteData()/*: void*/ {
-		self::dic()->database()->dropTable(Config::TABLE_NAME, false);
+    /**
+     * @inheritdoc
+     */
+    protected function deleteData()/*: void*/
+    {
+        self::dic()->database()->dropTable(Config::TABLE_NAME, false);
         self::comments()->dropTables();
-		self::dic()->database()->dropTable(CourseAdministrationEnrollment::TABLE_NAME, false);
+        self::dic()->database()->dropTable(CourseAdministrationEnrollment::TABLE_NAME, false);
         self::dic()->database()->dropAutoIncrementTable(CourseAdministrationEnrollment::TABLE_NAME);
-	}
+    }
 }

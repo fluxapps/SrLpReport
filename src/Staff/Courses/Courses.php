@@ -23,163 +23,170 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Courses {
+final class Courses
+{
 
-	use DICTrait;
-	use SrLpReportTrait;
-	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	/**
-	 * @var self
-	 */
-	protected static $instance = null;
-
-
-	/**
-	 * @return self
-	 */
-	public static function getInstance(): self {
-		if (self::$instance === null) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+    use DICTrait;
+    use SrLpReportTrait;
+    const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
+    /**
+     * @var self
+     */
+    protected static $instance = null;
 
 
-	/**
-	 * Courses constructor
-	 */
-	private function __construct() {
+    /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
 
-	}
-
-
-	/**
-	 * @param array  $filter
-	 * @param string $order
-	 * @param string $order_direction
-	 * @param int    $limit_start
-	 * @param int    $limit_end
-	 *
-	 * @return array
-	 */
-	public function getData(array $filter, string $order, string $order_direction, int $limit_start, int $limit_end): array {
-		$data = [];
-
-		$users = self::access()->getUsersForUser(self::dic()->user()->getId());
-
-		$options = [
-			"filters" => $filter,
-			"limit" => [],
-			"count" => true,
-			"sort" => [
-				"field" => $order,
-				"direction" => $order_direction
-			]
-		];
-
-		$data["max_count"] = ilMStListCourses::getData($users, $options);
-
-		if($limit_end > 0) {
-			$options["limit"] = [
-				"start" => $limit_start,
-				"end" => $limit_end
-			];
-		}
-
-		$options["count"] = false;
-
-		$data_ = array_map(function (ilMStListCourse $course): array {
-			$vars = Closure::bind(function (): array {
-				$vars = get_object_vars($this);
-
-				$vars["usr_obj"] = $this->returnIlUserObj();
-				$vars["crs_obj"] = $this->returnIlCourseObj();
-
-				return $vars;
-			}, $course, ilMStListCourse::class)();
-
-			$vars["crs_obj_id"] = self::dic()->objDataCache()->lookupObjId($vars["crs_ref_id"]);
-
-			return $vars;
-		}, ilMStListCourses::getData($users, $options));
-
-		$data["data"] = array_map(function (array $course) use ($data_): array {
-			if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($course["crs_ref_id"])) {
-				$course["learning_progress_users"] = array_reduce(array_filter($data_, function (array $course_) use ($course): bool {
-					return ($course_["crs_ref_id"] === $course["crs_ref_id"]);
-				}), function (array $users, array $course): array {
-					$users[] = intval($course["usr_id"]);
-
-					return $users;
-				}, []);
-			} else {
-				$course["learning_progress_users"] = [];
-			}
-
-			return $course;
-		}, array_reduce($data_, function (array $data, array $course): array {
-			$data[$course["crs_ref_id"]] = $course;
-
-			return $data;
-		}, []));
-
-		return $data;
-	}
+        return self::$instance;
+    }
 
 
-	/**
-	 * @return array
-	 */
-	public function getActionsArray(): array {
-		self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, CoursesStaffGUI::class);
+    /**
+     * Courses constructor
+     */
+    private function __construct()
+    {
 
-		$actions = [
-			self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()
-				->getReportObjRefId()))
-		];
-
-		$learning_progress_link = $this->getLearningProgressLink(self::reports()->getReportObjRefId());
-		if (!empty($learning_progress_link)) {
-			$actions[] = self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("learning_progress"), $learning_progress_link);
-		}
-
-		return $actions;
-	}
+    }
 
 
-	/**
-	 * @param int $crs_ref_id
-	 *
-	 * @return string
-	 */
-	public function getLearningProgressLink(int $crs_ref_id): string {
-		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($crs_ref_id)) {
-			self::dic()->ctrl()->setParameterByClass(UserReportGUI::class, Reports::GET_PARAM_REF_ID, $crs_ref_id);
+    /**
+     * @param array  $filter
+     * @param string $order
+     * @param string $order_direction
+     * @param int    $limit_start
+     * @param int    $limit_end
+     *
+     * @return array
+     */
+    public function getData(array $filter, string $order, string $order_direction, int $limit_start, int $limit_end) : array
+    {
+        $data = [];
 
-			return self::dic()->ctrl()->getLinkTargetByClass([
-				ilUIPluginRouterGUI::class,
-				ReportGUI::class,
-				UserReportGUI::class
-			]);
-		}
+        $users = self::access()->getUsersForUser(self::dic()->user()->getId());
 
-		return "";
-	}
+        $options = [
+            "filters" => $filter,
+            "limit"   => [],
+            "count"   => true,
+            "sort"    => [
+                "field"     => $order,
+                "direction" => $order_direction
+            ]
+        ];
+
+        $data["max_count"] = ilMStListCourses::getData($users, $options);
+
+        if ($limit_end > 0) {
+            $options["limit"] = [
+                "start" => $limit_start,
+                "end"   => $limit_end
+            ];
+        }
+
+        $options["count"] = false;
+
+        $data_ = array_map(function (ilMStListCourse $course) : array {
+            $vars = Closure::bind(function () : array {
+                $vars = get_object_vars($this);
+
+                $vars["usr_obj"] = $this->returnIlUserObj();
+                $vars["crs_obj"] = $this->returnIlCourseObj();
+
+                return $vars;
+            }, $course, ilMStListCourse::class)();
+
+            $vars["crs_obj_id"] = self::dic()->objDataCache()->lookupObjId($vars["crs_ref_id"]);
+
+            return $vars;
+        }, ilMStListCourses::getData($users, $options));
+
+        $data["data"] = array_map(function (array $course) use ($data_): array {
+            if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($course["crs_ref_id"])) {
+                $course["learning_progress_users"] = array_reduce(array_filter($data_, function (array $course_) use ($course): bool {
+                    return ($course_["crs_ref_id"] === $course["crs_ref_id"]);
+                }), function (array $users, array $course) : array {
+                    $users[] = intval($course["usr_id"]);
+
+                    return $users;
+                }, []);
+            } else {
+                $course["learning_progress_users"] = [];
+            }
+
+            return $course;
+        }, array_reduce($data_, function (array $data, array $course) : array {
+            $data[$course["crs_ref_id"]] = $course;
+
+            return $data;
+        }, []));
+
+        return $data;
+    }
 
 
-	/**
-	 * @param int $crs_obj_id
-	 *
-	 * @return string
-	 */
-	public function getCourseFilterLink(int $crs_obj_id): string {
-		self::dic()->ctrl()->setParameterByClass(CoursesStaffGUI::class, Reports::GET_PARAM_COURSE_OBJ_ID, $crs_obj_id);
+    /**
+     * @return array
+     */
+    public function getActionsArray() : array
+    {
+        self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, CoursesStaffGUI::class);
 
-		return self::dic()->ctrl()->getLinkTargetByClass([
-			ilUIPluginRouterGUI::class,
-			StaffGUI::class,
-			CoursesStaffGUI::class
-		], CoursesStaffGUI::CMD_SET_COURSE_FILTER);
-	}
+        $actions = [
+            self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()
+                ->getReportObjRefId()))
+        ];
+
+        $learning_progress_link = $this->getLearningProgressLink(self::reports()->getReportObjRefId());
+        if (!empty($learning_progress_link)) {
+            $actions[] = self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("learning_progress"), $learning_progress_link);
+        }
+
+        return $actions;
+    }
+
+
+    /**
+     * @param int $crs_ref_id
+     *
+     * @return string
+     */
+    public function getLearningProgressLink(int $crs_ref_id) : string
+    {
+        if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($crs_ref_id)) {
+            self::dic()->ctrl()->setParameterByClass(UserReportGUI::class, Reports::GET_PARAM_REF_ID, $crs_ref_id);
+
+            return self::dic()->ctrl()->getLinkTargetByClass([
+                ilUIPluginRouterGUI::class,
+                ReportGUI::class,
+                UserReportGUI::class
+            ]);
+        }
+
+        return "";
+    }
+
+
+    /**
+     * @param int $crs_obj_id
+     *
+     * @return string
+     */
+    public function getCourseFilterLink(int $crs_obj_id) : string
+    {
+        self::dic()->ctrl()->setParameterByClass(CoursesStaffGUI::class, Reports::GET_PARAM_COURSE_OBJ_ID, $crs_obj_id);
+
+        return self::dic()->ctrl()->getLinkTargetByClass([
+            ilUIPluginRouterGUI::class,
+            StaffGUI::class,
+            CoursesStaffGUI::class
+        ], CoursesStaffGUI::CMD_SET_COURSE_FILTER);
+    }
 }
