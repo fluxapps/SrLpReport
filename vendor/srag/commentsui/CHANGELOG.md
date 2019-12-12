@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.0]
+- Improvments
+
+## [0.7.7]
+- Remove unused jquery (Uses the ILIAS core version)
+
+## [0.7.6]
+- Fix install (Fix Call to a member function getName() on null (Because not use ILIAS sequence))
+
 ## [0.7.5]
 - Fixes
 

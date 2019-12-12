@@ -14,22 +14,23 @@ use srag\CommentsUI\SrLpReport\UI\UIInterface;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-trait CommentsUITrait {
+trait CommentsUITrait
+{
 
-	/**
-	 * @param string $comment_class
-	 *
-	 * @return RepositoryInterface
-	 */
-	protected static function comments(string $comment_class): RepositoryInterface {
-		return Repository::getInstance($comment_class);
-	}
+    /**
+     * @return RepositoryInterface
+     */
+    protected static function comments() : RepositoryInterface
+    {
+        return Repository::getInstance();
+    }
 
 
-	/**
-	 * @return UIInterface
-	 */
-	protected static function commentsUI(): UIInterface {
-		return new UI();
-	}
+    /**
+     * @return UIInterface
+     */
+    protected static function commentsUI() : UIInterface
+    {
+        return new UI();
+    }
 }
