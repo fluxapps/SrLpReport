@@ -82,12 +82,12 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 		];
 
         if ($this->getExportMode()) {
-            $columns["status_count"] = [
+            $cols["status_count"] = [
                 "default" => true,
                 "txt"     => self::dic()->language()->txt("total")
             ];
             foreach (self::customInputGUIs()->learningProgressPie()->count()->getTitles() as $status => $title) {
-                $columns["status_" . $status] = [
+                $cols["status_" . $status] = [
                     "id" => "status_" . $status,
                     "sort" => true,
                     "txt"     => $title,
@@ -162,8 +162,8 @@ class SummaryTableGUI extends AbstractReportTableGUI {
 	 * @inheritdoc
 	 */
 	protected function initId()/*: void*/ {
-		$this->setId('srcrslp_summary');
-		$this->setPrefix('srcrslp_summary');
+		$this->setId('srlprep_summary');
+		$this->setPrefix('srlprep_summary');
 	}
 
 

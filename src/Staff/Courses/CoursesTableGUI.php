@@ -159,7 +159,8 @@ class CoursesTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function initId()/*: void*/ {
-		$this->setId("srcrslp_staff_courses");
+		$this->setId("srlprep_staff_courses");
+        $this->setPrefix("srlprep_staff_courses");
 	}
 
 

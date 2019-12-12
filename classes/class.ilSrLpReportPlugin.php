@@ -2,9 +2,11 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
+use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\DIC\SrLpReport\Util\LibraryLanguageInstaller;
-use srag\Plugins\SrLpReport\Comment\Comment\Comment;
+use srag\Plugins\SrLpReport\Comment\Ctrl\AbstractCtrl;
 use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\Staff\CourseAdministration\CourseAdministrationEnrollment;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\RemovePluginDataConfirm\SrLpReport\PluginUninstallTrait;
 
@@ -17,6 +19,7 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 
 	use PluginUninstallTrait;
 	use SrLpReportTrait;
+	use CommentsUITrait;
 	const PLUGIN_ID = "srlprep";
 	const PLUGIN_NAME = "SrLpReport";
 	const PLUGIN_CLASS_NAME = self::class;
@@ -47,12 +50,44 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 	}
 
 
-	/**
+    /**
+     * @inheritDoc
+     */
+    protected function init()/*:void*/
+    {
+        AbstractCtrl::init();
+    }
+
+
+    /**
 	 * @return string
 	 */
 	public function getPluginName(): string {
 		return self::PLUGIN_NAME;
 	}
+
+
+    /**
+     * @inheritDoc
+     */
+    public function handleEvent(/*string*/ $a_component, /*string*/ $a_event,/*array*/ $a_parameter)/*: void*/
+    {
+        switch ($a_component) {
+            case "Modules/Course":
+                switch ($a_event) {
+                    case "addParticipant":
+                        self::ilias()->staff()->courseAdministration()->createEnrollment($a_parameter["obj_id"],$a_parameter["usr_id"]);
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
 
 
 	/**
@@ -64,8 +99,7 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
 			. "/../vendor/srag/removeplugindataconfirm/lang")->updateLanguages();
 
-		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__ . "/../vendor/srag/commentsui/lang")
-			->updateLanguages();
+        self::comments()->installLanguages();
 
 		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
 			. "/../vendor/srag/custominputguis/src/TableGUI/lang")->updateLanguages();
@@ -77,6 +111,8 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin {
 	 */
 	protected function deleteData()/*: void*/ {
 		self::dic()->database()->dropTable(Config::TABLE_NAME, false);
-		Comment::dropDB_();
+        self::comments()->dropTables();
+		self::dic()->database()->dropTable(CourseAdministrationEnrollment::TABLE_NAME, false);
+        self::dic()->database()->dropAutoIncrementTable(CourseAdministrationEnrollment::TABLE_NAME);
 	}
 }

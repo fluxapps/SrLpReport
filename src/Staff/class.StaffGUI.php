@@ -10,6 +10,8 @@ use ilRepositoryGUI;
 use ilSrLpReportPlugin;
 use ilUtil;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\Staff\CourseAdministration\CourseAdministrationStaffGUI;
 use srag\Plugins\SrLpReport\Staff\Courses\CoursesStaffGUI;
 use srag\Plugins\SrLpReport\Staff\User\UserStaffGUI;
 use srag\Plugins\SrLpReport\Staff\Users\UsersStaffGUI;
@@ -62,6 +64,9 @@ class StaffGUI {
 			case strtolower(CoursesStaffGUI::class):
 				self::dic()->ctrl()->forwardCommand(new CoursesStaffGUI());
 				break;
+            case strtolower(CourseAdministrationStaffGUI::class):
+                self::dic()->ctrl()->forwardCommand(new CourseAdministrationStaffGUI());
+                break;
 			default:
 				break;
 		}
@@ -77,11 +82,20 @@ class StaffGUI {
 
 		self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("my_staff"));
 
-		self::dic()->tabs()->addTab(UsersStaffGUI::TAB_ID, self::dic()->language()->txt("users"), self::dic()->ctrl()
-			->getLinkTargetByClass(UsersStaffGUI::class));
+        if (Config::getField(Config::KEY_ENABLE_USERS_VIEW)) {
+            self::dic()->tabs()->addTab(UsersStaffGUI::TAB_ID, self::dic()->language()->txt("users"), self::dic()->ctrl()
+                ->getLinkTargetByClass(UsersStaffGUI::class));
+        }
 
-		self::dic()->tabs()->addTab(CoursesStaffGUI::TAB_ID, self::dic()->language()->txt("courses"), self::dic()->ctrl()
-			->getLinkTargetByClass(CoursesStaffGUI::class));
+        if (Config::getField(Config::KEY_ENABLE_COURSES_VIEW)) {
+            self::dic()->tabs()->addTab(CoursesStaffGUI::TAB_ID, self::dic()->language()->txt("courses"), self::dic()->ctrl()
+                ->getLinkTargetByClass(CoursesStaffGUI::class));
+        }
+
+        if (Config::getField(Config::KEY_ENABLE_COURSE_ADMINISTRATION)) {
+            self::dic()->tabs()->addTab(CourseAdministrationStaffGUI::TAB_ID, self::plugin()->translate("title", CourseAdministrationStaffGUI::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass(CourseAdministrationStaffGUI::class));
+        }
 	}
 
 	/**

@@ -20,8 +20,8 @@ class UserTableGUI extends AbstractReport2TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initId()/*: void*/ {
-		$this->setId('srcrslp_usrs');
-		$this->setPrefix('srcrslp_usrs');
+		$this->setId('srlprep_usrs');
+		$this->setPrefix('srlprep_usrs');
 	}
 
 

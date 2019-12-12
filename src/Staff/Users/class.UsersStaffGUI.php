@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
+use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
@@ -19,6 +20,7 @@ class UsersStaffGUI extends AbstractStaffGUI {
 
 	const TAB_ID = "users";
 	const CMD_SET_ORG_UNIT_FILTER = "setOrgUnitFilter";
+	const ENABLE_CONFIG_KEY = Config::KEY_ENABLE_USERS_VIEW;
 
 
 	/**

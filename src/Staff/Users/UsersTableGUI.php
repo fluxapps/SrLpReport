@@ -174,7 +174,8 @@ class UsersTableGUI extends AbstractStaffTableGUI {
 	 * @inheritdoc
 	 */
 	protected function initId()/*: void*/ {
-		$this->setId("srcrslp_staff_users");
+		$this->setId("srlprep_staff_users");
+        $this->setPrefix("srlprep_staff_users");
 	}
 
 

@@ -1,1 +1,17 @@
+config_configuration#:#Configuration
+config_configuration_saved#:#Configuration saved
+config_course_administration_courses#:#Show courses as columns in table
+config_course_administration_mark#:#Mark courses after x days after the enrolment date without edited learning progress
+config_course_administration_mark_days#:#Days
+config_enable_view#:#Enable %s view
+config_save#:#Save
+course_administration_enrolled_before#:#Enrolled before
+course_administration_enrolled_crs_obj_ids#:#Enrolled in course
+course_administration_enroll#:#Enroll
+course_administration_enrolled#:#Enrolled
+course_administration_enrolled_date#:#Enrolled on %s
+course_administration_not_enrolled_crs_obj_ids#:#Not enrolled in course
+course_administration_subsequent#:#Subsequent
+course_administration_title#:#Course administration
+course_administration_unknown#:#Unknown
 org_units#:#Organisational Units

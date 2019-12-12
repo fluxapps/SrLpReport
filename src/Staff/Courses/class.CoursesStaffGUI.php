@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Courses;
 
+use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
@@ -19,6 +20,7 @@ class CoursesStaffGUI extends AbstractStaffGUI {
 
 	const TAB_ID = "courses";
 	const CMD_SET_COURSE_FILTER = "setCourseFilter";
+    const ENABLE_CONFIG_KEY = Config::KEY_ENABLE_COURSES_VIEW;
 
 
 	/**

@@ -291,8 +291,8 @@ class MatrixTableGUI extends AbstractReport2TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initId()/*: void*/ {
-		$this->setId('srcrslp_matrix');
-		$this->setPrefix('srcrslp_matrix');
+		$this->setId('srlprep_matrix');
+		$this->setPrefix('srlprep_matrix');
 	}
 
 
