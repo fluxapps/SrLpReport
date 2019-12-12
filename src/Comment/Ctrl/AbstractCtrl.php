@@ -4,7 +4,6 @@ namespace srag\Plugins\SrLpReport\Comment\Ctrl;
 
 use ilSrLpReportPlugin;
 use srag\CommentsUI\SrLpReport\Ctrl\AbstractCtrl as AbstractCtrl_;
-use srag\Plugins\SrLpReport\Comment\Comment\Comment;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -19,9 +18,23 @@ abstract class AbstractCtrl extends AbstractCtrl_ {
 
 	use SrLpReportTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const COMMENTS_CLASS_NAME = Comment::class;
+    /**
+     * @var bool
+     */
+    protected static $init = false;
 
 
+    /**
+     *
+     */
+    public static function init()/*:void*/
+    {
+        if (!self::$init) {
+            self::$init = true;
+
+            self::comments()->withTableNamePrefix("ui_uihk_" . ilSrLpReportPlugin::PLUGIN_ID)->withPlugin(self::plugin());
+        }
+    }
 	/**
 	 * @inheritdoc
 	 */

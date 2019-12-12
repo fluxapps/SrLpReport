@@ -5,6 +5,7 @@ namespace srag\Plugins\SrLpReport\Staff;
 use ILIAS\UI\Component\Button\Shy;
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -29,7 +30,12 @@ abstract class AbstractStaffGUI {
 	 * @abstract
 	 */
 	const TAB_ID = "";
-
+    /**
+     * @var string
+     *
+     * @abstract
+     */
+    const ENABLE_CONFIG_KEY = "";
 
 	/**
 	 * AbstractStaffGUI constructor
@@ -43,6 +49,10 @@ abstract class AbstractStaffGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
+        if (!Config::getField(static::ENABLE_CONFIG_KEY)) {
+            die();
+        }
+
 		$this->setTabs();
 
 		self::dic()->tabs()->activateTab(static::TAB_ID);

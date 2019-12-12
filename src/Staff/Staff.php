@@ -4,6 +4,7 @@ namespace srag\Plugins\SrLpReport\Staff;
 
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Staff\CourseAdministration\CourseAdministration;
 use srag\Plugins\SrLpReport\Staff\Courses\Courses;
 use srag\Plugins\SrLpReport\Staff\User\User;
 use srag\Plugins\SrLpReport\Staff\Users\Users;
@@ -53,6 +54,14 @@ final class Staff {
 	public function courses(): Courses {
 		return Courses::getInstance();
 	}
+
+
+    /**
+     * @return CourseAdministration
+     */
+    public function courseAdministration(): CourseAdministration {
+        return CourseAdministration::getInstance();
+    }
 
 
 	/**

@@ -105,49 +105,56 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI {
 				}
 			}
 
-			if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMyStaffGUI::class)
-				|| self::dic()->ctrl()->getCmdClass() === strtolower(ilMStListUsersGUI::class)) {
+            if (Config::getField(Config::KEY_ENABLE_USERS_VIEW)) {
+                if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMyStaffGUI::class)
+                    || self::dic()->ctrl()->getCmdClass() === strtolower(ilMStListUsersGUI::class)
+                ) {
 
-				self::$load[self::REDIRECT] = true;
+                    self::$load[self::REDIRECT] = true;
 
-				$this->fixRedicrect();
+                    $this->fixRedicrect();
 
-				self::dic()->ctrl()->redirectByClass([
-					ilUIPluginRouterGUI::class,
-					StaffGUI::class,
-					UsersStaffGUI::class
-				]);
+                    self::dic()->ctrl()->redirectByClass([
+                        ilUIPluginRouterGUI::class,
+                        StaffGUI::class,
+                        UsersStaffGUI::class
+                    ]);
 
-				return parent::getHTML($a_comp, $a_part, $a_par);
-			}
+                    return parent::getHTML($a_comp, $a_part, $a_par);
+                }
+            }
 
-			if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMStListCoursesGUI::class)) {
+            if (Config::getField(Config::KEY_ENABLE_COURSES_VIEW)) {
+                if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMStListCoursesGUI::class)) {
 
-				self::$load[self::REDIRECT] = true;
+                    self::$load[self::REDIRECT] = true;
 
-				$this->fixRedicrect();
+                    $this->fixRedicrect();
 
-				self::dic()->ctrl()->redirectByClass([
-					ilUIPluginRouterGUI::class,
-					StaffGUI::class,
-					CoursesStaffGUI::class
-				]);
-			}
+                    self::dic()->ctrl()->redirectByClass([
+                        ilUIPluginRouterGUI::class,
+                        StaffGUI::class,
+                        CoursesStaffGUI::class
+                    ]);
+                }
+            }
 
-			if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMStShowUserGUI::class)) {
+            if (Config::getField(Config::KEY_ENABLE_USERS_VIEW)) {
+                if (self::dic()->ctrl()->getCmdClass() === strtolower(ilMStShowUserGUI::class)) {
 
-				self::$load[self::REDIRECT] = true;
+                    self::$load[self::REDIRECT] = true;
 
-				$this->fixRedicrect();
+                    $this->fixRedicrect();
 
-				self::dic()->ctrl()->saveParameterByClass(StaffGUI::class, Reports::GET_PARAM_USR_ID);
+                    self::dic()->ctrl()->saveParameterByClass(StaffGUI::class, Reports::GET_PARAM_USR_ID);
 
-				self::dic()->ctrl()->redirectByClass([
-					ilUIPluginRouterGUI::class,
-					StaffGUI::class,
-					UserStaffGUI::class
-				]);
-			}
+                    self::dic()->ctrl()->redirectByClass([
+                        ilUIPluginRouterGUI::class,
+                        StaffGUI::class,
+                        UserStaffGUI::class
+                    ]);
+                }
+            }
 		}
 
 		if (Config::getField(Config::KEY_ENABLE_COMMENTS)) {

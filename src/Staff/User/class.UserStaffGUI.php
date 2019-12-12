@@ -7,6 +7,7 @@ use ilLPStatus;
 use ilMStListCourse;
 use ilMyStaffAccess;
 use ilUIPluginRouterGUI;
+use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
@@ -25,6 +26,7 @@ use srag\Plugins\SrLpReport\Staff\Users\UsersStaffGUI;
 class UserStaffGUI extends AbstractStaffGUI {
 
 	const TAB_ID = "user";
+    const ENABLE_CONFIG_KEY = Config::KEY_ENABLE_USERS_VIEW;
 
 
 	/**

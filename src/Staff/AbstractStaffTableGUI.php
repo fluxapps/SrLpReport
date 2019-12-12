@@ -20,7 +20,10 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 	use SrLpReportTrait;
 	use CustomInputGUIsTrait;
 	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-
+    /**
+     * @var bool
+     */
+    protected $actions = true;
 
 	/**
 	 * @inheritdoc
@@ -37,14 +40,16 @@ abstract class AbstractStaffTableGUI extends TableGUI {
 		$row)/*: void*/ {
 		parent::fillRow($row);
 
-		$actions = new ilAdvancedSelectionListGUI();
-		$actions->setListTitle(self::dic()->language()->txt("actions"));
-		$actions->setAsynch(true);
-		$this->extendsActionsMenu($actions, $row);
-		$actions->setAsynchUrl(str_replace("\\", "\\\\", self::dic()->ctrl()
-			->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)));
-		$this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
-		$this->tpl->parseCurrentBlock();
+		if ($this->actions) {
+            $actions = new ilAdvancedSelectionListGUI();
+            $actions->setListTitle(self::dic()->language()->txt("actions"));
+            $actions->setAsynch(true);
+            $this->extendsActionsMenu($actions, $row);
+            $actions->setAsynchUrl(str_replace("\\", "\\\\", self::dic()->ctrl()
+                ->getLinkTarget($this->parent_obj, AbstractStaffGUI::CMD_GET_ACTIONS, "", true)));
+            $this->tpl->setVariable("COLUMN", self::output()->getHTML($actions));
+            $this->tpl->parseCurrentBlock();
+        }
 	}
 
 
