@@ -84,8 +84,6 @@ class StaffGUI
         self::dic()->language()->loadLanguageModule("mst");
         self::dic()->language()->loadLanguageModule("trac");
 
-        self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("my_staff"));
-
         if (Config::getField(Config::KEY_ENABLE_USERS_VIEW)) {
             self::dic()->tabs()->addTab(UsersStaffGUI::TAB_ID, self::dic()->language()->txt("users"), self::dic()->ctrl()
                 ->getLinkTargetByClass(UsersStaffGUI::class));

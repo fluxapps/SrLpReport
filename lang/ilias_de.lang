@@ -12,6 +12,6 @@ course_administration_enrolled#:#Eingeschrieben
 course_administration_enrolled_date#:#Eingeschrieben am %s
 course_administration_not_enrolled_crs_obj_ids#:#Nicht eingeschrieben in Kurs
 course_administration_subsequent#:#Nachfolgend
-course_administration_title#:#Kursadministration
+course_administration_title#:#Teilnehmerverwaltung
 course_administration_unknown#:#Unbekannt
 org_units#:#Organisationseinheiten

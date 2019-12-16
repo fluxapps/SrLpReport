@@ -171,8 +171,8 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
      */
     protected function initData()/*: void*/
     {
-        $this->setExternalSorting(false);
-        $this->setExternalSegmentation(false);
+        $this->setExternalSorting(true);
+        $this->setExternalSegmentation(true);
 
         $this->setDefaultOrderField("lastname");
         $this->setDefaultOrderDirection("asc");
@@ -193,6 +193,8 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
      */
     protected function initFilterFields()/*: void*/
     {
+        $this->setFilterCols(3);
+
         $this->filter_fields = [
             "user"                     => [
                 PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
