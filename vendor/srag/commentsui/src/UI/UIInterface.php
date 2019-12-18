@@ -3,7 +3,6 @@
 namespace srag\CommentsUI\SrLpReport\UI;
 
 use srag\CommentsUI\SrLpReport\Ctrl\CtrlInterface;
-use srag\DIC\SrLpReport\Plugin\Pluginable;
 
 /**
  * Interface UIInterface
@@ -12,29 +11,30 @@ use srag\DIC\SrLpReport\Plugin\Pluginable;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface UIInterface extends Pluginable {
+interface UIInterface
+{
 
-	const LANG_MODULE_COMMENTSUI = "commentsui";
-
-
-	/**
-	 * @param string $id
-	 *
-	 * @return self
-	 */
-	public function withId(string $id): self;
+    const LANG_MODULE_COMMENTSUI = "commentsui";
 
 
-	/**
-	 * @param CtrlInterface $ctrl_class
-	 *
-	 * @return self
-	 */
-	public function withCtrlClass(CtrlInterface $ctrl_class): self;
+    /**
+     * @param string $id
+     *
+     * @return self
+     */
+    public function withId(string $id) : self;
 
 
-	/**
-	 * @return string
-	 */
-	public function render(): string;
+    /**
+     * @param CtrlInterface $ctrl_class
+     *
+     * @return self
+     */
+    public function withCtrlClass(CtrlInterface $ctrl_class) : self;
+
+
+    /**
+     * @return string
+     */
+    public function render() : string;
 }

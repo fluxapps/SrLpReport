@@ -1,1 +1,17 @@
+config_configuration#:#Konfiguration
+config_configuration_saved#:#Konfiguration gespeichert
+config_course_administration_courses#:#Kurse als Spalte in Tabelle anzeigen
+config_course_administration_mark#:#Kurse markieren ab x Tagen nach dem Einschreibedatum ohne bearbeiteten Lernforschritt
+config_course_administration_mark_days#:#Tagen
+config_enable_view#:#Ansicht %s aktivieren
+config_save#:#Speichern
+course_administration_enrolled_before#:#Eingeschrieben vor
+course_administration_enrolled_crs_obj_ids#:#Eingeschrieben in Kurs
+course_administration_enroll#:#Einschreiben
+course_administration_enrolled#:#Eingeschrieben
+course_administration_enrolled_date#:#Eingeschrieben am %s
+course_administration_not_enrolled_crs_obj_ids#:#Nicht eingeschrieben in Kurs
+course_administration_subsequent#:#Nachfolgend
+course_administration_title#:#Teilnehmerverwaltung
+course_administration_unknown#:#Unbekannt
 org_units#:#Organisationseinheiten

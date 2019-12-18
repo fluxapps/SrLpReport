@@ -18,33 +18,35 @@ use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class UsersTableGUI extends AbstractStaffTableGUI {
+class UsersTableGUI extends AbstractStaffTableGUI
+{
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
-		switch (true) {
-			case $column === "login":
+    /**
+     * @inheritdoc
+     */
+    protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    {
+        switch (true) {
+            case $column === "login":
             case $column === "lastname":
-				$column = $row[$column];
-				if (!$format) {
-					$column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->users()
-						->getUserCoursesLink($row["usr_id"])));
-				}
-				break;
+                $column = $row[$column];
+                if (!$format) {
+                    $column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::ilias()->staff()->users()
+                        ->getUserCoursesLink($row["usr_id"])));
+                }
+                break;
 
-			case $column === "org_units":
-				$column =  ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row["usr_id"]);
-				break;
+            case $column === "org_units":
+                $column = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row["usr_id"]);
+                break;
 
-			case $column === "learning_progress_courses":
-				if (!$format) {
-					$column = self::output()->getHTML($row["pie"]);
-				} else {
+            case $column === "learning_progress_courses":
+                if (!$format) {
+                    $column = self::output()->getHTML($row["pie"]);
+                } else {
                     $column = "";
-				}
-				break;
+                }
+                break;
 
             case $column === "learning_progress_courses_count":
                 return $column = $row["pie"]->getData()["count"];
@@ -55,20 +57,21 @@ class UsersTableGUI extends AbstractStaffTableGUI {
                 $column = $row["pie"]->getData()["data"][$status]["value"];
                 break;
 
-			default:
-				$column = $row[$column];
-				break;
-		}
+            default:
+                $column = $row[$column];
+                break;
+        }
 
-		return strval($column);
-	}
+        return strval($column);
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getSelectableColumns2(): array {
-		$columns = self::ilias()->staff()->users()->getColumns();
+    /**
+     * @inheritdoc
+     */
+    public function getSelectableColumns2() : array
+    {
+        $columns = self::ilias()->staff()->users()->getColumns();
 
         if ($this->getExportMode()) {
             $columns["learning_progress_courses_count"] = [
@@ -88,51 +91,53 @@ class UsersTableGUI extends AbstractStaffTableGUI {
             ];
         }
 
-		$no_sort = [
-			"org_units",
-			"interests_general",
-			"interests_help_offered",
-			"interests_help_looking",
-			"learning_progress_courses"
-		];
+        $no_sort = [
+            "org_units",
+            "interests_general",
+            "interests_help_offered",
+            "interests_help_looking",
+            "learning_progress_courses"
+        ];
 
-		foreach ($columns as $id => &$column) {
-			$column["id"] = $id;
-			$column["default"] = ($column["default"] === true);
-			$column["sort"] = (!in_array($id, $no_sort));
-		}
+        foreach ($columns as $id => &$column) {
+            $column["id"] = $id;
+            $column["default"] = ($column["default"] === true);
+            $column["sort"] = (!in_array($id, $no_sort));
+        }
 
-		return $columns;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function initColumns()/*: void*/ {
-		$this->addColumn("");
-
-		parent::initColumns();
-
-		$this->addColumn(self::dic()->language()->txt("actions"));
-	}
+        return $columns;
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function initData()/*: void*/ {
-		$this->setExternalSorting(true);
-		$this->setExternalSegmentation(true);
+    /**
+     * @inheritdoc
+     */
+    protected function initColumns()/*: void*/
+    {
+        $this->addColumn("");
 
-		$this->setDefaultOrderField("lastname");
-		$this->setDefaultOrderDirection("asc");
+        parent::initColumns();
 
-		$this->determineLimit();
-		$this->determineOffsetAndOrder();
+        $this->addColumn(self::dic()->language()->txt("actions"));
+    }
 
-		$data = self::ilias()->staff()->users()->getData(self::dic()->user()
-			->getId(), $this->getFilterValues2(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
+
+    /**
+     * @inheritdoc
+     */
+    protected function initData()/*: void*/
+    {
+        $this->setExternalSorting(true);
+        $this->setExternalSegmentation(true);
+
+        $this->setDefaultOrderField("lastname");
+        $this->setDefaultOrderDirection("asc");
+
+        $this->determineLimit();
+        $this->determineOffsetAndOrder();
+
+        $data = self::ilias()->staff()->users()->getData(self::dic()->user()
+            ->getId(), $this->getFilterValues2(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
 
         $data["data"] = array_map(function (array $row) : array {
             $row["pie"] = self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row["learning_progress_courses"])->withUsrId($row["usr_id"]);
@@ -144,75 +149,82 @@ class UsersTableGUI extends AbstractStaffTableGUI {
             return $row;
         }, $data["data"]);
 
-		$this->setMaxCount($data["max_count"]);
-		$this->setData($data["data"]);
-	}
+        $this->setMaxCount($data["max_count"]);
+        $this->setData($data["data"]);
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function initFilterFields()/*: void*/ {
-		$this->filter_fields = [
-			"user" => [
-				PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => $this->dic()->language()->txt("login") . "/" . $this->dic()->language()->txt("email") . "/" . $this->dic()->language()
-						->txt("name")
-			],
-			"org_unit" => [
-				PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
-				PropertyFormGUI::PROPERTY_OPTIONS => [ 0 => "--"] + self::ilias()->staff()->users()
-						->getOrgUnits(),
-				PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units")),
-				"setTitle" => $this->dic()->language()->txt("obj_orgu"),
-			]
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function initFilterFields()/*: void*/
+    {
+        $this->filter_fields = [
+            "user"     => [
+                PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
+                "setTitle"                      => $this->dic()->language()->txt("login") . "/" . $this->dic()->language()->txt("email") . "/" . $this->dic()->language()
+                        ->txt("name")
+            ],
+            "org_unit" => [
+                PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
+                PropertyFormGUI::PROPERTY_OPTIONS => [0 => "--"] + self::ilias()->staff()->users()
+                        ->getOrgUnits(),
+                PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units")),
+                "setTitle"                        => $this->dic()->language()->txt("obj_orgu"),
+            ]
+        ];
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function initId()/*: void*/ {
-		$this->setId("srcrslp_staff_users");
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function initId()/*: void*/
+    {
+        $this->setId("srlprep_staff_users");
+        $this->setPrefix("srlprep_staff_users");
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function initTitle()/*: void*/ {
-		$this->setTitle(self::dic()->language()->txt("users"));
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function initTitle()/*: void*/
+    {
+        $this->setTitle(self::dic()->language()->txt("users"));
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function fillRow(/*array*/ $row)/*: void*/ {
-		$this->tpl->setCurrentBlock("column");
-		$this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->image()
-			->standard($row["usr_obj"]->getPersonalPicturePath("small"), $row["usr_obj"]->getPublicName())));
-		$this->tpl->parseCurrentBlock();
+    /**
+     * @inheritdoc
+     */
+    protected function fillRow(/*array*/ $row)/*: void*/
+    {
+        $this->tpl->setCurrentBlock("column");
+        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->image()
+            ->standard($row["usr_obj"]->getPersonalPicturePath("small"), $row["usr_obj"]->getPublicName())));
+        $this->tpl->parseCurrentBlock();
 
-		parent::fillRow($row);
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/ {
-		self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
-
-		$actions->setId($row["usr_id"]);
-	}
+        parent::fillRow($row);
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function getRightHTML(): string {
-		return "";
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/
+    {
+        self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
+
+        $actions->setId($row["usr_id"]);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    protected function getRightHTML() : string
+    {
+        return "";
+    }
 }
