@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Staff\Courses;
 
+use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
@@ -15,68 +16,75 @@ use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrLpReport\Staff\Courses\CoursesStaffGUI: srag\Plugins\SrLpReport\Staff\StaffGUI
  */
-class CoursesStaffGUI extends AbstractStaffGUI {
+class CoursesStaffGUI extends AbstractStaffGUI
+{
 
-	const TAB_ID = "courses";
-	const CMD_SET_COURSE_FILTER = "setCourseFilter";
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function executeCommand()/*: void*/ {
-		parent::executeCommand();
-
-		$cmd = self::dic()->ctrl()->getCmd();
-
-		switch ($cmd) {
-			case self::CMD_SET_COURSE_FILTER:
-				$this->{$cmd}();
-				break;
-
-			default:
-				break;
-		}
-	}
+    const TAB_ID = "courses";
+    const CMD_SET_COURSE_FILTER = "setCourseFilter";
+    const ENABLE_CONFIG_KEY = Config::KEY_ENABLE_COURSES_VIEW;
 
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function setTabs()/*: void*/ {
+    /**
+     * @inheritdoc
+     */
+    public function executeCommand()/*: void*/
+    {
+        parent::executeCommand();
 
-	}
+        $cmd = self::dic()->ctrl()->getCmd();
 
+        switch ($cmd) {
+            case self::CMD_SET_COURSE_FILTER:
+                $this->{$cmd}();
+                break;
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function getTable(string $cmd = self::CMD_INDEX): AbstractStaffTableGUI {
-		$table = new CoursesTableGUI($this, $cmd);
-
-		return $table;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function getActionsArray(): array {
-		return self::ilias()->staff()->courses()->getActionsArray();
-	}
+            default:
+                break;
+        }
+    }
 
 
-	/**
-	 *
-	 */
-	protected function setCourseFilter()/*: void*/ {
-		$crs_obj_id = intval(filter_input(INPUT_GET, Reports::GET_PARAM_COURSE_OBJ_ID));
+    /**
+     * @inheritdoc
+     */
+    protected function setTabs()/*: void*/
+    {
 
-		$table = $this->getTable(self::CMD_RESET_FILTER);
-		$table->resetFilter();
-		$table->resetOffset();
+    }
 
-		$_POST["crs_title"] = self::dic()->objDataCache()->lookupTitle($crs_obj_id);
-		$this->applyFilter();
-	}
+
+    /**
+     * @inheritdoc
+     */
+    protected function getTable(string $cmd = self::CMD_INDEX) : AbstractStaffTableGUI
+    {
+        $table = new CoursesTableGUI($this, $cmd);
+
+        return $table;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    protected function getActionsArray() : array
+    {
+        return self::ilias()->staff()->courses()->getActionsArray();
+    }
+
+
+    /**
+     *
+     */
+    protected function setCourseFilter()/*: void*/
+    {
+        $crs_obj_id = intval(filter_input(INPUT_GET, Reports::GET_PARAM_COURSE_OBJ_ID));
+
+        $table = $this->getTable(self::CMD_RESET_FILTER);
+        $table->resetFilter();
+        $table->resetOffset();
+
+        $_POST["crs_title"] = self::dic()->objDataCache()->lookupTitle($crs_obj_id);
+        $this->applyFilter();
+    }
 }

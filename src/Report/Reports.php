@@ -13,77 +13,82 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Reports {
+final class Reports
+{
 
-	use SrLpReportTrait;
-	use DICTrait;
-	const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-	const GET_PARAM_REF_ID = "ref_id";
-	const GET_PARAM_USR_ID = "usr_id";
-	const GET_PARAM_ORG_UNIT_ID = "org_unit_id";
-	const GET_PARAM_COURSE_OBJ_ID = "course_obj_id";
-	const GET_PARAM_TARGET = "target";
-	const GET_PARAM_RETURN = "return";
-	/**
-	 * @var self
-	 */
-	protected static $instance = null;
-
-
-	/**
-	 * @return self
-	 */
-	public static function getInstance(): self {
-		if (self::$instance === null) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+    use SrLpReportTrait;
+    use DICTrait;
+    const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
+    const GET_PARAM_REF_ID = "ref_id";
+    const GET_PARAM_USR_ID = "usr_id";
+    const GET_PARAM_ORG_UNIT_ID = "org_unit_id";
+    const GET_PARAM_COURSE_OBJ_ID = "course_obj_id";
+    const GET_PARAM_TARGET = "target";
+    const GET_PARAM_RETURN = "return";
+    /**
+     * @var self
+     */
+    protected static $instance = null;
 
 
-	/**
-	 * Reports constructor
-	 */
-	private function __construct() {
+    /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
 
-	}
-
-
-	/**
-	 * @return int|null
-	 */
-	public function getReportObjRefId()/*: ?int*/ {
-		$obj_ref_id = filter_input(INPUT_GET, self::GET_PARAM_REF_ID);
-
-		if ($obj_ref_id === null) {
-			$param_target = filter_input(INPUT_GET, self::GET_PARAM_TARGET);
-
-			$obj_ref_id = explode("_", $param_target)[1];
-		}
-
-		$obj_ref_id = intval($obj_ref_id);
-
-		if ($obj_ref_id > 0) {
-			return $obj_ref_id;
-		} else {
-			return null;
-		}
-	}
+        return self::$instance;
+    }
 
 
-	/**
-	 * @return int|null
-	 */
-	public function getUsrId()/*: ?int*/ {
-		$usr_id = filter_input(INPUT_GET, self::GET_PARAM_USR_ID);
+    /**
+     * Reports constructor
+     */
+    private function __construct()
+    {
 
-		$usr_id = intval($usr_id);
+    }
 
-		if ($usr_id > 0) {
-			return $usr_id;
-		} else {
-			return null;
-		}
-	}
+
+    /**
+     * @return int|null
+     */
+    public function getReportObjRefId()/*: ?int*/
+    {
+        $obj_ref_id = filter_input(INPUT_GET, self::GET_PARAM_REF_ID);
+
+        if ($obj_ref_id === null) {
+            $param_target = filter_input(INPUT_GET, self::GET_PARAM_TARGET);
+
+            $obj_ref_id = explode("_", $param_target)[1];
+        }
+
+        $obj_ref_id = intval($obj_ref_id);
+
+        if ($obj_ref_id > 0) {
+            return $obj_ref_id;
+        } else {
+            return null;
+        }
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getUsrId()/*: ?int*/
+    {
+        $usr_id = filter_input(INPUT_GET, self::GET_PARAM_USR_ID);
+
+        $usr_id = intval($usr_id);
+
+        if ($usr_id > 0) {
+            return $usr_id;
+        } else {
+            return null;
+        }
+    }
 }

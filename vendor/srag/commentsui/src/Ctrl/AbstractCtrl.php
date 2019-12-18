@@ -2,8 +2,6 @@
 
 namespace srag\CommentsUI\SrLpReport\Ctrl;
 
-use srag\CommentsUI\SrLpReport\Comment\Repository;
-use srag\CommentsUI\SrLpReport\Comment\RepositoryInterface;
 use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\DIC\SrLpReport\DICTrait;
 
@@ -14,141 +12,137 @@ use srag\DIC\SrLpReport\DICTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractCtrl implements CtrlInterface {
+abstract class AbstractCtrl implements CtrlInterface
+{
 
-	use DICTrait;
-	use CommentsUITrait;
-	/**
-	 * @var string
-	 *
-	 * @abstract
-	 */
-	const COMMENTS_CLASS_NAME = "";
+    use DICTrait;
+    use CommentsUITrait;
 
 
-	/**
-	 * @inheritdoc
-	 */
-	protected static function comments(): RepositoryInterface {
-		return Repository::getInstance(static::COMMENTS_CLASS_NAME);
-	}
+    /**
+     * AbstractCtrl constructor
+     */
+    public function __construct()
+    {
+
+    }
 
 
-	/**
-	 * AbstractCtrl constructor
-	 */
-	public function __construct() {
+    /**
+     * @inheritdoc
+     */
+    public function executeCommand()/*: void*/
+    {
+        $cmd = self::dic()->ctrl()->getCmd();
 
-	}
+        switch ($cmd) {
+            case self::CMD_CREATE_COMMENT:
+            case self::CMD_DELETE_COMMENT:
+            case self::CMD_GET_COMMENTS:
+            case self::CMD_SHARE_COMMENT:
+            case self::CMD_UPDATE_COMMENT:
+                $this->{$cmd}();
+                break;
 
-
-	/**
-	 * @inheritdoc
-	 */
-	public function executeCommand()/*: void*/ {
-		$cmd = self::dic()->ctrl()->getCmd();
-
-		switch ($cmd) {
-			case self::CMD_CREATE_COMMENT:
-			case self::CMD_DELETE_COMMENT:
-			case self::CMD_GET_COMMENTS:
-			case self::CMD_SHARE_COMMENT:
-			case self::CMD_UPDATE_COMMENT:
-				$this->{$cmd}();
-				break;
-
-			default:
-				break;
-		}
-	}
+            default:
+                break;
+        }
+    }
 
 
-	/**
-	 *
-	 */
-	protected function getComments()/*: void*/ {
-		$report_obj_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID));
-		$report_user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID));
+    /**
+     *
+     */
+    protected function getComments()/*: void*/
+    {
+        $report_obj_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID));
+        $report_user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID));
 
-		self::output()->outputJSON($this->getCommentsArray($report_obj_id, $report_user_id));
-	}
-
-
-	/**
-	 *
-	 */
-	protected function createComment()/*: void*/ {
-		$report_obj_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID));
-		$report_user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID));
-
-		$comment = self::comments()->factory()->newInstance();
-
-		$comment->setReportObjId($report_obj_id);
-
-		$comment->setReportUserId($report_user_id);
-
-		$comment->setComment(filter_input(INPUT_POST, "content"));
-
-		self::comments()->storeComment($comment);
-
-		self::output()->outputJSON($comment);
-	}
+        self::output()->outputJSON($this->getCommentsArray($report_obj_id, $report_user_id));
+    }
 
 
-	/**
-	 *
-	 */
-	protected function updateComment()/*: void*/ {
-		$comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
+    /**
+     *
+     */
+    protected function createComment()/*: void*/
+    {
+        $report_obj_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID));
+        $report_user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID));
 
-		$comment = self::comments()->getCommentById($comment_id);
+        $comment = self::comments()->factory()->newInstance();
 
-		$comment->setComment(filter_input(INPUT_POST, "content"));
+        $comment->setReportObjId($report_obj_id);
 
-		self::comments()->storeComment($comment);
+        $comment->setReportUserId($report_user_id);
 
-		self::output()->outputJSON($comment);
-	}
+        $comment->setComment(filter_input(INPUT_POST, "content"));
 
+        self::comments()->storeComment($comment);
 
-	/**
-	 *
-	 */
-	protected function deleteComment()/*: void*/ {
-		$comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
-
-		$comment = self::comments()->getCommentById($comment_id);
-
-		self::comments()->deleteComment($comment);
-	}
+        self::output()->outputJSON($comment);
+    }
 
 
-	/**
-	 *
-	 */
-	protected function shareComment()/*: void*/ {
-		$comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
+    /**
+     *
+     */
+    protected function updateComment()/*: void*/
+    {
+        $comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
 
-		$comment = self::comments()->getCommentById($comment_id);
+        $comment = self::comments()->getCommentById($comment_id);
 
-		self::comments()->shareComment($comment);
+        $comment->setComment(filter_input(INPUT_POST, "content"));
 
-		self::output()->outputJSON($comment);
-	}
+        self::comments()->storeComment($comment);
 
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getIsReadOnly(): bool {
-		return false;
-	}
+        self::output()->outputJSON($comment);
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getAsyncBaseUrl(): string {
-		return self::dic()->ctrl()->getLinkTargetByClass($this->getAsyncClass(), "", "", true, false);
-	}
+    /**
+     *
+     */
+    protected function deleteComment()/*: void*/
+    {
+        $comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
+
+        $comment = self::comments()->getCommentById($comment_id);
+
+        self::comments()->deleteComment($comment);
+    }
+
+
+    /**
+     *
+     */
+    protected function shareComment()/*: void*/
+    {
+        $comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
+
+        $comment = self::comments()->getCommentById($comment_id);
+
+        self::comments()->shareComment($comment);
+
+        self::output()->outputJSON($comment);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getIsReadOnly() : bool
+    {
+        return false;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getAsyncBaseUrl() : string
+    {
+        return self::dic()->ctrl()->getLinkTargetByClass($this->getAsyncClass(), "", "", true, false);
+    }
 }
