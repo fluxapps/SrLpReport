@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [2.3.0]
 - Enable users and courses view config
 - Course administration (Enrolment from reporting view)
 - Adjustments for latest CommentsUI library
