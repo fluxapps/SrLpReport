@@ -15,6 +15,7 @@ use ilTextInputGUI;
 use ilUserSearchOptions;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchInputGUI\MultiSelectSearchInputGUI;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
+use srag\CustomInputGUIs\SrLpReport\TabsInputGUI\MultilangualTabsInputGUI;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffTableGUI;
@@ -44,6 +45,10 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
         switch (true) {
             case $column === "org_units":
                 $column = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row["usr_id"]);
+                break;
+
+            case $column === "user_language":
+                $column = MultilangualTabsInputGUI::getLanguages()[$row["usr_obj"]->getLanguage()];
                 break;
 
             case strpos($column, "crs_") === 0:
@@ -116,6 +121,12 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
     public function getSelectableColumns2() : array
     {
         $columns = self::ilias()->staff()->users()->getColumns();
+
+        $columns["user_language"] = [
+            "default" => true,
+            "sort"    => false,
+            "txt"     => $this->dic()->language()->txt("user") . " " . $this->dic()->language()->txt("language")
+        ];
 
         foreach (self::ilias()->staff()->courseAdministration()->getCourses() as $crs_obj_id => $crs) {
             $columns["crs_" . $crs_obj_id] = [
@@ -237,6 +248,11 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
                 PropertyFormGUI::PROPERTY_OPTIONS => array_map(function (ilObjCourse $crs) : string {
                     return $crs->getTitle();
                 }, self::ilias()->staff()->courseAdministration()->getCourses())
+            ],
+            "user_language"            => [
+                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchInputGUI::class,
+                PropertyFormGUI::PROPERTY_OPTIONS => MultilangualTabsInputGUI::getLanguages(),
+                "setTitle"                        => $this->dic()->language()->txt("user") . " " . $this->dic()->language()->txt("language")
             ]
         ];
     }
