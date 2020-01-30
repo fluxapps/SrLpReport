@@ -194,6 +194,16 @@ final class CourseAdministration
             });
         }
 
+        if (!empty($filter["user_language"])) {
+            $data["data"] = array_filter($data["data"], function (array $user) use ($filter): bool {
+                if (in_array($user["usr_obj"]->getLanguage(), $filter["user_language"])) {
+                    return true;
+                }
+
+                return false;
+            });
+        }
+
         return $data;
     }
 
