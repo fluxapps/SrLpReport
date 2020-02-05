@@ -82,20 +82,12 @@ final class CourseAdministration
         $options = [
             "filters" => $filter,
             "limit"   => [],
-            "count"   => true,
+            "count"   => false,
             "sort"    => [
                 "field"     => $order,
                 "direction" => $order_direction
             ]
         ];
-
-        $data["max_count"] = ilMStListUsers::getData($users, $options);
-
-        $options["limit"] = [
-            "start" => $limit_start,
-            "end"   => $limit_end
-        ];
-        $options["count"] = false;
 
         //TODO Performance Killer!
         $data["data"] = array_map(function (ilMStListUser $user) : array {
@@ -114,6 +106,8 @@ final class CourseAdministration
             foreach ($this->getCourses() as $crs_obj_id => $crs) {
                 $vars["crs_" . $crs_obj_id] = $crs;
             }
+
+            $vars["changed_time"] = $this->getChangedTime($vars["usr_id"]);
 
             return $vars;
         }, ilMStListUsers::getData($users, $options));
@@ -154,10 +148,9 @@ final class CourseAdministration
 
         if (!empty($filter["enrolled_crs_obj_ids"])) {
             $data["data"] = array_filter($data["data"], function (array $user) use ($filter): bool {
-                foreach (array_keys($this->getCourses()) as $crs_obj_id) {
+                foreach ($this->getCourses() as $crs_obj_id => $crs) {
                     if (in_array($crs_obj_id, $filter["enrolled_crs_obj_ids"])) {
-                        $enrollment = $this->getEnrollment($crs_obj_id, $user["usr_id"]);
-                        if ($enrollment !== null) {
+                        if ($crs->getMembersObject()->isAssigned($user["usr_id"])) {
                             return true;
                         }
                     }
@@ -169,10 +162,9 @@ final class CourseAdministration
 
         if (!empty($filter["not_enrolled_crs_obj_ids"])) {
             $data["data"] = array_filter($data["data"], function (array $user) use ($filter): bool {
-                foreach (array_keys($this->getCourses()) as $crs_obj_id) {
+                foreach ($this->getCourses() as $crs_obj_id => $crs) {
                     if (in_array($crs_obj_id, $filter["not_enrolled_crs_obj_ids"])) {
-                        $enrollment = $this->getEnrollment($crs_obj_id, $user["usr_id"]);
-                        if ($enrollment === null) {
+                        if (!$crs->getMembersObject()->isAssigned($user["usr_id"])) {
                             return true;
                         }
                     }
@@ -203,6 +195,9 @@ final class CourseAdministration
                 return false;
             });
         }
+
+        $data["max_count"] = count($data["data"]);
+        $data["data"] = array_slice($data["data"], $limit_start, $limit_end);
 
         return $data;
     }
@@ -263,6 +258,44 @@ final class CourseAdministration
         }
     }
 
+    /**
+     * @param int[] $usr_ids
+     * @param int[] $crs_obj_ids
+     *
+     * @return string
+     */
+    public function signout(array $usr_ids, array $crs_obj_ids) : string
+    {
+        $result = [];
+
+        foreach ($crs_obj_ids as $crs_obj_id) {
+            $crs = $this->getCourses()[$crs_obj_id];
+
+            $result[$crs->getId()] = [];
+
+            foreach ($usr_ids as $usr_id) {
+                if ($crs->getMembersObject()->isAssigned($usr_id)) {
+                    $crs->getMembersObject()->delete($usr_id);
+
+                    $result[$crs->getId()][] = $usr_id;
+                }
+            }
+        }
+
+        $result2 = [];
+        foreach ($result as $crs_obj_id => $usr_ids2) {
+            $result2[self::dic()->objDataCache()->lookupTitle($crs_obj_id)] = self::output()->getHTML(self::dic()->ui()->factory()->listing()->unordered(array_map(function (int $usr_id) : string {
+                return ilObjUser::_lookupLogin($usr_id);
+            }, $usr_ids2)));
+        }
+
+        if (!empty(array_filter($result2))) {
+            return self::output()->getHTML([self::plugin()->translate("signedout", CourseAdministrationStaffGUI::LANG_MODULE), self::dic()->ui()->factory()->listing()->descriptive($result2)]);
+        } else {
+            return "";
+        }
+    }
+
 
     /**
      * @param int $crs_obj_id
@@ -286,24 +319,87 @@ final class CourseAdministration
 
 
     /**
-     * @param int $crs_obj_id
-     * @param int $usr_id
+     * @param int      $crs_obj_id
+     * @param int      $usr_id
+     * @param int|null $time
+     *
+     * @return CourseAdministrationEnrollment
      */
-    public function createEnrollment(int $crs_obj_id, int $usr_id)/*:void*/
+    public function setEnrolmentTime(int $crs_obj_id, int $usr_id, /*?*/ int $time = null) : CourseAdministrationEnrollment
     {
         $enrollment = $this->getEnrollment($crs_obj_id, $usr_id);
-        if ($enrollment !== null) {
-            return;
+
+        if ($enrollment === null) {
+            $enrollment = new CourseAdministrationEnrollment();
+
+            $enrollment->setCrsObjId($crs_obj_id);
+
+            $enrollment->setUsrId($usr_id);
         }
 
-        $enrollment = new CourseAdministrationEnrollment();
+        $enrollment->setEnrollmentTime($time);
 
-        $enrollment->setCrsObjId($crs_obj_id);
-
-        $enrollment->setUsrId($usr_id);
-
-        $enrollment->setEnrollmentTime(time());
+        $enrollment->setSignedoutTime(null);
 
         $enrollment->store();
+
+        if (empty($enrollment->getId())) {
+            $enrollment->setId(self::dic()->database()->getLastInsertId());
+        }
+
+        return $enrollment;
+    }
+
+
+    /**
+     * @param int      $crs_obj_id
+     * @param int      $usr_id
+     * @param int|null $time
+     *
+     * @return CourseAdministrationEnrollment
+     */
+    public function setSignoutDate(int $crs_obj_id, int $usr_id, /*?*/ int $time = null) : CourseAdministrationEnrollment
+    {
+        $enrollment = $this->getEnrollment($crs_obj_id, $usr_id);
+
+        if ($enrollment === null) {
+            $enrollment = $this->setEnrolmentTime($crs_obj_id, $usr_id);
+        }
+
+        $enrollment->setEnrollmentTime(null);
+
+        $enrollment->setSignedoutTime($time);
+
+        $enrollment->store();
+
+        return $enrollment;
+    }
+
+
+    /**
+     * @param int $usr_id
+     *
+     * @return int|null
+     */
+    public function getChangedTime(int $usr_id)/*:?int*/
+    {
+        /**
+         * @var CourseAdministrationEnrollment|null $enrollment
+         */
+
+        $changed_time = null;
+
+        foreach (CourseAdministrationEnrollment::where(["usr_id" => $usr_id])->get() as $enrollment
+        ) {
+            if (!empty($enrollment->getEnrollmentTime()) && (empty($changed_time) || $enrollment->getEnrollmentTime() > $changed_time)) {
+                $changed_time = $enrollment->getEnrollmentTime();
+            }
+
+            if (!empty($enrollment->getSignedoutTime()) && (empty($changed_time) || $enrollment->getSignedoutTime() > $changed_time)) {
+                $changed_time = $enrollment->getSignedoutTime();
+            }
+        }
+
+        return $changed_time;
     }
 }

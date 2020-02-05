@@ -46,6 +46,6 @@ class ilSrLpReportConfigGUI extends ActiveRecordConfigGUI
             ];
         }
 
-        self::output()->outputJSON(["result" => $options]);
+        self::output()->outputJSON(["results" => $options]);
     }
 }

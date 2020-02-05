@@ -80,7 +80,11 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin
             case "Modules/Course":
                 switch ($a_event) {
                     case "addParticipant":
-                        self::ilias()->staff()->courseAdministration()->createEnrollment($a_parameter["obj_id"], $a_parameter["usr_id"]);
+                        self::ilias()->staff()->courseAdministration()->setEnrolmentTime($a_parameter["obj_id"], $a_parameter["usr_id"], time());
+                        break;
+
+                    case "deleteParticipant":
+                        self::ilias()->staff()->courseAdministration()->setSignoutDate($a_parameter["obj_id"], $a_parameter["usr_id"], time());
                         break;
 
                     default:
