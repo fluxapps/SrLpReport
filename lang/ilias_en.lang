@@ -15,3 +15,7 @@ course_administration_subsequent#:#Subsequent
 course_administration_title#:#Participant Management
 course_administration_unknown#:#Unknown
 org_units#:#Organisational Units
+course_administration_signout#:#Sign out
+course_administration_signedout#:#Signed out
+course_administration_signedout_time#:#Signed out on %s
+course_administration_changed_time#:#Enrollment changed on

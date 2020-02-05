@@ -1,7 +1,12 @@
 # Changelog
 
 ## [x]
-- Course management: User language column and filter
+- Course management:
+    - User language column and filter
+    - Sign out members
+    - Layout changes
+    - Fix course enrolment filter
+    - Fix filter and pagination
 
 ## [2.3.0]
 - Enable users and courses view config

@@ -73,15 +73,23 @@ class CourseAdministrationEnrollment extends ActiveRecord
      */
     protected $usr_id;
     /**
-     * @var int
+     * @var int|null
      *
      * @con_has_field    true
      * @con_fieldtype    integer
      * @con_length       8
-     * @con_is_notnull   true
+     * @con_is_notnull   false
      */
-    protected $enrollment_time;
-
+    protected $enrollment_time = null;
+    /**
+     * @var int|null
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   false
+     */
+    protected $signedout_time = null;
 
     /**
      * CourseAdministrationEnrollment constructor
@@ -150,19 +158,37 @@ class CourseAdministrationEnrollment extends ActiveRecord
 
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getEnrollmentTime() : int
+    public function getEnrollmentTime()/* : ?int*/
     {
         return $this->enrollment_time;
     }
 
 
     /**
-     * @param int $enrollment_time
+     * @param int|null $enrollment_time
      */
-    public function setEnrollmentTime(int $enrollment_time)
+    public function setEnrollmentTime(/*?*/int $enrollment_time = null)/* : void*/
     {
         $this->enrollment_time = $enrollment_time;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getSignedoutTime()/* : ?int*/
+    {
+        return $this->signedout_time;
+    }
+
+
+    /**
+     * @param int|null $signedout_time
+     */
+    public function setSignedoutTime(/*?*/int $signedout_time = null)/* : void*/
+    {
+        $this->signedout_time = $signedout_time;
     }
 }

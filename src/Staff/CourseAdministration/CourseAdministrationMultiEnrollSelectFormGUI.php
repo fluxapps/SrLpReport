@@ -7,7 +7,7 @@ use ilObjUser;
 use ilSrLpReportPlugin;
 use ilUtil;
 use srag\CustomInputGUIs\SrLpReport\HiddenInputGUI\HiddenInputGUI;
-use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchInputGUI\MultiSelectSearchInputGUI;
+use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -27,7 +27,7 @@ class CourseAdministrationMultiEnrollSelectFormGUI extends PropertyFormGUI
     /**
      * @var int[]
      */
-    protected $urs_ids = [];
+    protected $usr_ids = [];
     /**
      * @var int[]
      */
@@ -37,11 +37,11 @@ class CourseAdministrationMultiEnrollSelectFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      *
-     * @param int[] $urs_ids
+     * @param int[] $usr_ids
      */
-    public function __construct(CourseAdministrationStaffGUI $parent, array $urs_ids = [])
+    public function __construct(CourseAdministrationStaffGUI $parent, array $usr_ids = [])
     {
-        $this->urs_ids = $urs_ids;
+        $this->usr_ids = $usr_ids;
 
         parent::__construct($parent);
     }
@@ -53,8 +53,8 @@ class CourseAdministrationMultiEnrollSelectFormGUI extends PropertyFormGUI
     protected function getValue(/*string*/ $key)
     {
         switch ($key) {
-            case "urs_ids":
-                return json_encode($this->urs_ids);
+            case "usr_ids":
+                return json_encode($this->usr_ids);
 
             default:
                 return $this->{$key};
@@ -81,15 +81,15 @@ class CourseAdministrationMultiEnrollSelectFormGUI extends PropertyFormGUI
             self::dic()->language()->txt("users"),
             self::dic()->ui()->factory()->listing()->unordered(array_map(function (int $usr_id) : string {
                 return ilObjUser::_lookupLogin($usr_id);
-            }, $this->urs_ids))
+            }, $this->usr_ids))
         ]));
 
         $this->fields = [
-            "urs_ids"     => [
+            "usr_ids"     => [
                 self::PROPERTY_CLASS => HiddenInputGUI::class
             ],
             "crs_obj_ids" => [
-                self::PROPERTY_CLASS   => MultiSelectSearchInputGUI::class,
+                self::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
                 self::PROPERTY_OPTIONS => array_map(function (ilObjCourse $crs) : string {
                     return $crs->getTitle();
                 }, self::ilias()->staff()->courseAdministration()->getCourses()),
@@ -123,8 +123,8 @@ class CourseAdministrationMultiEnrollSelectFormGUI extends PropertyFormGUI
     protected function storeValue(/*string*/ $key, $value)/*: void*/
     {
         switch ($key) {
-            case "urs_ids":
-                $this->urs_ids = json_decode($value);
+            case "usr_ids":
+                $this->usr_ids = json_decode($value);
                 break;
 
             default:
@@ -137,9 +137,9 @@ class CourseAdministrationMultiEnrollSelectFormGUI extends PropertyFormGUI
     /**
      * @return int[]
      */
-    public function getUrsIds() : array
+    public function getUsrIds() : array
     {
-        return $this->urs_ids;
+        return $this->usr_ids;
     }
 
 

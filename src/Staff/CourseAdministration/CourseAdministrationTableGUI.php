@@ -13,7 +13,7 @@ use ilObjCourse;
 use ilOrgUnitPathStorage;
 use ilTextInputGUI;
 use ilUserSearchOptions;
-use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchInputGUI\MultiSelectSearchInputGUI;
+use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrLpReport\TabsInputGUI\MultilangualTabsInputGUI;
 use srag\Plugins\SrLpReport\Config\Config;
@@ -57,52 +57,91 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
                  */
                 $crs = $row[$column];
 
-                if ($crs->getMembersObject()->isAssigned($row["usr_id"])) {
-                    $column = [];
+                $enrollment = self::ilias()->staff()->courseAdministration()->getEnrollment($crs->getId(), $row["usr_id"]);
+                $enrolled = $crs->getMembersObject()->isAssigned($row["usr_id"]);
+
+                $column = [];
+                $red = false;
+
+                self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
+                self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_COURSE_OBJ_ID, $crs->getId());
+                if ($enrolled) {
+                    $column[] = self::output()->getHTML(self::dic()
+                        ->ui()
+                        ->factory()
+                        ->button()
+                        ->standard($this->txt("signout"), self::dic()->ctrl()->getLinkTarget($this->parent_obj, CourseAdministrationStaffGUI::CMD_SIGNOUT)));
+                } else {
+                    $column[] = self::output()->getHTML(self::dic()
+                        ->ui()
+                        ->factory()
+                        ->button()
+                        ->standard($this->txt("enroll"), self::dic()->ctrl()->getLinkTarget($this->parent_obj, CourseAdministrationStaffGUI::CMD_ENROLL)));
+                }
+                self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, null);
+                self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_COURSE_OBJ_ID, null);
+
+                if ($enrolled) {
+                    if ($enrollment !== null) {
+                        if (!empty($enrollment->getEnrollmentTime())) {
+                            $enrollment_time = ilDatePresentation::formatDate(new ilDateTime($enrollment->getEnrollmentTime(), IL_CAL_UNIX));
+
+                            if (empty($status)) {
+                                if ((time() - $enrollment->getEnrollmentTime()) > (60 * 60 * 24 * Config::getField(Config::KEY_COURSE_ADMINISTRATION_MARK))) {
+                                    $red = true;
+                                }
+                            }
+                        } else {
+                            $enrollment_time = $this->txt("unknown");
+                        }
+                    } else {
+                        $enrollment_time = $this->txt("unknown");
+                    }
+                    $column[] = "<br>";
+                    $column[] = "<br>";
+                    $column[] = self::plugin()->translate("enrolled_date", self::LANG_MODULE, [$enrollment_time]);
 
                     $status = intval(ilLPStatus::_lookupStatus($crs->getId(), $row["usr_id"]));
                     $img = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
                     $text = ilLearningProgressBaseGUI::_getStatusText($status);
 
+                    $column[] = "<br>";
                     $column[] = self::output()->getHTML([
                         self::dic()->ui()->factory()->icon()->custom($img, $text),
                         self::dic()->ui()->factory()->legacy($text)
                     ]);
-
-                    $column[] = "<br>";
-
-                    $enrollment = self::ilias()->staff()->courseAdministration()->getEnrollment($crs->getId(), $row["usr_id"]);
+                } else {
                     if ($enrollment !== null) {
-                        $enrollment_time = ilDatePresentation::formatDate(new ilDateTime($enrollment->getEnrollmentTime(), IL_CAL_UNIX));
-
-                        $red = false;
-                        if (empty($status)) {
-                            if ((time() - $enrollment->getEnrollmentTime()) > (60 * 60 * 24 * Config::getField(Config::KEY_COURSE_ADMINISTRATION_MARK))) {
-                                $red = true;
-                            }
+                        if (!empty($enrollment->getSignedoutTime())) {
+                            $signedout_time = ilDatePresentation::formatDate(new ilDateTime($enrollment->getSignedoutTime(), IL_CAL_UNIX));
+                        } else {
+                            $signedout_time = $this->txt("unknown");
                         }
                     } else {
-                        $enrollment_time = $this->txt("unknown");
-                        $red = false;
+                        //$signedout_time = $this->txt("unknown");
+                        $signedout_time = "";
                     }
 
-                    $column[] = self::plugin()->translate("enrolled_date", self::LANG_MODULE, [$enrollment_time]);
-
-                    $column = implode($column);
-
-                    if ($red) {
-                        $column = '<div class="alert-danger">' . $column . '</div>';
+                    if (!empty($signedout_time)) {
+                        $column[] = "<br>";
+                        $column[] = "<br>";
+                        $column[] = self::plugin()->translate("signedout_time", self::LANG_MODULE, [$signedout_time]);
                     }
+                }
+
+                $column = implode($column);
+
+                if ($red) {
+                    $column = '<div class="alert-danger">' . $column . '</div>';
+                }
+                break;
+
+
+            case $column === "changed_time":
+                if (!empty($row["changed_time"])) {
+                    $column = ilDatePresentation::formatDate(new ilDateTime($row["changed_time"], IL_CAL_UNIX));
                 } else {
-                    self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
-                    self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_COURSE_OBJ_ID, $crs->getId());
-                    $column = self::output()->getHTML(self::dic()
-                        ->ui()
-                        ->factory()
-                        ->button()
-                        ->standard($this->txt("enroll"), self::dic()->ctrl()->getLinkTarget($this->parent_obj, CourseAdministrationStaffGUI::CMD_ENROLL)));
-                    self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, null);
-                    self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_COURSE_OBJ_ID, null);
+                    $column = $this->txt("unknown");
                 }
                 break;
 
@@ -124,7 +163,6 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
 
         $columns["user_language"] = [
             "default" => true,
-            "sort"    => false,
             "txt"     => $this->dic()->language()->txt("user") . " " . $this->dic()->language()->txt("language")
         ];
 
@@ -136,12 +174,18 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
             ];
         }
 
+        $columns["changed_time"] = [
+            "default" => true
+        ];
+
         $no_sort = [
             "org_units",
             "interests_general",
             "interests_help_offered",
             "interests_help_looking",
-            "learning_progress_courses"
+            "learning_progress_courses",
+            "user_language",
+            "changed_time"
         ];
 
         foreach ($columns as $id => &$column) {
@@ -213,7 +257,7 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
                         ->txt("name")
             ],
             "org_units"                 => [
-                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchInputGUI::class,
+                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => self::ilias()->staff()->users()
                     ->getOrgUnits(),
                 PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units")),
@@ -225,13 +269,13 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
                 "setTitle"                        => $this->dic()->language()->txt("obj_orgu") . " ".$this->txt("subsequent")
             ],
             "enrolled_crs_obj_ids"     => [
-                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchInputGUI::class,
+                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => array_map(function (ilObjCourse $crs) : string {
                     return $crs->getTitle();
                 }, self::ilias()->staff()->courseAdministration()->getCourses())
             ],
             "enrolled_lp_status"       => [
-                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchInputGUI::class,
+                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => [
                     ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => self::dic()->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
                     ilLPStatus::LP_STATUS_IN_PROGRESS_NUM   => self::dic()->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
@@ -244,13 +288,13 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
                 PropertyFormGUI::PROPERTY_CLASS => ilDateTimeInputGUI::class
             ],
             "not_enrolled_crs_obj_ids" => [
-                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchInputGUI::class,
+                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => array_map(function (ilObjCourse $crs) : string {
                     return $crs->getTitle();
                 }, self::ilias()->staff()->courseAdministration()->getCourses())
             ],
             "user_language"            => [
-                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchInputGUI::class,
+                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => MultilangualTabsInputGUI::getLanguages(),
                 "setTitle"                        => $this->dic()->language()->txt("user") . " " . $this->dic()->language()->txt("language")
             ]

@@ -22,6 +22,7 @@ class CourseAdministrationStaffGUI extends AbstractStaffGUI
 
     const TAB_ID = "course_administration";
     const CMD_ENROLL = "enroll";
+    const CMD_SIGNOUT = "signout";
     const CMD_MULTI_ENROLL = "multiEnroll";
     const CMD_MULTI_ENROLL_SELECT = "multiEnrollSelect";
     const ENABLE_CONFIG_KEY = Config::KEY_ENABLE_COURSE_ADMINISTRATION;
@@ -39,6 +40,7 @@ class CourseAdministrationStaffGUI extends AbstractStaffGUI
 
         switch ($cmd) {
             case self::CMD_ENROLL:
+            case self::CMD_SIGNOUT:
             case self::CMD_MULTI_ENROLL:
             case self::CMD_MULTI_ENROLL_SELECT:
                 $this->{$cmd}();
@@ -96,13 +98,29 @@ class CourseAdministrationStaffGUI extends AbstractStaffGUI
 
 
     /**
-     * @param int[] $urs_ids
+     *
+     */
+    protected function signout()/*:void*/
+    {
+        $usr_id = self::reports()->getUsrId();
+        $crs_obj_id = intval(filter_input(INPUT_GET, Reports::GET_PARAM_COURSE_OBJ_ID));
+
+        $result = self::ilias()->staff()->courseAdministration()->signout([$usr_id], [$crs_obj_id]);
+
+        ilUtil::sendSuccess($result, true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_INDEX);
+    }
+
+
+    /**
+     * @param int[] $usr_ids
      *
      * @return CourseAdministrationMultiEnrollSelectFormGUI
      */
-    protected function getCourseAdministrationMultiEnrollSelectForm(array $urs_ids = []) : CourseAdministrationMultiEnrollSelectFormGUI
+    protected function getCourseAdministrationMultiEnrollSelectForm(array $usr_ids = []) : CourseAdministrationMultiEnrollSelectFormGUI
     {
-        $form = new CourseAdministrationMultiEnrollSelectFormGUI($this, $urs_ids);
+        $form = new CourseAdministrationMultiEnrollSelectFormGUI($this, $usr_ids);
 
         return $form;
     }
@@ -137,7 +155,7 @@ class CourseAdministrationStaffGUI extends AbstractStaffGUI
             return;
         }
 
-        $result = self::ilias()->staff()->courseAdministration()->enroll($form->getUrsIds(), $form->getCrsObjIds());
+        $result = self::ilias()->staff()->courseAdministration()->enroll($form->getUsrIds(), $form->getCrsObjIds());
 
         ilUtil::sendSuccess($result, true);
 
