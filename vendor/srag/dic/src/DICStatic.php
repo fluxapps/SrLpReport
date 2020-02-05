@@ -5,11 +5,9 @@ namespace srag\DIC\SrLpReport;
 use ilLogLevel;
 use ilPlugin;
 use srag\DIC\SrLpReport\DIC\DICInterface;
-use srag\DIC\SrLpReport\DIC\Implementation\ILIAS52DIC;
 use srag\DIC\SrLpReport\DIC\Implementation\ILIAS53DIC;
 use srag\DIC\SrLpReport\DIC\Implementation\ILIAS54DIC;
 use srag\DIC\SrLpReport\DIC\Implementation\ILIAS60DIC;
-use srag\DIC\SrLpReport\DIC\Implementation\LegacyDIC;
 use srag\DIC\SrLpReport\Exception\DICException;
 use srag\DIC\SrLpReport\Output\Output;
 use srag\DIC\SrLpReport\Output\OutputInterface;
@@ -47,7 +45,7 @@ final class DICStatic implements DICStaticInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      *
      * @deprecated
      */
@@ -61,7 +59,7 @@ final class DICStatic implements DICStaticInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public static function dic() : DICInterface
     {
@@ -93,7 +91,7 @@ final class DICStatic implements DICStaticInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public static function output() : OutputInterface
     {
@@ -106,7 +104,7 @@ final class DICStatic implements DICStaticInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public static function plugin(string $plugin_class_name) : PluginInterface
     {
@@ -135,7 +133,7 @@ final class DICStatic implements DICStaticInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public static function version() : VersionInterface
     {
