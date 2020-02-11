@@ -71,7 +71,7 @@ class MatrixTableGUI extends AbstractReport2TableGUI
 
         $collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
 
-        if (count($collection['object_ids'] > 0)) {
+        if (is_array($collection['object_ids']) && count($collection['object_ids']) > 0) {
             $tmp_cols = [];
             foreach ($collection['object_ids'] as $obj_id) {
                 if ($obj_id == $this->obj_id) {
