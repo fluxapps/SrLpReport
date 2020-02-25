@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.32.5]
+- Fix
+
+## [0.32.4]
+- Fix
+
+## [0.32.3]
+- Fix
+
+## [0.32.2]
+- Fix
+
+## [0.32.1]
+- Fix
+
+## [0.32.0]
+- MultiSelectSearchNewInputGUI:
+    - New ajax auto complete concept (`AbstractAjaxAutoCompleteCtrl`)
+    - Show whole option text
+
+## [0.31.8]
+- Fix
+
+## [0.31.7]
+- Fix multiple `MultiLineNewInputGUI` on same page
+
 ## [0.31.6]
 - Fix
 

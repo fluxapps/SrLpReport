@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "srag/activerecordconfig",
-            "version": "v0.19.5",
+            "version": "v0.19.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/ActiveRecordConfig.git",
-                "reference": "cf747e69c22f1549d3c5d9be440ae92c7b3aed34"
+                "reference": "37c29f8f8f7e8972d5f42aabea133bff18388a18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/ActiveRecordConfig/zipball/cf747e69c22f1549d3c5d9be440ae92c7b3aed34",
-                "reference": "cf747e69c22f1549d3c5d9be440ae92c7b3aed34",
+                "url": "https://api.github.com/repos/studer-raimann/ActiveRecordConfig/zipball/37c29f8f8f7e8972d5f42aabea133bff18388a18",
+                "reference": "37c29f8f8f7e8972d5f42aabea133bff18388a18",
                 "shasum": ""
             },
             "require": {
@@ -50,20 +50,20 @@
                 "activerecord",
                 "config"
             ],
-            "time": "2020-02-05T06:16:30+00:00"
+            "time": "2020-02-21T09:47:44+00:00"
         },
         {
             "name": "srag/commentsui",
-            "version": "v0.8.2",
+            "version": "v0.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CommentsUI.git",
-                "reference": "8a1b1b7a902fc74644511fc840b761bd9be19a0d"
+                "reference": "db0c17d08b4e8836592aeb52c6e9afe32a6a1e5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/8a1b1b7a902fc74644511fc840b761bd9be19a0d",
-                "reference": "8a1b1b7a902fc74644511fc840b761bd9be19a0d",
+                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/db0c17d08b4e8836592aeb52c6e9afe32a6a1e5f",
+                "reference": "db0c17d08b4e8836592aeb52c6e9afe32a6a1e5f",
                 "shasum": ""
             },
             "require": {
@@ -95,24 +95,24 @@
                 "comments",
                 "ui"
             ],
-            "time": "2020-01-28T07:43:58+00:00"
+            "time": "2020-02-20T08:51:51+00:00"
         },
         {
             "name": "srag/custominputguis",
-            "version": "v0.31.6",
+            "version": "v0.32.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-                "reference": "d07cce5eb25b5f8b92604f95c2f7ba7eac327389"
+                "reference": "d96a9619ecd581cadeed47f831f7687920dfda2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/d07cce5eb25b5f8b92604f95c2f7ba7eac327389",
-                "reference": "d07cce5eb25b5f8b92604f95c2f7ba7eac327389",
+                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/d96a9619ecd581cadeed47f831f7687920dfda2e",
+                "reference": "d96a9619ecd581cadeed47f831f7687920dfda2e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6",
+                "php": ">=7.0",
                 "srag/dic": ">=0.1.0"
             },
             "type": "library",
@@ -142,20 +142,20 @@
                 "input",
                 "table"
             ],
-            "time": "2020-01-31T10:07:32+00:00"
+            "time": "2020-02-21T08:17:21+00:00"
         },
         {
             "name": "srag/dic",
-            "version": "v0.20.0",
+            "version": "v0.20.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/DIC.git",
-                "reference": "94d039173ca2ec209dd88300cdcb415dbc8ba7a3"
+                "reference": "e5d3265eb83b722f95579c36ce1b59dca0f1316f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/94d039173ca2ec209dd88300cdcb415dbc8ba7a3",
-                "reference": "94d039173ca2ec209dd88300cdcb415dbc8ba7a3",
+                "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/e5d3265eb83b722f95579c36ce1b59dca0f1316f",
+                "reference": "e5d3265eb83b722f95579c36ce1b59dca0f1316f",
                 "shasum": ""
             },
             "require": {
@@ -187,7 +187,7 @@
                 "globals",
                 "trait"
             ],
-            "time": "2020-01-28T07:42:40+00:00"
+            "time": "2020-02-13T07:39:21+00:00"
         },
         {
             "name": "srag/librariesnamespacechanger",
@@ -253,7 +253,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\RemovePluginDataConfirm\\": "src/"
+                    "srag\\RemovePluginDataConfirm\\SrLpReport\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",

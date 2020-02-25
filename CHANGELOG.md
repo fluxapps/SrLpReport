@@ -7,6 +7,7 @@
     - Layout changes
     - Fix course enrolment filter
     - Fix filter and pagination
+    - Performance Multiselect
 
 ## [2.3.0]
 - Enable users and courses view config
