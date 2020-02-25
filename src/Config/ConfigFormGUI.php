@@ -8,6 +8,7 @@ use ilSrLpReportConfigGUI;
 use ilSrLpReportPlugin;
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfigFormGUI;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
+use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\ObjectsAjaxAutoCompleteCtrl;
 use srag\Plugins\SrLpReport\Staff\CourseAdministration\CourseAdministrationStaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -47,8 +48,7 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
                 self::PROPERTY_SUBITEMS => [
                     Config::KEY_COURSE_ADMINISTRATION_COURSES => [
                         self::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
-                        self::PROPERTY_OPTIONS => self::ilias()->searchCourses(),
-                        "setAjaxLink"          => self::dic()->ctrl()->getLinkTarget($this->parent, ilSrLpReportConfigGUI::CMD_GET_COURSES_AUTO_COMPLETE, "", true, false)
+                        "setAjaxAutoCompleteCtrl"          => new ObjectsAjaxAutoCompleteCtrl("crs")
                     ],
                     Config::KEY_COURSE_ADMINISTRATION_MARK    => [
                         self::PROPERTY_CLASS => ilNumberInputGUI::class,

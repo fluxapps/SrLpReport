@@ -3,6 +3,7 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfigGUI;
+use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\ObjectsAjaxAutoCompleteCtrl;
 use srag\Plugins\SrLpReport\Config\ConfigFormGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -10,42 +11,35 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
  * Class ilSrLpReportConfigGUI
  *
  * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ *
+ * @ilCtrl_isCalledBy srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\ObjectsAjaxAutoCompleteCtrl: ilSrLpReportConfigGUI
  */
 class ilSrLpReportConfigGUI extends ActiveRecordConfigGUI
 {
 
     use SrLpReportTrait;
     const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
-    const CMD_GET_COURSES_AUTO_COMPLETE = "getCoursesAutoComplete";
     /**
      * @var array
      */
     protected static $tabs = [self::TAB_CONFIGURATION => ConfigFormGUI::class];
-    /**
-     * @var array
-     */
-    protected static $custom_commands
-        = [
-            self::CMD_GET_COURSES_AUTO_COMPLETE
-        ];
 
 
     /**
-     *
+     * @inheritDoc
      */
-    protected function getCoursesAutoComplete()/*:void*/
+    public function performCommand(/*string*/ $cmd)/*: void*/
     {
-        $search = strval(filter_input(INPUT_GET, "term"));
+        $next_class = self::dic()->ctrl()->getNextClass($this);
 
-        $options = [];
+        switch (strtolower($next_class)) {
+            case strtolower(ObjectsAjaxAutoCompleteCtrl::class):
+                self::dic()->ctrl()->forwardCommand(new ObjectsAjaxAutoCompleteCtrl("crs"));
+                break;
 
-        foreach (self::ilias()->searchCourses($search) as $id => $title) {
-            $options[] = [
-                "id"   => $id,
-                "text" => $title
-            ];
+            default:
+                parent::performCommand($cmd);
+                break;
         }
-
-        self::output()->outputJSON(["results" => $options]);
     }
 }
