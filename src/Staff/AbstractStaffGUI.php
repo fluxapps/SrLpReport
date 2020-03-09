@@ -4,6 +4,7 @@ namespace srag\Plugins\SrLpReport\Staff;
 
 use ILIAS\UI\Component\Button\Shy;
 use ilSrLpReportPlugin;
+use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\OrgUnitAjaxAutoCompleteCtrl;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -66,6 +67,10 @@ abstract class AbstractStaffGUI
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
+            case strtolower(OrgUnitAjaxAutoCompleteCtrl::class):
+                self::dic()->ctrl()->forwardCommand(new OrgUnitAjaxAutoCompleteCtrl());
+                break;
+
             default:
                 $cmd = self::dic()->ctrl()->getCmd(self::CMD_INDEX);
 

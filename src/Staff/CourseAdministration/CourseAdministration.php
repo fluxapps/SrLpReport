@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrLpReport\Staff\CourseAdministration;
 
-use Closure;
 use ilLPStatus;
 use ilMStListUser;
 use ilMStListUsers;
@@ -89,31 +88,10 @@ final class CourseAdministration
             ]
         ];
 
-        //TODO Performance Killer!
-        $data["data"] = array_map(function (ilMStListUser $user) : array {
-            $vars = Closure::bind(function () : array {
-                $vars = get_object_vars($this);
-
-                $vars["usr_obj"] = $this->returnIlUserObj();
-
-                return $vars;
-            }, $user, ilMStListUser::class)();
-
-            $vars["interests_general"] = $vars["usr_obj"]->getGeneralInterestsAsText();
-
-            $vars["interests_help_offered"] = $vars["usr_obj"]->getOfferingHelpAsText();
-
-            foreach ($this->getCourses() as $crs_obj_id => $crs) {
-                $vars["crs_" . $crs_obj_id] = $crs;
-            }
-
-            $vars["changed_time"] = $this->getChangedTime($vars["usr_id"]);
-
-            return $vars;
-        }, ilMStListUsers::getData($users, $options));
+        $data["data"] = ilMStListUsers::getData($users, $options);
 
         if (!empty($filter["org_units"])) {
-            $data["data"] = array_filter($data["data"], function (array $user) use ($filter): bool {
+            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
                 $org_units = $filter["org_units"];
 
                 if ($filter["org_units_subsequent"]) {
@@ -125,16 +103,16 @@ final class CourseAdministration
                 $org_units = array_unique($org_units);
 
                 return (ilOrgUnitUserAssignment::where([
-                        "user_id" => $user["usr_id"],
+                        "user_id" => $user->getUsrId(),
                         "orgu_id" => $org_units,
                     ])->first() !== null);
             });
         }
 
         if (!empty($filter["enrolled_before"])) {
-            $data["data"] = array_filter($data["data"], function (array $user) use ($filter): bool {
+            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
                 foreach (array_keys($this->getCourses()) as $crs_obj_id) {
-                    $enrollment = $this->getEnrollment($crs_obj_id, $user["usr_id"]);
+                    $enrollment = $this->getEnrollment($crs_obj_id, $user->getUsrId());
                     if ($enrollment !== null) {
                         if ($enrollment->getEnrollmentTime() < $filter["enrolled_before"]->getUnixTime()) {
                             return true;
@@ -147,10 +125,10 @@ final class CourseAdministration
         }
 
         if (!empty($filter["enrolled_crs_obj_ids"])) {
-            $data["data"] = array_filter($data["data"], function (array $user) use ($filter): bool {
+            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
                 foreach ($this->getCourses() as $crs_obj_id => $crs) {
                     if (in_array($crs_obj_id, $filter["enrolled_crs_obj_ids"])) {
-                        if ($crs->getMembersObject()->isAssigned($user["usr_id"])) {
+                        if ($crs->getMembersObject()->isAssigned($user->getUsrId())) {
                             return true;
                         }
                     }
@@ -161,10 +139,10 @@ final class CourseAdministration
         }
 
         if (!empty($filter["not_enrolled_crs_obj_ids"])) {
-            $data["data"] = array_filter($data["data"], function (array $user) use ($filter): bool {
+            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
                 foreach ($this->getCourses() as $crs_obj_id => $crs) {
                     if (in_array($crs_obj_id, $filter["not_enrolled_crs_obj_ids"])) {
-                        if (!$crs->getMembersObject()->isAssigned($user["usr_id"])) {
+                        if (!$crs->getMembersObject()->isAssigned($user->getUsrId())) {
                             return true;
                         }
                     }
@@ -175,9 +153,9 @@ final class CourseAdministration
         }
 
         if (!empty($filter["enrolled_lp_status"])) {
-            $data["data"] = array_filter($data["data"], function (array $user) use ($filter): bool {
+            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
                 foreach (array_keys($this->getCourses()) as $crs_obj_id) {
-                    if (in_array(ilLPStatus::_lookupStatus($crs_obj_id, $user["usr_id"]), $filter["enrolled_lp_status"])) {
+                    if (in_array(ilLPStatus::_lookupStatus($crs_obj_id, $user->getUsrId()), $filter["enrolled_lp_status"])) {
                         return true;
                     }
                 }
@@ -187,8 +165,10 @@ final class CourseAdministration
         }
 
         if (!empty($filter["user_language"])) {
-            $data["data"] = array_filter($data["data"], function (array $user) use ($filter): bool {
-                if (in_array($user["usr_obj"]->getLanguage(), $filter["user_language"])) {
+            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
+                $user->user_language = ilObjUser::_lookupLanguage($user->getUsrId());
+
+                if (in_array($user->user_language, $filter["user_language"])) {
                     return true;
                 }
 
@@ -198,6 +178,20 @@ final class CourseAdministration
 
         $data["max_count"] = count($data["data"]);
         $data["data"] = array_slice($data["data"], $limit_start, $limit_end);
+
+        $data["data"] = array_map(function (ilMStListUser $user) : ilMStListUser {
+            foreach ($this->getCourses() as $crs_obj_id => $crs) {
+                $user->{"crs_" . $crs_obj_id} = $crs;
+            }
+
+            $user->changed_time = $this->getChangedTime($user->getUsrId());
+
+            if (!isset($user->user_language)) {
+                $user->user_language = ilObjUser::_lookupLanguage($user->getUsrId());
+            }
+
+            return $user;
+        }, $data["data"]);
 
         return $data;
     }
