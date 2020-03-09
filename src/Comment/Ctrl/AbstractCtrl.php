@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrLpReport\Comment\Ctrl;
 
 use ilSrLpReportPlugin;
+use srag\CommentsUI\SrLpReport\Comment\Comment;
 use srag\CommentsUI\SrLpReport\Ctrl\AbstractCtrl as AbstractCtrl_;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -32,7 +33,7 @@ abstract class AbstractCtrl extends AbstractCtrl_ {
         if (!self::$init) {
             self::$init = true;
 
-            self::comments()->withTableNamePrefix("ui_uihk_" . ilSrLpReportPlugin::PLUGIN_ID)->withPlugin(self::plugin());
+            self::comments()->withTableNamePrefix("ui_uihk_" . ilSrLpReportPlugin::PLUGIN_ID)->withPlugin(self::plugin())->withShareMethod(Comment::SHARE_METHOD_ENABLED);
         }
     }
 	/**
