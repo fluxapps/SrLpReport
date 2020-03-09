@@ -208,6 +208,8 @@ class UserTableGUI extends AbstractStaffTableGUI
      */
     protected function initFilterFields()/*: void*/
     {
+        $this->filter_cols = 3;
+
         $this->filter_fields = [
             "crs_title"   => [
                 PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
