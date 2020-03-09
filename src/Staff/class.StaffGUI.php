@@ -39,7 +39,7 @@ class StaffGUI
      */
     public function __construct()
     {
-        self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
+
     }
 
 

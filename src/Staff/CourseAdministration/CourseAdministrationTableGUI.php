@@ -248,7 +248,7 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
      */
     protected function initFilterFields()/*: void*/
     {
-        $this->setFilterCols(3);
+        $this->setFilterCols(2);
 
         $this->filter_fields = [
             "user"                     => [

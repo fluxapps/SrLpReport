@@ -34,6 +34,8 @@ class CourseAdministrationStaffGUI extends AbstractStaffGUI
      */
     public function executeCommand()/*: void*/
     {
+        self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
+
         parent::executeCommand();
 
         $cmd = self::dic()->ctrl()->getCmd();
