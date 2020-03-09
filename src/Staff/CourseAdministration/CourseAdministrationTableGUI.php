@@ -9,11 +9,14 @@ use ilDateTime;
 use ilDateTimeInputGUI;
 use ilLearningProgressBaseGUI;
 use ilLPStatus;
+use ilMStListUser;
 use ilObjCourse;
 use ilOrgUnitPathStorage;
 use ilTextInputGUI;
 use ilUserSearchOptions;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
+use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\OrgUnitAjaxAutoCompleteCtrl;
+use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrLpReport\TabsInputGUI\MultilangualTabsInputGUI;
 use srag\Plugins\SrLpReport\Config\Config;
@@ -39,31 +42,33 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
 
     /**
      * @inheritDoc
+     *
+     * @param ilMStListUser $row
      */
-    protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(/*string*/ $column, /*ilMStListUser*/ $row, /*int*/ $format = self::DEFAULT_FORMAT) : string
     {
         switch (true) {
             case $column === "org_units":
-                $column = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row["usr_id"]);
+                $column = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row->getUsrId());
                 break;
 
             case $column === "user_language":
-                $column = MultilangualTabsInputGUI::getLanguages()[$row["usr_obj"]->getLanguage()];
+                $column = MultilangualTabsInputGUI::getLanguages()[$row->user_language];
                 break;
 
             case strpos($column, "crs_") === 0:
                 /**
                  * @var ilObjCourse $crs
                  */
-                $crs = $row[$column];
+                $crs = $row->{$column};
 
-                $enrollment = self::ilias()->staff()->courseAdministration()->getEnrollment($crs->getId(), $row["usr_id"]);
-                $enrolled = $crs->getMembersObject()->isAssigned($row["usr_id"]);
+                $enrollment = self::ilias()->staff()->courseAdministration()->getEnrollment($crs->getId(), $row->getUsrId());
+                $enrolled = $crs->getMembersObject()->isAssigned($row->getUsrId());
 
                 $column = [];
                 $red = false;
 
-                self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
+                self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row->getUsrId());
                 self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_COURSE_OBJ_ID, $crs->getId());
                 if ($enrolled) {
                     $column[] = self::output()->getHTML(self::dic()
@@ -101,7 +106,7 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
                     $column[] = "<br>";
                     $column[] = self::plugin()->translate("enrolled_date", self::LANG_MODULE, [$enrollment_time]);
 
-                    $status = intval(ilLPStatus::_lookupStatus($crs->getId(), $row["usr_id"]));
+                    $status = intval(ilLPStatus::_lookupStatus($crs->getId(), $row->getUsrId()));
                     $img = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
                     $text = ilLearningProgressBaseGUI::_getStatusText($status);
 
@@ -138,15 +143,15 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
 
 
             case $column === "changed_time":
-                if (!empty($row["changed_time"])) {
-                    $column = ilDatePresentation::formatDate(new ilDateTime($row["changed_time"], IL_CAL_UNIX));
+                if (!empty($row->changed_time)) {
+                    $column = ilDatePresentation::formatDate(new ilDateTime($row->changed_time, IL_CAL_UNIX));
                 } else {
                     $column = $this->txt("unknown");
                 }
                 break;
 
             default:
-                $column = $row[$column];
+                $column = Items::getter($row, $column);
                 break;
         }
 
@@ -159,40 +164,44 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
      */
     public function getSelectableColumns2() : array
     {
-        $columns = self::ilias()->staff()->users()->getColumns();
+        static $columns = null;
 
-        $columns["user_language"] = [
-            "default" => true,
-            "txt"     => $this->dic()->language()->txt("user") . " " . $this->dic()->language()->txt("language")
-        ];
+        if ($columns === null) {
+            $columns = self::ilias()->staff()->users()->getColumns();
 
-        foreach (self::ilias()->staff()->courseAdministration()->getCourses() as $crs_obj_id => $crs) {
-            $columns["crs_" . $crs_obj_id] = [
+            $columns["user_language"] = [
                 "default" => true,
-                "sort"    => false,
-                "txt"     => $crs->getTitle()
+                "txt"     => $this->dic()->language()->txt("user") . " " . $this->dic()->language()->txt("language")
             ];
-        }
 
-        $columns["changed_time"] = [
-            "default" => true
-        ];
+            foreach (self::ilias()->staff()->courseAdministration()->getCourses() as $crs_obj_id => $crs) {
+                $columns["crs_" . $crs_obj_id] = [
+                    "default" => true,
+                    "sort"    => false,
+                    "txt"     => $crs->getTitle()
+                ];
+            }
 
-        $no_sort = [
-            "org_units",
-            "interests_general",
-            "interests_help_offered",
-            "interests_help_looking",
-            "learning_progress_courses",
-            "user_language",
-            "changed_time"
-        ];
+            $columns["changed_time"] = [
+                "default" => true
+            ];
 
-        foreach ($columns as $id => &$column) {
-            $column["id"] = $id;
-            $column["default"] = ($column["default"] === true);
-            if (!isset($column["sort"])) {
-                $column["sort"] = (!in_array($id, $no_sort));
+            $no_sort = [
+                "org_units",
+                "interests_general",
+                "interests_help_offered",
+                "interests_help_looking",
+                "learning_progress_courses",
+                "user_language",
+                "changed_time"
+            ];
+
+            foreach ($columns as $id => &$column) {
+                $column["id"] = $id;
+                $column["default"] = ($column["default"] === true);
+                if (!isset($column["sort"])) {
+                    $column["sort"] = (!in_array($id, $no_sort));
+                }
             }
         }
 
@@ -258,8 +267,7 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
             ],
             "org_units"                 => [
                 PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
-                PropertyFormGUI::PROPERTY_OPTIONS => self::ilias()->staff()->users()
-                    ->getOrgUnits(),
+               "setAjaxAutoCompleteCtrl" => new OrgUnitAjaxAutoCompleteCtrl(),
                 PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units")),
                 "setTitle"                        => $this->dic()->language()->txt("obj_orgu")
             ],
@@ -323,12 +331,14 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
 
     /**
      * @inheritDoc
+     *
+     * @param ilMStListUser $row
      */
-    protected function fillRow(/*array*/ $row)/*: void*/
+    protected function fillRow(/*ilMStListUser*/ $row)/*: void*/
     {
         $this->tpl->setCurrentBlock("checkbox");
         $this->tpl->setVariable("CHECKBOX_POST_VAR", Reports::GET_PARAM_USR_ID);
-        $this->tpl->setVariable("ID", $row["usr_id"]);
+        $this->tpl->setVariable("ID", $row->getUsrId());
         $this->tpl->parseCurrentBlock();
 
         parent::fillRow($row);
