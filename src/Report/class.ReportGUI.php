@@ -5,7 +5,7 @@ namespace srag\Plugins\SrLpReport\Report;
 use ilLearningProgressGUI;
 use ilLink;
 use ilLPListOfSettingsGUI;
-use ilObjCourseGUI;
+use ilObjectGUIFactory;
 use ilPanelGUI;
 use ilRepositoryGUI;
 use ilSrLpReportPlugin;
@@ -107,13 +107,13 @@ class ReportGUI
                 CoursesStaffGUI::class
             ]));
         } else {
-            self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()->getReportObjRefId()));
+            self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("obj_".self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId()))), ilLink::_getLink(self::reports()->getReportObjRefId()));
         }
 
         self::dic()->tabs()->addTab(self::TAB_LEARNING_PROGRESS, self::dic()->language()->txt("learning_progress"), self::dic()->ctrl()
             ->getLinkTargetByClass([
                 ilRepositoryGUI::class,
-                ilObjCourseGUI::class,
+                get_class((new ilObjectGUIFactory())->getInstanceByRefId(self::reports()->getReportObjRefId())),
                 ilLearningProgressGUI::class
             ]));
         self::dic()->tabs()->activateTab(self::TAB_LEARNING_PROGRESS);
@@ -139,7 +139,7 @@ class ReportGUI
         if (self::access()->hasLPWriteAccess(self::reports()->getReportObjRefId())) {
             self::dic()->tabs()->addSubTabTarget(self::TAB_SETTINGS, self::dic()->ctrl()->getLinkTargetByClass([
                 ilRepositoryGUI::class,
-                ilObjCourseGUI::class,
+                get_class((new ilObjectGUIFactory())->getInstanceByRefId(self::reports()->getReportObjRefId())),
                 ilLearningProgressGUI::class,
                 ilLPListOfSettingsGUI::class
             ]));
