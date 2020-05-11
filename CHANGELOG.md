@@ -9,6 +9,10 @@
     - Fix filter and pagination
     - Performance Multiselect
 - Reporting view in exercises and tests
+- Removed passed column
+- Matrix view tab first
+- Matrix actions
+- Always show objects of types
 
 ## [2.3.0]
 - Enable users and courses view config

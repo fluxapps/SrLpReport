@@ -78,21 +78,6 @@ class UserTableGUI extends AbstractStaffTableGUI
                 $column = $row["pie"]->getData()["data"][$status]["value"];
                 break;
 
-            //TODO Performance
-            case $column === "condition_passed":
-                $course_participant = new ilCourseParticipants(ilObject2::_lookupObjectId($row["crs_ref_id"]));
-                $passed_info = $course_participant->getPassedInfo($row["usr_id"]);
-                if (is_array($passed_info)) {
-                    /**
-                     * @var ilDatetime $datetime
-                     */
-                    $datetime = $passed_info['timestamp'];
-                    $column = $datetime->get(IL_CAL_DATE);
-                } else {
-                    $column = "";
-                }
-                break;
-
             default:
                 $column = $row[$column];
                 break;
@@ -119,12 +104,7 @@ class UserTableGUI extends AbstractStaffTableGUI
             "usr_lp_status"    => [
                 "default" => true,
                 "txt"     => self::dic()->language()->txt("trac_learning_progress")
-            ],
-            "condition_passed" => [
-                "default" => true,
-                "txt"     => self::dic()->language()->txt("condition_passed")
             ]
-
         ];
 
         if ($this->getExportMode()) {
@@ -146,7 +126,6 @@ class UserTableGUI extends AbstractStaffTableGUI
         }
 
         $no_sort = [
-            "condition_passed",
             "learning_progress_objects"
         ];
 
