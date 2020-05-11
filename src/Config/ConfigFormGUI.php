@@ -6,6 +6,7 @@ use ilCheckboxInputGUI;
 use ilNumberInputGUI;
 use ilSrLpReportConfigGUI;
 use ilSrLpReportPlugin;
+use ilSrLpReportUIHookGUI;
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfigFormGUI;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\ObjectsAjaxAutoCompleteCtrl;
@@ -34,6 +35,13 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 		self::dic()->language()->loadLanguageModule("notes");
 
 		$this->fields = [
+            Config::KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES => [
+                self::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
+                self::PROPERTY_OPTIONS => array_combine(ilSrLpReportUIHookGUI::TYPES, array_map(function (string $type) : string {
+                    return self::dic()->language()->txt("objs_" . $type);
+                }, ilSrLpReportUIHookGUI::TYPES)),
+                "setTitle"             => self::plugin()->translate(Config::KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES, self::LANG_MODULE, [self::dic()->language()->txt("learning_progress")])
+            ],
             Config::KEY_ENABLE_COURSES_VIEW => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                 "setTitle"           => self::plugin()->translate("enable_view", self::LANG_MODULE, [self::dic()->language()->txt("courses")])
