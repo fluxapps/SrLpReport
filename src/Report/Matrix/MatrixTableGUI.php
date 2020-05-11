@@ -12,6 +12,7 @@ use ilObjOrgUnitTree;
 use ilObjSession;
 use ilPathGUI;
 use ilTrQuery;
+use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\AbstractReport2TableGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
@@ -69,11 +70,11 @@ class MatrixTableGUI extends AbstractReport2TableGUI
     {
         $cols = parent::getSelectableColumns2();
 
-        $collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
+        $ref_ids = self::reports()->getChilds($this->ref_id);
 
-        if (is_array($collection['object_ids']) && count($collection['object_ids']) > 0) {
-            $tmp_cols = [];
-            foreach ($collection['object_ids'] as $obj_id) {
+        if (!empty($ref_ids)) {
+            foreach ($ref_ids as $ref_id) {
+                $obj_id = self::dic()->objDataCache()->lookupObjId($ref_id);
                 if ($obj_id == $this->obj_id) {
                     $parent = [
                         "txt"     => $this->lng->txt("status"),
@@ -82,7 +83,6 @@ class MatrixTableGUI extends AbstractReport2TableGUI
                 } else {
                     $no_perm = false;
 
-                    $ref_id = $collection['ref_ids'][$obj_id];
                     if ($ref_id
                         && !ilLearningProgressAccess::checkPermission('read_learning_progress', $ref_id)
                     ) {

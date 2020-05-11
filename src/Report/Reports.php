@@ -3,7 +3,9 @@
 namespace srag\Plugins\SrLpReport\Report;
 
 use ilSrLpReportPlugin;
+use ilTrQuery;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -90,5 +92,22 @@ final class Reports
         } else {
             return null;
         }
+    }
+
+
+    /**
+     * @param int        $ref_id
+     * @param array|null $user_ids
+     *
+     * @return array
+     */
+    public function getChilds(int $ref_id,/*?*/ array $user_ids = null) : array
+    {
+        return array_unique(array_merge(
+            array_values(ilTrQuery::getObjectIds(self::dic()->objDataCache()->lookupObjId($ref_id), $ref_id, true, !empty($user_ids), $user_ids)["ref_ids"]),
+            (!empty($always_show_types = Config::getField(Config::KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES)) ? array_map(function (array $child) : int {
+                return $child["child"];
+            }, self::dic()->database()->fetchAll(self::dic()->database()->query(self::dic()->tree()->getSubTreeQuery($ref_id, [], $always_show_types)))) : [])
+        ));
     }
 }

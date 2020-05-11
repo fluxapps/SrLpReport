@@ -189,14 +189,15 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI
      */
     protected function initData()/*: void*/
     {
-        $collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true, true, [self::reports()->getUsrId()]);
         $row = [];
 
         $filter = $this->getFilterValues2();
 
-        if (count($collection["object_ids"]) > 0) {
-            foreach ($collection["object_ids"] as $collection_obj_id) {
+        $ref_ids = self::reports()->getChilds($this->ref_id, [self::reports()->getUsrId()]);
 
+        if (!empty($ref_ids)) {
+            foreach ($ref_ids as $ref_id) {
+                $collection_obj_id = self::dic()->objDataCache()->lookupObjId($ref_id);
                 if ($collection_obj_id == $this->obj_id) {
                     continue;
                 }
