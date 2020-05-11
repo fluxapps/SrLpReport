@@ -29,6 +29,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
     use SrLpReportTrait;
     const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
     const PAR_TABS = "tabs";
+    const PAR_SUB_TABS = "sub_tabs";
     const REDIRECT = "redirect";
     const TYPE_CRS = "crs";
     const TYPE_EXC = "exc";
@@ -196,6 +197,36 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
         }
 
         return parent::getHTML($a_comp, $a_part, $a_par);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function modifyGUI(/*string*/ $a_comp, /*string*/ $a_part, /*array*/ $a_par = [])/*: void*/
+    {
+        if ($a_part === self::PAR_TABS) {
+            if (in_array(self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId())),self::TYPES)) {
+                foreach (self::dic()->tabs()->target as &$target) {
+                    if ($target["id"] === "learning_progress") {
+                        self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
+                        $target["link"] = self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, ReportGUI::class, MatrixReportGUI::class]);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if ($a_part === self::PAR_SUB_TABS) {
+            if (in_array(self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId())),self::TYPES)) {
+                if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLPListOfSettingsGUI::class)) {
+                    self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
+                    self::dic()->tabs()->clearTargets();
+                    ReportGUI::addTabs();
+                    self::dic()->tabs()->activateSubTab(ReportGUI::TAB_SETTINGS);
+                }
+            }
+        }
     }
 
 
