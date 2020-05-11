@@ -33,6 +33,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
     const TYPE_CRS = "crs";
     const TYPE_EXC = "exc";
     const TYPE_TST = "tst";
+    const TYPES = [self::TYPE_CRS, self::TYPE_EXC, self::TYPE_TST];
     const PERSONAL_DESKTOP_INIT = "personal_desktop";
     const COURSES_INIT = "courses";
     const COMPONENT_PERSONAL_DESKTOP = "Services/PersonalDesktop";
@@ -70,7 +71,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
 
             if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLPListOfObjectsGUI::class)) {
 
-                if (in_array(self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId())),[self::TYPE_CRS, self::TYPE_EXC, self::TYPE_TST])) {
+                if (in_array(self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId())),self::TYPES)) {
 
                     self::$load[self::REDIRECT] = true;
 
