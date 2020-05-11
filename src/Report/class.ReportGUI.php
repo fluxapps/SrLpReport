@@ -91,15 +91,7 @@ class ReportGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
-    {
-        self::dic()->language()->loadLanguageModule("trac");
-
-        self::dic()->ctrl()->saveParameterByClass(ilLearningProgressGUI::class, Reports::GET_PARAM_REF_ID);
-        self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
-
-        self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN);
-
+    public static function addTabs()/*:void*/ {
         if (!empty(filter_input(INPUT_GET, Reports::GET_PARAM_RETURN))) {
             self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("back"), self::dic()->ctrl()->getLinkTargetByClass([
                 ilUIPluginRouterGUI::class,
@@ -118,16 +110,16 @@ class ReportGUI
             ]));
         self::dic()->tabs()->activateTab(self::TAB_LEARNING_PROGRESS);
 
-        self::dic()->tabs()->addSubTabTarget(UserReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass([
-            ilUIPluginRouterGUI::class,
-            ReportGUI::class,
-            UserReportGUI::class
-        ]));
-
         self::dic()->tabs()->addSubTabTarget(MatrixReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass([
             ilUIPluginRouterGUI::class,
             ReportGUI::class,
             MatrixReportGUI::class
+        ]));
+
+        self::dic()->tabs()->addSubTabTarget(UserReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass([
+            ilUIPluginRouterGUI::class,
+            ReportGUI::class,
+            UserReportGUI::class
         ]));
 
         self::dic()->tabs()->addSubTabTarget(SummaryReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass([
@@ -144,6 +136,22 @@ class ReportGUI
                 ilLPListOfSettingsGUI::class
             ]));
         }
+    }
+
+
+    /**
+     *
+     */
+    protected function setTabs()/*: void*/
+    {
+        self::dic()->language()->loadLanguageModule("trac");
+
+        self::dic()->ctrl()->saveParameterByClass(ilLearningProgressGUI::class, Reports::GET_PARAM_REF_ID);
+        self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID);
+
+        self::dic()->ctrl()->saveParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN);
+
+        self::addTabs();
     }
 
 
