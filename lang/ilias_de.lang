@@ -7,6 +7,7 @@ config_enable_view#:#Ansicht %s aktivieren
 config_reporting_always_show_child_types#:#Objekte der Typen in %s immer anzeigen
 config_reporting_always_show_child_types_info#:#Unabhängig Objekt spezifischen Einstellung
 config_save#:#Speichern
+config_show_matrix_actions#:#Aktionen in %s anzeigen
 course_administration_enrolled_before#:#Eingeschrieben vor
 course_administration_enrolled_crs_obj_ids#:#Eingeschrieben in Kurs
 course_administration_enroll#:#Einschreiben
@@ -21,3 +22,5 @@ course_administration_signout#:#Abmelden
 course_administration_signedout#:#Abgemeldet
 course_administration_signedout_time#:#Abgemeldet am %s
 course_administration_changed_time#:#Einschreibung geändert am
+set_passed#:#Als bestanden setzen
+set_in_progress#:#Als in Bearbeitung setzen

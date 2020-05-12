@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrLpReport\Staff;
 
 use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Component;
 use ilSrLpReportPlugin;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\OrgUnitAjaxAutoCompleteCtrl;
 use srag\DIC\SrLpReport\DICTrait;
@@ -138,7 +139,7 @@ abstract class AbstractStaffGUI
      */
     protected function getActions()/*: void*/
     {
-        self::output()->output(array_map(function (Shy $button) : string {
+        self::output()->output(array_map(function (Component $button) : string {
             return self::output()->getHTML([
                 "<li>",
                 $button,
@@ -164,7 +165,7 @@ abstract class AbstractStaffGUI
 
 
     /**
-     * @return Shy[]
+     * @return Component[]
      */
     protected abstract function getActionsArray() : array;
 }

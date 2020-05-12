@@ -132,9 +132,9 @@ final class User
     public function getActionsArray() : array
     {
         return [
-            self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()
+            self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()
                 ->getReportObjRefId())),
-            self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("details"), $this->getLearningProgressLink(self::reports()
+            self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("details"), $this->getLearningProgressLink(self::reports()
                 ->getReportObjRefId(), self::reports()->getUsrId(), UserStaffGUI::class))
         ];
     }

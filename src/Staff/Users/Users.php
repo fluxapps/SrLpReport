@@ -158,7 +158,7 @@ final class Users
     public function getActionsArray() : array
     {
         return [
-            self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("courses"), $this->getUserCoursesLink(self::reports()
+            self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("courses"), $this->getUserCoursesLink(self::reports()
                 ->getUsrId()))
         ];
     }

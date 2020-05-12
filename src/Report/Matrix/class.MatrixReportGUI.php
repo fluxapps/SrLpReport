@@ -115,7 +115,7 @@ class MatrixReportGUI extends AbstractReportGUI
     protected function getActionsArray() : array
     {
         return [
-            self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("details"), self::ilias()->staff()->user()
+            self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("details"), self::ilias()->staff()->user()
                 ->getLearningProgressLink(self::reports()->getReportObjRefId(), self::reports()->getUsrId()))
         ];
     }

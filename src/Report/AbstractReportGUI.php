@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\Button\Shy;
 use ilObject;
 use ilSrLpReportPlugin;
@@ -143,7 +144,7 @@ abstract class AbstractReportGUI
      */
     protected function getActions()/*: void*/
     {
-        self::output()->output(array_map(function (Shy $button) : string {
+        self::output()->output(array_map(function (Component $button) : string {
             return self::output()->getHTML([
                 "<li>",
                 $button,

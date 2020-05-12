@@ -12,7 +12,6 @@ use ilObjOrgUnitTree;
 use ilObjSession;
 use ilPathGUI;
 use ilTrQuery;
-use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\AbstractReport2TableGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
 use srag\Plugins\SrLpReport\Staff\AbstractStaffGUI;
@@ -41,12 +40,12 @@ class MatrixTableGUI extends AbstractReport2TableGUI
                 return strval($this->getLearningProgressRepresentationExport(intval($row['obj_' . self::dic()->objDataCache()
                     ->lookupObjId($this->ref_id)]), 0));
             } else {
-                return strval($this->getLearningProgressRepresentation(intval($row['obj_' . self::dic()->objDataCache()
-                    ->lookupObjId($this->ref_id)]), 0));
+                return self::output()->getHTML([strval($this->getLearningProgressRepresentation(intval($row['obj_' . self::dic()->objDataCache()
+                    ->lookupObjId($this->ref_id)]), 0)), self::reports()->getCellActions($this->ref_id, $row["usr_id"])]);
             }
         }
 
-        if (count(explode('obj_', $column)) == 2) {
+        if (count($obj_id = explode('obj_', $column)) == 2) {
             /*echo $column;
             echo $row[$column];
             echo strval($this->getLearningProgressRepresentationExport(intval($row[$column]), 100));
@@ -55,7 +54,7 @@ class MatrixTableGUI extends AbstractReport2TableGUI
             if ($format) {
                 return strval($this->getLearningProgressRepresentationExport(intval($row[$column]), $percentage));
             } else {
-                return $this->getLearningProgressRepresentation(intval($row[$column]), $percentage);
+                return self::output()->getHTML([strval($this->getLearningProgressRepresentation(intval($row[$column]), $percentage)), self::reports()->getCellActions($row["ref_id_" . $obj_id[1]], $row["usr_id"])]);
             }
         }
 
@@ -139,14 +138,16 @@ class MatrixTableGUI extends AbstractReport2TableGUI
 
         $filter = $this->getFilterValues2();
 
-        $collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
-        if ($collection["object_ids"]) {
+        $ref_ids = self::reports()->getChilds($this->ref_id);
+
+        if (!empty($ref_ids)) {
             // we need these for the timing warnings
-            $this->ref_ids = $collection["ref_ids"];
             $additional_fields = $this->getStandardReportColumns();
             $additional_fields[] = 'status';
 
-            $data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], [], $additional_fields, $this->user_fields, false);
+            $data = ilTrQuery::getUserObjectMatrix($this->ref_id, array_map(function (int $ref_id) : int {
+                return self::dic()->objDataCache()->lookupObjId($ref_id);
+            }, $ref_ids), [], $additional_fields, $this->user_fields, false);
 
             // percentage export
             if ($data["set"]) {
@@ -202,6 +203,9 @@ class MatrixTableGUI extends AbstractReport2TableGUI
                     }
 
                     if (!$filtered) {
+                        foreach ($ref_ids as $ref_id) {
+                            $row["ref_id_" . self::dic()->objDataCache()->lookupObjId($ref_id)] = $ref_id;
+                        }
                         $table_data[] = $row;
                     }
                 }

@@ -125,6 +125,13 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI
             "default" => true,
         ];
 
+        $cols["actions"] = [
+            "id"      => "actions",
+            "sort"    => "actions",
+            "txt"     => self::dic()->language()->txt("actions"),
+            "default" => true,
+        ];
+
         return $cols;
     }
 
@@ -180,7 +187,11 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI
                 . $row['status_text'];
         }
 
-        return parent::getColumnValue($column, $row, $format);
+        if ($column === "actions") {
+            return self::output()->getHTML(self::reports()->getCellActions($row["ref_id"], self::reports()->getUsrId()));
+        }
+
+        return "";
     }
 
 
@@ -216,6 +227,12 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI
                     }
                 }
 
+                $row[$collection_obj_id] = [];
+
+                $row[$collection_obj_id]["obj_id"] = $collection_obj_id;
+
+                $row[$collection_obj_id]["ref_id"] = $ref_id;
+
                 $row[$collection_obj_id]['status'] = ilLPStatusWrapper::_determineStatus($collection_obj_id, self::reports()->getUsrId());
                 $row[$collection_obj_id]['status_text'] = ilLearningProgressBaseGUI::_getStatusText(ilLPStatusWrapper::_determineStatus($collection_obj_id, self::reports()
                     ->getUsrId()));
@@ -245,7 +262,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI
      */
     protected function initTitle()
     {
-
+        $this->setTitle(self::dic()->objDataCache()->lookupTitle(self::reports()->getUsrId()));
     }
 
 

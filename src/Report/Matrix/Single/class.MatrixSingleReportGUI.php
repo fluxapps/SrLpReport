@@ -2,7 +2,10 @@
 
 namespace srag\Plugins\SrLpReport\Report\Matrix\Single;
 
+use ilObjectFactory;
+use ilObjectGUIFactory;
 use ilUIPluginRouterGUI;
+use ilUtil;
 use srag\Plugins\SrLpReport\Report\AbstractReportGUI;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
@@ -24,6 +27,27 @@ class MatrixSingleReportGUI extends AbstractReportGUI
 {
 
     const TAB_ID = "trac_matrix_single";
+    const CMD_SET_PASSED = "setPassed";
+
+
+    /**
+     * @inheritdoc
+     */
+    public function executeCommand()/*: void*/
+    {
+        parent::executeCommand();
+
+        $cmd = self::dic()->ctrl()->getCmd();
+
+        switch ($cmd) {
+            case self::CMD_SET_PASSED:
+                $this->{$cmd}();
+                break;
+
+            default:
+                break;
+        }
+    }
 
 
     /**
@@ -50,6 +74,8 @@ class MatrixSingleReportGUI extends AbstractReportGUI
                 MatrixReportGUI::class
             ]));
         }
+
+        self::dic()->ui()->mainTemplate()->setHeaderActionMenu(self::output()->getHTML(self::reports()->getCellActions(self::reports()->getReportObjRefId(), self::reports()->getUsrId())));
     }
 
 
@@ -68,5 +94,26 @@ class MatrixSingleReportGUI extends AbstractReportGUI
     protected function getActionsArray() : array
     {
         return [];
+    }
+
+
+    /**
+     *
+     */
+    protected function setPassed()/*:void*/ {
+        $object = ilObjectFactory::getInstanceByRefId(self::reports()->getReportObjRefId(), false);
+
+        $passed = (!$object->getMembersObject()->hasPassed(self::reports()->getUsrId()));
+
+        $object->getMembersObject()->updatePassed(self::reports()->getUsrId(), $passed, true);
+        (new ilObjectGUIFactory())->getInstanceByRefId($object->getRefId())->updateLPFromStatus(self::reports()->getUsrId(), $passed);
+
+        ilUtil::sendSuccess($passed ? self::plugin()->translate("set_passed") : self::plugin()->translate("set_in_progress"), true);
+
+        self::dic()->ctrl()->redirectByClass([
+            ilUIPluginRouterGUI::class,
+            ReportGUI::class,
+            MatrixReportGUI::class
+        ]);
     }
 }
