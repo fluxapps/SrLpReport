@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [2.4.0]
 - Course management:
     - User language column and filter
     - Sign out members
