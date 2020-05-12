@@ -25,6 +25,7 @@ class Config extends ActiveRecordConfig {
     const KEY_ENABLE_COURSE_ADMINISTRATION = "enable_course_administration";
     const KEY_ENABLE_USERS_VIEW = "enable_users_view";
     const KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES = "reporting_always_show_child_types";
+    const KEY_SHOW_MATRIX_ACTIONS = "show_matrix_actions";
 	/**
 	 * @var array
 	 */
@@ -35,6 +36,7 @@ class Config extends ActiveRecordConfig {
         self::KEY_ENABLE_COURSES_VIEW => [ self::TYPE_BOOLEAN, false ],
         self::KEY_ENABLE_COURSE_ADMINISTRATION => [ self::TYPE_BOOLEAN, false ],
         self::KEY_ENABLE_USERS_VIEW => [ self::TYPE_BOOLEAN, false ],
-        self::KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES => [ self::TYPE_JSON, [] ]
+        self::KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES => [ self::TYPE_JSON, [] ],
+        self::KEY_SHOW_MATRIX_ACTIONS => [ self::TYPE_BOOLEAN, false ]
 	];
 }

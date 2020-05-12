@@ -4,6 +4,7 @@ namespace srag\Plugins\SrLpReport\Access;
 
 use ilDBConstants;
 use ilSrLpReportPlugin;
+use ilSrLpReportUIHookGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Staff\Staff;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -54,7 +55,7 @@ final class Ilias {
     public function searchCourses(/*?*/ string $search = null): array {
         $result = self::dic()->database()->queryF('SELECT obj_id, title FROM object_data WHERE type=%s' . (!empty($search) ? ' AND ' . self::dic()
                     ->database()
-                    ->like("title", ilDBConstants::T_TEXT, '%%' . $search . '%%') : '') . ' ORDER BY title ASC', [ilDBConstants::T_TEXT], ["crs"]);
+                    ->like("title", ilDBConstants::T_TEXT, '%%' . $search . '%%') : '') . ' ORDER BY title ASC', [ilDBConstants::T_TEXT], [ilSrLpReportUIHookGUI::TYPE_CRS]);
 
         $array = [];
 

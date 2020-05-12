@@ -140,13 +140,13 @@ final class Courses
         self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_RETURN, CoursesStaffGUI::class);
 
         $actions = [
-            self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()
+            self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()
                 ->getReportObjRefId()))
         ];
 
         $learning_progress_link = $this->getLearningProgressLink(self::reports()->getReportObjRefId());
         if (!empty($learning_progress_link)) {
-            $actions[] = self::dic()->ui()->factory()->button()->shy(self::dic()->language()->txt("learning_progress"), $learning_progress_link);
+            $actions[] = self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("learning_progress"), $learning_progress_link);
         }
 
         return $actions;

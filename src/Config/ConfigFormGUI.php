@@ -42,6 +42,10 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
                 }, ilSrLpReportUIHookGUI::TYPES)),
                 "setTitle"             => self::plugin()->translate(Config::KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES, self::LANG_MODULE, [self::dic()->language()->txt("learning_progress")])
             ],
+            Config::KEY_SHOW_MATRIX_ACTIONS => [
+                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                "setTitle"           => self::plugin()->translate(Config::KEY_SHOW_MATRIX_ACTIONS, self::LANG_MODULE, [self::dic()->language()->txt("trac_matrix")]),
+                ],
             Config::KEY_ENABLE_COURSES_VIEW => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                 "setTitle"           => self::plugin()->translate("enable_view", self::LANG_MODULE, [self::dic()->language()->txt("courses")])
@@ -56,7 +60,7 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
                 self::PROPERTY_SUBITEMS => [
                     Config::KEY_COURSE_ADMINISTRATION_COURSES => [
                         self::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
-                        "setAjaxAutoCompleteCtrl"          => new ObjectsAjaxAutoCompleteCtrl("crs")
+                        "setAjaxAutoCompleteCtrl"          => new ObjectsAjaxAutoCompleteCtrl(ilSrLpReportUIHookGUI::TYPE_CRS)
                     ],
                     Config::KEY_COURSE_ADMINISTRATION_MARK    => [
                         self::PROPERTY_CLASS => ilNumberInputGUI::class,

@@ -7,6 +7,7 @@ config_enable_view#:#Enable %s view
 config_reporting_always_show_child_types#:#Always show objects of types in %s
 config_reporting_always_show_child_types_info#:#Independently object specific setting
 config_save#:#Save
+config_show_matrix_actions#:#Show actions in %s
 course_administration_enrolled_before#:#Enrolled before
 course_administration_enrolled_crs_obj_ids#:#Enrolled in course
 course_administration_enroll#:#Enroll
@@ -21,3 +22,5 @@ course_administration_signout#:#Sign out
 course_administration_signedout#:#Signed out
 course_administration_signedout_time#:#Signed out on %s
 course_administration_changed_time#:#Enrollment changed on
+set_passed#:#Set passed
+set_in_progress#:#Set in progress

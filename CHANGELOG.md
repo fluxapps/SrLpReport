@@ -13,6 +13,8 @@
 - Matrix view tab first
 - Matrix actions
 - Always show objects of types
+- Fix details link in actions
+- Optimize lp settings view
 
 ## [2.3.0]
 - Enable users and courses view config

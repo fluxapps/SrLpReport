@@ -78,6 +78,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
 
                     switch (self::dic()->ctrl()->getCmd()) {
                         case "showUserObjectMatrix":
+                        case "details":
                             $this->fixRedicrect();
 
                             self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()
@@ -224,6 +225,11 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
                     self::dic()->tabs()->clearTargets();
                     ReportGUI::addTabs();
                     self::dic()->tabs()->activateSubTab(ReportGUI::TAB_SETTINGS);
+                }
+                if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLPListOfObjectsGUI::class) && self::dic()->ctrl()->getCmd() === "edituser") {
+                    self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
+                    self::dic()->tabs()->clearTargets();
+                    ReportGUI::addTabs();
                 }
             }
         }
