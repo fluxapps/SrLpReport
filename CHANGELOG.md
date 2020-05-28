@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [2.5.0]
 - Enable lp for folders
 - Org unit filter config
 
