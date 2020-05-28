@@ -311,9 +311,25 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
      */
     protected function initData()/*: void*/
     {
+        $tr_data = $this->processData();
+
+        $this->setMaxCount($tr_data["cnt"]);
+        $this->setData($tr_data["set"]);
+    }
+
+
+    /**
+     * @param bool $limit
+     *
+     * @return array
+     */
+    protected function processData(bool $limit = true) : array
+    {
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
-        $this->setLimit(99999999999, 99999999999);
+        if ($limit) {
+           $this->setLimit(99999999999, 99999999999);
+        }
         $this->determineOffsetAndOrder(true);
 
         $filter = $this->getFilterValues2();
@@ -332,7 +348,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
         if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
             $this->resetOffset();
             $tr_data = ilTrQuery::getUserDataForObject($this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()),
-                ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), $filter, $additional_fields, $check_agreement, $this->user_fields);
+                ($limit ? ilUtil::stripSlashes($this->getOffset()) : null), ($limit ? ilUtil::stripSlashes($this->getLimit()) : null), $filter, $additional_fields, $check_agreement, $this->user_fields);
         }
 
         //Filter OrgUnits
@@ -368,8 +384,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
             $row["org_units"] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row["usr_id"]);
         }
 
-        $this->setMaxCount($tr_data["cnt"]);
-        $this->setData($tr_data["set"]);
+        return $tr_data;
     }
 
 
@@ -401,8 +416,11 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
                 case "org_units":
                     $this->filter_fields[$key] = [
                         PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
-                        PropertyFormGUI::PROPERTY_OPTIONS => [0 => "--"] + self::ilias()->staff()->users()
-                                ->getOrgUnits(),
+                        PropertyFormGUI::PROPERTY_OPTIONS => [0 => "--"] + self::reports()->getOrgUnits(function () : array {
+                                return array_map(function (array $row) : int {
+                                    return $row["usr_id"];
+                                }, $this->processData(false)["set"]);
+                            }),
                         PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units"))
                     ];
                     break;
