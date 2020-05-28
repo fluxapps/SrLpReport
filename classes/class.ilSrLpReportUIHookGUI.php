@@ -34,7 +34,8 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
     const TYPE_CRS = "crs";
     const TYPE_EXC = "exc";
     const TYPE_TST = "tst";
-    const TYPES = [self::TYPE_CRS, self::TYPE_EXC, self::TYPE_TST];
+    const TYPE_FOLD = "fold";
+    const TYPES = [self::TYPE_CRS, self::TYPE_EXC, self::TYPE_TST, self::TYPE_FOLD];
     const PERSONAL_DESKTOP_INIT = "personal_desktop";
     const COURSES_INIT = "courses";
     const COMPONENT_PERSONAL_DESKTOP = "Services/PersonalDesktop";
