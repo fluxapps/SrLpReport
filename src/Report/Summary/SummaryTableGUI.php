@@ -3,10 +3,12 @@
 namespace srag\Plugins\SrLpReport\Report\Summary;
 
 use ilAdvancedSelectionListGUI;
+use ilExcel;
 use ilLPObjSettings;
 use ilObjectLP;
 use ilTrQuery;
 use ilUtil;
+use srag\Plugins\SrLpReport\Report\AbstractReport2TableGUI;
 use srag\Plugins\SrLpReport\Report\AbstractReportTableGUI;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 
@@ -17,7 +19,7 @@ use srag\Plugins\SrLpReport\Report\ReportGUI;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class SummaryTableGUI extends AbstractReportTableGUI
+class SummaryTableGUI extends AbstractReport2TableGUI
 {
 
     /**
@@ -36,6 +38,8 @@ class SummaryTableGUI extends AbstractReportTableGUI
         $this->setShowRowsSelector(false);
 
         parent::__construct($parent, $parent_cmd);
+
+        $this->setSelectAllCheckbox(null);
     }
 
 
@@ -115,7 +119,7 @@ class SummaryTableGUI extends AbstractReportTableGUI
     /**
      * @inheritdoc
      */
-    protected function initData()/*: void*/
+    protected function processData(bool $limit = true) : array
     {
         $olp = ilObjectLP::getInstance(self::dic()->objDataCache()->lookupObjId($this->ref_id));
         if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL
@@ -134,7 +138,7 @@ class SummaryTableGUI extends AbstractReportTableGUI
         }
 
         $data = ilTrQuery::getObjectsSummaryForObject($this->obj_id, $this->ref_id, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()),
-            ilUtil::stripSlashes($this->getOffset()), ilUtil::stripSlashes($this->getLimit()), [], $this->getSelectedColumns(), $preselected_obj_ids);
+            ($limit ? ilUtil::stripSlashes($this->getOffset()) : null), ($limit ? ilUtil::stripSlashes($this->getLimit()) : null), [], $this->getSelectedColumns(), $preselected_obj_ids);
 
         $data["set"] = array_map(function (array $row) : array {
             $row["pie"] = self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"]);
@@ -146,7 +150,10 @@ class SummaryTableGUI extends AbstractReportTableGUI
             return $row;
         }, $data["set"]);
 
-        $this->setData($data["set"]);
+        return [
+            "cnt" => count($data["set"]),
+            "set" => $data["set"]
+        ];
     }
 
 
@@ -193,5 +200,50 @@ class SummaryTableGUI extends AbstractReportTableGUI
     protected function getRightHTML() : string
     {
         return ReportGUI::getLegendHTML();
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    protected function initColumns()/*: void*/
+    {
+        AbstractReportTableGUI::initColumns();
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    protected function initCommands()/*: void*/
+    {
+        AbstractReportTableGUI::initCommands();
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    protected function fillRow(/*array*/ $row)/*: void*/
+    {
+        AbstractReportTableGUI::fillRow($row);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    protected function fillRowExcel(ilExcel $excel, /*int*/ &$row, /*array*/ $result)/*: void*/
+    {
+        AbstractReportTableGUI::fillRowExcel( $excel, $row, $result);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    protected function fillRowCSV(/*ilCSVWriter*/ $csv, /*array*/ $row)/*: void*/
+    {
+        AbstractReportTableGUI::fillRowCSV($csv, $row);
     }
 }

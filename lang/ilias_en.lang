@@ -8,6 +8,8 @@ config_reporting_always_show_child_types#:#Always show objects of types in %s
 config_reporting_always_show_child_types_info#:#Independently object specific setting
 config_save#:#Save
 config_show_matrix_actions#:#Show actions in %s
+config_show_only_appearable_org_units_in_filter#:#Show only appearable org units in filter
+config_show_only_appearable_org_units_in_filter_info#:#Possible performance loss
 course_administration_enrolled_before#:#Enrolled before
 course_administration_enrolled_crs_obj_ids#:#Enrolled in course
 course_administration_enroll#:#Enroll
