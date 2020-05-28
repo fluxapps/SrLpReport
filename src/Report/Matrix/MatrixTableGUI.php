@@ -129,11 +129,13 @@ class MatrixTableGUI extends AbstractReport2TableGUI
     /**
      * @inheritdoc
      */
-    protected function initData()/*: void*/
+    protected function processData(bool $limit = true) : array
     {
         $this->setExternalSorting(false);
         $this->setExternalSegmentation(false);
-        $this->setLimit(99999999999, 99999999999);
+        if ($limit) {
+            $this->setLimit(99999999999, 99999999999);
+        }
         $this->determineOffsetAndOrder(false);
 
         $filter = $this->getFilterValues2();
@@ -211,11 +213,16 @@ class MatrixTableGUI extends AbstractReport2TableGUI
                 }
             }
 
-            $this->setMaxCount(count($table_data));
-            $this->setData($table_data);
+            return [
+                "cnt" => count($table_data),
+                "set" => $table_data
+            ];
         }
 
-        return false;
+        return [
+            "cnt" => 0,
+            "set" => []
+        ];
     }
 
 

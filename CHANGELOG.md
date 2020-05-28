@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.5.0]
+- Enable lp for folders
+- Org unit filter config
+
 ## [2.4.0]
 - Course management:
     - User language column and filter
