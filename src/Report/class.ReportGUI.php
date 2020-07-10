@@ -56,6 +56,10 @@ class ReportGUI
      */
     public function executeCommand()/*: void*/
     {
+        if (!self::reports()->configPerObjects()->isEnableReportingView(self::reports()->getReportObjRefId())) {
+            die();
+        }
+
         if (!self::access()->hasLPReadAccess(self::reports()->getReportObjRefId())) {
             ilUtil::sendFailure(self::dic()->language()->txt("permission_denied"), true);
 

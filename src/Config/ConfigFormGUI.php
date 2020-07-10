@@ -53,6 +53,22 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                 "setTitle"           => self::plugin()->translate("enable_view", self::LANG_MODULE, [self::dic()->language()->txt("courses")])
             ],
+            Config::KEY_ENABLE_REPORTING_VIEW => [
+                self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
+                self::PROPERTY_SUBITEMS => [
+                    Config::KEY_ENABLE_REPORTING_VIEW_PER_OBJECT => [
+                        self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
+                        self::PROPERTY_SUBITEMS => [
+                            Config::KEY_ENABLE_REPORTING_VIEW_PER_OBJECT_NEW_OBJECTS => [
+                                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                                "setTitle"           => self::plugin()->translate("reporting_per_object_new_objects", self::LANG_MODULE)
+                            ]
+                        ],
+                        "setTitle"              => self::plugin()->translate("reporting_per_object", self::LANG_MODULE)
+                    ]
+                ],
+                "setTitle"              => self::plugin()->translate("reporting", self::LANG_MODULE)
+            ],
             Config::KEY_ENABLE_USERS_VIEW   => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                 "setTitle"           => self::plugin()->translate("enable_view", self::LANG_MODULE, [self::dic()->language()->txt("users")])
