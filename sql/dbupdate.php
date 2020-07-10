@@ -25,3 +25,7 @@
 ]);
 \srag\Plugins\SrLpReport\Staff\CourseAdministration\CourseAdministrationEnrollment::updateDB();
 ?>
+<#6>
+<?php
+\srag\Plugins\SrLpReport\Report\ConfigPerObject\ConfigPerObject::updateDB();
+?>

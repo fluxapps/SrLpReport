@@ -25,6 +25,7 @@ use ilTrQuery;
 use ilUIPluginRouterGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\Report\ConfigPerObject\ConfigPerObjects;
 use srag\Plugins\SrLpReport\Report\Matrix\Single\MatrixSingleReportGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use stdClass;
@@ -233,5 +234,14 @@ final class Reports
         }, ARRAY_FILTER_USE_KEY);
 
         return $org_units;
+    }
+
+
+    /**
+     * @return ConfigPerObjects
+     */
+    public function configPerObjects() : ConfigPerObjects
+    {
+        return ConfigPerObjects::getInstance();
     }
 }
