@@ -217,7 +217,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
                 foreach (self::dic()->tabs()->target as &$target) {
                     if ($target["id"] === "learning_progress") {
                         self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
-                        $target["link"] = self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, ReportGUI::class, MatrixReportGUI::class]);
+                        $target["link"] = self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, ReportGUI::class, UserReportGUI::class]);
                         break;
                     }
                 }
