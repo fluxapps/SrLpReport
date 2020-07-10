@@ -6,6 +6,7 @@ use srag\Plugins\SrLpReport\Block\CommentsCourseBlock54;
 use srag\Plugins\SrLpReport\Block\CommentsPersonalDesktopBlock53;
 use srag\Plugins\SrLpReport\Block\CommentsPersonalDesktopBlock54;
 use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\Report\ConfigPerObject\ConfigPerObjectGUI;
 use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
 use srag\Plugins\SrLpReport\Report\ReportGUI;
 use srag\Plugins\SrLpReport\Report\Reports;
@@ -34,7 +35,8 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
     const TYPE_CRS = "crs";
     const TYPE_EXC = "exc";
     const TYPE_TST = "tst";
-    const TYPES = [self::TYPE_CRS, self::TYPE_EXC, self::TYPE_TST];
+    const TYPE_FOLD = "fold";
+    const TYPES = [self::TYPE_CRS, self::TYPE_EXC, self::TYPE_TST, self::TYPE_FOLD];
     const PERSONAL_DESKTOP_INIT = "personal_desktop";
     const COURSES_INIT = "courses";
     const COMPONENT_PERSONAL_DESKTOP = "Services/PersonalDesktop";
@@ -71,6 +73,8 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
         if (!self::$load[self::REDIRECT]) {
 
             if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLPListOfObjectsGUI::class)) {
+
+                if (self::reports()->configPerObjects()->isEnableReportingView(self::reports()->getReportObjRefId())) {
 
                 if (in_array(self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId())),self::TYPES)) {
 
@@ -111,6 +115,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
 
                     return parent::getHTML($a_comp, $a_part, $a_par);
                 }
+            }
             }
 
             if (Config::getField(Config::KEY_ENABLE_USERS_VIEW)) {
@@ -208,6 +213,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
     {
         if ($a_part === self::PAR_TABS) {
             if (in_array(self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId())),self::TYPES)) {
+                if (self::reports()->configPerObjects()->isEnableReportingView(self::reports()->getReportObjRefId())) {
                 foreach (self::dic()->tabs()->target as &$target) {
                     if ($target["id"] === "learning_progress") {
                         self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
@@ -215,11 +221,21 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
                         break;
                     }
                 }
+                }
+                if (/*self::dic()->ctrl()->getCmdClass()*/ !in_array(strtolower(filter_input(INPUT_GET, "cmdClass")), [strtolower(ConfigPerObjectGUI::class), strtolower(MatrixReportGUI::class), strtolower(UserReportGUI::class), strtolower(SummaryReportGUI::class)])) {
+                    if (self::reports()->configPerObjects()->isEnableReportingView()) {
+                        if (self::dic()->access()->checkAccess("write", "", self::reports()->getReportObjRefId())) {
+                            self::dic()->ctrl()->setParameterByClass(ConfigPerObjectGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
+                            self::dic()->tabs()->addTab(ConfigPerObjectGUI::TAB_CONFIG_PER_OBJECT, ilSrLpReportPlugin::PLUGIN_NAME, self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, ConfigPerObjectGUI::class], ConfigPerObjectGUI::CMD_EDIT_CONFIG_PER_OBJECT));
+                        }
+                    }
+                }
             }
         }
 
         if ($a_part === self::PAR_SUB_TABS) {
             if (in_array(self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId())),self::TYPES)) {
+                if (self::reports()->configPerObjects()->isEnableReportingView(self::reports()->getReportObjRefId())) {
                 if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLPListOfSettingsGUI::class)) {
                     self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
                     self::dic()->tabs()->clearTargets();
@@ -230,6 +246,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
                     self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
                     self::dic()->tabs()->clearTargets();
                     ReportGUI::addTabs();
+                }
                 }
             }
         }

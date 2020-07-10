@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrLpReport\Report;
 
+use ilDBConstants;
 use ilExerciseHandlerGUI;
 use ilExerciseManagementGUI;
 use ILIAS\UI\Component\Dropdown\Dropdown;
@@ -10,6 +11,7 @@ use ilLPListOfObjectsGUI;
 use ilObjectFactory;
 use ilObjectGUIFactory;
 use ilObjExerciseGUI;
+use ilObjOrgUnitTree;
 use ilObjTestGUI;
 use ilParticipantsTestResultsGUI;
 use ilRepositoryGUI;
@@ -23,8 +25,10 @@ use ilTrQuery;
 use ilUIPluginRouterGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\Report\ConfigPerObject\ConfigPerObjects;
 use srag\Plugins\SrLpReport\Report\Matrix\Single\MatrixSingleReportGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
+use stdClass;
 
 /**
  * Class Reports
@@ -123,9 +127,9 @@ final class Reports
     {
         return array_unique(array_merge(
             array_values(ilTrQuery::getObjectIds(self::dic()->objDataCache()->lookupObjId($ref_id), $ref_id, true, !empty($user_ids), $user_ids)["ref_ids"]),
-            (!empty($always_show_types = Config::getField(Config::KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES)) ? array_map(function (array $child) : int {
-                return $child["child"];
-            }, self::dic()->database()->fetchAll(self::dic()->database()->query(self::dic()->tree()->getSubTreeQuery($ref_id, [], $always_show_types)))) : [])
+            (!empty($always_show_types = Config::getField(Config::KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES)) ? self::dic()->database()->fetchAllCallback(self::dic()->database()->query(self::dic()->tree()->getSubTreeQuery($ref_id, [], $always_show_types)), function (stdClass $child) : int {
+                return $child->child;
+            }) : [])
         ));
     }
 
@@ -197,5 +201,47 @@ final class Reports
         }
 
         return self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel(self::dic()->language()->txt("actions"));
+    }
+
+
+    /**
+     * @param callable $get_all_result_user_ids
+     *
+     * @return array
+     */
+    public function getOrgUnits(callable $get_all_result_user_ids) : array
+    {
+        $all_org_units = self::ilias()->staff()->users()->getOrgUnits();
+
+        if (!Config::getField(Config::KEY_SHOW_ONLY_APPEARABLE_ORG_UNITS_IN_FILTER)) {
+            return $all_org_units;
+        }
+
+        ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements();
+
+        $all_result_user_ids = $get_all_result_user_ids();
+
+        if (empty($all_result_user_ids)) {
+            return [];
+        }
+
+        $all_result_org_unit_ref_ids = self::dic()->database()->fetchAllCallback(self::dic()->database()->query("SELECT ref_id FROM orgu_usr_assignements WHERE " . self::dic()->database()->in("user_id", $all_result_user_ids, false, ilDBConstants::T_INTEGER)), function (stdClass $row) : int {
+            return $row->ref_id;
+        });
+
+        $org_units = array_filter($all_org_units, function (int $org_unit_ref_id) use ($all_result_org_unit_ref_ids): bool {
+            return in_array($org_unit_ref_id, $all_result_org_unit_ref_ids);
+        }, ARRAY_FILTER_USE_KEY);
+
+        return $org_units;
+    }
+
+
+    /**
+     * @return ConfigPerObjects
+     */
+    public function configPerObjects() : ConfigPerObjects
+    {
+        return ConfigPerObjects::getInstance();
     }
 }

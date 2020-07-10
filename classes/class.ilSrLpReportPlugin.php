@@ -6,6 +6,7 @@ use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\DIC\SrLpReport\Util\LibraryLanguageInstaller;
 use srag\Plugins\SrLpReport\Comment\Ctrl\AbstractCtrl;
 use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\Report\ConfigPerObject\ConfigPerObject;
 use srag\Plugins\SrLpReport\Staff\CourseAdministration\CourseAdministrationEnrollment;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\RemovePluginDataConfirm\SrLpReport\PluginUninstallTrait;
@@ -124,5 +125,6 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin
         self::comments()->dropTables();
         self::dic()->database()->dropTable(CourseAdministrationEnrollment::TABLE_NAME, false);
         self::dic()->database()->dropAutoIncrementTable(CourseAdministrationEnrollment::TABLE_NAME);
+        self::dic()->database()->dropTable(ConfigPerObject::TABLE_NAME, false);
     }
 }
