@@ -102,12 +102,7 @@ class ReportGUI
             self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("obj_".self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId()))), ilLink::_getLink(self::reports()->getReportObjRefId()));
         }
 
-        self::dic()->tabs()->addTab(self::TAB_LEARNING_PROGRESS, self::dic()->language()->txt("learning_progress"), self::dic()->ctrl()
-            ->getLinkTargetByClass([
-                ilRepositoryGUI::class,
-                get_class((new ilObjectGUIFactory())->getInstanceByRefId(self::reports()->getReportObjRefId())),
-                ilLearningProgressGUI::class
-            ]));
+        self::dic()->tabs()->addTab(self::TAB_LEARNING_PROGRESS, self::dic()->language()->txt("learning_progress"), self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class, UserReportGUI::class]));
         self::dic()->tabs()->activateTab(self::TAB_LEARNING_PROGRESS);
 
         self::dic()->tabs()->addSubTabTarget(MatrixReportGUI::TAB_ID, self::dic()->ctrl()->getLinkTargetByClass([
