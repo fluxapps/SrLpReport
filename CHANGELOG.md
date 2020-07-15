@@ -3,6 +3,7 @@
 ## [x]
 - Config reporting view per object
 - Default user reporting view
+- Fix async dropdowns
 - Sync position permissions with object children
 
 ## [2.5.0]
