@@ -3,6 +3,7 @@
 ## [x]
 - Config reporting view per object
 - Default user reporting view
+- Sync position permissions with object children
 
 ## [2.5.0]
 - Enable lp for folders

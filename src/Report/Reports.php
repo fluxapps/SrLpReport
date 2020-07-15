@@ -13,6 +13,8 @@ use ilObjectGUIFactory;
 use ilObjExerciseGUI;
 use ilObjOrgUnitTree;
 use ilObjTestGUI;
+use ilOrgUnitPermissionQueries;
+use ilOrgUnitPosition;
 use ilParticipantsTestResultsGUI;
 use ilRepositoryGUI;
 use ilSrLpReportPlugin;
@@ -243,5 +245,42 @@ final class Reports
     public function configPerObjects() : ConfigPerObjects
     {
         return ConfigPerObjects::getInstance();
+    }
+
+
+    /**
+     * @param int $parent_ref_id
+     * @param int $child_ref_id
+     */
+    public function syncPositionPermissionsWithChildren(int $parent_ref_id, int $child_ref_id)/*:void*/
+    {
+        if (!Config::getField(Config::KEY_SYNC_POSITION_PERMISSIONS_WITH_CHILDREN)) {
+            return;
+        }
+
+        foreach (ilOrgUnitPosition::get() as $position) {
+            $parent_permissions = ilOrgUnitPermissionQueries::getSetForRefId($parent_ref_id, $position->getId());
+
+            $child_permissions = ilOrgUnitPermissionQueries::getSetForRefId($child_ref_id, $position->getId());
+
+            $child_permissions->setOperations($parent_permissions->getOperations());
+
+            $child_permissions->store();
+        }
+    }
+
+
+    /**
+     * @param int $parent_ref_id
+     */
+    public function syncPositionPermissionsWithChildrens(int $parent_ref_id)/*:void*/
+    {
+        if (!Config::getField(Config::KEY_SYNC_POSITION_PERMISSIONS_WITH_CHILDREN)) {
+            return;
+        }
+
+        foreach ($this->getChilds($parent_ref_id) as $child_ref_id) {
+            $this->syncPositionPermissionsWithChildren($parent_ref_id, $child_ref_id);
+        }
     }
 }

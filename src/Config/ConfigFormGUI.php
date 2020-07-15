@@ -91,6 +91,9 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
             self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
             "setTitle" => self::dic()->language()->txt("trac_learning_progress") . " " . self::dic()->language()->txt("notes_comments")
         ],
+            Config::KEY_SYNC_POSITION_PERMISSIONS_WITH_CHILDREN => [
+                self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+            ]
 		];
 	}
 }

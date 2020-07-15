@@ -13,6 +13,7 @@ config_save#:#Speichern
 config_show_matrix_actions#:#Aktionen in %s anzeigen
 config_show_only_appearable_org_units_in_filter#:#Nur erscheinbare Org-Units im Filter anzeigen
 config_show_only_appearable_org_units_in_filter_info#:#Mögliche Performance-Einbusse
+config_sync_position_permissions_with_children#:#Position-Rechte mit Objekt-Kinder synchen
 course_administration_enrolled_before#:#Eingeschrieben vor
 course_administration_enrolled_crs_obj_ids#:#Eingeschrieben in Kurs
 course_administration_enroll#:#Einschreiben
