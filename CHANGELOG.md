@@ -5,6 +5,7 @@
 - Default user reporting view
 - Fix async dropdowns
 - Sync position permissions with object children
+- Fix org unit filter
 
 ## [2.5.0]
 - Enable lp for folders

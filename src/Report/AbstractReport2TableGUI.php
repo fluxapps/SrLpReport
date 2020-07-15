@@ -6,6 +6,7 @@ use ilAdvancedSelectionListGUI;
 use ilCourseParticipants;
 use ilCSVWriter;
 use ilDateTime;
+use ilDBConstants;
 use ilExcel;
 use ilLearningProgressBaseGUI;
 use ilLPStatus;
@@ -351,15 +352,6 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
                 ($limit ? ilUtil::stripSlashes($this->getOffset()) : null), ($limit ? ilUtil::stripSlashes($this->getLimit()) : null), $filter, $additional_fields, $check_agreement, $this->user_fields);
         }
 
-        //Filter OrgUnits
-        if ($filter['org_units'] > 0) {
-            $employees = ilObjOrgUnitTree::_getInstance()->getEmployees($filter['org_units'], true);
-            $superior = ilObjOrgUnitTree::_getInstance()->getSuperiors($filter['org_units'], true);
-
-            $usr_ids_filtered_by_orgu = array_merge(array_values($employees), array_values($superior));
-            $usr_ids_filtered_by_orgu = array_unique($usr_ids_filtered_by_orgu);
-        }
-
         foreach ($this->user_fields as $key => $value) {
             if ($filter[$value['id']]) {
                 foreach ($tr_data["set"] as $key => $data) {
@@ -373,7 +365,8 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
 
         if ($filter['org_units'] > 0) {
             foreach ($tr_data["set"] as $key => $data) {
-                if (count($usr_ids_filtered_by_orgu) == 0 || !in_array($data['usr_id'], $usr_ids_filtered_by_orgu)) {
+                ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements();
+                if (self::dic()->database()->queryF("SELECT ref_id FROM orgu_usr_assignements WHERE user_id=%s AND ref_id=%s GROUP BY user_id", [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER], [$data['usr_id'], $filter['org_units']])->fetchAssoc() === false) {
                     unset($tr_data["set"][$key]);
                     $tr_data["cnt"] = $tr_data["cnt"] - 1;
                 }
