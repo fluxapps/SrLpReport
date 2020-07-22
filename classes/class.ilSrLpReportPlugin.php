@@ -96,15 +96,11 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin
             case "Services/Object":
                 switch ($a_event) {
                     case "putObjectInTree":
-                        if (in_array(self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($a_parameter["parent_ref_id"])), ilSrLpReportUIHookGUI::TYPES)) {
-                            self::reports()->syncPositionPermissionsWithChildren($a_parameter["parent_ref_id"], $a_parameter["object"]->getRefId());
-                        }
+                        self::reports()->syncPositionPermissionsWithChildren($a_parameter["parent_ref_id"], $a_parameter["object"]->getRefId());
                         break;
 
                     case "update":
-                        if (in_array(self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($a_parameter["ref_id"])), ilSrLpReportUIHookGUI::TYPES)) {
-                            self::reports()->syncPositionPermissionsWithChildrens($a_parameter["ref_id"]);
-                        }
+                        self::reports()->syncPositionPermissionsWithChildrens($a_parameter["ref_id"]);
                         break;
 
                     default:
