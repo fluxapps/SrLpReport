@@ -250,18 +250,42 @@ final class Reports
 
     /**
      * @param int $parent_ref_id
+     *
+     * @return bool
+     */
+    public function shouldSyncPositionPermissionsWithChildren(int $parent_ref_id) : bool {
+        if (!Config::getField(Config::KEY_SYNC_POSITION_PERMISSIONS_WITH_CHILDREN)) {
+            return false;
+        }
+
+        if (!in_array(self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($parent_ref_id)), ilSrLpReportUIHookGUI::TYPES)) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * @param int $parent_ref_id
      * @param int $child_ref_id
      */
     public function syncPositionPermissionsWithChildren(int $parent_ref_id, int $child_ref_id)/*:void*/
     {
-        if (!Config::getField(Config::KEY_SYNC_POSITION_PERMISSIONS_WITH_CHILDREN)) {
+        if (!$this->shouldSyncPositionPermissionsWithChildren($parent_ref_id)) {
             return;
         }
 
         foreach (ilOrgUnitPosition::get() as $position) {
             $parent_permissions = ilOrgUnitPermissionQueries::getSetForRefId($parent_ref_id, $position->getId());
 
+            if ($parent_permissions->isProtected()) {
+                continue;
+            }
+
             $child_permissions = ilOrgUnitPermissionQueries::getSetForRefId($child_ref_id, $position->getId());
+
+            $child_permissions->setProtected($parent_permissions->isProtected());
 
             $child_permissions->setOperations($parent_permissions->getOperations());
 
@@ -275,7 +299,7 @@ final class Reports
      */
     public function syncPositionPermissionsWithChildrens(int $parent_ref_id)/*:void*/
     {
-        if (!Config::getField(Config::KEY_SYNC_POSITION_PERMISSIONS_WITH_CHILDREN)) {
+        if (!$this->shouldSyncPositionPermissionsWithChildren($parent_ref_id)) {
             return;
         }
 
