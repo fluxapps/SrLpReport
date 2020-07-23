@@ -33,6 +33,8 @@ class UserTableGUI extends AbstractReport2TableGUI
     protected function extendsActionsMenu(ilAdvancedSelectionListGUI $actions, array $row)/*: void*/
     {
         self::dic()->ctrl()->setParameter($this->parent_obj, Reports::GET_PARAM_USR_ID, $row["usr_id"]);
+
+        $actions->setId($row["usr_id"]);
     }
 
 

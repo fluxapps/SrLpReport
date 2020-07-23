@@ -23,10 +23,13 @@ class Config extends ActiveRecordConfig {
 	const KEY_ENABLE_COMMENTS = "enable_comments";
     const KEY_ENABLE_COURSES_VIEW = "enable_course_view";
     const KEY_ENABLE_COURSE_ADMINISTRATION = "enable_course_administration";
+    const KEY_ENABLE_REPORTING_VIEW = "enable_reporting_view";
+    const KEY_ENABLE_REPORTING_VIEW_PER_OBJECT = "enable_reporting_view_per_object";
+    const KEY_ENABLE_REPORTING_VIEW_PER_OBJECT_NEW_OBJECTS = "enable_reporting_view_per_object_new_objects";
     const KEY_ENABLE_USERS_VIEW = "enable_users_view";
     const KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES = "reporting_always_show_child_types";
     const KEY_SHOW_MATRIX_ACTIONS = "show_matrix_actions";
-    const KEY_SHOW_ONLY_APPEARABLE_ORG_UNITS_IN_FILTER = "show_only_appearable_org_units_in_filter";
+    const KEY_SYNC_POSITION_PERMISSIONS_WITH_CHILDREN = "sync_position_permissions_with_children";
 	/**
 	 * @var array
 	 */
@@ -36,9 +39,12 @@ class Config extends ActiveRecordConfig {
 		self::KEY_ENABLE_COMMENTS => [ self::TYPE_BOOLEAN, false ],
         self::KEY_ENABLE_COURSES_VIEW => [ self::TYPE_BOOLEAN, false ],
         self::KEY_ENABLE_COURSE_ADMINISTRATION => [ self::TYPE_BOOLEAN, false ],
+        self::KEY_ENABLE_REPORTING_VIEW => [ self::TYPE_BOOLEAN, true ],
+        self::KEY_ENABLE_REPORTING_VIEW_PER_OBJECT => [ self::TYPE_BOOLEAN, false ],
+        self::KEY_ENABLE_REPORTING_VIEW_PER_OBJECT_NEW_OBJECTS => [ self::TYPE_BOOLEAN, false ],
         self::KEY_ENABLE_USERS_VIEW => [ self::TYPE_BOOLEAN, false ],
         self::KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES => [ self::TYPE_JSON, [] ],
         self::KEY_SHOW_MATRIX_ACTIONS => [ self::TYPE_BOOLEAN, false ],
-        self::KEY_SHOW_ONLY_APPEARABLE_ORG_UNITS_IN_FILTER => [self::TYPE_BOOLEAN, false ]
+        self::KEY_SYNC_POSITION_PERMISSIONS_WITH_CHILDREN => [self::TYPE_BOOLEAN, false ]
 	];
 }

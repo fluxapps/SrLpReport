@@ -2,5 +2,6 @@
 <plugin id="srlprep">
 	<events>
 		<event type="listen" id="Modules/Course" />
+		<event type="listen" id="Services/Object" />
 	</events>
 </plugin>

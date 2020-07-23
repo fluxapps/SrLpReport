@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.2]
+- Config reporting view per object
+- Default user reporting view
+- Fix async dropdowns
+- Sync position permissions with object children
+- Remove org unit filter config from v2.5.0
+- Direct org unit filter
+
 ## [2.5.0]
 - Enable lp for folders
 - Org unit filter config

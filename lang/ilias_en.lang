@@ -4,12 +4,14 @@ config_course_administration_courses#:#Show courses as columns in table
 config_course_administration_mark#:#Mark courses after x days after the enrolment date without edited learning progress
 config_course_administration_mark_days#:#Days
 config_enable_view#:#Enable %s view
+config_reporting#:#Replace learning progress view
+config_reporting_per_object#:#Configurable per object
+config_reporting_per_object_new_objects#:#Be on for new or unconfigured objects per default
 config_reporting_always_show_child_types#:#Always show objects of types in %s
 config_reporting_always_show_child_types_info#:#Independently object specific setting
 config_save#:#Save
 config_show_matrix_actions#:#Show actions in %s
-config_show_only_appearable_org_units_in_filter#:#Show only appearable org units in filter
-config_show_only_appearable_org_units_in_filter_info#:#Possible performance loss
+config_sync_position_permissions_with_children#:#Sync position permissions with object children
 course_administration_enrolled_before#:#Enrolled before
 course_administration_enrolled_crs_obj_ids#:#Enrolled in course
 course_administration_enroll#:#Enroll

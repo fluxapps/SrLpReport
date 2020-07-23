@@ -4,12 +4,14 @@ config_course_administration_courses#:#Kurse als Spalte in Tabelle anzeigen
 config_course_administration_mark#:#Kurse markieren ab x Tagen nach dem Einschreibedatum ohne bearbeiteten Lernforschritt
 config_course_administration_mark_days#:#Tagen
 config_enable_view#:#Ansicht %s aktivieren
+config_reporting#:#Lernfortschritt-Ansicht ersetzen
+config_reporting_per_object#:#Pro Objekt konfigurierbar
+config_reporting_per_object_new_objects#:#Für neue oder unkonfigurierte Objekte standardmässig an
 config_reporting_always_show_child_types#:#Objekte der Typen in %s immer anzeigen
 config_reporting_always_show_child_types_info#:#Unabhängig Objekt spezifischen Einstellung
 config_save#:#Speichern
 config_show_matrix_actions#:#Aktionen in %s anzeigen
-config_show_only_appearable_org_units_in_filter#:#Nur erscheinbare Org-Units im Filter anzeigen
-config_show_only_appearable_org_units_in_filter_info#:#Mögliche Performance-Einbusse
+config_sync_position_permissions_with_children#:#Position-Rechte mit Objekt-Kinder synchen
 course_administration_enrolled_before#:#Eingeschrieben vor
 course_administration_enrolled_crs_obj_ids#:#Eingeschrieben in Kurs
 course_administration_enroll#:#Einschreiben

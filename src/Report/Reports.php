@@ -11,8 +11,11 @@ use ilLPListOfObjectsGUI;
 use ilObjectFactory;
 use ilObjectGUIFactory;
 use ilObjExerciseGUI;
-use ilObjOrgUnitTree;
 use ilObjTestGUI;
+use ilOrgUnitPathStorage;
+use ilOrgUnitPermissionQueries;
+use ilOrgUnitPosition;
+use ilOrgUnitUserAssignment;
 use ilParticipantsTestResultsGUI;
 use ilRepositoryGUI;
 use ilSrLpReportPlugin;
@@ -25,6 +28,7 @@ use ilTrQuery;
 use ilUIPluginRouterGUI;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\Report\ConfigPerObject\ConfigPerObjects;
 use srag\Plugins\SrLpReport\Report\Matrix\Single\MatrixSingleReportGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use stdClass;
@@ -204,34 +208,101 @@ final class Reports
 
 
     /**
-     * @param callable $get_all_result_user_ids
+     * @param int        $user_id
+     * @param array|null $ref_ids
      *
      * @return array
      */
-    public function getOrgUnits(callable $get_all_result_user_ids) : array
+    public function getAssignedOrgUnits(int $user_id, /*?*/array $ref_ids = null) : array
     {
-        $all_org_units = self::ilias()->staff()->users()->getOrgUnits();
+        $where = ilOrgUnitUserAssignment::where([
+            "user_id" => $user_id
+        ]);
 
-        if (!Config::getField(Config::KEY_SHOW_ONLY_APPEARABLE_ORG_UNITS_IN_FILTER)) {
-            return $all_org_units;
+        if (!empty($ref_ids)) {
+            $where = $where->where([
+                "orgu_id" => $ref_ids
+            ], "IN");
         }
 
-        ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements();
+        $ref_ids = $where->getArray(null, "orgu_id");
 
-        $all_result_user_ids = $get_all_result_user_ids();
-
-        if (empty($all_result_user_ids)) {
+        if (empty($ref_ids)) {
             return [];
         }
 
-        $all_result_org_unit_ref_ids = self::dic()->database()->fetchAllCallback(self::dic()->database()->query("SELECT ref_id FROM orgu_usr_assignements WHERE " . self::dic()->database()->in("user_id", $all_result_user_ids, false, ilDBConstants::T_INTEGER)), function (stdClass $row) : int {
-            return $row->ref_id;
-        });
+        return ilOrgUnitPathStorage::orderBy("path")->where([
+            "ref_id" => $ref_ids
+        ], "IN")->getArray("ref_id", "path");
+    }
 
-        $org_units = array_filter($all_org_units, function (int $org_unit_ref_id) use ($all_result_org_unit_ref_ids): bool {
-            return in_array($org_unit_ref_id, $all_result_org_unit_ref_ids);
-        }, ARRAY_FILTER_USE_KEY);
 
-        return $org_units;
+    /**
+     * @return ConfigPerObjects
+     */
+    public function configPerObjects() : ConfigPerObjects
+    {
+        return ConfigPerObjects::getInstance();
+    }
+
+
+    /**
+     * @param int $parent_ref_id
+     *
+     * @return bool
+     */
+    public function shouldSyncPositionPermissionsWithChildren(int $parent_ref_id) : bool {
+        if (!Config::getField(Config::KEY_SYNC_POSITION_PERMISSIONS_WITH_CHILDREN)) {
+            return false;
+        }
+
+        if (!in_array(self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($parent_ref_id)), ilSrLpReportUIHookGUI::TYPES)) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * @param int $parent_ref_id
+     * @param int $child_ref_id
+     */
+    public function syncPositionPermissionsWithChildren(int $parent_ref_id, int $child_ref_id)/*:void*/
+    {
+        if (!$this->shouldSyncPositionPermissionsWithChildren($parent_ref_id)) {
+            return;
+        }
+
+        foreach (ilOrgUnitPosition::get() as $position) {
+            $parent_permissions = ilOrgUnitPermissionQueries::getSetForRefId($parent_ref_id, $position->getId());
+
+            if ($parent_permissions->isProtected()) {
+                continue;
+            }
+
+            $child_permissions = ilOrgUnitPermissionQueries::getSetForRefId($child_ref_id, $position->getId());
+
+            $child_permissions->setProtected($parent_permissions->isProtected());
+
+            $child_permissions->setOperations($parent_permissions->getOperations());
+
+            $child_permissions->store();
+        }
+    }
+
+
+    /**
+     * @param int $parent_ref_id
+     */
+    public function syncPositionPermissionsWithChildrens(int $parent_ref_id)/*:void*/
+    {
+        if (!$this->shouldSyncPositionPermissionsWithChildren($parent_ref_id)) {
+            return;
+        }
+
+        foreach ($this->getChilds($parent_ref_id) as $child_ref_id) {
+            $this->syncPositionPermissionsWithChildren($parent_ref_id, $child_ref_id);
+        }
     }
 }

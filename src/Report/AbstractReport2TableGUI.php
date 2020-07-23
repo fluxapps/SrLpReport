@@ -6,6 +6,7 @@ use ilAdvancedSelectionListGUI;
 use ilCourseParticipants;
 use ilCSVWriter;
 use ilDateTime;
+use ilDBConstants;
 use ilExcel;
 use ilLearningProgressBaseGUI;
 use ilLPStatus;
@@ -351,15 +352,6 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
                 ($limit ? ilUtil::stripSlashes($this->getOffset()) : null), ($limit ? ilUtil::stripSlashes($this->getLimit()) : null), $filter, $additional_fields, $check_agreement, $this->user_fields);
         }
 
-        //Filter OrgUnits
-        if ($filter['org_units'] > 0) {
-            $employees = ilObjOrgUnitTree::_getInstance()->getEmployees($filter['org_units'], true);
-            $superior = ilObjOrgUnitTree::_getInstance()->getSuperiors($filter['org_units'], true);
-
-            $usr_ids_filtered_by_orgu = array_merge(array_values($employees), array_values($superior));
-            $usr_ids_filtered_by_orgu = array_unique($usr_ids_filtered_by_orgu);
-        }
-
         foreach ($this->user_fields as $key => $value) {
             if ($filter[$value['id']]) {
                 foreach ($tr_data["set"] as $key => $data) {
@@ -373,7 +365,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
 
         if ($filter['org_units'] > 0) {
             foreach ($tr_data["set"] as $key => $data) {
-                if (count($usr_ids_filtered_by_orgu) == 0 || !in_array($data['usr_id'], $usr_ids_filtered_by_orgu)) {
+                if (empty(self::reports()->getAssignedOrgUnits($data['usr_id'], [$filter['org_units']]))) {
                     unset($tr_data["set"][$key]);
                     $tr_data["cnt"] = $tr_data["cnt"] - 1;
                 }
@@ -416,11 +408,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
                 case "org_units":
                     $this->filter_fields[$key] = [
                         PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
-                        PropertyFormGUI::PROPERTY_OPTIONS => [0 => "--"] + self::reports()->getOrgUnits(function () : array {
-                                return array_map(function (array $row) : int {
-                                    return $row["usr_id"];
-                                }, $this->processData(false)["set"]);
-                            }),
+                        PropertyFormGUI::PROPERTY_OPTIONS => [0 => "--"] + self::reports()->getAssignedOrgUnits(self::dic()->user()->getId()),
                         PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units"))
                     ];
                     break;

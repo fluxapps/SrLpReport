@@ -12,9 +12,9 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
             'srag\\RemovePluginDataConfirm\\SrLpReport\\' => 40,
             'srag\\Plugins\\SrLpReport\\' => 24,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\' => 9,
-            'srag\\CustomInputGUIs\\' => 21,
-            'srag\\CommentsUI\\' => 16,
+            'srag\\DIC\\SrLpReport\\' => 20,
+            'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
+            'srag\\CommentsUI\\SrLpReport\\' => 27,
             'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
         ),
     );
@@ -32,15 +32,15 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\' => 
+        'srag\\DIC\\SrLpReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrLpReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\CommentsUI\\' => 
+        'srag\\CommentsUI\\SrLpReport\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
@@ -190,6 +190,10 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         'srag\\Plugins\\SrLpReport\\Report\\AbstractReport2TableGUI' => __DIR__ . '/../..' . '/src/Report/AbstractReport2TableGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\AbstractReportGUI' => __DIR__ . '/../..' . '/src/Report/AbstractReportGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\AbstractReportTableGUI' => __DIR__ . '/../..' . '/src/Report/AbstractReportTableGUI.php',
+        'srag\\Plugins\\SrLpReport\\Report\\ConfigPerObject\\ConfigPerObject' => __DIR__ . '/../..' . '/src/Report/ConfigPerObject/ConfigPerObject.php',
+        'srag\\Plugins\\SrLpReport\\Report\\ConfigPerObject\\ConfigPerObjectFormGUI' => __DIR__ . '/../..' . '/src/Report/ConfigPerObject/ConfigPerObjectFormGUI.php',
+        'srag\\Plugins\\SrLpReport\\Report\\ConfigPerObject\\ConfigPerObjectGUI' => __DIR__ . '/../..' . '/src/Report/ConfigPerObject/class.ConfigPerObjectGUI.php',
+        'srag\\Plugins\\SrLpReport\\Report\\ConfigPerObject\\ConfigPerObjects' => __DIR__ . '/../..' . '/src/Report/ConfigPerObject/ConfigPerObjects.php',
         'srag\\Plugins\\SrLpReport\\Report\\Matrix\\MatrixReportGUI' => __DIR__ . '/../..' . '/src/Report/Matrix/class.MatrixReportGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\Matrix\\MatrixTableGUI' => __DIR__ . '/../..' . '/src/Report/Matrix/MatrixTableGUI.php',
         'srag\\Plugins\\SrLpReport\\Report\\Matrix\\Single\\MatrixSingleReportGUI' => __DIR__ . '/../..' . '/src/Report/Matrix/Single/class.MatrixSingleReportGUI.php',

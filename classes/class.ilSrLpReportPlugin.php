@@ -6,6 +6,7 @@ use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\DIC\SrLpReport\Util\LibraryLanguageInstaller;
 use srag\Plugins\SrLpReport\Comment\Ctrl\AbstractCtrl;
 use srag\Plugins\SrLpReport\Config\Config;
+use srag\Plugins\SrLpReport\Report\ConfigPerObject\ConfigPerObject;
 use srag\Plugins\SrLpReport\Staff\CourseAdministration\CourseAdministrationEnrollment;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 use srag\RemovePluginDataConfirm\SrLpReport\PluginUninstallTrait;
@@ -92,6 +93,21 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin
                 }
                 break;
 
+            case "Services/Object":
+                switch ($a_event) {
+                    case "putObjectInTree":
+                        self::reports()->syncPositionPermissionsWithChildren($a_parameter["parent_ref_id"], $a_parameter["object"]->getRefId());
+                        break;
+
+                    case "update":
+                        self::reports()->syncPositionPermissionsWithChildrens($a_parameter["ref_id"]);
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
+
             default:
                 break;
         }
@@ -124,5 +140,6 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin
         self::comments()->dropTables();
         self::dic()->database()->dropTable(CourseAdministrationEnrollment::TABLE_NAME, false);
         self::dic()->database()->dropAutoIncrementTable(CourseAdministrationEnrollment::TABLE_NAME);
+        self::dic()->database()->dropTable(ConfigPerObject::TABLE_NAME, false);
     }
 }
