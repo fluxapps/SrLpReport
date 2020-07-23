@@ -365,8 +365,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
 
         if ($filter['org_units'] > 0) {
             foreach ($tr_data["set"] as $key => $data) {
-                ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements();
-                if (self::dic()->database()->queryF("SELECT ref_id FROM orgu_usr_assignements WHERE user_id=%s AND ref_id=%s GROUP BY user_id", [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER], [$data['usr_id'], $filter['org_units']])->fetchAssoc() === false) {
+                if (empty(self::reports()->getAssignedOrgUnits($data['usr_id'], [$filter['org_units']]))) {
                     unset($tr_data["set"][$key]);
                     $tr_data["cnt"] = $tr_data["cnt"] - 1;
                 }
@@ -409,11 +408,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
                 case "org_units":
                     $this->filter_fields[$key] = [
                         PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
-                        PropertyFormGUI::PROPERTY_OPTIONS => [0 => "--"] + self::reports()->getOrgUnits(function () : array {
-                                return array_map(function (array $row) : int {
-                                    return $row["usr_id"];
-                                }, $this->processData(false)["set"]);
-                            }),
+                        PropertyFormGUI::PROPERTY_OPTIONS => [0 => "--"] + self::reports()->getAssignedOrgUnits(self::dic()->user()->getId()),
                         PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units"))
                     ];
                     break;
