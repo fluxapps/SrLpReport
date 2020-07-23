@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [2.6.2]
 - Config reporting view per object
 - Default user reporting view
 - Fix async dropdowns
