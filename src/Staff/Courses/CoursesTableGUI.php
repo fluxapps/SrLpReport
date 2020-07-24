@@ -21,7 +21,7 @@ class CoursesTableGUI extends AbstractStaffTableGUI
     /**
      * @inheritdoc
      */
-    protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*array*/ $row, int $format = self::DEFAULT_FORMAT) : string
     {
         switch (true) {
             case $column === "crs_title":
