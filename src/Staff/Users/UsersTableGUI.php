@@ -78,7 +78,7 @@ class UsersTableGUI extends AbstractStaffTableGUI
                 "default" => true,
                 "txt"     => self::dic()->language()->txt("total") . " " . self::dic()->language()->txt("courses")
             ];
-            foreach (self::customInputGUIs()->learningProgressPie()->objIds()->getTitles() as $status => $title) {
+            foreach (self::learningProgressPieUI()->objIds()->getTitles() as $status => $title) {
                 $columns["learning_progress_courses_" . $status] = [
                     "default" => true,
                     "txt"     => $title
@@ -140,7 +140,7 @@ class UsersTableGUI extends AbstractStaffTableGUI
             ->getId(), $this->getFilterValues2(), $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit());
 
         $data["data"] = array_map(function (array $row) : array {
-            $row["pie"] = self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds($row["learning_progress_courses"])->withUsrId($row["usr_id"]);
+            $row["pie"] = self::learningProgressPieUI()->objIds()->withObjIds($row["learning_progress_courses"])->withUsrId($row["usr_id"]);
 
             if ($this->getExportMode()) {
                 $row["pie"] = $row["pie"]->withShowEmpty(true);
