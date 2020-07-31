@@ -30,9 +30,9 @@ class MatrixTableGUI extends AbstractReport2TableGUI
     /**
      * @inheritdoc
      */
-    protected function getColumnValue(/*string*/
+    protected function getColumnValue(string
         $column, /*array*/
-        $row, /*int*/
+        $row, int
         $format = self::DEFAULT_FORMAT
     ) : string {
         if ($column == 'status') {

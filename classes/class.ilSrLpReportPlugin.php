@@ -142,4 +142,13 @@ class ilSrLpReportPlugin extends ilUserInterfaceHookPlugin
         self::dic()->database()->dropAutoIncrementTable(CourseAdministrationEnrollment::TABLE_NAME);
         self::dic()->database()->dropTable(ConfigPerObject::TABLE_NAME, false);
     }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function shouldUseOneUpdateStepOnly() : bool
+    {
+        return false;
+    }
 }

@@ -160,7 +160,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI
     /**
      * @inheritdoc
      */
-    protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*array*/ $row, int $format = self::DEFAULT_FORMAT) : string
     {
         if ($column === "object") {
             if ($format) {
