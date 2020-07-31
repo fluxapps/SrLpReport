@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- Switch to srag/learningprogresspieui library
+
 ## [2.6.2]
 - Config reporting view per object
 - Default user reporting view
