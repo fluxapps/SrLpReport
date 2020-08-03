@@ -50,7 +50,7 @@ class CourseAdministrationMultiEnrollSelectFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function getValue(/*string*/ $key)
+    protected function getValue(string $key)
     {
         switch ($key) {
             case "usr_ids":
@@ -120,7 +120,7 @@ class CourseAdministrationMultiEnrollSelectFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(/*string*/ $key, $value)/*: void*/
+    protected function storeValue(string $key, $value)/*: void*/
     {
         switch ($key) {
             case "usr_ids":
