@@ -8,8 +8,10 @@ use ilExerciseManagementGUI;
 use ILIAS\UI\Component\Dropdown\Dropdown;
 use ilLearningProgressGUI;
 use ilLPListOfObjectsGUI;
+use ilLPObjSettings;
 use ilObjectFactory;
 use ilObjectGUIFactory;
+use ilObjectLP;
 use ilObjExerciseGUI;
 use ilObjTestGUI;
 use ilOrgUnitPathStorage;
@@ -128,12 +130,14 @@ final class Reports
      */
     public function getChilds(int $ref_id,/*?*/ array $user_ids = null) : array
     {
-        return array_unique(array_merge(
+        return array_unique(array_filter(array_merge(
             array_values(ilTrQuery::getObjectIds(self::dic()->objDataCache()->lookupObjId($ref_id), $ref_id, true, !empty($user_ids), $user_ids)["ref_ids"]),
             (!empty($always_show_types = Config::getField(Config::KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES)) ? self::dic()->database()->fetchAllCallback(self::dic()->database()->query(self::dic()->tree()->getSubTreeQuery($ref_id, [], $always_show_types)), function (stdClass $child) : int {
                 return $child->child;
             }) : [])
-        ));
+        ), function(int $ref_id) : bool {
+            return (ilObjectLP::getInstance(self::dic()->objDataCache()->lookupObjId($ref_id))->getCurrentMode() !== ilLPObjSettings::LP_MODE_DEACTIVATED);
+        }));
     }
 
 

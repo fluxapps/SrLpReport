@@ -1,6 +1,7 @@
 # Changelog
 
 ## [x]
+- Skip disabled lp objects
 - Switch to srag/learningprogresspieui library
 
 ## [2.6.2]
