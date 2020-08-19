@@ -2,6 +2,7 @@
 
 ## [x]
 - Switch to srag/learningprogresspieui library
+- Fix may pass `null` on call `syncPositionPermissionsWithChildren(s)`
 
 ## [2.6.2]
 - Config reporting view per object
