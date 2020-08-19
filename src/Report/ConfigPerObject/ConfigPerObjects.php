@@ -90,6 +90,10 @@ class ConfigPerObjects
         }
 
         if (!empty($obj_ref_id)) {
+            if (!self::access()->hasLPReadAccess($obj_ref_id)) {
+                return false;
+            }
+
             if (!Config::getField(Config::KEY_ENABLE_REPORTING_VIEW_PER_OBJECT)) {
                 return true;
             }
