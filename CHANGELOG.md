@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [2.6.3]
 - Skip disabled lp objects
 - Switch to srag/learningprogresspieui library
 - Fix user lp view (Core)
