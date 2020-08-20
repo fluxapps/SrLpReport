@@ -160,7 +160,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI
     /**
      * @inheritdoc
      */
-    protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*array*/ $row, int $format = self::DEFAULT_FORMAT) : string
     {
         if ($column === "object") {
             if ($format) {
@@ -310,7 +310,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI
     public function getRightHTML() : string
     {
         return self::output()->getHTML([
-            self::customInputGUIs()->learningProgressPie()->objIds()->withObjIds(array_keys($this->row_data))->withUsrId(self::reports()->getUsrId()),
+            self::learningProgressPieUI()->objIds()->withObjIds(array_keys($this->row_data))->withUsrId(self::reports()->getUsrId()),
             "<br>",
             (new ilPublicUserProfileGUI(self::reports()->getUsrId()))->getEmbeddable(),
             "<br>",

@@ -9,18 +9,20 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RemovePluginDataConfirm\\SrLpReport\\' => 40,
+            'srag\\RemovePluginDataConfirm\\' => 29,
             'srag\\Plugins\\SrLpReport\\' => 24,
+            'srag\\PieChart\\' => 14,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\SrLpReport\\' => 20,
-            'srag\\CustomInputGUIs\\SrLpReport\\' => 32,
-            'srag\\CommentsUI\\SrLpReport\\' => 27,
-            'srag\\ActiveRecordConfig\\SrLpReport\\' => 35,
+            'srag\\LearningProgressPieUI\\' => 27,
+            'srag\\DIC\\' => 9,
+            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CommentsUI\\' => 16,
+            'srag\\ActiveRecordConfig\\' => 24,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RemovePluginDataConfirm\\SrLpReport\\' => 
+        'srag\\RemovePluginDataConfirm\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src',
         ),
@@ -28,23 +30,31 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
+        'srag\\PieChart\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/piechart/src',
+        ),
         'srag\\LibrariesNamespaceChanger\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\SrLpReport\\' => 
+        'srag\\LearningProgressPieUI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/learningprogresspieui/src',
+        ),
+        'srag\\DIC\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\SrLpReport\\' => 
+        'srag\\CustomInputGUIs\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\CommentsUI\\SrLpReport\\' => 
+        'srag\\CommentsUI\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
-        'srag\\ActiveRecordConfig\\SrLpReport\\' => 
+        'srag\\ActiveRecordConfig\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -79,21 +89,21 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         'srag\\CommentsUI\\SrLpReport\\Utils\\CommentsUITrait' => __DIR__ . '/..' . '/srag/commentsui/src/Utils/CommentsUITrait.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CheckboxInputGUI\\AjaxCheckbox' => __DIR__ . '/..' . '/srag/custominputguis/src/AjaxCheckbox/AjaxCheckbox.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\ColorPickerInputGUI\\ColorPickerInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/ColorPickerInputGUI/ColorPickerInputGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',
         'srag\\CustomInputGUIs\\SrLpReport\\CustomInputGUIsTrait' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIsTrait.php',
         'srag\\CustomInputGUIs\\SrLpReport\\DateDurationInputGUI\\DateDurationInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/DateDurationInputGUI/DateDurationInputGUI.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\FormBuilder\\AbstractFormBuilder' => __DIR__ . '/..' . '/srag/custominputguis/src/FormBuilder/AbstractFormBuilder.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\FormBuilder\\FormBuilder' => __DIR__ . '/..' . '/srag/custominputguis/src/FormBuilder/FormBuilder.php',
         'srag\\CustomInputGUIs\\SrLpReport\\GlyphGUI\\GlyphGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/GlyphGUI/GlyphGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\HiddenInputGUI\\HiddenInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/HiddenInputGUI/HiddenInputGUI.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\InputGUIWrapperUIInputComponent\\AbstractRenderer' => __DIR__ . '/..' . '/srag/custominputguis/src/InputGUIWrapperUIInputComponent/AbstractRenderer.php',
         'srag\\CustomInputGUIs\\SrLpReport\\InputGUIWrapperUIInputComponent\\InputGUIWrapperConstraint' => __DIR__ . '/..' . '/srag/custominputguis/src/InputGUIWrapperUIInputComponent/InputGUIWrapperConstraint.php',
         'srag\\CustomInputGUIs\\SrLpReport\\InputGUIWrapperUIInputComponent\\InputGUIWrapperConstraint54' => __DIR__ . '/..' . '/srag/custominputguis/src/InputGUIWrapperUIInputComponent/InputGUIWrapperConstraint54.php',
         'srag\\CustomInputGUIs\\SrLpReport\\InputGUIWrapperUIInputComponent\\InputGUIWrapperConstraintTrait' => __DIR__ . '/..' . '/srag/custominputguis/src/InputGUIWrapperUIInputComponent/InputGUIWrapperConstraintTrait.php',
         'srag\\CustomInputGUIs\\SrLpReport\\InputGUIWrapperUIInputComponent\\InputGUIWrapperUIInputComponent' => __DIR__ . '/..' . '/srag/custominputguis/src/InputGUIWrapperUIInputComponent/InputGUIWrapperUIInputComponent.php',
         'srag\\CustomInputGUIs\\SrLpReport\\InputGUIWrapperUIInputComponent\\Renderer' => __DIR__ . '/..' . '/srag/custominputguis/src/InputGUIWrapperUIInputComponent/Renderer.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPieUI\\AbstractLearningProgressPieUI' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPieUI/AbstractLearningProgressPieUI.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPieUI\\CountLearningProgressPieUI' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPieUI/CountLearningProgressPieUI.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPieUI\\LearningProgressPieUI' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPieUI/LearningProgressPieUI.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPieUI\\ObjIdsLearningProgressPieUI' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPieUI/ObjIdsLearningProgressPieUI.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\LearningProgressPieUI\\UsrIdsLearningProgressPieUI' => __DIR__ . '/..' . '/srag/custominputguis/src/LearningProgressPieUI/UsrIdsLearningProgressPieUI.php',
+        'srag\\CustomInputGUIs\\SrLpReport\\Loader\\CustomInputGUIsLoaderDetector' => __DIR__ . '/..' . '/srag/custominputguis/src/Loader/CustomInputGUIsLoaderDetector.php',
         'srag\\CustomInputGUIs\\SrLpReport\\MultiLineInputGUI\\MultiLineInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiLineInputGUI/MultiLineInputGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\MultiLineNewInputGUI\\MultiLineNewInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiLineNewInputGUI/MultiLineNewInputGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\MultiSelectSearchInputGUI\\MultiSelectSearchInput2GUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInput2GUI.php',
@@ -105,28 +115,6 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         'srag\\CustomInputGUIs\\SrLpReport\\MultiSelectSearchNewInputGUI\\OrgUnitAjaxAutoCompleteCtrl' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchNewInputGUI/class.OrgUnitAjaxAutoCompleteCtrl.php',
         'srag\\CustomInputGUIs\\SrLpReport\\MultiSelectSearchNewInputGUI\\UsersAjaxAutoCompleteCtrl' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchNewInputGUI/class.UsersAjaxAutoCompleteCtrl.php',
         'srag\\CustomInputGUIs\\SrLpReport\\NumberInputGUI\\NumberInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/NumberInputGUI/NumberInputGUI.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\PieChart\\Component\\LegendEntry' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/LegendEntry.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\PieChart\\Component\\PieChart' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/PieChart.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\PieChart\\Component\\PieChartItem' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/PieChartItem.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\PieChart\\Component\\Section' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/Section.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\PieChart\\Component\\SectionValue' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/SectionValue.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\PieChart\\Implementation\\LegendEntry' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/LegendEntry.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\PieChart\\Implementation\\PieChart' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/PieChart.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\PieChart\\Implementation\\PieChartItem' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/PieChartItem.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\PieChart\\Implementation\\Renderer' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/Renderer.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\PieChart\\Implementation\\Section' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/Section.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\PieChart\\Implementation\\SectionValue' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/SectionValue.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Component\\Factory' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/Factory.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Component\\FixedSize' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/FixedSize.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Component\\Mini' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/Mini.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Component\\ProgressMeter' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/ProgressMeter.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Component\\Standard' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/Standard.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Implementation\\Factory' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/Factory.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Implementation\\FixedSize' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/FixedSize.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Implementation\\Mini' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/Mini.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Implementation\\ProgressMeter' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/ProgressMeter.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Implementation\\Renderer' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/Renderer.php',
-        'srag\\CustomInputGUIs\\SrLpReport\\ProgressMeter\\Implementation\\Standard' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/Standard.php',
         'srag\\CustomInputGUIs\\SrLpReport\\PropertyFormGUI\\ConfigPropertyFormGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/PropertyFormGUI/ConfigPropertyFormGUI.php',
         'srag\\CustomInputGUIs\\SrLpReport\\PropertyFormGUI\\Exception\\PropertyFormGUIException' => __DIR__ . '/..' . '/srag/custominputguis/src/PropertyFormGUI/Exception/PropertyFormGUIException.php',
         'srag\\CustomInputGUIs\\SrLpReport\\PropertyFormGUI\\Items\\Items' => __DIR__ . '/..' . '/srag/custominputguis/src/PropertyFormGUI/Items/Items.php',
@@ -153,7 +141,6 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         'srag\\DIC\\SrLpReport\\DICTrait' => __DIR__ . '/..' . '/srag/dic/src/DICTrait.php',
         'srag\\DIC\\SrLpReport\\DIC\\AbstractDIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/AbstractDIC.php',
         'srag\\DIC\\SrLpReport\\DIC\\DICInterface' => __DIR__ . '/..' . '/srag/dic/src/DIC/DICInterface.php',
-        'srag\\DIC\\SrLpReport\\DIC\\Implementation\\ILIAS53DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS53DIC.php',
         'srag\\DIC\\SrLpReport\\DIC\\Implementation\\ILIAS54DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS54DIC.php',
         'srag\\DIC\\SrLpReport\\DIC\\Implementation\\ILIAS60DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS60DIC.php',
         'srag\\DIC\\SrLpReport\\Database\\AbstractILIASDatabaseDetector' => __DIR__ . '/..' . '/srag/dic/src/Database/AbstractILIASDatabaseDetector.php',
@@ -162,6 +149,7 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         'srag\\DIC\\SrLpReport\\Database\\PdoContextHelper' => __DIR__ . '/..' . '/srag/dic/src/Database/PdoContextHelper.php',
         'srag\\DIC\\SrLpReport\\Database\\PdoStatementContextHelper' => __DIR__ . '/..' . '/srag/dic/src/Database/PdoStatementContextHelper.php',
         'srag\\DIC\\SrLpReport\\Exception\\DICException' => __DIR__ . '/..' . '/srag/dic/src/Exception/DICException.php',
+        'srag\\DIC\\SrLpReport\\Loader\\AbstractLoaderDetector' => __DIR__ . '/..' . '/srag/dic/src/Loader/AbstractLoaderDetector.php',
         'srag\\DIC\\SrLpReport\\Output\\Output' => __DIR__ . '/..' . '/srag/dic/src/Output/Output.php',
         'srag\\DIC\\SrLpReport\\Output\\OutputInterface' => __DIR__ . '/..' . '/srag/dic/src/Output/OutputInterface.php',
         'srag\\DIC\\SrLpReport\\PHPVersionChecker' => __DIR__ . '/..' . '/srag/dic/src/PHPVersionChecker.php',
@@ -171,8 +159,31 @@ class ComposerStaticInitc782db8ddd5f29172129184e2711b5cc
         'srag\\DIC\\SrLpReport\\Util\\LibraryLanguageInstaller' => __DIR__ . '/..' . '/srag/dic/src/Util/LibraryLanguageInstaller.php',
         'srag\\DIC\\SrLpReport\\Version\\Version' => __DIR__ . '/..' . '/srag/dic/src/Version/Version.php',
         'srag\\DIC\\SrLpReport\\Version\\VersionInterface' => __DIR__ . '/..' . '/srag/dic/src/Version/VersionInterface.php',
+        'srag\\LearningProgressPieUI\\SrLpReport\\AbstractLearningProgressPieUI' => __DIR__ . '/..' . '/srag/learningprogresspieui/src/AbstractLearningProgressPieUI.php',
+        'srag\\LearningProgressPieUI\\SrLpReport\\CountLearningProgressPieUI' => __DIR__ . '/..' . '/srag/learningprogresspieui/src/CountLearningProgressPieUI.php',
+        'srag\\LearningProgressPieUI\\SrLpReport\\Factory' => __DIR__ . '/..' . '/srag/learningprogresspieui/src/Factory.php',
+        'srag\\LearningProgressPieUI\\SrLpReport\\LearningProgressPieUITrait' => __DIR__ . '/..' . '/srag/learningprogresspieui/src/LearningProgressPieUITrait.php',
+        'srag\\LearningProgressPieUI\\SrLpReport\\ObjIdsLearningProgressPieUI' => __DIR__ . '/..' . '/srag/learningprogresspieui/src/ObjIdsLearningProgressPieUI.php',
+        'srag\\LearningProgressPieUI\\SrLpReport\\UsrIdsLearningProgressPieUI' => __DIR__ . '/..' . '/srag/learningprogresspieui/src/UsrIdsLearningProgressPieUI.php',
+        'srag\\LibrariesNamespaceChanger\\GeneratePluginPhpAndXml' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/GeneratePluginPhpAndXml.php',
         'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
+        'srag\\LibrariesNamespaceChanger\\PHP72Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP72Backport.php',
         'srag\\LibrariesNamespaceChanger\\PHP7Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP7Backport.php',
+        'srag\\LibrariesNamespaceChanger\\RemovePHP72Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/RemovePHP72Backport.php',
+        'srag\\LibrariesNamespaceChanger\\UpdatePluginReadme' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/UpdatePluginReadme.php',
+        'srag\\PieChart\\SrLpReport\\Component\\Factory' => __DIR__ . '/..' . '/srag/piechart/src/Component/Factory.php',
+        'srag\\PieChart\\SrLpReport\\Component\\LegendEntry' => __DIR__ . '/..' . '/srag/piechart/src/Component/LegendEntry.php',
+        'srag\\PieChart\\SrLpReport\\Component\\PieChart' => __DIR__ . '/..' . '/srag/piechart/src/Component/PieChart.php',
+        'srag\\PieChart\\SrLpReport\\Component\\PieChartItem' => __DIR__ . '/..' . '/srag/piechart/src/Component/PieChartItem.php',
+        'srag\\PieChart\\SrLpReport\\Component\\Section' => __DIR__ . '/..' . '/srag/piechart/src/Component/Section.php',
+        'srag\\PieChart\\SrLpReport\\Component\\SectionValue' => __DIR__ . '/..' . '/srag/piechart/src/Component/SectionValue.php',
+        'srag\\PieChart\\SrLpReport\\Implementation\\Factory' => __DIR__ . '/..' . '/srag/piechart/src/Implementation/Factory.php',
+        'srag\\PieChart\\SrLpReport\\Implementation\\LegendEntry' => __DIR__ . '/..' . '/srag/piechart/src/Implementation/LegendEntry.php',
+        'srag\\PieChart\\SrLpReport\\Implementation\\PieChart' => __DIR__ . '/..' . '/srag/piechart/src/Implementation/PieChart.php',
+        'srag\\PieChart\\SrLpReport\\Implementation\\PieChartItem' => __DIR__ . '/..' . '/srag/piechart/src/Implementation/PieChartItem.php',
+        'srag\\PieChart\\SrLpReport\\Implementation\\Renderer' => __DIR__ . '/..' . '/srag/piechart/src/Implementation/Renderer.php',
+        'srag\\PieChart\\SrLpReport\\Implementation\\Section' => __DIR__ . '/..' . '/srag/piechart/src/Implementation/Section.php',
+        'srag\\PieChart\\SrLpReport\\Implementation\\SectionValue' => __DIR__ . '/..' . '/srag/piechart/src/Implementation/SectionValue.php',
         'srag\\Plugins\\SrLpReport\\Access\\Access' => __DIR__ . '/../..' . '/src/Access/Access.php',
         'srag\\Plugins\\SrLpReport\\Access\\Ilias' => __DIR__ . '/../..' . '/src/Access/Ilias.php',
         'srag\\Plugins\\SrLpReport\\Block\\BaseCommentsCourseBlock' => __DIR__ . '/../..' . '/src/Block/BaseCommentsCourseBlock.php',

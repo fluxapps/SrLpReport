@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.3]
+- Skip disabled lp objects
+- Switch to srag/learningprogresspieui library
+- Fix user lp view (Core)
+- Fix may pass `null` on call `syncPositionPermissionsWithChildren(s)`
+- Fix may crash if no result and org filter in matrix table
+
 ## [2.6.2]
 - Config reporting view per object
 - Default user reporting view

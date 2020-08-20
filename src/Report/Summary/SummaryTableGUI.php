@@ -46,7 +46,7 @@ class SummaryTableGUI extends AbstractReport2TableGUI
     /**
      * @inheritdoc
      */
-    protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*array*/ $row, int $format = self::DEFAULT_FORMAT) : string
     {
         switch (true) {
             case $column === "title":
@@ -95,7 +95,7 @@ class SummaryTableGUI extends AbstractReport2TableGUI
                 "default" => true,
                 "txt"     => self::dic()->language()->txt("total")
             ];
-            foreach (self::customInputGUIs()->learningProgressPie()->count()->getTitles() as $status => $title) {
+            foreach (self::learningProgressPieUI()->count()->getTitles() as $status => $title) {
                 $cols["status_" . $status] = [
                     "id"      => "status_" . $status,
                     "sort"    => true,
@@ -141,7 +141,7 @@ class SummaryTableGUI extends AbstractReport2TableGUI
             ($limit ? ilUtil::stripSlashes($this->getOffset()) : null), ($limit ? ilUtil::stripSlashes($this->getLimit()) : null), [], $this->getSelectedColumns(), $preselected_obj_ids);
 
         $data["set"] = array_map(function (array $row) : array {
-            $row["pie"] = self::customInputGUIs()->learningProgressPie()->count()->withCount($row["status"]);
+            $row["pie"] = self::learningProgressPieUI()->count()->withCount($row["status"]);
 
             if ($this->getExportMode()) {
                 $row["pie"] = $row["pie"]->withShowEmpty(true);

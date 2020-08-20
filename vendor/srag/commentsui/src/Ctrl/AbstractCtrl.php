@@ -18,7 +18,6 @@ abstract class AbstractCtrl implements CtrlInterface
     use DICTrait;
     use CommentsUITrait;
 
-
     /**
      * AbstractCtrl constructor
      */
@@ -31,7 +30,7 @@ abstract class AbstractCtrl implements CtrlInterface
     /**
      * @inheritDoc
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand()/* : void*/
     {
         $cmd = self::dic()->ctrl()->getCmd();
 
@@ -51,21 +50,27 @@ abstract class AbstractCtrl implements CtrlInterface
 
 
     /**
-     *
+     * @inheritDoc
      */
-    protected function getComments()/*: void*/
+    public function getAsyncBaseUrl() : string
     {
-        $report_obj_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID));
-        $report_user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID));
+        return self::dic()->ctrl()->getLinkTargetByClass($this->getAsyncClass(), "", "", true, false);
+    }
 
-        self::output()->outputJSON($this->getCommentsArray($report_obj_id, $report_user_id));
+
+    /**
+     * @inheritDoc
+     */
+    public function getIsReadOnly() : bool
+    {
+        return false;
     }
 
 
     /**
      *
      */
-    protected function createComment()/*: void*/
+    protected function createComment()/* : void*/
     {
         $report_obj_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID));
         $report_user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID));
@@ -87,24 +92,7 @@ abstract class AbstractCtrl implements CtrlInterface
     /**
      *
      */
-    protected function updateComment()/*: void*/
-    {
-        $comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
-
-        $comment = self::comments()->getCommentById($comment_id);
-
-        $comment->setComment(filter_input(INPUT_POST, "content"));
-
-        self::comments()->storeComment($comment);
-
-        self::output()->outputJSON($comment);
-    }
-
-
-    /**
-     *
-     */
-    protected function deleteComment()/*: void*/
+    protected function deleteComment()/* : void*/
     {
         $comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
 
@@ -117,7 +105,19 @@ abstract class AbstractCtrl implements CtrlInterface
     /**
      *
      */
-    protected function shareComment()/*: void*/
+    protected function getComments()/* : void*/
+    {
+        $report_obj_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID));
+        $report_user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID));
+
+        self::output()->outputJSON($this->getCommentsArray($report_obj_id, $report_user_id));
+    }
+
+
+    /**
+     *
+     */
+    protected function shareComment()/* : void*/
     {
         $comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
 
@@ -130,19 +130,18 @@ abstract class AbstractCtrl implements CtrlInterface
 
 
     /**
-     * @inheritDoc
+     *
      */
-    public function getIsReadOnly() : bool
+    protected function updateComment()/* : void*/
     {
-        return false;
-    }
+        $comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
 
+        $comment = self::comments()->getCommentById($comment_id);
 
-    /**
-     * @inheritDoc
-     */
-    public function getAsyncBaseUrl() : string
-    {
-        return self::dic()->ctrl()->getLinkTargetByClass($this->getAsyncClass(), "", "", true, false);
+        $comment->setComment(filter_input(INPUT_POST, "content"));
+
+        self::comments()->storeComment($comment);
+
+        self::output()->outputJSON($comment);
     }
 }

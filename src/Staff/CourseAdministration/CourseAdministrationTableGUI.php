@@ -45,7 +45,7 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
      *
      * @param ilMStListUser $row
      */
-    protected function getColumnValue(/*string*/ $column, /*ilMStListUser*/ $row, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*ilMStListUser*/ $row, int $format = self::DEFAULT_FORMAT) : string
     {
         switch (true) {
             case $column === "org_units":

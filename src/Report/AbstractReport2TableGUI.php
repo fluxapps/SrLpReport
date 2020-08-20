@@ -62,9 +62,9 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
     /**
      * @inheritdoc
      */
-    protected function getColumnValue(/*string*/
+    protected function getColumnValue(string
         $column, /*array*/
-        $row, /*int*/
+        $row, int
         $format = self::DEFAULT_FORMAT
     ) : string {
         switch ($column) {

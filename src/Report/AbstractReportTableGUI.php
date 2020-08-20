@@ -6,8 +6,8 @@ use ilAdvancedSelectionListGUI;
 use ilLearningProgressBaseGUI;
 use ilLPStatus;
 use ilSrLpReportPlugin;
-use srag\CustomInputGUIs\SrLpReport\CustomInputGUIsTrait;
 use srag\CustomInputGUIs\SrLpReport\TableGUI\TableGUI;
+use srag\LearningProgressPieUI\SrLpReport\LearningProgressPieUITrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -21,7 +21,7 @@ abstract class AbstractReportTableGUI extends TableGUI
 {
 
     use SrLpReportTrait;
-    use CustomInputGUIsTrait;
+    use LearningProgressPieUITrait;
     const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
 
 
