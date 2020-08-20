@@ -171,7 +171,6 @@ class MatrixTableGUI extends AbstractReport2TableGUI
                         }
                     }
                 }
-            }
 
             //filter
             if ($filter['org_units'] > 0) {
@@ -193,6 +192,7 @@ class MatrixTableGUI extends AbstractReport2TableGUI
 
             //TODO filter contains unusual values...
             unset($filter['gender']);
+            }
             $table_data = [];
             if (count($data["set"]) > 0) {
                 foreach ($data["set"] as $row) {
