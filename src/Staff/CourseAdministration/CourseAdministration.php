@@ -164,6 +164,26 @@ final class CourseAdministration
             });
         }
 
+        foreach (Config::getField(Config::KEY_COURSE_ADMINISTRATION_UDF_FIELDS) as $field_id) {
+            if (!empty($filter["udf_field_" . $field_id])) {
+                $data["data"] = array_filter($data["data"],
+                    /**
+                     * @param ilMStListUser|ilMStListUser54 $user
+                     */
+                    function (/*ilMStListUser*/ $user) use ($field_id, $filter) : bool {
+                        $user->{"udf_field_" . $field_id} = $user->returnIlUserObj()->getUserDefinedData()["f_" . $field_id];
+
+                        if (!empty(array_filter($filter["udf_field_" . $field_id], function (array $value) use ($user, $field_id): bool {
+                            return stripos($user->{"udf_field_" . $field_id}, $value["value"]) !== false;
+                        }))) {
+                            return true;
+                        }
+
+                    return false;
+                });
+            }
+        }
+
         if (!empty($filter["user_language"])) {
             $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
                 $user->user_language = ilObjUser::_lookupLanguage($user->getUsrId());
@@ -180,6 +200,12 @@ final class CourseAdministration
         $data["data"] = array_slice($data["data"], $limit_start, $limit_end);
 
         $data["data"] = array_map(function (ilMStListUser $user) : ilMStListUser {
+            foreach (Config::getField(Config::KEY_COURSE_ADMINISTRATION_UDF_FIELDS) as $field_id) {
+                if (!isset($user->{"udf_field_" . $field_id})) {
+                    $user->{"udf_field_" . $field_id} = $user->returnIlUserObj()->getUserDefinedData()["f_" . $field_id];
+                }
+            }
+
             foreach ($this->getCourses() as $crs_obj_id => $crs) {
                 $user->{"crs_" . $crs_obj_id} = $crs;
             }

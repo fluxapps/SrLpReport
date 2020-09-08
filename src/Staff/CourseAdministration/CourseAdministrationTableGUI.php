@@ -13,7 +13,9 @@ use ilMStListUser;
 use ilObjCourse;
 use ilOrgUnitPathStorage;
 use ilTextInputGUI;
+use ilUserDefinedFields;
 use ilUserSearchOptions;
+use srag\CustomInputGUIs\SrLpReport\MultiLineNewInputGUI\MultiLineNewInputGUI;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\OrgUnitAjaxAutoCompleteCtrl;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\Items\Items;
@@ -50,6 +52,10 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
         switch (true) {
             case $column === "org_units":
                 $column = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row->getUsrId());
+                break;
+
+            case strpos($column, "udf_field_") === 0:
+                $column = $row->{$column};
                 break;
 
             case $column === "user_language":
@@ -169,6 +175,16 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
         if ($columns === null) {
             $columns = self::ilias()->staff()->users()->getColumns();
 
+            foreach (array_filter(ilUserDefinedFields::_getInstance()->getDefinitions(), function (array $field) : bool {
+                    return in_array($field["field_id"], Config::getField(Config::KEY_COURSE_ADMINISTRATION_UDF_FIELDS));
+                }) as $field) {
+                $columns["udf_field_" . $field["field_id"]] = [
+                    "default" => true,
+                    "sort"    => false,
+                    "txt"     => $field["field_name"]
+                ];
+            }
+
             $columns["user_language"] = [
                 "default" => true,
                 "txt"     => $this->dic()->language()->txt("user") . " " . $this->dic()->language()->txt("language")
@@ -275,7 +291,23 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
                 PropertyFormGUI::PROPERTY_CLASS   => ilCheckboxInputGUI::class,
                 PropertyFormGUI::PROPERTY_NOT_ADD => (!ilUserSearchOptions::_isEnabled("org_units")),
                 "setTitle"                        => $this->dic()->language()->txt("obj_orgu") . " ".$this->txt("subsequent")
-            ],
+            ]] + array_reduce(array_filter(ilUserDefinedFields::_getInstance()->getDefinitions(), function (array $field) : bool {
+        return in_array($field["field_id"], Config::getField(Config::KEY_COURSE_ADMINISTRATION_UDF_FIELDS));
+    }), function (array $filter, array $field) : array {
+                $filter["udf_field_" . $field["field_id"]] = [
+                    PropertyFormGUI::PROPERTY_CLASS => MultiLineNewInputGUI::class,
+                    PropertyFormGUI::PROPERTY_SUBITEMS => [
+                      "value" => [
+                          PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class
+                      ]
+                    ],
+                    "setShowSort" => false,
+                    "setShowInputLabel" => MultiLineNewInputGUI::SHOW_INPUT_LABEL_NONE,
+                    "setTitle"                      => $field["field_name"]
+                ];
+
+                return $filter;
+            }, []) + [
             "enrolled_crs_obj_ids"     => [
                 PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => array_map(function (ilObjCourse $crs) : string {

@@ -7,6 +7,7 @@ use ilNumberInputGUI;
 use ilSrLpReportConfigGUI;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
+use ilUserDefinedFields;
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfigFormGUI;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\ObjectsAjaxAutoCompleteCtrl;
@@ -81,6 +82,12 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
                     Config::KEY_COURSE_ADMINISTRATION_MARK    => [
                         self::PROPERTY_CLASS => ilNumberInputGUI::class,
                         "setSuffix"          => $this->txt(CourseAdministrationStaffGUI::LANG_MODULE . "_mark_days")
+                    ],
+                    Config::KEY_COURSE_ADMINISTRATION_UDF_FIELDS => [
+                        self::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
+                        self::PROPERTY_OPTIONS => array_map(function (array $field) : string {
+                                return $field["field_name"];
+                            }, ilUserDefinedFields::_getInstance()->getDefinitions())
                     ]
                 ]
             ],
