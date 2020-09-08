@@ -3,6 +3,7 @@ config_configuration_saved#:#Konfiguration gespeichert
 config_course_administration_courses#:#Kurse als Spalte in Tabelle anzeigen
 config_course_administration_mark#:#Kurse markieren ab x Tagen nach dem Einschreibedatum ohne bearbeiteten Lernforschritt
 config_course_administration_mark_days#:#Tagen
+config_course_administration_udf_fields#:#UDF-Felder als Spalte in Tabelle anzeigen
 config_enable_view#:#Ansicht %s aktivieren
 config_reporting#:#Lernfortschritt-Ansicht ersetzen
 config_reporting_per_object#:#Pro Objekt konfigurierbar

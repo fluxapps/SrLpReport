@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- Course Administration: UDF fields
+
 ## [2.6.3]
 - Skip disabled lp objects
 - Switch to srag/learningprogresspieui library
