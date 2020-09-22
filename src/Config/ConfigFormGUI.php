@@ -4,6 +4,7 @@ namespace srag\Plugins\SrLpReport\Config;
 
 use ilCheckboxInputGUI;
 use ilNumberInputGUI;
+use ilSelectInputGUI;
 use ilSrLpReportConfigGUI;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
@@ -11,6 +12,9 @@ use ilUserDefinedFields;
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfigFormGUI;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\ObjectsAjaxAutoCompleteCtrl;
+use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
+use srag\Plugins\SrLpReport\Report\Summary\SummaryReportGUI;
+use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
 use srag\Plugins\SrLpReport\Staff\CourseAdministration\CourseAdministrationStaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -63,6 +67,15 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
                             ]
                         ],
                         "setTitle"              => self::plugin()->translate("reporting_per_object", self::LANG_MODULE)
+                    ],
+                    Config::KEY_REPORTING_DEFAULT_VIEW => [
+                        self::PROPERTY_CLASS    => ilSelectInputGUI::class,
+                        self::PROPERTY_OPTIONS => [
+                            MatrixReportGUI::TAB_ID => self::dic()->language()->txt(MatrixReportGUI::TAB_ID),
+                            UserReportGUI::TAB_ID => self::dic()->language()->txt(UserReportGUI::TAB_ID),
+                            SummaryReportGUI::TAB_ID => self::dic()->language()->txt(SummaryReportGUI::TAB_ID)
+                        ],
+                        "setTitle" => self::plugin()->translate(Config::KEY_REPORTING_DEFAULT_VIEW, self::LANG_MODULE)
                     ]
                 ],
                 "setTitle"              => self::plugin()->translate("reporting", self::LANG_MODULE)

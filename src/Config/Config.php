@@ -4,6 +4,7 @@ namespace srag\Plugins\SrLpReport\Config;
 
 use ilSrLpReportPlugin;
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfig;
+use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
@@ -25,6 +26,7 @@ class Config extends ActiveRecordConfig {
     const KEY_ENABLE_COURSES_VIEW = "enable_course_view";
     const KEY_ENABLE_COURSE_ADMINISTRATION = "enable_course_administration";
     const KEY_ENABLE_REPORTING_VIEW = "enable_reporting_view";
+    const KEY_REPORTING_DEFAULT_VIEW = "reporting_default_view";
     const KEY_ENABLE_REPORTING_VIEW_PER_OBJECT = "enable_reporting_view_per_object";
     const KEY_ENABLE_REPORTING_VIEW_PER_OBJECT_NEW_OBJECTS = "enable_reporting_view_per_object_new_objects";
     const KEY_ENABLE_USERS_VIEW = "enable_users_view";
@@ -42,6 +44,7 @@ class Config extends ActiveRecordConfig {
         self::KEY_ENABLE_COURSES_VIEW => [ self::TYPE_BOOLEAN, false ],
         self::KEY_ENABLE_COURSE_ADMINISTRATION => [ self::TYPE_BOOLEAN, false ],
         self::KEY_ENABLE_REPORTING_VIEW => [ self::TYPE_BOOLEAN, true ],
+        self::KEY_REPORTING_DEFAULT_VIEW => [self::TYPE_STRING, MatrixReportGUI::TAB_ID ],
         self::KEY_ENABLE_REPORTING_VIEW_PER_OBJECT => [ self::TYPE_BOOLEAN, false ],
         self::KEY_ENABLE_REPORTING_VIEW_PER_OBJECT_NEW_OBJECTS => [ self::TYPE_BOOLEAN, false ],
         self::KEY_ENABLE_USERS_VIEW => [ self::TYPE_BOOLEAN, false ],
