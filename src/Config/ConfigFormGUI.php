@@ -46,6 +46,12 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
             Config::KEY_SHOW_MATRIX_ACTIONS => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                 "setTitle"           => self::plugin()->translate(Config::KEY_SHOW_MATRIX_ACTIONS, self::LANG_MODULE, [self::dic()->language()->txt("trac_matrix")]),
+                self::PROPERTY_SUBITEMS => [
+                    Config::KEY_SHOW_MATRIX_ACTIONS_EDIT => [
+                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                        "setTitle"           => self::plugin()->translate(Config::KEY_SHOW_MATRIX_ACTIONS_EDIT, self::LANG_MODULE)
+                    ]
+                ]
                 ],
             Config::KEY_ENABLE_COURSES_VIEW => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,

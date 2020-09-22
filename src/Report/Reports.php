@@ -194,6 +194,7 @@ final class Reports
         }
 
         if (!empty($actions)) {
+            if (Config::getField(Config::KEY_SHOW_MATRIX_ACTIONS_EDIT)) {
             self::dic()->ctrl()->setParameterByClass(ilLPListOfObjectsGUI::class, "ref_id", $ref_id);
             self::dic()->ctrl()->setParameterByClass(ilLPListOfObjectsGUI::class, "details_id", $ref_id);
             self::dic()->ctrl()->setParameterByClass(ilLPListOfObjectsGUI::class, "user_id", $user_id);
@@ -205,6 +206,7 @@ final class Reports
                     ilLPListOfObjectsGUI::class
                 ], "edituser"))
             ]);
+            }
         }
 
         return self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel(self::dic()->language()->txt("actions"));
