@@ -6,6 +6,7 @@ config_course_administration_mark_days#:#Days
 config_course_administration_udf_fields#:#Show udf fields as columns in table
 config_enable_view#:#Enable %s view
 config_reporting#:#Replace learning progress view
+config_reporting_default_view#:#Default view
 config_reporting_per_object#:#Configurable per object
 config_reporting_per_object_new_objects#:#Be on for new or unconfigured objects per default
 config_reporting_always_show_child_types#:#Always show objects of types in %s

@@ -6,6 +6,7 @@ config_course_administration_mark_days#:#Tagen
 config_course_administration_udf_fields#:#UDF-Felder als Spalte in Tabelle anzeigen
 config_enable_view#:#Ansicht %s aktivieren
 config_reporting#:#Lernfortschritt-Ansicht ersetzen
+config_reporting_default_view#:#Standardansicht
 config_reporting_per_object#:#Pro Objekt konfigurierbar
 config_reporting_per_object_new_objects#:#Für neue oder unkonfigurierte Objekte standardmässig an
 config_reporting_always_show_child_types#:#Objekte der Typen in %s immer anzeigen
