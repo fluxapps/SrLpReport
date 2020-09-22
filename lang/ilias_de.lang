@@ -12,6 +12,7 @@ config_reporting_always_show_child_types#:#Objekte der Typen in %s immer anzeige
 config_reporting_always_show_child_types_info#:#Unabhängig Objekt spezifischen Einstellung
 config_save#:#Speichern
 config_show_matrix_actions#:#Aktionen in %s anzeigen
+config_show_matrix_actions_edit#:#Bearbeiten aktivieren
 config_sync_position_permissions_with_children#:#Position-Rechte mit Objekt-Kinder synchen
 course_administration_enrolled_before#:#Eingeschrieben vor
 course_administration_enrolled_crs_obj_ids#:#Eingeschrieben in Kurs

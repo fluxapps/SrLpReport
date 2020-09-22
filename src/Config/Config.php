@@ -30,6 +30,7 @@ class Config extends ActiveRecordConfig {
     const KEY_ENABLE_USERS_VIEW = "enable_users_view";
     const KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES = "reporting_always_show_child_types";
     const KEY_SHOW_MATRIX_ACTIONS = "show_matrix_actions";
+    const KEY_SHOW_MATRIX_ACTIONS_EDIT = "show_matrix_actions_edit";
     const KEY_SYNC_POSITION_PERMISSIONS_WITH_CHILDREN = "sync_position_permissions_with_children";
 	/**
 	 * @var array
@@ -47,6 +48,7 @@ class Config extends ActiveRecordConfig {
         self::KEY_ENABLE_USERS_VIEW => [ self::TYPE_BOOLEAN, false ],
         self::KEY_REPORTING_ALWAYS_SHOW_CHILD_TYPES => [ self::TYPE_JSON, [] ],
         self::KEY_SHOW_MATRIX_ACTIONS => [ self::TYPE_BOOLEAN, false ],
+        self::KEY_SHOW_MATRIX_ACTIONS_EDIT => [ self::TYPE_BOOLEAN, true ],
         self::KEY_SYNC_POSITION_PERMISSIONS_WITH_CHILDREN => [self::TYPE_BOOLEAN, false ]
 	];
 }

@@ -1,6 +1,9 @@
 # Changelog
 
 ## [x]
+- Enable matrix edit config
+- Default reporting view config
+- Manscoring matrix action
 - Course Administration: UDF fields
 
 ## [2.6.3]
