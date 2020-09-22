@@ -3,14 +3,17 @@ config_configuration_saved#:#Configuration saved
 config_course_administration_courses#:#Show courses as columns in table
 config_course_administration_mark#:#Mark courses after x days after the enrolment date without edited learning progress
 config_course_administration_mark_days#:#Days
+config_course_administration_udf_fields#:#Show udf fields as columns in table
 config_enable_view#:#Enable %s view
 config_reporting#:#Replace learning progress view
+config_reporting_default_view#:#Default view
 config_reporting_per_object#:#Configurable per object
 config_reporting_per_object_new_objects#:#Be on for new or unconfigured objects per default
 config_reporting_always_show_child_types#:#Always show objects of types in %s
 config_reporting_always_show_child_types_info#:#Independently object specific setting
 config_save#:#Save
 config_show_matrix_actions#:#Show actions in %s
+config_show_matrix_actions_edit#:#Enable edit
 config_sync_position_permissions_with_children#:#Sync position permissions with object children
 course_administration_enrolled_before#:#Enrolled before
 course_administration_enrolled_crs_obj_ids#:#Enrolled in course

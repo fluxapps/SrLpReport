@@ -106,7 +106,18 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
                             self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()
                                 ->getReportObjRefId());
 
+                            switch (Config::getField(Config::KEY_REPORTING_DEFAULT_VIEW)) {
+                                case UserReportGUI::TAB_ID:
                             self::dic()->ctrl()->redirectByClass([ilUIPluginRouterGUI::class, ReportGUI::class, UserReportGUI::class]);
+                            break;
+                                case SummaryReportGUI::TAB_ID:
+                                    self::dic()->ctrl()->redirectByClass([ilUIPluginRouterGUI::class, ReportGUI::class, SummaryReportGUI::class]);
+                                    break;
+                                case MatrixReportGUI::TAB_ID:
+                                default:
+                                    self::dic()->ctrl()->redirectByClass([ilUIPluginRouterGUI::class, ReportGUI::class, MatrixReportGUI::class]);
+                                    break;
+}
                             break;
 
                         default:
@@ -217,7 +228,18 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
                 foreach (self::dic()->tabs()->target as &$target) {
                     if ($target["id"] === "learning_progress") {
                         self::dic()->ctrl()->setParameterByClass(ReportGUI::class, Reports::GET_PARAM_REF_ID, self::reports()->getReportObjRefId());
+                        switch (Config::getField(Config::KEY_REPORTING_DEFAULT_VIEW)) {
+                            case UserReportGUI::TAB_ID:
                         $target["link"] = self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, ReportGUI::class, UserReportGUI::class]);
+                        break;
+                            case SummaryReportGUI::TAB_ID:
+                                $target["link"] = self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, ReportGUI::class, SummaryReportGUI::class]);
+                                break;
+                            case MatrixReportGUI::TAB_ID:
+                            default:
+                            $target["link"] = self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, ReportGUI::class, MatrixReportGUI::class]);
+                            break;
+                        }
                         break;
                     }
                 }

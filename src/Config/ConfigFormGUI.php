@@ -4,12 +4,17 @@ namespace srag\Plugins\SrLpReport\Config;
 
 use ilCheckboxInputGUI;
 use ilNumberInputGUI;
+use ilSelectInputGUI;
 use ilSrLpReportConfigGUI;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
+use ilUserDefinedFields;
 use srag\ActiveRecordConfig\SrLpReport\ActiveRecordConfigFormGUI;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI\ObjectsAjaxAutoCompleteCtrl;
+use srag\Plugins\SrLpReport\Report\Matrix\MatrixReportGUI;
+use srag\Plugins\SrLpReport\Report\Summary\SummaryReportGUI;
+use srag\Plugins\SrLpReport\Report\User\UserReportGUI;
 use srag\Plugins\SrLpReport\Staff\CourseAdministration\CourseAdministrationStaffGUI;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
@@ -45,6 +50,12 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
             Config::KEY_SHOW_MATRIX_ACTIONS => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                 "setTitle"           => self::plugin()->translate(Config::KEY_SHOW_MATRIX_ACTIONS, self::LANG_MODULE, [self::dic()->language()->txt("trac_matrix")]),
+                self::PROPERTY_SUBITEMS => [
+                    Config::KEY_SHOW_MATRIX_ACTIONS_EDIT => [
+                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                        "setTitle"           => self::plugin()->translate(Config::KEY_SHOW_MATRIX_ACTIONS_EDIT, self::LANG_MODULE)
+                    ]
+                ]
                 ],
             Config::KEY_ENABLE_COURSES_VIEW => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
@@ -62,6 +73,15 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
                             ]
                         ],
                         "setTitle"              => self::plugin()->translate("reporting_per_object", self::LANG_MODULE)
+                    ],
+                    Config::KEY_REPORTING_DEFAULT_VIEW => [
+                        self::PROPERTY_CLASS    => ilSelectInputGUI::class,
+                        self::PROPERTY_OPTIONS => [
+                            MatrixReportGUI::TAB_ID => self::dic()->language()->txt(MatrixReportGUI::TAB_ID),
+                            UserReportGUI::TAB_ID => self::dic()->language()->txt(UserReportGUI::TAB_ID),
+                            SummaryReportGUI::TAB_ID => self::dic()->language()->txt(SummaryReportGUI::TAB_ID)
+                        ],
+                        "setTitle" => self::plugin()->translate(Config::KEY_REPORTING_DEFAULT_VIEW, self::LANG_MODULE)
                     ]
                 ],
                 "setTitle"              => self::plugin()->translate("reporting", self::LANG_MODULE)
@@ -81,6 +101,12 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
                     Config::KEY_COURSE_ADMINISTRATION_MARK    => [
                         self::PROPERTY_CLASS => ilNumberInputGUI::class,
                         "setSuffix"          => $this->txt(CourseAdministrationStaffGUI::LANG_MODULE . "_mark_days")
+                    ],
+                    Config::KEY_COURSE_ADMINISTRATION_UDF_FIELDS => [
+                        self::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
+                        self::PROPERTY_OPTIONS => array_map(function (array $field) : string {
+                                return $field["field_name"];
+                            }, ilUserDefinedFields::_getInstance()->getDefinitions())
                     ]
                 ]
             ],

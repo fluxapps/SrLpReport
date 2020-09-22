@@ -26,6 +26,7 @@ use ilTestEvaluationGUI;
 use ilTestParticipant;
 use ilTestResultsGUI;
 use ilTestResultsToolbarGUI;
+use ilTestScoringGUI;
 use ilTrQuery;
 use ilUIPluginRouterGUI;
 use srag\DIC\SrLpReport\DICTrait;
@@ -175,16 +176,35 @@ final class Reports
                             ilTestEvaluationGUI::class
                         ], "outParticipantsResultsOverview"))
                     ]);
+
+                    self::dic()->ctrl()->setParameterByClass(ilTestScoringGUI::class, "ref_id", $ref_id);
+                    self::dic()->ctrl()->setParameterByClass(ilTestScoringGUI::class, "active_id", ilObjectFactory::getInstanceByRefId($ref_id, false)->getActiveIdOfUser($user_id));
+                    $actions = array_merge($actions, [
+                        self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("manscoring"), self::dic()->ctrl()->getLinkTargetByClass([
+                            ilObjTestGUI::class,
+                            ilTestScoringGUI::class
+                        ], "showManScoringParticipantScreen"))->withOpenInNewViewport(true)
+                    ]);
                     break;
 
                 case ilSrLpReportUIHookGUI::TYPE_EXC:
                     self::dic()->ctrl()->setParameterByClass(ilExerciseManagementGUI::class, "ref_id", $ref_id);
+                    self::dic()->ctrl()->setParameterByClass(ilExerciseManagementGUI::class, "part_id", $user_id);
                     $actions = array_merge($actions, [
                         self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("exc_assignment_view", "exc"), self::dic()->ctrl()->getLinkTargetByClass([
                             ilExerciseHandlerGUI::class,
                             ilObjExerciseGUI::class,
                             ilExerciseManagementGUI::class
                         ], "members"))
+                    ]);
+
+                    self::dic()->ctrl()->setParameterByClass(ilExerciseManagementGUI::class, "ref_id", $ref_id);
+                    $actions = array_merge($actions, [
+                        self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("exc_participant_view", "exc"), self::dic()->ctrl()->getLinkTargetByClass([
+                            ilExerciseHandlerGUI::class,
+                            ilObjExerciseGUI::class,
+                            ilExerciseManagementGUI::class
+                        ], "showParticipant"))->withOpenInNewViewport(true)
                     ]);
                     break;
 
@@ -194,6 +214,7 @@ final class Reports
         }
 
         if (!empty($actions)) {
+            if (Config::getField(Config::KEY_SHOW_MATRIX_ACTIONS_EDIT)) {
             self::dic()->ctrl()->setParameterByClass(ilLPListOfObjectsGUI::class, "ref_id", $ref_id);
             self::dic()->ctrl()->setParameterByClass(ilLPListOfObjectsGUI::class, "details_id", $ref_id);
             self::dic()->ctrl()->setParameterByClass(ilLPListOfObjectsGUI::class, "user_id", $user_id);
@@ -205,6 +226,7 @@ final class Reports
                     ilLPListOfObjectsGUI::class
                 ], "edituser"))
             ]);
+            }
         }
 
         return self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel(self::dic()->language()->txt("actions"));

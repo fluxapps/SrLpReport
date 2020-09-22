@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.6.4]
+- Enable matrix edit config
+- Default reporting view config
+- Manscoring matrix action
+- Course Administration: UDF fields
+
 ## [2.6.3]
 - Skip disabled lp objects
 - Switch to srag/learningprogresspieui library
