@@ -2,6 +2,7 @@
 
 ## [x]
 - Open matrix actions in new tab
+- Rename first matrix action to "All results"
 
 ## [2.6.4]
 - Enable matrix edit config

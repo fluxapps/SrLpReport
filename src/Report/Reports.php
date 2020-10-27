@@ -169,7 +169,7 @@ final class Reports
                     self::dic()->ctrl()->setParameterByClass(ilTestEvaluationGUI::class, "ref_id", $ref_id);
                     self::dic()->ctrl()->setParameterByClass(ilTestEvaluationGUI::class, "active_id", ilObjectFactory::getInstanceByRefId($ref_id, false)->getActiveIdOfUser($user_id));
                     $actions = array_merge($actions, [
-                        self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("results", "assessment"), self::dic()->ctrl()->getLinkTargetByClass([
+                        self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("all_results"), self::dic()->ctrl()->getLinkTargetByClass([
                             ilObjTestGUI::class,
                             ilTestResultsGUI::class,
                             ilParticipantsTestResultsGUI::class,
@@ -191,7 +191,7 @@ final class Reports
                     self::dic()->ctrl()->setParameterByClass(ilExerciseManagementGUI::class, "ref_id", $ref_id);
                     self::dic()->ctrl()->setParameterByClass(ilExerciseManagementGUI::class, "part_id", $user_id);
                     $actions = array_merge($actions, [
-                        self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("exc_assignment_view", "exc"), self::dic()->ctrl()->getLinkTargetByClass([
+                        self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("all_results"), self::dic()->ctrl()->getLinkTargetByClass([
                             ilExerciseHandlerGUI::class,
                             ilObjExerciseGUI::class,
                             ilExerciseManagementGUI::class
