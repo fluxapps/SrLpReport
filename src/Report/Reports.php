@@ -174,7 +174,7 @@ final class Reports
                             ilTestResultsGUI::class,
                             ilParticipantsTestResultsGUI::class,
                             ilTestEvaluationGUI::class
-                        ], "outParticipantsResultsOverview"))
+                        ], "outParticipantsResultsOverview"))->withOpenInNewViewport(true)
                     ]);
 
                     self::dic()->ctrl()->setParameterByClass(ilTestScoringGUI::class, "ref_id", $ref_id);
@@ -195,7 +195,7 @@ final class Reports
                             ilExerciseHandlerGUI::class,
                             ilObjExerciseGUI::class,
                             ilExerciseManagementGUI::class
-                        ], "members"))
+                        ], "members"))->withOpenInNewViewport(true)
                     ]);
 
                     self::dic()->ctrl()->setParameterByClass(ilExerciseManagementGUI::class, "ref_id", $ref_id);

@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- Open matrix actions in new tab
+
 ## [2.6.4]
 - Enable matrix edit config
 - Default reporting view config
