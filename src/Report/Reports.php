@@ -172,15 +172,16 @@ final class Reports
                         self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("all_results"), self::dic()->ctrl()->getLinkTargetByClass([
                             ilObjTestGUI::class,
                             ilTestResultsGUI::class,
-                            ilParticipantsTestResultsGUI::class,
-                            ilTestEvaluationGUI::class
-                        ], "outParticipantsResultsOverview"))->withOpenInNewViewport(true)
+                            ilParticipantsTestResultsGUI::class
+                        ]))->withOpenInNewViewport(true)
                     ]);
 
                     self::dic()->ctrl()->setParameterByClass(ilTestScoringGUI::class, "ref_id", $ref_id);
                     self::dic()->ctrl()->setParameterByClass(ilTestScoringGUI::class, "active_id", ilObjectFactory::getInstanceByRefId($ref_id, false)->getActiveIdOfUser($user_id));
                     $actions = array_merge($actions, [
-                        self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("manscoring"), self::dic()->ctrl()->getLinkTargetByClass([
+                        self::dic()->ui()->factory()->link()->standard(
+                            self::plugin()->translate("per_participant"),
+                            self::dic()->ctrl()->getLinkTargetByClass([
                             ilObjTestGUI::class,
                             ilTestScoringGUI::class
                         ], "showManScoringParticipantScreen"))->withOpenInNewViewport(true)
