@@ -170,6 +170,7 @@ final class Reports
                     
                     $actions = array_merge($actions, [
                         self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("all_results"), self::dic()->ctrl()->getLinkTargetByClass([
+                            ilRepositoryGUI::class,
                             ilObjTestGUI::class,
                             ilTestResultsGUI::class,
                             ilParticipantsTestResultsGUI::class

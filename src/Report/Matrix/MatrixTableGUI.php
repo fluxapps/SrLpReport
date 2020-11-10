@@ -194,7 +194,7 @@ class MatrixTableGUI extends AbstractReport2TableGUI
             unset($filter['gender']);
             }
             $table_data = [];
-            if (count($data["set"]) > 0) {
+            if (is_array($data["set"])  && count($data["set"]) > 0) {
                 foreach ($data["set"] as $row) {
 
                     $filtered = false;
