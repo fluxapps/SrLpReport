@@ -166,8 +166,8 @@ final class Reports
                     break;
 
                 case ilSrLpReportUIHookGUI::TYPE_TST:
-                    self::dic()->ctrl()->setParameterByClass(ilTestEvaluationGUI::class, "ref_id", $ref_id);
-                    self::dic()->ctrl()->setParameterByClass(ilTestEvaluationGUI::class, "active_id", ilObjectFactory::getInstanceByRefId($ref_id, false)->getActiveIdOfUser($user_id));
+                    self::dic()->ctrl()->setParameterByClass(ilParticipantsTestResultsGUI::class, "ref_id", $ref_id);
+                    
                     $actions = array_merge($actions, [
                         self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("all_results"), self::dic()->ctrl()->getLinkTargetByClass([
                             ilObjTestGUI::class,
