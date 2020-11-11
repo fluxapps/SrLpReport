@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.6.5]
+- Open matrix actions in new tab
+- Rename first matrix action to "All results"
+
 ## [2.6.4]
 - Enable matrix edit config
 - Default reporting view config

@@ -41,7 +41,7 @@ class MatrixTableGUI extends AbstractReport2TableGUI
                     ->lookupObjId($this->ref_id)]), 0));
             } else {
                 return self::output()->getHTML([strval($this->getLearningProgressRepresentation(intval($row['obj_' . self::dic()->objDataCache()
-                    ->lookupObjId($this->ref_id)]), 0)), self::reports()->getCellActions($this->ref_id, $row["usr_id"])]);
+                    ->lookupObjId($this->ref_id)]), 0)), self::reports()->getCellActions($this->ref_id, $row["usr_id"],(int) $row['status'])]);
             }
         }
 
@@ -54,7 +54,7 @@ class MatrixTableGUI extends AbstractReport2TableGUI
             if ($format) {
                 return strval($this->getLearningProgressRepresentationExport(intval($row[$column]), $percentage));
             } else {
-                return self::output()->getHTML([strval($this->getLearningProgressRepresentation(intval($row[$column]), $percentage)), self::reports()->getCellActions($row["ref_id_" . $obj_id[1]], $row["usr_id"])]);
+                return self::output()->getHTML([strval($this->getLearningProgressRepresentation(intval($row[$column]), $percentage)), self::reports()->getCellActions($row["ref_id_" . $obj_id[1]], $row["usr_id"], (int) $row['status'])]);
             }
         }
 
@@ -194,7 +194,7 @@ class MatrixTableGUI extends AbstractReport2TableGUI
             unset($filter['gender']);
             }
             $table_data = [];
-            if (count($data["set"]) > 0) {
+            if (is_array($data["set"])  && count($data["set"]) > 0) {
                 foreach ($data["set"] as $row) {
 
                     $filtered = false;

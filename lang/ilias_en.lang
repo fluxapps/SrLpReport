@@ -31,3 +31,5 @@ course_administration_signedout_time#:#Signed out on %s
 course_administration_changed_time#:#Enrollment changed on
 set_passed#:#Set passed
 set_in_progress#:#Set in progress
+all_results#:#All results
+per_participant#:#Per Participant

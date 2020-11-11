@@ -31,3 +31,5 @@ course_administration_signedout_time#:#Abgemeldet am %s
 course_administration_changed_time#:#Einschreibung geändert am
 set_passed#:#Als bestanden setzen
 set_in_progress#:#Als in Bearbeitung setzen
+all_results#:#Alle Ergebnisse
+per_participant#:#Je Teilnehmer
