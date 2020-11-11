@@ -181,7 +181,7 @@ final class Reports
                             ]))->withOpenInNewViewport(true)
                     ]);
 
-                    if ($status > ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM) {
+                    if (ilObjectFactory::getInstanceByRefId($ref_id, false)->getActiveIdOfUser($user_id) > 0) {
                         self::dic()->ctrl()->setParameterByClass(ilTestEvaluationGUI::class, "ref_id", $ref_id);
                         self::dic()->ctrl()->setParameterByClass(ilTestEvaluationGUI::class, "active_id",
                             ilObjectFactory::getInstanceByRefId($ref_id, false)->getActiveIdOfUser($user_id));
