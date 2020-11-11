@@ -182,22 +182,36 @@ final class Reports
                     ]);
 
                     if (ilObjectFactory::getInstanceByRefId($ref_id, false)->getActiveIdOfUser($user_id) > 0) {
-                        self::dic()->ctrl()->setParameterByClass(ilTestEvaluationGUI::class, "ref_id", $ref_id);
-                        self::dic()->ctrl()->setParameterByClass(ilTestEvaluationGUI::class, "active_id",
-                            ilObjectFactory::getInstanceByRefId($ref_id, false)->getActiveIdOfUser($user_id));
+                        $obj_test = new ilObjTest($ref_id);
+                        $il_test_participation_list = new ilTestParticipantList(
+                            $obj_test
+                        );
 
-                        $actions = array_merge($actions, [
-                            self::dic()->ui()->factory()->link()->standard(
-                                self::plugin()->translate("per_participant"),
-                                self::dic()->ctrl()->getLinkTargetByClass([
-                                    ilRepositoryGUI::class,
-                                    ilObjTestGUI::class,
-                                    ilTestResultsGUI::class,
-                                    ilParticipantsTestResultsGUI::class,
-                                    ilTestEvaluationGUI::class
-                                ], "outParticipantsResultsOverview"))->withOpenInNewViewport(true)
-                        ]);
+                        $il_test_participation_list->initializeFromDbRows(
+                            $obj_test->getTestParticipantsForManualScoring()
+                        );
+
+                        if (
+                            in_array(
+                                $user_id, $il_test_participation_list->getAllUserIds()
+                            ) === true) {
+                            self::dic()->ctrl()->setParameterByClass(ilTestScoringGUI::class, "ref_id", $ref_id);
+                            self::dic()->ctrl()->setParameterByClass(ilTestScoringGUI::class, "active_id",
+                                ilObjectFactory::getInstanceByRefId($ref_id, false)->getActiveIdOfUser($user_id));
+
+                            $actions = array_merge($actions, [
+                                self::dic()->ui()->factory()->link()->standard(
+                                    self::plugin()->translate("per_participant"),
+                                    self::dic()->ctrl()->getLinkTargetByClass([
+                                        ilRepositoryGUI::class,
+                                        ilObjTestGUI::class,
+                                        ilTestScoringGUI::class
+                                    ], "showManScoringParticipantScreen"))->withOpenInNewViewport(true)
+                            ]);
+                        }
+
                     }
+
                     break;
 
                 case ilSrLpReportUIHookGUI::TYPE_EXC:
@@ -231,44 +245,6 @@ final class Reports
         if (!empty($actions)) {
             if (Config::getField(Config::KEY_SHOW_MATRIX_ACTIONS_EDIT)) {
 
-                switch (self::dic()->objDataCache()->lookupType(
-                    self::dic()->objDataCache()->lookupObjId($ref_id)
-                )
-                ) {
-                    case ilSrLpReportUIHookGUI::TYPE_TST:
-                        $obj_test = new ilObjTest($ref_id);
-                        $il_test_participation_list = new ilTestParticipantList(
-                            $obj_test
-                        );
-
-                        $il_test_participation_list->initializeFromDbRows(
-                            $obj_test->getTestParticipantsForManualScoring(
-
-                            )
-                        );
-
-                        if(
-                            in_array(
-                                $user_id, $il_test_participation_list->getAllUserIds()
-                            ) === true) {
-                           self::dic()->ctrl()->setParameterByClass(ilTestScoringGUI::class, "ref_id", $ref_id);
-                        self::dic()->ctrl()->setParameterByClass(ilTestScoringGUI::class, "active_id",
-                            ilObjectFactory::getInstanceByRefId($ref_id, false)->getActiveIdOfUser($user_id));
-
-                        $actions = array_merge($actions, [
-                            self::dic()->ui()->factory()->link()->standard(
-                                self::dic()->language()->txt("edit"),
-                                self::dic()->ctrl()->getLinkTargetByClass([
-                                    ilRepositoryGUI::class,
-                                    ilObjTestGUI::class,
-                                    ilTestScoringGUI::class
-                                ], "showManScoringParticipantScreen"))->withOpenInNewViewport(true)
-                        ]);
-                    }
-
-                    break;
-
-                    default:
                         self::dic()->ctrl()->setParameterByClass(ilLPListOfObjectsGUI::class, "ref_id", $ref_id);
                         self::dic()->ctrl()->setParameterByClass(ilLPListOfObjectsGUI::class, "details_id", $ref_id);
                         self::dic()->ctrl()->setParameterByClass(ilLPListOfObjectsGUI::class, "user_id", $user_id);
@@ -281,13 +257,13 @@ final class Reports
                                     ilLPListOfObjectsGUI::class
                                 ], "edituser"))
                         ]);
-                        break;
+
                 }
 
 
             }
 
-        }
+
         return self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel(self::dic()->language()->txt("actions"));
     }
 
