@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [2.6.5]
 - Open matrix actions in new tab
 - Rename first matrix action to "All results"
 
