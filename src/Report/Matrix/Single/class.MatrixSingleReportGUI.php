@@ -75,7 +75,7 @@ class MatrixSingleReportGUI extends AbstractReportGUI
             ]));
         }
 
-        self::dic()->ui()->mainTemplate()->setHeaderActionMenu(self::output()->getHTML(self::reports()->getCellActions(self::reports()->getReportObjRefId(), self::reports()->getUsrId())));
+        self::dic()->ui()->mainTemplate()->setHeaderActionMenu(self::output()->getHTML(self::reports()->getCellActions(self::reports()->getReportObjRefId(), self::reports()->getUsrId(), 0)));
     }
 
 

@@ -188,7 +188,7 @@ class MatrixSingleTableGUI extends AbstractReportTableGUI
         }
 
         if ($column === "actions") {
-            return self::output()->getHTML(self::reports()->getCellActions($row["ref_id"], self::reports()->getUsrId()));
+            return self::output()->getHTML(self::reports()->getCellActions($row["ref_id"], self::reports()->getUsrId(),(int) $row['status']));
         }
 
         return "";
