@@ -4,8 +4,10 @@ namespace srag\Plugins\SrLpReport\Staff;
 
 use ilLearningProgressBaseGUI;
 use ilLPStatus;
-use ilMStListCourse;
-use ilMyStaffAccess;
+use ilMStListCourse as ilMStListCourse54;
+use ILIAS\MyStaff\ListCourses\ilMStListCourse;
+use ilMyStaffAccess as ilMyStaffAccess54;
+use ILIAS\MyStaff\ilMyStaffAccess;
 use ilRepositoryGUI;
 use ilSrLpReportPlugin;
 use ilUtil;
@@ -102,11 +104,11 @@ class StaffGUI
 
 
     /**
-     * @param ilMStListCourse $my_staff_course
+     * @param ilMStListCourse|ilMStListCourse54 $my_staff_course
      *
      * @return string
      */
-    public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course)
+    public static function getUserLpStatusAsHtml(/*ilMStListCourse*/ $my_staff_course)
     {
         global $DIC;
 
@@ -130,11 +132,11 @@ class StaffGUI
 
 
     /**
-     * @param ilMStListCourse $my_staff_course
+     * @param ilMStListCourse|ilMStListCourse54 $my_staff_course
      *
      * @return string
      */
-    public static function getUserLpStatusAsText(ilMStListCourse $my_staff_course)
+    public static function getUserLpStatusAsText(/*ilMStListCourse*/ $my_staff_course)
     {
         if (self::access()->hasCurrentUserAccessToLearningProgressInObject
         ($my_staff_course->getCrsRefId())
