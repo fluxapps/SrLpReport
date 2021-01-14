@@ -9,7 +9,8 @@ use ilDateTime;
 use ilDateTimeInputGUI;
 use ilLearningProgressBaseGUI;
 use ilLPStatus;
-use ilMStListUser;
+use ilMStListUser as ilMStListUser54;
+use ILIAS\MyStaff\ListUsers\ilMStListUser;
 use ilObjCourse;
 use ilOrgUnitPathStorage;
 use ilTextInputGUI;
@@ -45,10 +46,16 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
     /**
      * @inheritDoc
      *
-     * @param ilMStListUser $row
+     * @param ilMStListUser|ilMStListUser54 $row
      */
     protected function getColumnValue(string $column, /*ilMStListUser*/ $row, int $format = self::DEFAULT_FORMAT) : string
     {
+        if (self::version()->is6()) {
+            $icon_factory = self::dic()->ui()->factory()->symbol()->icon();
+        } else {
+            $icon_factory = self::dic()->ui()->factory()->icon();
+        }
+
         switch (true) {
             case $column === "org_units":
                 $column = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($row->getUsrId());
@@ -118,7 +125,7 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
 
                     $column[] = "<br>";
                     $column[] = self::output()->getHTML([
-                        self::dic()->ui()->factory()->icon()->custom($img, $text),
+                        $icon_factory->custom($img, $text),
                         self::dic()->ui()->factory()->legacy($text)
                     ]);
                 } else {
@@ -364,7 +371,7 @@ class CourseAdministrationTableGUI extends AbstractStaffTableGUI
     /**
      * @inheritDoc
      *
-     * @param ilMStListUser $row
+     * @param ilMStListUser|ilMStListUser54 $row
      */
     protected function fillRow(/*ilMStListUser*/ $row)/*: void*/
     {

@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.7.0]
+- ILIAS 6 support
+- Remove ILIAS 5.3 support
+
 ## [2.6.5]
 - Open matrix actions in new tab
 - Rename first matrix action to "All results"

@@ -4,9 +4,12 @@ namespace srag\Plugins\SrLpReport\Staff\Courses;
 
 use Closure;
 use ilLink;
-use ilMStListCourse;
-use ilMStListCourses;
-use ilMyStaffAccess;
+use ilMStListCourse as ilMStListCourse54;
+use ILIAS\MyStaff\ListCourses\ilMStListCourse;
+use ilMStListCourses as ilMStListCourses54;
+use ILIAS\MyStaff\ListCourses\ilMStListCourses;
+use ilMyStaffAccess as ilMyStaffAccess54;
+use ILIAS\MyStaff\ilMyStaffAccess;
 use ilSrLpReportPlugin;
 use ilUIPluginRouterGUI;
 use srag\DIC\SrLpReport\DICTrait;
@@ -82,7 +85,11 @@ final class Courses
             ]
         ];
 
-        $data["max_count"] = ilMStListCourses::getData($users, $options);
+        if (self::version()->is6()) {
+            $data["max_count"] = (new ilMStListCourses(self::dic()->dic()))->getData($users, $options);
+        } else {
+        $data["max_count"] = ilMStListCourses54::getData($users, $options);
+        }
 
         if ($limit_end > 0) {
             $options["limit"] = [
@@ -93,7 +100,11 @@ final class Courses
 
         $options["count"] = false;
 
-        $data_ = array_map(function (ilMStListCourse $course) : array {
+        $data_ = array_map(function (
+            /**
+             * @var ilMStListCourse|ilMStListCourse54 $course
+             */
+            /*ilMStListCourse*/ $course) : array {
             $vars = Closure::bind(function () : array {
                 $vars = get_object_vars($this);
 
@@ -101,15 +112,15 @@ final class Courses
                 $vars["crs_obj"] = $this->returnIlCourseObj();
 
                 return $vars;
-            }, $course, ilMStListCourse::class)();
+            }, $course, self::version()->is6() ? ilMStListCourse::class : ilMStListCourse54::class)();
 
             $vars["crs_obj_id"] = self::dic()->objDataCache()->lookupObjId($vars["crs_ref_id"]);
 
             return $vars;
-        }, ilMStListCourses::getData($users, $options));
+        }, self::version()->is6() ? (new ilMStListCourses(self::dic()->dic()))->getData($users, $options) : ilMStListCourses54::getData($users, $options));
 
         $data["data"] = array_map(function (array $course) use ($data_): array {
-            if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($course["crs_ref_id"])) {
+            if ((self::version()->is6() ? ilMyStaffAccess::getInstance() : ilMyStaffAccess54::getInstance())->hasCurrentUserAccessToLearningProgressInObject($course["crs_ref_id"])) {
                 $course["learning_progress_users"] = array_reduce(array_filter($data_, function (array $course_) use ($course): bool {
                     return ($course_["crs_ref_id"] === $course["crs_ref_id"]);
                 }), function (array $users, array $course) : array {
@@ -160,7 +171,7 @@ final class Courses
      */
     public function getLearningProgressLink(int $crs_ref_id) : string
     {
-        if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($crs_ref_id)) {
+        if ((self::version()->is6() ? ilMyStaffAccess::getInstance() : ilMyStaffAccess54::getInstance())->hasCurrentUserAccessToLearningProgressInObject($crs_ref_id)) {
             self::dic()->ctrl()->setParameterByClass(UserReportGUI::class, Reports::GET_PARAM_REF_ID, $crs_ref_id);
 
             return self::dic()->ctrl()->getLinkTargetByClass([

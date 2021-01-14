@@ -4,9 +4,12 @@ namespace srag\Plugins\SrLpReport\Staff\User;
 
 use Closure;
 use ilLink;
-use ilMStListCourse;
-use ilMStShowUserCourses;
-use ilMyStaffAccess;
+use ilMStListCourse as ilMStListCourse54;
+use ILIAS\MyStaff\ListCourses\ilMStListCourse;
+use ilMStShowUserCourses as ilMStShowUserCourses54;
+use ILIAS\MyStaff\Courses\ShowUser\ilMStShowUserCourses;
+use ilMyStaffAccess as ilMyStaffAccess54;
+use ILIAS\MyStaff\ilMyStaffAccess;
 use ilOrgUnitOperation;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
@@ -90,7 +93,11 @@ final class User
 
         $options["filters"]["usr_id"] = $user_id;
 
-        $data["max_count"] = ilMStShowUserCourses::getData($users, $options);
+        if (self::version()->is6()) {
+            $data["max_count"] = (new ilMStShowUserCourses(self::dic()->dic()))->getData($users, $options);
+        } else {
+        $data["max_count"] = ilMStShowUserCourses54::getData($users, $options);
+        }
 
         if ($limit_end > 0) {
             $options["limit"] = [
@@ -101,7 +108,11 @@ final class User
 
         $options["count"] = false;
 
-        $data["data"] = array_map(function (ilMStListCourse $course) : array {
+        $data["data"] = array_map(
+        /**
+         * @var ilMStListCourse|ilMStListCourse54 $course
+         */
+            function (/*ilMStListCourse*/ $course) : array {
             $vars = Closure::bind(function () : array {
                 $vars = get_object_vars($this);
 
@@ -109,7 +120,7 @@ final class User
                 $vars["crs_obj"] = $this->returnIlCourseObj();
 
                 return $vars;
-            }, $course, ilMStListCourse::class)();
+            }, $course, self::version()->is6() ? ilMStListCourse::class : ilMStListCourse54::class)();
 
             $vars["ilMStListCourse"] = $course;
 
@@ -120,7 +131,7 @@ final class User
             }, self::dic()->tree()->getChilds($vars["crs_ref_id"]));
 
             return $vars;
-        }, ilMStShowUserCourses::getData($users, $options));
+        }, self::version()->is6() ? (new ilMStShowUserCourses(self::dic()->dic()))->getData($users, $options) : ilMStShowUserCourses54::getData($users, $options));
 
         return $data;
     }
