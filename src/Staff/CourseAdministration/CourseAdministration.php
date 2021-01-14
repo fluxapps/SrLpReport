@@ -3,8 +3,10 @@
 namespace srag\Plugins\SrLpReport\Staff\CourseAdministration;
 
 use ilLPStatus;
-use ilMStListUser;
-use ilMStListUsers;
+use ilMStListUser as ilMStListUser54;
+use ILIAS\MyStaff\ListUsers\ilMStListUser;
+use ilMStListUsers as ilMStListUsers54;
+use ILIAS\MyStaff\ListUsers\ilMStListUsers;
 use ilObjCourse;
 use ilObjUser;
 use ilOrgUnitUserAssignment;
@@ -88,10 +90,18 @@ final class CourseAdministration
             ]
         ];
 
-        $data["data"] = ilMStListUsers::getData($users, $options);
+        if (self::version()->is6()) {
+            $data["data"] = (new ilMStListUsers(self::dic()->dic()))->getData($users, $options);
+        } else {
+        $data["data"] = ilMStListUsers54::getData($users, $options);
+        }
 
         if (!empty($filter["org_units"])) {
-            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
+            $data["data"] = array_filter($data["data"],
+                /**
+                 * @param ilMStListUser|ilMStListUser54 $user
+                 */
+                function (/*ilMStListUser*/ $user) use ($filter): bool {
                 $org_units = $filter["org_units"];
 
                 if ($filter["org_units_subsequent"]) {
@@ -110,7 +120,11 @@ final class CourseAdministration
         }
 
         if (!empty($filter["enrolled_before"])) {
-            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
+            $data["data"] = array_filter($data["data"],
+                /**
+                 * @param ilMStListUser|ilMStListUser54 $user
+                 */
+                function (/*ilMStListUser*/ $user) use ($filter): bool {
                 foreach (array_keys($this->getCourses()) as $crs_obj_id) {
                     $enrollment = $this->getEnrollment($crs_obj_id, $user->getUsrId());
                     if ($enrollment !== null) {
@@ -125,7 +139,11 @@ final class CourseAdministration
         }
 
         if (!empty($filter["enrolled_crs_obj_ids"])) {
-            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
+            $data["data"] = array_filter($data["data"],
+                /**
+                 * @param ilMStListUser|ilMStListUser54 $user
+                 */
+                function (/*ilMStListUser*/ $user) use ($filter): bool {
                 foreach ($this->getCourses() as $crs_obj_id => $crs) {
                     if (in_array($crs_obj_id, $filter["enrolled_crs_obj_ids"])) {
                         if ($crs->getMembersObject()->isAssigned($user->getUsrId())) {
@@ -139,7 +157,11 @@ final class CourseAdministration
         }
 
         if (!empty($filter["not_enrolled_crs_obj_ids"])) {
-            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
+            $data["data"] = array_filter($data["data"],
+                /**
+                 * @param ilMStListUser|ilMStListUser54 $user
+                 */
+                function (/*ilMStListUser*/ $user) use ($filter): bool {
                 foreach ($this->getCourses() as $crs_obj_id => $crs) {
                     if (in_array($crs_obj_id, $filter["not_enrolled_crs_obj_ids"])) {
                         if (!$crs->getMembersObject()->isAssigned($user->getUsrId())) {
@@ -153,7 +175,11 @@ final class CourseAdministration
         }
 
         if (!empty($filter["enrolled_lp_status"])) {
-            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
+            $data["data"] = array_filter($data["data"],
+                /**
+                 * @param ilMStListUser|ilMStListUser54 $user
+                 */
+                function (/*ilMStListUser*/ $user) use ($filter): bool {
                 foreach (array_keys($this->getCourses()) as $crs_obj_id) {
                     if (in_array(ilLPStatus::_lookupStatus($crs_obj_id, $user->getUsrId()), $filter["enrolled_lp_status"])) {
                         return true;
@@ -185,7 +211,11 @@ final class CourseAdministration
         }
 
         if (!empty($filter["user_language"])) {
-            $data["data"] = array_filter($data["data"], function (ilMStListUser $user) use ($filter): bool {
+            $data["data"] = array_filter($data["data"],
+                /**
+                 * @param ilMStListUser|ilMStListUser54 $user
+                 */
+                function (/*ilMStListUser*/ $user) use ($filter): bool {
                 $user->user_language = ilObjUser::_lookupLanguage($user->getUsrId());
 
                 if (in_array($user->user_language, $filter["user_language"])) {
@@ -199,7 +229,14 @@ final class CourseAdministration
         $data["max_count"] = count($data["data"]);
         $data["data"] = array_slice($data["data"], $limit_start, $limit_end);
 
-        $data["data"] = array_map(function (ilMStListUser $user) : ilMStListUser {
+
+        $data["data"] = array_map(
+        /**
+         * @param ilMStListUser|ilMStListUser54 $user
+         *
+         * @return ilMStListUser|ilMStListUser54
+         */
+            function (/*ilMStListUser*/ $user)/* : ilMStListUser*/ {
             foreach (Config::getField(Config::KEY_COURSE_ADMINISTRATION_UDF_FIELDS) as $field_id) {
                 if (!isset($user->{"udf_field_" . $field_id})) {
                     $user->{"udf_field_" . $field_id} = $user->returnIlUserObj()->getUserDefinedData()["f_" . $field_id];

@@ -6,7 +6,8 @@ use ilAdvancedSelectionListGUI;
 use ilCourseParticipants;
 use ilDateTime;
 use ilLPStatus;
-use ilMStListCourse;
+use ilMStListCourse as ilMStListCourse54;
+use ILIAS\MyStaff\ListCourses\ilMStListCourse;
 use ilMyStaffGUI;
 use ilObjCourseGUI;
 use ilObject2;
@@ -50,7 +51,11 @@ class UserTableGUI extends AbstractStaffTableGUI
                 break;
 
             case $column === "usr_reg_status":
-                $column = ilMStListCourse::getMembershipStatusText($row[$column]);
+                if (self::version()->is6()) {
+                    $column = ilMStListCourse::getMembershipStatusText($row[$column]);
+                } else {
+                $column = ilMStListCourse54::getMembershipStatusText($row[$column]);
+                }
                 break;
 
             case $column === "usr_lp_status":
@@ -198,9 +203,9 @@ class UserTableGUI extends AbstractStaffTableGUI
                 PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => [
                     0                                              => self::dic()->language()->txt("trac_all"),
-                    ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED   => self::dic()->language()->txt("mst_memb_status_requested"),
-                    ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST => self::dic()->language()->txt("mst_memb_status_waitinglist"),
-                    ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED  => self::dic()->language()->txt("mst_memb_status_registered")
+                    self::version()->is6() ? ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED : ilMStListCourse54::MEMBERSHIP_STATUS_REQUESTED   => self::dic()->language()->txt("mst_memb_status_requested"),
+                    self::version()->is6() ? ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST : ilMStListCourse54::MEMBERSHIP_STATUS_WAITINGLIST => self::dic()->language()->txt("mst_memb_status_waitinglist"),
+                    self::version()->is6() ? ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED : ilMStListCourse54::MEMBERSHIP_STATUS_REGISTERED  => self::dic()->language()->txt("mst_memb_status_registered")
                 ],
                 "setTitle"                        => self::dic()->language()->txt("member_status")
             ],

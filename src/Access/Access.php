@@ -3,7 +3,8 @@
 namespace srag\Plugins\SrLpReport\Access;
 
 use ilLearningProgressAccess;
-use ilMyStaffAccess;
+use ilMyStaffAccess as ilMyStaffAccess54;
+use ILIAS\MyStaff\ilMyStaffAccess;
 use ilSrLpReportPlugin;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
@@ -53,7 +54,7 @@ final class Access {
             return true;
         }
 
-        return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+        return (self::version()->is6() ? ilMyStaffAccess::getInstance() : ilMyStaffAccess54::getInstance())->hasCurrentUserAccessToMyStaff();
     }
 
 	public function hasCurrentUserAccessToLearningProgressInObject($csr_ref_id) {
@@ -62,7 +63,7 @@ final class Access {
 			return true;
 		}
 
-		return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($csr_ref_id);
+		return (self::version()->is6() ? ilMyStaffAccess::getInstance() : ilMyStaffAccess54::getInstance())->hasCurrentUserAccessToLearningProgressInObject($csr_ref_id);
 	}
 
     public function getUsersForUser(int $usr_id) {
@@ -77,7 +78,7 @@ final class Access {
             return $arr_users;
         }
 
-        return ilMyStaffAccess::getInstance()->getUsersForUser($usr_id);
+        return (self::version()->is6() ? ilMyStaffAccess::getInstance() : ilMyStaffAccess54::getInstance())->getUsersForUser($usr_id);
     }
 
     public function getUsersForUserOperationAndContext($user_id, $org_unit_operation_string = ilMyStaffAccess::DEFAULT_ORG_UNIT_OPERATION, $context = ilMyStaffAccess::DEFAULT_CONTEXT, $tmp_table_name_prefix = ilMyStaffAccess::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX) {
@@ -92,7 +93,7 @@ final class Access {
             return $arr_users;
         }
 
-        return ilMyStaffAccess::getInstance()->getUsersForUserOperationAndContext($user_id, $org_unit_operation_string, $context, $tmp_table_name_prefix);
+        return (self::version()->is6() ? ilMyStaffAccess::getInstance() : ilMyStaffAccess54::getInstance())->getUsersForUserOperationAndContext($user_id, $org_unit_operation_string, $context, $tmp_table_name_prefix);
     }
 
 

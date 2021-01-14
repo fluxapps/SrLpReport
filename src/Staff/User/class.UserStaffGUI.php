@@ -4,8 +4,10 @@ namespace srag\Plugins\SrLpReport\Staff\User;
 
 use ilLearningProgressBaseGUI;
 use ilLPStatus;
-use ilMStListCourse;
-use ilMyStaffAccess;
+use ilMStListCourse as ilMStListCourse54;
+use ILIAS\MyStaff\ListCourses\ilMStListCourse;
+use ilMyStaffAccess as ilMyStaffAccess54;
+use ILIAS\MyStaff\ilMyStaffAccess;
 use ilUIPluginRouterGUI;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\Reports;

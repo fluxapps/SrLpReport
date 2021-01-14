@@ -3,11 +3,16 @@
 namespace srag\Plugins\SrLpReport\Staff\Users;
 
 use Closure;
-use ilMStListCourse;
-use ilMStListUser;
-use ilMStListUsers;
-use ilMStShowUserCourses;
-use ilMyStaffAccess;
+use ilMStListCourse as ilMStListCourse54;
+use ILIAS\MyStaff\ListCourses\ilMStListCourse;
+use ilMStListUser as ilMStListUser54;
+use ILIAS\MyStaff\ListUsers\ilMStListUser;
+use ilMStListUsers as ilMStListUsers54;
+use ILIAS\MyStaff\ListUsers\ilMStListUsers;
+use ilMStShowUserCourses as ilMStShowUserCourses54;
+use ILIAS\MyStaff\Courses\ShowUser\ilMStShowUserCourses;
+use ilMyStaffAccess as ilMyStaffAccess54;
+use ILIAS\MyStaff\ilMyStaffAccess;
 use ilObjOrgUnitTree;
 use ilOrgUnitOperation;
 use ilOrgUnitPathStorage;
@@ -99,7 +104,11 @@ final class Users
             ]
         ];
 
-        $data["max_count"] = ilMStListUsers::getData($users, $options);
+        if (self::version()->is6()) {
+            $data["max_count"] = (new ilMStListUsers(self::dic()->dic()))->getData($users, $options);
+        } else {
+        $data["max_count"] = ilMStListUsers54::getData($users, $options);
+        }
 
         $options["limit"] = [
             "start" => $limit_start,
@@ -108,14 +117,18 @@ final class Users
         $options["count"] = false;
 
         //TODO Performance Killer!
-        $data["data"] = array_map(function (ilMStListUser $user) : array {
+        $data["data"] = array_map(
+        /**
+         * @param ilMStListUser|ilMStListUser54 $user
+         */
+            function (/*ilMStListUser*/ $user) : array {
             $vars = Closure::bind(function () : array {
                 $vars = get_object_vars($this);
 
                 $vars["usr_obj"] = $this->returnIlUserObj();
 
                 return $vars;
-            }, $user, ilMStListUser::class)();
+            }, $user, self::version()->is6() ? ilMStListUser::class : ilMStListUser54::class)();
 
             $vars["interests_general"] = $vars["usr_obj"]->getGeneralInterestsAsText();
 
@@ -128,12 +141,16 @@ final class Users
                     "usr_id" => $vars["usr_id"],
                 ]
             ];
-            $vars["learning_progress_courses"] = array_map(function (ilMStListCourse $course) : int {
+            $vars["learning_progress_courses"] = array_map(function (
+                /**
+                 * @var ilMStListCourse|ilMStListCourse54 $course
+                 */
+                /*ilMStListCourse*/ $course) : int {
                 return self::dic()->objDataCache()->lookupObjId($course->getCrsRefId());
-            }, ilMStShowUserCourses::getData($users, $options));
+            }, self::version()->is6() ? (new ilMStShowUserCourses(self::dic()->dic()))->getData($users, $options) : ilMStShowUserCourses54::getData($users, $options));
 
             return $vars;
-        }, ilMStListUsers::getData($users, $options));
+        },  self::version()->is6() ? (new ilMStListUsers(self::dic()->dic()))->getData($users, $options) : ilMStListUsers54::getData($users, $options));
 
         return $data;
     }
