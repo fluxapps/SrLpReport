@@ -119,13 +119,23 @@ final class CourseAdministration
             });
         }
 
+        if (!empty($filter["enrolled_crs_obj_ids"])) {
+            $enrolled_lp_status_courses = $filter["enrolled_crs_obj_ids"];
+        } else {
+            $enrolled_lp_status_courses = array_keys($this->getCourses());
+        }
+
+        if (!empty($filter["not_enrolled_crs_obj_ids"])) {
+            $enrolled_lp_status_courses = array_diff($enrolled_lp_status_courses, $filter["not_enrolled_crs_obj_ids"]);
+        }
+
         if (!empty($filter["enrolled_before"])) {
             $data["data"] = array_filter($data["data"],
                 /**
                  * @param ilMStListUser|ilMStListUser54 $user
                  */
-                function (/*ilMStListUser*/ $user) use ($filter): bool {
-                foreach (array_keys($this->getCourses()) as $crs_obj_id) {
+                function (/*ilMStListUser*/ $user) use ($filter, $enrolled_lp_status_courses): bool {
+                foreach ($enrolled_lp_status_courses as $crs_obj_id) {
                     $enrollment = $this->getEnrollment($crs_obj_id, $user->getUsrId());
                     if ($enrollment !== null) {
                         if ($enrollment->getEnrollmentTime() < $filter["enrolled_before"]->getUnixTime()) {
@@ -138,36 +148,17 @@ final class CourseAdministration
             });
         }
 
-        if (!empty($filter["enrolled_crs_obj_ids"])) {
+        if (!empty($filter["enrolled_crs_obj_ids"]) || !empty($filter["not_enrolled_crs_obj_ids"])) {
             $data["data"] = array_filter($data["data"],
                 /**
                  * @param ilMStListUser|ilMStListUser54 $user
                  */
-                function (/*ilMStListUser*/ $user) use ($filter): bool {
-                foreach ($this->getCourses() as $crs_obj_id => $crs) {
-                    if (in_array($crs_obj_id, $filter["enrolled_crs_obj_ids"])) {
+                function (/*ilMStListUser*/ $user) use ($enrolled_lp_status_courses): bool {
+                foreach ($enrolled_lp_status_courses as $crs_obj_id) {
+                   $crs = $this->getCourses()[$crs_obj_id];
                         if ($crs->getMembersObject()->isAssigned($user->getUsrId())) {
                             return true;
                         }
-                    }
-                }
-
-                return false;
-            });
-        }
-
-        if (!empty($filter["not_enrolled_crs_obj_ids"])) {
-            $data["data"] = array_filter($data["data"],
-                /**
-                 * @param ilMStListUser|ilMStListUser54 $user
-                 */
-                function (/*ilMStListUser*/ $user) use ($filter): bool {
-                foreach ($this->getCourses() as $crs_obj_id => $crs) {
-                    if (in_array($crs_obj_id, $filter["not_enrolled_crs_obj_ids"])) {
-                        if (!$crs->getMembersObject()->isAssigned($user->getUsrId())) {
-                            return true;
-                        }
-                    }
                 }
 
                 return false;
@@ -179,8 +170,8 @@ final class CourseAdministration
                 /**
                  * @param ilMStListUser|ilMStListUser54 $user
                  */
-                function (/*ilMStListUser*/ $user) use ($filter): bool {
-                foreach (array_keys($this->getCourses()) as $crs_obj_id) {
+                function (/*ilMStListUser*/ $user) use ($filter, $enrolled_lp_status_courses): bool {
+                foreach ($enrolled_lp_status_courses as $crs_obj_id) {
                     if (in_array(ilLPStatus::_lookupStatus($crs_obj_id, $user->getUsrId()), $filter["enrolled_lp_status"])) {
                         return true;
                     }
