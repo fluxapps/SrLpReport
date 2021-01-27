@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [2.8.0]
 - Improve course administration course filter
 - Fix older ILIAS 5.4 versions
 
