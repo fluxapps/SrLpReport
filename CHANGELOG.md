@@ -1,5 +1,9 @@
 # Changelog
 
+## [x]
+- Improve course administration course filter
+- Fix older ILIAS 5.4 versions
+
 ## [2.7.0]
 - ILIAS 6 support
 - Remove ILIAS 5.3 support
