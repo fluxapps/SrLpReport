@@ -199,6 +199,9 @@ class MatrixTableGUI extends AbstractReport2TableGUI
 
                     $filtered = false;
                     foreach ($filter as $filter_field => $filter_vaue) {
+                        if ($filter_field === "status") {
+                            $filter_field = "obj_" . self::dic()->objDataCache()->lookupObjId($this->ref_id);
+                        }
                         if ((!empty($filter_vaue) || is_numeric($filter_vaue)) && $row[$filter_field] != $filter_vaue) {
                             $filtered = true;
                         }
