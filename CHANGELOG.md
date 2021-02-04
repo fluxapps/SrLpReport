@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [2.9.0]
 - Fix lp filter in matrix view
 
 ## [2.8.0]
