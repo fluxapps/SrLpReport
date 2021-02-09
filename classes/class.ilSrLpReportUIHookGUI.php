@@ -39,6 +39,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
     const TYPES = [self::TYPE_CRS, self::TYPE_EXC, self::TYPE_TST, self::TYPE_FOLD];
     const PERSONAL_DESKTOP_INIT = "personal_desktop";
     const COURSES_INIT = "courses";
+    const COMPONENT_DASHBOARD = "Services/Dashboard";
     const COMPONENT_PERSONAL_DESKTOP = "Services/PersonalDesktop";
     const COMPONENT_CONTAINER = "Services/Container";
     const PART_CENTER_RIGHT = "right_column";
@@ -185,7 +186,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
 
             if (!self::$load[self::PERSONAL_DESKTOP_INIT]) {
 
-                if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_CENTER_RIGHT) {
+                if (($a_comp === self::COMPONENT_DASHBOARD || $a_comp === self::COMPONENT_PERSONAL_DESKTOP) && $a_part === self::PART_CENTER_RIGHT) {
 
                     self::$load[self::PERSONAL_DESKTOP_INIT] = true;
 
