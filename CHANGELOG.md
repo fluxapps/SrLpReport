@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [3.0.0]
 - Fix ILIAS 6 dashboard comments
 
 ## [2.9.0]
