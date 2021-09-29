@@ -6,19 +6,16 @@
     "ILIAS",
     "Plugin"
   ],
-  "homepage": "https://github.com/studer-raimann/SrLpReport",
+  "homepage": "https://github.com/fluxapps/SrLpReport",
   "license": "GPL-3.0-only",
   "authors": [
     {
-      "name": "studer + raimann ag - Team Custom 1",
-      "email": "support-custom1@studer-raimann.ch",
-      "homepage": "https://studer-raimann.ch",
+      "name": "fluxlabs ag",
+      "email": "support@fluxlabs.ch",
+      "homepage": "https://fluxlabs.ch",
       "role": "Developer"
     }
   ],
-  "support": {
-    "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_SRLPREPORT"
-  },
   "require": {
     "php": ">=7.0",
     "srag/activerecordconfig": ">=0.1.0",
