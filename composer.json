@@ -17,7 +17,7 @@
     }
   ],
   "require": {
-    "php": ">=7.0",
+    "php": ">=7.2",
     "srag/activerecordconfig": ">=0.1.0",
     "srag/commentsui": ">=0.1.0",
     "srag/custominputguis": ">=0.1.0",
@@ -41,8 +41,7 @@
   },
   "scripts": {
     "pre-autoload-dump": [
-      "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces",
-      "srag\\LibrariesNamespaceChanger\\PHP72Backport::PHP72Backport"
+      "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces"
     ]
   }
 }

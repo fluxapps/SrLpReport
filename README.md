@@ -20,8 +20,8 @@ Course report:
 ![Course report](./doc/screenshots/course_report.png)
 
 ### Requirements
-* ILIAS 5.4 or ILIAS 6
-* PHP >=7.0
+* ILIAS 6 or ILIAS 7
+* PHP >=7.2
 
 
 
