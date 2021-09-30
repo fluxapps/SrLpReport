@@ -1,5 +1,10 @@
 # Changelog
 
+## [3.1.0]
+- ILIAS 7 support
+- Remove ILIAS 5.4 support
+- Min PHP 7.2
+
 ## [3.0.0]
 - Fix ILIAS 6 dashboard comments
 
