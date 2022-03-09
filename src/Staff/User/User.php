@@ -6,10 +6,7 @@ use Closure;
 use ilLink;
 use ilMStListCourse as ilMStListCourse54;
 use ILIAS\MyStaff\ListCourses\ilMStListCourse;
-use ilMStShowUserCourses as ilMStShowUserCourses54;
 use ILIAS\MyStaff\Courses\ShowUser\ilMStShowUserCourses;
-use ilMyStaffAccess as ilMyStaffAccess54;
-use ILIAS\MyStaff\ilMyStaffAccess;
 use ilOrgUnitOperation;
 use ilSrLpReportPlugin;
 use ilSrLpReportUIHookGUI;
@@ -22,9 +19,7 @@ use srag\Plugins\SrLpReport\Utils\SrLpReportTrait;
 
 /**
  * Class User
- *
  * @package srag\Plugins\SrLpReport\Staff\User
- *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 final class User
@@ -32,12 +27,12 @@ final class User
 
     use DICTrait;
     use SrLpReportTrait;
+
     const PLUGIN_CLASS_NAME = ilSrLpReportPlugin::class;
     /**
      * @var self
      */
     protected static $instance = null;
-
 
     /**
      * @return self
@@ -51,7 +46,6 @@ final class User
         return self::$instance;
     }
 
-
     /**
      * User constructor
      */
@@ -60,7 +54,6 @@ final class User
 
     }
 
-
     /**
      * @param int    $user_id
      * @param array  $filter
@@ -68,41 +61,43 @@ final class User
      * @param string $order_direction
      * @param int    $limit_start
      * @param int    $limit_end
-     *
      * @return array
      */
-    public function getData(int $user_id, array $filter, string $order, string $order_direction, int $limit_start, int $limit_end) : array
-    {
+    public function getData(
+        int $user_id,
+        array $filter,
+        string $order,
+        string $order_direction,
+        int $limit_start,
+        int $limit_end
+    ) : array {
         $data = [];
 
         $options = [
             "filters" => $filter,
-            "limit"   => [],
-            "count"   => true,
+            "limit" => [],
+            "count" => true,
         ];
 
         if (strlen($order) > 0) {
             $options["sort"] = [
-                "field"     => $order,
+                "field" => $order,
                 "direction" => $order_direction
             ];
         }
 
         $users = self::access()->getUsersForUserOperationAndContext(self::dic()->user()
-            ->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS);
+                                                                        ->getId(),
+            ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilSrLpReportUIHookGUI::TYPE_CRS);
 
         $options["filters"]["usr_id"] = $user_id;
 
-        if (self::version()->is6()) {
-            $data["max_count"] = (new ilMStShowUserCourses(self::dic()->dic()))->getData($users, $options);
-        } else {
-        $data["max_count"] = ilMStShowUserCourses54::getData($users, $options);
-        }
+        $data["max_count"] = (new ilMStShowUserCourses(self::dic()->dic()))->getData($users, $options);
 
         if ($limit_end > 0) {
             $options["limit"] = [
                 "start" => $limit_start,
-                "end"   => $limit_end
+                "end" => $limit_end
             ];
         }
 
@@ -113,29 +108,28 @@ final class User
          * @var ilMStListCourse|ilMStListCourse54 $course
          */
             function (/*ilMStListCourse*/ $course) : array {
-            $vars = Closure::bind(function () : array {
-                $vars = get_object_vars($this);
+                $vars = Closure::bind(function () : array {
+                    $vars = get_object_vars($this);
 
-                $vars["usr_obj"] = $this->returnIlUserObj();
-                $vars["crs_obj"] = $this->returnIlCourseObj();
+                    $vars["usr_obj"] = $this->returnIlUserObj();
+                    $vars["crs_obj"] = $this->returnIlCourseObj();
+
+                    return $vars;
+                }, $course, ilMStListCourse::class)();
+
+                $vars["ilMStListCourse"] = $course;
+
+                $vars["crs_obj_id"] = self::dic()->objDataCache()->lookupObjId($vars["crs_ref_id"]);
+
+                $vars["learning_progress_objects"] = array_map(function (array $child) : int {
+                    return intval($child["child"]);
+                }, self::dic()->tree()->getChilds($vars["crs_ref_id"]));
 
                 return $vars;
-            }, $course, self::version()->is6() ? ilMStListCourse::class : ilMStListCourse54::class)();
-
-            $vars["ilMStListCourse"] = $course;
-
-            $vars["crs_obj_id"] = self::dic()->objDataCache()->lookupObjId($vars["crs_ref_id"]);
-
-            $vars["learning_progress_objects"] = array_map(function (array $child) : int {
-                return intval($child["child"]);
-            }, self::dic()->tree()->getChilds($vars["crs_ref_id"]));
-
-            return $vars;
-        }, self::version()->is6() ? (new ilMStShowUserCourses(self::dic()->dic()))->getData($users, $options) : ilMStShowUserCourses54::getData($users, $options));
+            }, (new ilMStShowUserCourses(self::dic()->dic()))->getData($users, $options));
 
         return $data;
     }
-
 
     /**
      * @return array
@@ -143,19 +137,20 @@ final class User
     public function getActionsArray() : array
     {
         return [
-            self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("course"), ilLink::_getLink(self::reports()
-                ->getReportObjRefId())),
-            self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("details"), $this->getLearningProgressLink(self::reports()
-                ->getReportObjRefId(), self::reports()->getUsrId(), UserStaffGUI::class))
+            self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("course"),
+                ilLink::_getLink(self::reports()
+                                     ->getReportObjRefId())),
+            self::dic()->ui()->factory()->link()->standard(self::dic()->language()->txt("details"),
+                $this->getLearningProgressLink(self::reports()
+                                                   ->getReportObjRefId(), self::reports()->getUsrId(),
+                    UserStaffGUI::class))
         ];
     }
-
 
     /**
      * @param int    $crs_ref_id
      * @param int    $usr_id
      * @param string $return
-     *
      * @return string
      */
     public function getLearningProgressLink(int $crs_ref_id, int $usr_id, string $return = "") : string
