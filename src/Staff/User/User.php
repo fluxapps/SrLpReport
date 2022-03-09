@@ -122,7 +122,9 @@ final class User
                 $vars["crs_obj_id"] = self::dic()->objDataCache()->lookupObjId($vars["crs_ref_id"]);
 
                 $vars["learning_progress_objects"] = array_map(function (array $child) : int {
-                    return intval($child["child"]);
+                    if(\ilObject2::_isInTrash($child["child"]) === false) {
+                        return (int) $child["child"];
+                    }
                 }, self::dic()->tree()->getChilds($vars["crs_ref_id"]));
 
                 return $vars;
