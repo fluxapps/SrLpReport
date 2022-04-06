@@ -62,7 +62,7 @@ class LegendEntry implements LegendEntryInterface
      * @param int $numSections
      * @param int $index
      */
-    private function calcCoords(int $numSections, int $index)/* : void*/
+    private function calcCoords(int $numSections, int $index) : void
     {
         // Max 1.0: 0%y to 100%y
         $range = 0.8;
@@ -76,7 +76,7 @@ class LegendEntry implements LegendEntryInterface
      * @param int    $numSections
      * @param string $title
      */
-    private function calcSizes(int $numSections, string $title)/* : void*/
+    private function calcSizes(int $numSections, string $title) : void
     {
         if ($numSections >= 10) {
             $this->square_size = 1.5;

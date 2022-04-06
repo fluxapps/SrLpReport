@@ -1,5 +1,48 @@
 # Changelog
 
+## [0.13.1]
+- Not use GeneratePluginReadme
+
+## [0.13.0]
+- ILIAS 7 support
+- Remove ILIAS 5.4 support
+
+## [0.12.10]
+- Change utils url
+
+## [0.12.9]
+- Update urls
+
+## [0.12.8]
+- Ignore not supported languages
+
+## [0.12.7]
+- Ignore not supported languages
+
+## [0.12.6]
+- Update readme
+
+## [0.12.5]
+- Use `PluginVersionParameter`
+
+## [0.12.4]
+- Use `PluginVersionParameter`
+
+## [0.12.3]
+- Update project url
+
+## [0.12.2]
+- Move doc/DESCRIPTION.md to src/LONG_DESCRIPTION.md
+
+## [0.12.1]
+- Generate readme
+
+## [0.12.0]
+- Generate readme
+
+## [0.11.0]
+- Move LibraryLanguageInstaller to separate package
+
 ## [0.10.3]
 - Fix
 

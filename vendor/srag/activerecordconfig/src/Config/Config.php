@@ -11,8 +11,6 @@ use srag\DIC\SrLpReport\DICTrait;
  * Class Config
  *
  * @package srag\ActiveRecordConfig\SrLpReport\Config
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class Config extends ActiveRecord
 {
@@ -26,23 +24,7 @@ class Config extends ActiveRecord
     /**
      * @var int
      */
-    const TYPE_STRING = 1;
-    /**
-     * @var int
-     */
-    const TYPE_INTEGER = 2;
-    /**
-     * @var int
-     */
-    const TYPE_DOUBLE = 3;
-    /**
-     * @var int
-     */
     const TYPE_BOOLEAN = 4;
-    /**
-     * @var int
-     */
-    const TYPE_TIMESTAMP = 5;
     /**
      * @var int
      */
@@ -50,55 +32,27 @@ class Config extends ActiveRecord
     /**
      * @var int
      */
+    const TYPE_DOUBLE = 3;
+    /**
+     * @var int
+     */
+    const TYPE_INTEGER = 2;
+    /**
+     * @var int
+     */
     const TYPE_JSON = 7;
+    /**
+     * @var int
+     */
+    const TYPE_STRING = 1;
+    /**
+     * @var int
+     */
+    const TYPE_TIMESTAMP = 5;
     /**
      * @var string
      */
     protected static $table_name;
-
-
-    /**
-     * @return string
-     */
-    public static function getTableName() : string
-    {
-        if (empty(self::$table_name)) {
-            throw new LogicException("table name is empty - please call repository earlier!");
-        }
-
-        return self::$table_name;
-    }
-
-
-    /**
-     * @param string $table_name
-     */
-    public static function setTableName(string $table_name)/* : void*/
-    {
-        self::$table_name = $table_name;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getConnectorContainerName() : string
-    {
-        return self::getTableName();
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @deprecated
-     */
-    public static function returnDbTableName() : string
-    {
-        return self::getTableName();
-    }
-
-
     /**
      * @var string
      *
@@ -132,6 +86,84 @@ class Config extends ActiveRecord
 
 
     /**
+     * @return string
+     */
+    public static function getTableName() : string
+    {
+        if (empty(self::$table_name)) {
+            throw new LogicException("table name is empty - please call repository earlier!");
+        }
+
+        return self::$table_name;
+    }
+
+
+    /**
+     * @param string $table_name
+     */
+    public static function setTableName(string $table_name) : void
+    {
+        self::$table_name = $table_name;
+    }
+
+
+    /**
+     * @inheritDoc
+     *
+     * @deprecated
+     */
+    public static function returnDbTableName() : string
+    {
+        return self::getTableName();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getConnectorContainerName() : string
+    {
+        return self::getTableName();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getName() : string
+    {
+        return $this->name;
+    }
+
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name) : void
+    {
+        $this->name = $name;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+
+    /**
+     * @param mixed $value
+     */
+    public function setValue($value) : void
+    {
+        $this->value = $value;
+    }
+
+
+    /**
      * @inheritDoc
      */
     public function sleep(/*string*/ $field_name)
@@ -154,41 +186,5 @@ class Config extends ActiveRecord
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getName() : string
-    {
-        return $this->name;
-    }
-
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)/*: void*/
-    {
-        $this->name = $name;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-
-    /**
-     * @param mixed $value
-     */
-    public function setValue($value)/*: void*/
-    {
-        $this->value = $value;
     }
 }

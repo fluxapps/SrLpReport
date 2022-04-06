@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.2.0]
+- composer2 support
+- added flux publish utils
+
 ## [3.1.0]
 - ILIAS 7 support
 - Remove ILIAS 5.4 support

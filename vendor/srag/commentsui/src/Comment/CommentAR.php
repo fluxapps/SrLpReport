@@ -12,8 +12,6 @@ use stdClass;
  * Class CommentAR
  *
  * @package srag\CommentsUI\SrLpReport\Comment
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class CommentAR extends ActiveRecord implements Comment
 {
@@ -156,7 +154,7 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function setComment(string $comment)/* : void*/
+    public function setComment(string $comment) : void
     {
         $this->comment = $comment;
     }
@@ -183,7 +181,7 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function setCreatedTimestamp(int $created_timestamp)/* : void*/
+    public function setCreatedTimestamp(int $created_timestamp) : void
     {
         $this->created_timestamp = $created_timestamp;
     }
@@ -201,7 +199,7 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function setCreatedUserId(int $created_user_id)/* : void*/
+    public function setCreatedUserId(int $created_user_id) : void
     {
         $this->created_user_id = $created_user_id;
     }
@@ -219,7 +217,7 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function setId(int $id)/* : void*/
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -237,7 +235,7 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function setReportObjId(int $report_obj_id)/* : void*/
+    public function setReportObjId(int $report_obj_id) : void
     {
         $this->report_obj_id = $report_obj_id;
     }
@@ -255,7 +253,7 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function setReportUserId(int $report_user_id)/* : void*/
+    public function setReportUserId(int $report_user_id) : void
     {
         $this->report_user_id = $report_user_id;
     }
@@ -273,7 +271,7 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function setUpdatedTimestamp(int $updated_timestamp)/* : void*/
+    public function setUpdatedTimestamp(int $updated_timestamp) : void
     {
         $this->updated_timestamp = $updated_timestamp;
     }
@@ -291,7 +289,7 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function setUpdatedUserId(int $updated_user_id)/* : void*/
+    public function setUpdatedUserId(int $updated_user_id) : void
     {
         $this->updated_user_id = $updated_user_id;
     }
@@ -309,7 +307,7 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function setDeleted(bool $deleted)/* : void*/
+    public function setDeleted(bool $deleted) : void
     {
         $this->deleted = $deleted;
     }
@@ -336,7 +334,7 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function setIsShared(bool $is_shared)/* : void*/
+    public function setIsShared(bool $is_shared) : void
     {
         $this->is_shared = $is_shared;
     }

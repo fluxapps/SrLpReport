@@ -7,13 +7,13 @@ use srag\CommentsUI\SrLpReport\Ctrl\CtrlInterface;
 use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
 use srag\CustomInputGUIs\SrLpReport\Template\Template;
 use srag\DIC\SrLpReport\DICTrait;
+use srag\DIC\SrLpReport\Plugin\PluginInterface;
+use srag\DIC\SrLpReport\Version\PluginVersionParameter;
 
 /**
  * Class UI
  *
  * @package srag\CommentsUI\SrLpReport\UI
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class UI implements UIInterface
 {
@@ -33,6 +33,10 @@ class UI implements UIInterface
      * @var string
      */
     protected $id = "";
+    /**
+     * @var PluginInterface|null
+     */
+    protected $plugin = null;
 
 
     /**
@@ -41,6 +45,15 @@ class UI implements UIInterface
     public function __construct()
     {
 
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getPlugin() : PluginInterface
+    {
+        return $this->plugin;
     }
 
 
@@ -86,6 +99,17 @@ class UI implements UIInterface
 
 
     /**
+     * @inheritDoc
+     */
+    public function withPlugin(PluginInterface $plugin) : self
+    {
+        $this->plugin = $plugin;
+
+        return $this;
+    }
+
+
+    /**
      * @return array
      */
     protected function getLanguageStrings() : array
@@ -107,7 +131,7 @@ class UI implements UIInterface
             //"popularText" => "Popular",
             //"replyText" => "Reply",
             //"viewAllRepliesText" => "View all __replyCount__ replies",
-            //"youText" => "You",
+            //"youText" => "You"
         ]);
     }
 
@@ -115,19 +139,24 @@ class UI implements UIInterface
     /**
      * @param ilTemplate $tpl
      */
-    private function initJs(ilTemplate $tpl)/* : void*/
+    private function initJs(ilTemplate $tpl) : void
     {
         if (self::$init === false) {
             self::$init = true;
 
+            $version_parameter = PluginVersionParameter::getInstance();
+            if ($this->plugin !== null) {
+                $version_parameter = $version_parameter->withPlugin($this->plugin);
+            }
+
             $dir = __DIR__;
             $dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1);
 
-            self::dic()->ui()->mainTemplate()->addJavaScript($dir . "/../../node_modules/jquery-comments/js/jquery-comments.js");
-            self::dic()->ui()->mainTemplate()->addCss($dir . "/../../node_modules/jquery-comments/css/jquery-comments.css");
+            self::dic()->ui()->mainTemplate()->addJavaScript($version_parameter->appendToUrl($dir . "/../../node_modules/jquery-comments/js/jquery-comments.js"));
+            self::dic()->ui()->mainTemplate()->addCss($version_parameter->appendToUrl($dir . "/../../node_modules/jquery-comments/css/jquery-comments.css"));
 
-            self::dic()->ui()->mainTemplate()->addJavaScript($dir . "/../../js/commentsui.min.js");
-            self::dic()->ui()->mainTemplate()->addCss($dir . "/../../css/commentsui.css");
+            self::dic()->ui()->mainTemplate()->addJavaScript($version_parameter->appendToUrl($dir . "/../../js/commentsui.min.js", $dir . "/../../js/commentsui.js"));
+            self::dic()->ui()->mainTemplate()->addCss($version_parameter->appendToUrl($dir . "/../../css/commentsui.css"));
 
             $tpl->setCurrentBlock("init");
 

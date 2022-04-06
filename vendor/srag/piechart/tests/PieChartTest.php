@@ -39,7 +39,7 @@ class PieChartTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_sections()/* : void*/
+    public function test_get_sections() : void
     {
         $c = $this->getTestObject();
         $result = $c->getSections();
@@ -57,7 +57,7 @@ class PieChartTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_total_value()/* : void*/
+    public function test_get_total_value() : void
     {
         $c = $this->getTestObject();
 
@@ -70,7 +70,7 @@ class PieChartTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_is_values_in_legend()/* : void*/
+    public function test_is_values_in_legend() : void
     {
         $c = $this->getTestObject();
 
@@ -83,7 +83,7 @@ class PieChartTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_with_values_in_legend()/* : void*/
+    public function test_with_values_in_legend() : void
     {
         $c = $this->getTestObject();
 
@@ -96,7 +96,7 @@ class PieChartTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_render()/* : void*/
+    public function test_render() : void
     {
         $c = $this->getTestObject();
         $html = $this->getDefaultRenderer()->render($c);
@@ -131,7 +131,7 @@ EOT;
     /**
      *
      */
-    public function test_is_show_legend()/* : void*/
+    public function test_is_show_legend() : void
     {
         $c = $this->getTestObject();
 
@@ -144,7 +144,7 @@ EOT;
     /**
      *
      */
-    public function test_with_show_legend()/* : void*/
+    public function test_with_show_legend() : void
     {
         $c = $this->getTestObject();
 
@@ -157,7 +157,7 @@ EOT;
     /**
      *
      */
-    public function test_get_custom_total_value()/* : void*/
+    public function test_get_custom_total_value() : void
     {
         $c = $this->getTestObject();
 

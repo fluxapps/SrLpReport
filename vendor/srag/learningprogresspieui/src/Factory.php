@@ -8,8 +8,6 @@ use srag\DIC\SrLpReport\DICTrait;
  * Class Factory
  *
  * @package srag\LearningProgressPieUI\SrLpReport
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class Factory
 {

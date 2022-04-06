@@ -25,7 +25,7 @@ class PieChartItemTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_value()/* : void*/
+    public function test_get_value() : void
     {
         $pieChartItem = $this->getTestPieChartItemObject();
 
@@ -36,7 +36,7 @@ class PieChartItemTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_text_color()/* : void*/
+    public function test_get_text_color() : void
     {
         $pieChartItem = $this->getTestPieChartItemObject();
 
@@ -47,7 +47,7 @@ class PieChartItemTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_name()/* : void*/
+    public function test_get_name() : void
     {
         $pieChartItem = $this->getTestPieChartItemObject();
 
@@ -58,7 +58,7 @@ class PieChartItemTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_color()/* : void*/
+    public function test_get_color() : void
     {
         $pieChartItem = $this->getTestPieChartItemObject();
 

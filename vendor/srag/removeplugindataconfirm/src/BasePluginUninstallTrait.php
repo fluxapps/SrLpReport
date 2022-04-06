@@ -4,14 +4,12 @@ namespace srag\RemovePluginDataConfirm\SrLpReport;
 
 use ilUIPluginRouterGUI;
 use srag\DIC\SrLpReport\DICTrait;
-use srag\DIC\SrLpReport\Util\LibraryLanguageInstaller;
+use srag\LibraryLanguageInstaller\SrLpReport\LibraryLanguageInstaller;
 
 /**
  * Trait BasePluginUninstallTrait
  *
  * @package srag\RemovePluginDataConfirm\SrLpReport
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @access  namespace
  */
@@ -19,6 +17,35 @@ trait BasePluginUninstallTrait
 {
 
     use DICTrait;
+
+    /**
+     * @inheritDoc
+     */
+    public function updateDatabase() : bool
+    {
+        if ($this->shouldUseOneUpdateStepOnly()) {
+            $this->writeDBVersion(0);
+        }
+
+        return parent::updateDatabase();
+    }
+
+
+    /**
+     * Delete your plugin data in this method
+     */
+    protected abstract function deleteData() : void;
+
+
+    /**
+     *
+     */
+    protected function installRemovePluginDataConfirmLanguages() : void
+    {
+        LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
+            . "/../lang")->updateLanguages();
+    }
+
 
     /**
      * @param bool $remove_data
@@ -57,17 +84,7 @@ trait BasePluginUninstallTrait
 
 
     /**
-     *
+     * @return bool
      */
-    protected function installRemovePluginDataConfirmLanguages()/*:void*/
-    {
-        LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
-            . "/../lang")->updateLanguages();
-    }
-
-
-    /**
-     * Delete your plugin data in this method
-     */
-    protected abstract function deleteData()/*: void*/ ;
+    protected abstract function shouldUseOneUpdateStepOnly() : bool;
 }

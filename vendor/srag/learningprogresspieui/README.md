@@ -1,13 +1,17 @@
-# LearningProgressPieUI Library for ILIAS Plugins
+# srag/learningprogresspieui Library for ILIAS Plugins
 
 ILIAS Learning Progress Pie UI
+
+This project is licensed under the GPL-3.0-only license
 
 Using [srag/piechart](https://packagist.org/packages/srag/piechart)
 
 ## Usage
 
 ### Composer
+
 First add the following to your `composer.json` file:
+
 ```json
 "require": {
   "srag/learningprogresspieui": ">=1.0.0"
@@ -22,16 +26,7 @@ Tip: Because of multiple autoloaders of plugins, it could be, that different ver
 
 So I recommand to use [srag/librariesnamespacechanger](https://packagist.org/packages/srag/librariesnamespacechanger) in your plugin.
 
-### PHP 7.0
-You can use this library with PHP 7.0 by using the `PHP72Backport` from [srag/librariesnamespacechanger](https://packagist.org/packages/srag/librariesnamespacechanger)
-
 ## Requirements
-* ILIAS 5.4 or ILIAS 6
-* PHP >=7.2
 
-## Adjustment suggestions
-* External users can report suggestions and bugs at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LPPIEUI
-* Adjustment suggestions by pull requests via github
-* Customer of studer + raimann ag: 
-	* Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/LPPIEUI
-	* Bug reports under https://jira.studer-raimann.ch/projects/LPPIEUI
+* ILIAS 6.0 - 7.999
+* PHP >=7.2

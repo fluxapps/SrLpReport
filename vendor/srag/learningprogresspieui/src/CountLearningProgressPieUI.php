@@ -6,8 +6,6 @@ namespace srag\LearningProgressPieUI\SrLpReport;
  * Class CountLearningProgressPieUI
  *
  * @package srag\LearningProgressPieUI\SrLpReport
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class CountLearningProgressPieUI extends AbstractLearningProgressPieUI
 {
