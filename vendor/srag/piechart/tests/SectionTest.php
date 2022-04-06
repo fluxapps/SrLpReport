@@ -29,7 +29,7 @@ class SectionTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_with_text_color()/* : void*/
+    public function test_with_text_color() : void
     {
         $section = $this->getTestSection();
         $testColor = new Color(120, 120, 120);
@@ -42,7 +42,7 @@ class SectionTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_name()/* : void*/
+    public function test_get_name() : void
     {
         $section = $this->getTestSection();
 
@@ -53,7 +53,7 @@ class SectionTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_value()/* : void*/
+    public function test_get_value() : void
     {
         $section = $this->getTestSection();
 
@@ -64,7 +64,7 @@ class SectionTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_percentage()/* : void*/
+    public function test_get_percentage() : void
     {
         $section = $this->getTestSection();
 
@@ -75,7 +75,7 @@ class SectionTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_stroke_length()/* : void*/
+    public function test_get_stroke_length() : void
     {
         $section = $this->getTestSection();
 
@@ -86,7 +86,7 @@ class SectionTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_offset()/* : void*/
+    public function test_get_offset() : void
     {
         $section = $this->getTestSection();
 
@@ -97,7 +97,7 @@ class SectionTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_color()/* : void*/
+    public function test_get_color() : void
     {
         $section = $this->getTestSection();
         $testColor = new Color(255, 255, 0);
@@ -109,7 +109,7 @@ class SectionTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_legend()/* : void*/
+    public function test_get_legend() : void
     {
         $section = $this->getTestSection();
 
@@ -120,7 +120,7 @@ class SectionTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_text_color()/* : void*/
+    public function test_get_text_color() : void
     {
         $section = $this->getTestSection();
         $testColor = new Color(0, 0, 0);

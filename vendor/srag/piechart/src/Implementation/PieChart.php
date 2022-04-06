@@ -64,7 +64,7 @@ class PieChart implements PieChartInterface
     /**
      * @param PieChartItemInterface[] $pieChartItems
      */
-    protected function createSections(array $pieChartItems)/* : void*/
+    protected function createSections(array $pieChartItems) : void
     {
         $currentOffset = 0;
         $index = 1;
@@ -81,7 +81,7 @@ class PieChart implements PieChartInterface
     /**
      * @param PieChartItemInterface[] $pieChartItems
      */
-    protected function calcTotalValue(array $pieChartItems)/* : void*/
+    protected function calcTotalValue(array $pieChartItems) : void
     {
         $total = 0;
         foreach ($pieChartItems as $item) {
@@ -156,7 +156,7 @@ class PieChart implements PieChartInterface
     /**
      * @inheritDoc
      */
-    public function withCustomTotalValue(/*?float*/ $custom_total_value = null) : PieChartInterface
+    public function withCustomTotalValue(?float $custom_total_value = null) : PieChartInterface
     {
         if (!is_null($custom_total_value)) {
             $this->checkFloatArg("custom_total_value", $custom_total_value);
@@ -171,7 +171,7 @@ class PieChart implements PieChartInterface
     /**
      * @inheritDoc
      */
-    public function getCustomTotalValue()/* : ?float*/
+    public function getCustomTotalValue() : ?float
     {
         return $this->customTotalValue;
     }

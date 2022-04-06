@@ -10,9 +10,6 @@ use srag\DIC\SrLpReport\DICTrait;
  * Class TextAreaInputGUI
  *
  * @package srag\CustomInputGUIs\SrLpReport\TextAreaInputGUI
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
 class TextAreaInputGUI extends ilTextAreaInputGUI
 {
@@ -32,7 +29,7 @@ class TextAreaInputGUI extends ilTextAreaInputGUI
     /**
      *
      */
-    public function customPrepare()/*: void*/
+    public function customPrepare() : void
     {
         $this->addPlugin('latex');
         $this->addButton('latex');
@@ -42,7 +39,7 @@ class TextAreaInputGUI extends ilTextAreaInputGUI
             'p',
             'br',
             'b',
-            'span',
+            'span'
         ));
         $this->usePurifier(true);
         $this->disableButtons(array(
@@ -59,7 +56,7 @@ class TextAreaInputGUI extends ilTextAreaInputGUI
             'copy',
             'paste',
             'pastetext',
-            'formatselect',
+            'formatselect'
         ));
     }
 
@@ -76,7 +73,7 @@ class TextAreaInputGUI extends ilTextAreaInputGUI
     /**
      * @param string $inline_style
      */
-    public function setInlineStyle(string $inline_style)/*: void*/
+    public function setInlineStyle(string $inline_style) : void
     {
         $this->inline_style = $inline_style;
     }
@@ -94,7 +91,7 @@ class TextAreaInputGUI extends ilTextAreaInputGUI
     /**
      * @param int $maxlength
      */
-    public function setMaxlength(int $maxlength)/*: void*/
+    public function setMaxlength(int $maxlength) : void
     {
         $this->maxlength = $maxlength;
     }

@@ -6,13 +6,20 @@ namespace srag\RemovePluginDataConfirm\SrLpReport;
  * Trait RepositoryObjectPluginUninstallTrait
  *
  * @package srag\RemovePluginDataConfirm\SrLpReport
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 trait RepositoryObjectPluginUninstallTrait
 {
 
     use BasePluginUninstallTrait;
+
+    /**
+     * @internal
+     */
+    protected final function afterUninstall() : void
+    {
+
+    }
+
 
     /**
      * @return bool
@@ -28,7 +35,7 @@ trait RepositoryObjectPluginUninstallTrait
     /**
      * @internal
      */
-    protected final function uninstallCustom()/*: void*/
+    protected final function uninstallCustom() : void
     {
         $uninstall_removes_data = RemovePluginDataConfirmCtrl::getUninstallRemovesData();
 
@@ -39,14 +46,5 @@ trait RepositoryObjectPluginUninstallTrait
         }
 
         RemovePluginDataConfirmCtrl::removeUninstallRemovesData();
-    }
-
-
-    /**
-     * @internal
-     */
-    protected final function afterUninstall()/*: void*/
-    {
-
     }
 }

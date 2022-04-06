@@ -24,7 +24,7 @@ class LegendEntryTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_y_percentage()/* : void*/
+    public function test_get_y_percentage() : void
     {
         $legendEntry = $this->getTestLegendEntry();
 
@@ -35,7 +35,7 @@ class LegendEntryTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_text_y_percentage()/* : void*/
+    public function test_get_text_y_percentage() : void
     {
         $legendEntry = $this->getTestLegendEntry();
 
@@ -46,7 +46,7 @@ class LegendEntryTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_square_size()/* : void*/
+    public function test_get_square_size() : void
     {
         $legendEntry = $this->getTestLegendEntry();
 
@@ -57,7 +57,7 @@ class LegendEntryTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_text_size()/* : void*/
+    public function test_get_text_size() : void
     {
         $legendEntry = $this->getTestLegendEntry();
 
@@ -68,7 +68,7 @@ class LegendEntryTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_title()/* : void*/
+    public function test_get_title() : void
     {
         $legendEntry = $this->getTestLegendEntry();
 

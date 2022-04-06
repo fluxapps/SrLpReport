@@ -9,8 +9,6 @@ use stdClass;
  * Interface RepositoryInterface
  *
  * @package srag\CommentsUI\SrLpReport\Comment
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface RepositoryInterface extends Pluginable
 {
@@ -49,19 +47,19 @@ interface RepositoryInterface extends Pluginable
      * @param Comment $comment
      * @param bool    $check_can_be_deleted
      */
-    public function deleteComment(Comment $comment, bool $check_can_be_deleted = true)/* : void*/;
+    public function deleteComment(Comment $comment, bool $check_can_be_deleted = true) : void;
 
 
     /**
      * @param int $report_user_id
      */
-    public function deleteUserComments(int $report_user_id)/* : void*/;
+    public function deleteUserComments(int $report_user_id) : void;
 
 
     /**
      *
      */
-    public function dropTables()/* : void*/;
+    public function dropTables() : void;
 
 
     /**
@@ -75,7 +73,8 @@ interface RepositoryInterface extends Pluginable
      *
      * @return Comment|null
      */
-    public function getCommentById(int $id)/* : ?Comment*/;
+    public function getCommentById(int $id) : ?Comment;
+
 
     /**
      * @param int|null $report_obj_id
@@ -83,7 +82,8 @@ interface RepositoryInterface extends Pluginable
      *
      * @return Comment[]
      */
-    public function getCommentsForCurrentUser(/*?int*/ $report_obj_id = null, /*?int*/ $report_user_id = null) : array;
+    public function getCommentsForCurrentUser(?int $report_obj_id = null, ?int $report_user_id = null) : array;
+
 
     /**
      * @param int $report_obj_id
@@ -92,6 +92,7 @@ interface RepositoryInterface extends Pluginable
      * @return Comment[]
      */
     public function getCommentsForReport(int $report_obj_id, int $report_user_id) : array;
+
 
     /**
      * @return int
@@ -108,26 +109,26 @@ interface RepositoryInterface extends Pluginable
     /**
      *
      */
-    public function installLanguages()/* : void*/;
+    public function installLanguages() : void;
 
 
     /**
      *
      */
-    public function installTables()/* : void*/;
+    public function installTables() : void;
 
 
     /**
      * @param Comment $comment
      */
-    public function shareComment(Comment $comment)/* : void*/;
+    public function shareComment(Comment $comment) : void;
 
 
     /**
      * @param Comment $comment
      * @param bool    $check_can_be_stored
      */
-    public function storeComment(Comment $comment, bool $check_can_be_stored = true)/* : void*/;
+    public function storeComment(Comment $comment, bool $check_can_be_stored = true) : void;
 
 
     /**

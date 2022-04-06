@@ -6,8 +6,6 @@ namespace srag\CommentsUI\SrLpReport\Ctrl;
  * Interface CtrlInterface
  *
  * @package srag\CommentsUI\SrLpReport\Ctrl
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface CtrlInterface
 {
@@ -25,17 +23,20 @@ interface CtrlInterface
     /**
      *
      */
-    public function executeCommand()/* : void*/;
+    public function executeCommand() : void;
+
 
     /**
      * @return string
      */
     public function getAsyncBaseUrl() : string;
 
+
     /**
      * @return array
      */
     public function getAsyncClass() : array;
+
 
     /**
      * @param int $report_obj_id
@@ -44,6 +45,7 @@ interface CtrlInterface
      * @return array
      */
     public function getCommentsArray(int $report_obj_id, int $report_user_id) : array;
+
 
     /**
      * @return bool

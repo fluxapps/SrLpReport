@@ -11,8 +11,6 @@ use srag\CommentsUI\SrLpReport\UI\UIInterface;
  * Trait CommentsUITrait
  *
  * @package srag\CommentsUI\SrLpReport\Utils
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 trait CommentsUITrait
 {

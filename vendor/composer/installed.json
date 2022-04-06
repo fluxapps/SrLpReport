@@ -1,385 +1,553 @@
-[
-    {
-        "name": "srag/activerecordconfig",
-        "version": "v0.19.7",
-        "version_normalized": "0.19.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/studer-raimann/ActiveRecordConfig.git",
-            "reference": "adfbb83ee91d292d87713068d0614f7d2a45399d"
+{
+    "packages": [
+        {
+            "name": "srag/activerecordconfig",
+            "version": "0.21.1",
+            "version_normalized": "0.21.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fluxapps/ActiveRecordConfig.git",
+                "reference": "a717d2f31140a78e71517a6b8d3972e107f1eacb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fluxapps/ActiveRecordConfig/zipball/a717d2f31140a78e71517a6b8d3972e107f1eacb",
+                "reference": "a717d2f31140a78e71517a6b8d3972e107f1eacb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "srag/custominputguis": ">=0.1.0",
+                "srag/dic": ">=0.1.0"
+            },
+            "require-dev": {
+                "srag/generateplugininfoshelper": ">=0.1.0"
+            },
+            "time": "2021-07-20T08:32:29+00:00",
+            "type": "library",
+            "extra": {
+                "ilias_plugin": {
+                    "ilias_min_version": "6.0",
+                    "ilias_max_version": "7.999"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "srag\\ActiveRecordConfig\\SrLpReport\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "fluxlabs",
+                    "email": "support@fluxlabs.ch",
+                    "homepage": "https://fluxlabs.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple ActiveRecord config for ILIAS plugins",
+            "homepage": "https://github.com/fluxapps/ActiveRecordConfig",
+            "keywords": [
+                "ILIAS",
+                "activerecord",
+                "config"
+            ],
+            "support": {
+                "source": "https://github.com/fluxapps/ActiveRecordConfig/tree/v0.21.1"
+            },
+            "install-path": "../srag/activerecordconfig"
         },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/ActiveRecordConfig/zipball/adfbb83ee91d292d87713068d0614f7d2a45399d",
-            "reference": "adfbb83ee91d292d87713068d0614f7d2a45399d",
-            "shasum": ""
+        {
+            "name": "srag/commentsui",
+            "version": "0.13.1",
+            "version_normalized": "0.13.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fluxapps/CommentsUI.git",
+                "reference": "d2bb6df78f99148b67516557d86ded07bf8657db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fluxapps/CommentsUI/zipball/d2bb6df78f99148b67516557d86ded07bf8657db",
+                "reference": "d2bb6df78f99148b67516557d86ded07bf8657db",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "srag/dic": ">=0.1.0",
+                "srag/librarylanguageinstaller": ">=0.1.0"
+            },
+            "require-dev": {
+                "srag/generateplugininfoshelper": ">=0.1.0"
+            },
+            "time": "2021-07-20T08:32:24+00:00",
+            "type": "library",
+            "extra": {
+                "ilias_plugin": {
+                    "ilias_min_version": "6.0",
+                    "ilias_max_version": "7.999"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "srag\\CommentsUI\\SrLpReport\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "fluxlabs",
+                    "email": "support@fluxlabs.ch",
+                    "homepage": "https://fluxlabs.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Comments ui",
+            "homepage": "https://github.com/fluxapps/CommentsUI",
+            "keywords": [
+                "ILIAS",
+                "comments",
+                "ui"
+            ],
+            "support": {
+                "source": "https://github.com/fluxapps/CommentsUI/tree/v0.13.1"
+            },
+            "install-path": "../srag/commentsui"
         },
-        "require": {
-            "php": ">=7.0",
-            "srag/custominputguis": ">=0.1.0",
-            "srag/dic": ">=0.1.0"
+        {
+            "name": "srag/custominputguis",
+            "version": "0.43.2",
+            "version_normalized": "0.43.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fluxapps/CustomInputGUIs.git",
+                "reference": "547ac0aaf7056848aac936b965e8847deb1cf415"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fluxapps/CustomInputGUIs/zipball/547ac0aaf7056848aac936b965e8847deb1cf415",
+                "reference": "547ac0aaf7056848aac936b965e8847deb1cf415",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "srag/dic": ">=0.1.0"
+            },
+            "require-dev": {
+                "srag/generateplugininfoshelper": ">=0.1.0"
+            },
+            "time": "2021-08-31T08:50:12+00:00",
+            "type": "library",
+            "extra": {
+                "ilias_plugin": {
+                    "ilias_min_version": "6.0",
+                    "ilias_max_version": "7.999"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "srag\\CustomInputGUIs\\SrLpReport\\": "src/"
+                },
+                "classmap": [
+                    "src/MultiSelectSearchNewInputGUI/class.ObjectChildrenAjaxAutoCompleteCtrl.php",
+                    "src/MultiSelectSearchNewInputGUI/class.ObjectsAjaxAutoCompleteCtrl.php",
+                    "src/MultiSelectSearchNewInputGUI/class.OrgUnitAjaxAutoCompleteCtrl.php",
+                    "src/MultiSelectSearchNewInputGUI/class.UsersAjaxAutoCompleteCtrl.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "fluxlabs",
+                    "email": "support@fluxlabs.ch",
+                    "homepage": "https://fluxlabs.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Custom Input-GUI's",
+            "homepage": "https://github.com/fluxapps/CustomInputGUIs",
+            "keywords": [
+                "ILIAS",
+                "PropertyForm",
+                "gui",
+                "input",
+                "table"
+            ],
+            "support": {
+                "source": "https://github.com/fluxapps/CustomInputGUIs/tree/v0.43.2"
+            },
+            "install-path": "../srag/custominputguis"
         },
-        "time": "2020-06-08T06:45:37+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "srag\\ActiveRecordConfig\\SrLpReport\\": "src/"
-            }
+        {
+            "name": "srag/dic",
+            "version": "0.34.1",
+            "version_normalized": "0.34.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fluxapps/DIC.git",
+                "reference": "d07315f7303e82982f78cdecce5f5aa83205a9e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fluxapps/DIC/zipball/d07315f7303e82982f78cdecce5f5aa83205a9e4",
+                "reference": "d07315f7303e82982f78cdecce5f5aa83205a9e4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "srag/generateplugininfoshelper": ">=0.1.0"
+            },
+            "time": "2022-03-17T09:36:38+00:00",
+            "type": "library",
+            "extra": {
+                "ilias_plugin": {
+                    "ilias_min_version": "6.0",
+                    "ilias_max_version": "7.999"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "srag\\DIC\\SrLpReport\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "fluxlabs",
+                    "email": "support@fluxlabs.ch",
+                    "homepage": "https://fluxlabs.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Use all ILIAS globals in your class",
+            "homepage": "https://github.com/fluxapps/DIC",
+            "keywords": [
+                "ILIAS",
+                "dic",
+                "globals",
+                "trait"
+            ],
+            "support": {
+                "source": "https://github.com/fluxapps/DIC/tree/v0.34.1"
+            },
+            "install-path": "../srag/dic"
         },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0-only"
-        ],
-        "authors": [
-            {
-                "name": "studer + raimann ag - Team Custom 1",
-                "email": "support-custom1@studer-raimann.ch",
-                "homepage": "https://studer-raimann.ch",
-                "role": "Developer"
-            }
-        ],
-        "description": "Simple ActiveRecord config for ILIAS plugins",
-        "homepage": "https://github.com/studer-raimann/ActiveRecordConfig",
-        "keywords": [
-            "ILIAS",
-            "activerecord",
-            "config"
-        ]
-    },
-    {
-        "name": "srag/commentsui",
-        "version": "v0.10.3",
-        "version_normalized": "0.10.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/studer-raimann/CommentsUI.git",
-            "reference": "2d049f1a73ed59b17b9a684b1b6c2c8e1f9376d9"
+        {
+            "name": "srag/learningprogresspieui",
+            "version": "1.2.1",
+            "version_normalized": "1.2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fluxapps/LearningProgressPieUI.git",
+                "reference": "f81cace5992bf6665def000a86b00cfdc98d2db5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fluxapps/LearningProgressPieUI/zipball/f81cace5992bf6665def000a86b00cfdc98d2db5",
+                "reference": "f81cace5992bf6665def000a86b00cfdc98d2db5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "srag/dic": ">=0.1.0",
+                "srag/piechart": "1.0.3"
+            },
+            "require-dev": {
+                "srag/generateplugininfoshelper": ">=0.1.0"
+            },
+            "time": "2021-07-20T08:31:38+00:00",
+            "type": "library",
+            "extra": {
+                "ilias_plugin": {
+                    "ilias_min_version": "6.0",
+                    "ilias_max_version": "7.999"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "srag\\LearningProgressPieUI\\SrLpReport\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "fluxlabs",
+                    "email": "support@fluxlabs.ch",
+                    "homepage": "https://fluxlabs.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "ILIAS Learning Progress Pie UI",
+            "homepage": "https://github.com/fluxapps/LearningProgressPieUI",
+            "keywords": [
+                "ILIAS",
+                "learning",
+                "pie",
+                "progress",
+                "ui"
+            ],
+            "support": {
+                "source": "https://github.com/fluxapps/LearningProgressPieUI/tree/v1.2.1"
+            },
+            "install-path": "../srag/learningprogresspieui"
         },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/2d049f1a73ed59b17b9a684b1b6c2c8e1f9376d9",
-            "reference": "2d049f1a73ed59b17b9a684b1b6c2c8e1f9376d9",
-            "shasum": ""
+        {
+            "name": "srag/librariesnamespacechanger",
+            "version": "0.16.1",
+            "version_normalized": "0.16.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fluxapps/LibrariesNamespaceChanger.git",
+                "reference": "186c543c88544ecf3907767e1645d4faf37dede0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fluxapps/LibrariesNamespaceChanger/zipball/186c543c88544ecf3907767e1645d4faf37dede0",
+                "reference": "186c543c88544ecf3907767e1645d4faf37dede0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "srag/generateplugininfoshelper": ">=0.1.0"
+            },
+            "time": "2021-07-20T08:31:26+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "srag\\LibrariesNamespaceChanger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "fluxlabs",
+                    "email": "support@fluxlabs.ch",
+                    "homepage": "https://fluxlabs.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Change namespace of libraries to plugin namespace",
+            "homepage": "https://github.com/fluxapps/LibrariesNamespaceChanger",
+            "keywords": [
+                "changer",
+                "libraries",
+                "namespace"
+            ],
+            "support": {
+                "source": "https://github.com/fluxapps/LibrariesNamespaceChanger/tree/v0.16.1"
+            },
+            "abandoned": "https://github.com/flux-eco/flux-namespace-changer",
+            "install-path": "../srag/librariesnamespacechanger"
         },
-        "require": {
-            "php": ">=7.2",
-            "srag/dic": ">=0.1.0"
+        {
+            "name": "srag/librarylanguageinstaller",
+            "version": "1.2.1",
+            "version_normalized": "1.2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fluxapps/LibraryLanguageInstaller.git",
+                "reference": "7c0e146d92f66368e9c756bc89e257fc60ea3e59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fluxapps/LibraryLanguageInstaller/zipball/7c0e146d92f66368e9c756bc89e257fc60ea3e59",
+                "reference": "7c0e146d92f66368e9c756bc89e257fc60ea3e59",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "srag/dic": ">=0.1.0"
+            },
+            "require-dev": {
+                "srag/generateplugininfoshelper": ">=0.1.0"
+            },
+            "time": "2021-07-20T08:31:18+00:00",
+            "type": "library",
+            "extra": {
+                "ilias_plugin": {
+                    "ilias_min_version": "6.0",
+                    "ilias_max_version": "7.999"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "srag\\LibraryLanguageInstaller\\SrLpReport\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "fluxlabs",
+                    "email": "support@fluxlabs.ch",
+                    "homepage": "https://fluxlabs.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Install additional and external lang files for a plugin",
+            "homepage": "https://github.com/fluxapps/LibraryLanguageInstaller",
+            "keywords": [
+                "ILIAS",
+                "installer",
+                "language",
+                "library"
+            ],
+            "support": {
+                "source": "https://github.com/fluxapps/LibraryLanguageInstaller/tree/v1.2.1"
+            },
+            "install-path": "../srag/librarylanguageinstaller"
         },
-        "time": "2020-06-15T12:57:27+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "srag\\CommentsUI\\SrLpReport\\": "src/"
-            }
+        {
+            "name": "srag/piechart",
+            "version": "v1.0.3",
+            "version_normalized": "1.0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fluxapps/PieChart.git",
+                "reference": "046dcf7d8192aee134fc7ddcf8488cea53cc7cb3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fluxapps/PieChart/zipball/046dcf7d8192aee134fc7ddcf8488cea53cc7cb3",
+                "reference": "046dcf7d8192aee134fc7ddcf8488cea53cc7cb3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "time": "2020-07-23T09:21:33+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "srag\\PieChart\\SrLpReport\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "studer + raimann ag - Team Custom 1",
+                    "email": "support-custom1@studer-raimann.ch",
+                    "homepage": "https://studer-raimann.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "ILIAS Pie Chart UI Component",
+            "homepage": "https://github.com/studer-raimann/PieChart",
+            "keywords": [
+                "ILIAS",
+                "chart",
+                "component",
+                "pie",
+                "ui"
+            ],
+            "support": {
+                "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LPIECH",
+                "source": "https://github.com/fluxapps/PieChart/tree/v1.0.3"
+            },
+            "install-path": "../srag/piechart"
         },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0-only"
-        ],
-        "authors": [
-            {
-                "name": "studer + raimann ag - Team Custom 1",
-                "email": "support-custom1@studer-raimann.ch",
-                "homepage": "https://studer-raimann.ch",
-                "role": "Developer"
-            }
-        ],
-        "description": "Comments ui",
-        "homepage": "https://github.com/studer-raimann/CommentsUI",
-        "keywords": [
-            "ILIAS",
-            "comments",
-            "ui"
-        ]
-    },
-    {
-        "name": "srag/custominputguis",
-        "version": "v0.37.0",
-        "version_normalized": "0.37.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-            "reference": "0a0819d962d126f940b083c59a8ad99646a358af"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/0a0819d962d126f940b083c59a8ad99646a358af",
-            "reference": "0a0819d962d126f940b083c59a8ad99646a358af",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=7.0",
-            "srag/dic": ">=0.1.0"
-        },
-        "time": "2020-07-22T13:00:47+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "srag\\CustomInputGUIs\\SrLpReport\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0-only"
-        ],
-        "authors": [
-            {
-                "name": "studer + raimann ag - Team Custom 1",
-                "email": "support-custom1@studer-raimann.ch",
-                "homepage": "https://studer-raimann.ch",
-                "role": "Developer"
-            }
-        ],
-        "description": "Custom Input-GUI's",
-        "homepage": "https://github.com/studer-raimann/CustomInputGUIs",
-        "keywords": [
-            "ILIAS",
-            "PropertyForm",
-            "gui",
-            "input",
-            "table"
-        ]
-    },
-    {
-        "name": "srag/dic",
-        "version": "v0.25.1",
-        "version_normalized": "0.25.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/studer-raimann/DIC.git",
-            "reference": "022cb0b92b003096380055a450597a5dbdbbe831"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/022cb0b92b003096380055a450597a5dbdbbe831",
-            "reference": "022cb0b92b003096380055a450597a5dbdbbe831",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=7.0"
-        },
-        "time": "2020-06-09T05:30:37+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "srag\\DIC\\SrLpReport\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0-only"
-        ],
-        "authors": [
-            {
-                "name": "studer + raimann ag - Team Custom 1",
-                "email": "support-custom1@studer-raimann.ch",
-                "homepage": "https://studer-raimann.ch",
-                "role": "Developer"
-            }
-        ],
-        "description": "Use all ILIAS globals in your class",
-        "homepage": "https://github.com/studer-raimann/DIC",
-        "keywords": [
-            "ILIAS",
-            "dic",
-            "globals",
-            "trait"
-        ]
-    },
-    {
-        "name": "srag/learningprogresspieui",
-        "version": "v1.0.2",
-        "version_normalized": "1.0.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/studer-raimann/LearningProgressPieUI.git",
-            "reference": "26c29f5dd1bb1427284db7cb67f50a41e67486fb"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/LearningProgressPieUI/zipball/26c29f5dd1bb1427284db7cb67f50a41e67486fb",
-            "reference": "26c29f5dd1bb1427284db7cb67f50a41e67486fb",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=7.2",
-            "srag/dic": ">=0.1.0",
-            "srag/piechart": "1.0.3"
-        },
-        "time": "2020-07-23T09:24:42+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "srag\\LearningProgressPieUI\\SrLpReport\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0-only"
-        ],
-        "authors": [
-            {
-                "name": "studer + raimann ag - Team Custom 1",
-                "email": "support-custom1@studer-raimann.ch",
-                "homepage": "https://studer-raimann.ch",
-                "role": "Developer"
-            }
-        ],
-        "description": "ILIAS Learning Progress Pie UI",
-        "homepage": "https://github.com/studer-raimann/LearningProgressPieUI",
-        "keywords": [
-            "ILIAS",
-            "learning",
-            "pie",
-            "progress",
-            "ui"
-        ]
-    },
-    {
-        "name": "srag/librariesnamespacechanger",
-        "version": "v0.9.7",
-        "version_normalized": "0.9.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/studer-raimann/LibrariesNamespaceChanger.git",
-            "reference": "26d8eebf415afe713e18600cb6d1d4ade1ed35a8"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/26d8eebf415afe713e18600cb6d1d4ade1ed35a8",
-            "reference": "26d8eebf415afe713e18600cb6d1d4ade1ed35a8",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=7.0"
-        },
-        "time": "2020-06-15T05:33:10+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "srag\\LibrariesNamespaceChanger\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0-only"
-        ],
-        "authors": [
-            {
-                "name": "studer + raimann ag - Team Custom 1",
-                "email": "support-custom1@studer-raimann.ch",
-                "homepage": "https://studer-raimann.ch",
-                "role": "Developer"
-            }
-        ],
-        "description": "Change namespace of libraries to plugin namespace",
-        "homepage": "https://github.com/studer-raimann/LibrariesNamespaceChanger",
-        "keywords": [
-            "ILIAS",
-            "libraries"
-        ]
-    },
-    {
-        "name": "srag/piechart",
-        "version": "v1.0.3",
-        "version_normalized": "1.0.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/studer-raimann/PieChart.git",
-            "reference": "046dcf7d8192aee134fc7ddcf8488cea53cc7cb3"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/PieChart/zipball/046dcf7d8192aee134fc7ddcf8488cea53cc7cb3",
-            "reference": "046dcf7d8192aee134fc7ddcf8488cea53cc7cb3",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=7.2"
-        },
-        "time": "2020-07-23T09:21:33+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "srag\\PieChart\\SrLpReport\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0-only"
-        ],
-        "authors": [
-            {
-                "name": "studer + raimann ag - Team Custom 1",
-                "email": "support-custom1@studer-raimann.ch",
-                "homepage": "https://studer-raimann.ch",
-                "role": "Developer"
-            }
-        ],
-        "description": "ILIAS Pie Chart UI Component",
-        "homepage": "https://github.com/studer-raimann/PieChart",
-        "keywords": [
-            "ILIAS",
-            "chart",
-            "component",
-            "pie",
-            "ui"
-        ]
-    },
-    {
-        "name": "srag/removeplugindataconfirm",
-        "version": "v0.6.4",
-        "version_normalized": "0.6.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/studer-raimann/RemovePluginDataConfirm.git",
-            "reference": "fa45bd96920e5a28577810c3d28900dc8083fc6f"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/RemovePluginDataConfirm/zipball/fa45bd96920e5a28577810c3d28900dc8083fc6f",
-            "reference": "fa45bd96920e5a28577810c3d28900dc8083fc6f",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=7.0",
-            "srag/dic": ">=0.1.0"
-        },
-        "time": "2020-06-02T12:52:50+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "srag\\RemovePluginDataConfirm\\SrLpReport\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0-only"
-        ],
-        "authors": [
-            {
-                "name": "studer + raimann ag - Team Custom 1",
-                "email": "support-custom1@studer-raimann.ch",
-                "homepage": "https://studer-raimann.ch",
-                "role": "Developer"
-            }
-        ],
-        "description": "Demand if plugin data should be removed on uninstall",
-        "homepage": "https://github.com/studer-raimann/RemovePluginDataConfirm",
-        "keywords": [
-            "ILIAS",
-            "confirm",
-            "data",
-            "plugin",
-            "uninstall"
-        ]
-    }
-]
+        {
+            "name": "srag/removeplugindataconfirm",
+            "version": "0.8.1",
+            "version_normalized": "0.8.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fluxapps/RemovePluginDataConfirm.git",
+                "reference": "c2bdd6425e04edc3d49da36b0822ba2b33e21600"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fluxapps/RemovePluginDataConfirm/zipball/c2bdd6425e04edc3d49da36b0822ba2b33e21600",
+                "reference": "c2bdd6425e04edc3d49da36b0822ba2b33e21600",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "srag/dic": ">=0.1.0",
+                "srag/librarylanguageinstaller": ">=0.1.0"
+            },
+            "require-dev": {
+                "srag/generateplugininfoshelper": ">=0.1.0"
+            },
+            "time": "2021-07-20T08:30:56+00:00",
+            "type": "library",
+            "extra": {
+                "ilias_plugin": {
+                    "ilias_min_version": "6.0",
+                    "ilias_max_version": "7.999"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "srag\\RemovePluginDataConfirm\\SrLpReport\\": "src/"
+                },
+                "classmap": [
+                    "src/class.RemovePluginDataConfirmCtrl.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "fluxlabs",
+                    "email": "support@fluxlabs.ch",
+                    "homepage": "https://fluxlabs.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Demand if plugin data should be removed on uninstall",
+            "homepage": "https://github.com/fluxapps/RemovePluginDataConfirm",
+            "keywords": [
+                "ILIAS",
+                "confirm",
+                "data",
+                "plugin",
+                "uninstall"
+            ],
+            "support": {
+                "source": "https://github.com/fluxapps/RemovePluginDataConfirm/tree/v0.8.1"
+            },
+            "install-path": "../srag/removeplugindataconfirm"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

@@ -8,7 +8,7 @@ use ilObjUser;
 use LogicException;
 use srag\DIC\SrLpReport\DICTrait;
 use srag\DIC\SrLpReport\Plugin\PluginInterface;
-use srag\DIC\SrLpReport\Util\LibraryLanguageInstaller;
+use srag\LibraryLanguageInstaller\SrLpReport\LibraryLanguageInstaller;
 use stdClass;
 use Throwable;
 
@@ -16,8 +16,6 @@ use Throwable;
  * Class Repository
  *
  * @package srag\CommentsUI\SrLpReport\Comment
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 final class Repository implements RepositoryInterface
 {
@@ -140,7 +138,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function deleteComment(Comment $comment, bool $check_can_be_deleted = true)/* : void*/
+    public function deleteComment(Comment $comment, bool $check_can_be_deleted = true) : void
     {
         if ($check_can_be_deleted && !$this->canBeDeleted($comment)) {
             return;
@@ -155,7 +153,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function deleteUserComments(int $report_user_id)/* : void*/
+    public function deleteUserComments(int $report_user_id) : void
     {
         foreach ($this->getCommentsForCurrentUser(null, $report_user_id) as $comment) {
             $this->deleteComment($comment, false);
@@ -166,7 +164,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function dropTables()/* : void*/
+    public function dropTables() : void
     {
         self::dic()->database()->dropTable(CommentAR::getTableName(), false);
 
@@ -186,7 +184,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getCommentById(int $id)/* : ?Comment*/
+    public function getCommentById(int $id) : ?Comment
     {
         /**
          * @var Comment|null $comment
@@ -204,7 +202,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getCommentsForCurrentUser(/*?int*/ $report_obj_id = null, /*?int*/ $report_user_id = null) : array
+    public function getCommentsForCurrentUser(?int $report_obj_id = null, ?int $report_user_id = null) : array
     {
         if (empty($report_user_id)) {
             $report_user_id = self::dic()->user()->getId();
@@ -307,7 +305,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function installLanguages()/* : void*/
+    public function installLanguages() : void
     {
         LibraryLanguageInstaller::getInstance()->withPlugin($this->getPlugin())->withLibraryLanguageDirectory(__DIR__
             . "/../../lang")->updateLanguages();
@@ -317,7 +315,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function installTables()/* : void*/
+    public function installTables() : void
     {
         try {
             CommentAR::updateDB();
@@ -336,7 +334,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function shareComment(Comment $comment)/* : void*/
+    public function shareComment(Comment $comment) : void
     {
         if (!$this->canBeShared($comment)) {
             return;
@@ -351,7 +349,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function storeComment(Comment $comment, bool $check_can_be_stored = true)/* : void*/
+    public function storeComment(Comment $comment, bool $check_can_be_stored = true) : void
     {
         if ($check_can_be_stored && !$this->canBeStored($comment)) {
             return;

@@ -24,7 +24,7 @@ class SectionValueTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_y_percentage()/* : void*/
+    public function test_get_y_percentage() : void
     {
         $sectionValue = $this->getTestSectionValue();
 
@@ -35,7 +35,7 @@ class SectionValueTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_text_size()/* : void*/
+    public function test_get_text_size() : void
     {
         $sectionValue = $this->getTestSectionValue();
 
@@ -46,7 +46,7 @@ class SectionValueTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_value()/* : void*/
+    public function test_get_value() : void
     {
         $sectionValue = $this->getTestSectionValue();
 
@@ -57,7 +57,7 @@ class SectionValueTest extends ILIAS_UI_TestBase
     /**
      *
      */
-    public function test_get_x_percentage()/* : void*/
+    public function test_get_x_percentage() : void
     {
         $sectionValue = $this->getTestSectionValue();
 

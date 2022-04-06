@@ -1,23 +1,24 @@
 {
-  "name": "srag/srlpreport",
-  "description": "",
-  "type": "project",
+  "name": "flux/srlpreport",
+  "description": "ILIAS Plugin SrLpReport",
+  "version": "3.2.0",
   "keywords": [
-    "ILIAS",
-    "Plugin"
+    "ilias",
+    "fluxlabs",
+    "srlpreport"
   ],
-  "homepage": "https://github.com/fluxapps/SrLpReport",
+  "homepage": "https://fluxlabs.ch",
   "license": "GPL-3.0-only",
   "authors": [
     {
       "name": "fluxlabs ag",
       "email": "support@fluxlabs.ch",
       "homepage": "https://fluxlabs.ch",
-      "role": "Developer"
+      "role": "Maintainer, Developer"
     }
   ],
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.4",
     "srag/activerecordconfig": ">=0.1.0",
     "srag/commentsui": ">=0.1.0",
     "srag/custominputguis": ">=0.1.0",

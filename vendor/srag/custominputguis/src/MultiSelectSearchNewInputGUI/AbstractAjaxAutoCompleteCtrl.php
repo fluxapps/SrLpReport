@@ -8,8 +8,6 @@ use srag\DIC\SrLpReport\DICTrait;
  * Class AbstractAjaxAutoCompleteCtrl
  *
  * @package srag\CustomInputGUIs\SrLpReport\MultiSelectSearchNewInputGUI
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 abstract class AbstractAjaxAutoCompleteCtrl
 {
@@ -17,21 +15,27 @@ abstract class AbstractAjaxAutoCompleteCtrl
     use DICTrait;
 
     const CMD_AJAX_AUTO_COMPLETE = "ajaxAutoComplete";
+    /**
+     * @var array|null
+     */
+    protected $skip_ids = null;
 
 
     /**
      * AbstractAjaxAutoCompleteCtrl constructor
+     *
+     * @param array|null $skip_ids
      */
-    public function __construct()
+    public function __construct(/*?*/ array $skip_ids = null)
     {
-
+        $this->skip_ids = $skip_ids;
     }
 
 
     /**
      *
      */
-    public function executeCommand()/*:void*/
+    public function executeCommand() : void
     {
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
@@ -75,14 +79,14 @@ abstract class AbstractAjaxAutoCompleteCtrl
      */
     public function validateOptions(array $ids) : bool
     {
-        return (count($ids) === count($this->fillOptions($ids)));
+        return (count($this->skipIds($ids)) === count($this->fillOptions($ids)));
     }
 
 
     /**
      *
      */
-    protected function ajaxAutoComplete()/*:void*/
+    protected function ajaxAutoComplete() : void
     {
         $search = strval(filter_input(INPUT_GET, "term"));
 
@@ -96,5 +100,22 @@ abstract class AbstractAjaxAutoCompleteCtrl
         }
 
         self::output()->outputJSON(["results" => $options]);
+    }
+
+
+    /**
+     * @param array $ids
+     *
+     * @return array
+     */
+    protected function skipIds(array $ids) : array
+    {
+        if (empty($this->skip_ids)) {
+            return $ids;
+        }
+
+        return array_filter($ids, function ($id) : bool {
+            return (!in_array($id, $this->skip_ids));
+        }, ARRAY_FILTER_USE_KEY);
     }
 }

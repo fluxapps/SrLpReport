@@ -6,8 +6,6 @@ namespace srag\DIC\SrLpReport\Plugin;
  * Interface Pluginable
  *
  * @package srag\DIC\SrLpReport\Plugin
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface Pluginable
 {

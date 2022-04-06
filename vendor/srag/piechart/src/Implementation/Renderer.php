@@ -110,7 +110,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritDoc
      */
-    public function registerResources(ResourceRegistry $registry)/* : void*/
+    public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
 
