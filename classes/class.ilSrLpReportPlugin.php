@@ -3,7 +3,7 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use srag\CommentsUI\SrLpReport\Utils\CommentsUITrait;
-use srag\DIC\SrLpReport\Util\LibraryLanguageInstaller;
+use srag\LibraryLanguageInstaller\SrLpReport\LibraryLanguageInstaller;
 use srag\Plugins\SrLpReport\Comment\Ctrl\AbstractCtrl;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\ConfigPerObject\ConfigPerObject;

@@ -85,12 +85,12 @@ abstract class AbstractReportGUI
      */
     protected function initGUI()/*: void*/
     {
-        self::dic()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
+        self::dic()->ui()->mainTemplate()->addCss(self::plugin()->directory() . "/css/srcrsreport.css");
 
-        self::dic()->mainTemplate()->setTitleIcon(ilObject::_getIcon("", "tiny", self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()
+        self::dic()->ui()->mainTemplate()->setTitleIcon(ilObject::_getIcon("", "tiny", self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()
             ->lookupObjId(self::reports()->getReportObjRefId()))));
 
-        self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress") . " " . self::dic()->objDataCache()
+        self::dic()->ui()->mainTemplate()->setTitle(self::dic()->language()->txt("learning_progress") . " " . self::dic()->objDataCache()
                 ->lookupTitle(self::dic()->objDataCache()->lookupObjId(self::reports()->getReportObjRefId())));
     }
 
