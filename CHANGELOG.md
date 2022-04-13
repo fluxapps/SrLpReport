@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.3.0]
+- fixed library dependencies
+
 ## [3.2.0]
 - composer2 support
 - added flux publish utils

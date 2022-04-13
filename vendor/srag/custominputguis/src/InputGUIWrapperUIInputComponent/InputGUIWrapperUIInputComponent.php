@@ -6,9 +6,10 @@ use Closure;
 use ilCheckboxInputGUI;
 use ilDateTimeInputGUI;
 use ilFormPropertyGUI;
-use ILIAS\Refinery\Constraint;
+use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\Input;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\Validation\Factory as ValidationFactory;
 use ilRepositorySelector2InputGUI;
 use srag\CustomInputGUIs\SrLpReport\PropertyFormGUI\Items\Items;
 use srag\DIC\SrLpReport\DICTrait;
@@ -36,14 +37,18 @@ class InputGUIWrapperUIInputComponent extends Input
     {
         $this->input = $input;
 
-        parent::__construct(self::dic()->data(), self::dic()->refinery(), "", null);
+        if (self::version()->is6()) {
+            parent::__construct(self::dic()->data(), self::dic()->refinery(), "", null);
+        } else {
+            parent::__construct($data_factory = self::dic()->data(), new ValidationFactory($data_factory, self::dic()->language()), new TransformationFactory(), "", null);
+        }
     }
 
 
     /**
      * @inheritDoc
      */
-    public function getByline() : ?string
+    public function getByline()/*:string*/
     {
         return $this->input->getInfo();
     }
@@ -52,7 +57,7 @@ class InputGUIWrapperUIInputComponent extends Input
     /**
      * @inheritDoc
      */
-    public function getError() : ?string
+    public function getError()/*:string*/
     {
         return $this->input->getAlert();
     }
@@ -70,7 +75,7 @@ class InputGUIWrapperUIInputComponent extends Input
     /**
      * @param ilFormPropertyGUI $input
      */
-    public function setInput(ilFormPropertyGUI $input) : void
+    public function setInput(ilFormPropertyGUI $input)/* : void*/
     {
         $this->input = $input;
     }
@@ -79,7 +84,7 @@ class InputGUIWrapperUIInputComponent extends Input
     /**
      * @inheritDoc
      */
-    public function getLabel() : string
+    public function getLabel()/*:string*/
     {
         return $this->input->getTitle();
     }
@@ -108,7 +113,7 @@ class InputGUIWrapperUIInputComponent extends Input
     /**
      * @inheritDoc
      */
-    public function isDisabled() : bool
+    public function isDisabled()/*:bool*/
     {
         return $this->input->getDisabled();
     }
@@ -117,7 +122,7 @@ class InputGUIWrapperUIInputComponent extends Input
     /**
      * @inheritDoc
      */
-    public function isRequired() : bool
+    public function isRequired()/*:bool*/
     {
         return $this->input->getRequired();
     }
@@ -239,9 +244,13 @@ class InputGUIWrapperUIInputComponent extends Input
     /**
      * @inheritDoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement()/*:?Constraint*/
     {
-        return new InputGUIWrapperConstraint($this->input, $this->data_factory, self::dic()->language());
+        if (self::version()->is6()) {
+            return new InputGUIWrapperConstraint($this->input, $this->data_factory, self::dic()->language());
+        } else {
+            return new InputGUIWrapperConstraint54($this->input, $this->data_factory, self::dic()->language());
+        }
     }
 
 

@@ -56,7 +56,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @param PluginInterface|null $plugin
      */
-    public static function init(/*?*/ PluginInterface $plugin = null) : void
+    public static function init(/*?*/ PluginInterface $plugin = null)/*: void*/
     {
         if (self::$init === false) {
             self::$init = true;
@@ -92,7 +92,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @inheritDoc
      */
-    public function getAlert() : string
+    public function getAlert()/*:string*/
     {
         return $this->input->getError();
     }
@@ -103,16 +103,20 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
      *
      * @throws ilFormException
      */
-    public function getDisabled() : bool
+    public function getDisabled()/*:bool*/
     {
-        return $this->input->isDisabled();
+        if (self::version()->is6()) {
+            return $this->input->isDisabled();
+        } else {
+            throw new ilFormException("disabled not exists in ILIAS 5.4 or below!");
+        }
     }
 
 
     /**
      * @inheritDoc
      */
-    public function getInfo() : string
+    public function getInfo()/*:string*/
     {
         return $this->input->getByline();
     }
@@ -130,7 +134,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @param Input $input
      */
-    public function setInput(Input $input) : void
+    public function setInput(Input $input)/*: void*/
     {
         $this->input = $input;
     }
@@ -139,7 +143,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @inheritDoc
      */
-    public function getPostVar() : string
+    public function getPostVar()/*:string*/
     {
         return $this->input->getName();
     }
@@ -148,7 +152,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @inheritDoc
      */
-    public function getRequired() : bool
+    public function getRequired()/*:bool*/
     {
         return $this->input->isRequired();
     }
@@ -166,7 +170,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle()/*:string*/
     {
         return $this->input->getLabel();
     }
@@ -193,7 +197,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @param ilTemplate $tpl
      */
-    public function insert(ilTemplate $tpl) : void
+    public function insert(ilTemplate $tpl)/*: void*/
     {
         $html = $this->render();
 
@@ -219,7 +223,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @inheritDoc
      */
-    public function setAlert(/*string*/ $error) : void
+    public function setAlert(/*string*/ $error)/*: void*/
     {
         $this->input = $this->input->withError($error);
     }
@@ -230,16 +234,20 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
      *
      * @throws ilFormException
      */
-    public function setDisabled(/*bool*/ $disabled) : void
+    public function setDisabled(/*bool*/ $disabled)/*: void*/
     {
-        $this->input = $this->input->withDisabled($disabled);
+        if (self::version()->is6()) {
+            $this->input = $this->input->withDisabled($disabled);
+        } else {
+            throw new ilFormException("disabled not exists in ILIAS 5.4 or below!");
+        }
     }
 
 
     /**
      * @inheritDoc
      */
-    public function setInfo(/*string*/ $info) : void
+    public function setInfo(/*string*/ $info)/*: void*/
     {
         $this->input = $this->input->withByline($info);
     }
@@ -248,7 +256,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @inheritDoc
      */
-    public function setPostVar(/*string*/ $post_var) : void
+    public function setPostVar(/*string*/ $post_var)/*: void*/
     {
         $this->input = $this->input->withNameFrom(new UIInputComponentWrapperNameSource($post_var));
     }
@@ -257,7 +265,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @inheritDoc
      */
-    public function setRequired(/*bool*/ $required) : void
+    public function setRequired(/*bool*/ $required)/*: void*/
     {
         $this->input = $this->input->withRequired($required);
     }
@@ -266,7 +274,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @inheritDoc
      */
-    public function setTitle(/*string*/ $title) : void
+    public function setTitle(/*string*/ $title)/*: void*/
     {
         $this->input = $this->input->withLabel($title);
     }
@@ -275,7 +283,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @param mixed $value
      */
-    public function setValue($value) : void
+    public function setValue($value)/*: void*/
     {
         try {
             $this->input = $this->input->withValue($value);
@@ -288,7 +296,7 @@ class UIInputComponentWrapperInputGUI extends ilFormPropertyGUI implements ilTab
     /**
      * @param array $values
      */
-    public function setValueByArray(/*array*/ $values) : void
+    public function setValueByArray(/*array*/ $values)/*: void*/
     {
         if (isset($values[$this->getPostVar()])) {
             $this->setValue($values[$this->getPostVar()]);
