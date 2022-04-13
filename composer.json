@@ -19,9 +19,9 @@
   ],
   "require": {
     "php": ">=7.4",
-    "srag/activerecordconfig": ">=0.1.0",
+    "srag/activerecordconfig": "0.20.7",
     "srag/commentsui": ">=0.1.0",
-    "srag/custominputguis": ">=0.1.0",
+    "srag/custominputguis": "0.42.9",
     "srag/dic": ">=0.1.0",
     "srag/learningprogresspieui": ">=1.0.0",
     "srag/librariesnamespacechanger": ">=0.1.0",

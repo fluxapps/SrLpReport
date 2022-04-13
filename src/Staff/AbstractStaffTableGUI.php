@@ -63,7 +63,7 @@ abstract class AbstractStaffTableGUI extends TableGUI
      */
     public function getHTML() : string
     {
-        self::dic()->mainTemplate()->setRightContent($this->getRightHTML());
+        self::dic()->ui()->mainTemplate()->setRightContent($this->getRightHTML());
 
         return parent::getHTML();
     }

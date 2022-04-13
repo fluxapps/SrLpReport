@@ -125,7 +125,7 @@ final class User
                     if(\ilObject2::_isInTrash($child["child"]) === false) {
                         return (int) $child["child"];
                     }
-                }, self::dic()->tree()->getChilds($vars["crs_ref_id"]));
+                }, self::dic()->repositoryTree()->getChilds($vars["crs_ref_id"]));
 
                 return $vars;
             }, (new ilMStShowUserCourses(self::dic()->dic()))->getData($users, $options));
