@@ -1,9 +1,7 @@
 <?php
 
 use srag\DIC\SrLpReport\DICTrait;
-use srag\Plugins\SrLpReport\Block\CommentsCourseBlock53;
 use srag\Plugins\SrLpReport\Block\CommentsCourseBlock54;
-use srag\Plugins\SrLpReport\Block\CommentsPersonalDesktopBlock53;
 use srag\Plugins\SrLpReport\Block\CommentsPersonalDesktopBlock54;
 use srag\Plugins\SrLpReport\Config\Config;
 use srag\Plugins\SrLpReport\Report\ConfigPerObject\ConfigPerObjectGUI;
@@ -192,8 +190,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
 
                     return [
                         "mode" => self::PREPEND,
-                        "html" => self::output()->getHTML(self::version()
-                            ->is54() ? new CommentsPersonalDesktopBlock54() : new CommentsPersonalDesktopBlock53())
+                        "html" => self::output()->getHTML(new CommentsPersonalDesktopBlock54())
                     ];
                 }
             }
@@ -208,7 +205,7 @@ class ilSrLpReportUIHookGUI extends ilUIHookPluginGUI
 
                     return [
                         "mode" => ilUIHookPluginGUI::PREPEND,
-                        "html" => self::output()->getHTML(self::version()->is54() ? new CommentsCourseBlock54() : new CommentsCourseBlock53())
+                        "html" => self::output()->getHTML(new CommentsCourseBlock54())
                     ];
                 }
             }

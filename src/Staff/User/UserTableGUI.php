@@ -225,7 +225,7 @@ class UserTableGUI extends AbstractStaffTableGUI
      */
     protected function initTitle()/*: void*/
     {
-        self::dic()->mainTemplate()->setTitle(self::dic()->language()->txt("my_staff") . " " . self::dic()->objDataCache()->lookupTitle(self::reports()->getUsrId()));
+        self::dic()->ui()->mainTemplate()->setTitle(self::dic()->language()->txt("my_staff") . " " . self::dic()->objDataCache()->lookupTitle(self::reports()->getUsrId()));
     }
 
     /**

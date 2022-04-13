@@ -50,7 +50,7 @@ class CourseCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	protected function createComment()/*: void*/ {
+	protected function createComment(): void {
 
 	}
 
@@ -58,7 +58,7 @@ class CourseCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	protected function updateComment()/*: void*/ {
+	protected function updateComment(): void {
 
 	}
 
@@ -66,7 +66,7 @@ class CourseCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	protected function deleteComment()/*: void*/ {
+	protected function deleteComment(): void {
 
 	}
 
@@ -74,7 +74,7 @@ class CourseCtrl extends AbstractCtrl {
 	/**
 	 * @inheritdoc
 	 */
-	protected function shareComment()/*: void*/ {
+	protected function shareComment(): void {
 
 	}
 }

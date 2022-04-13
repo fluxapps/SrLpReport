@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "20ddb9a586a62dbfe371eefd53fccdfa",
+    "content-hash": "dedc69f7caeac3c2a532c078ec5af162",
     "packages": [
         {
             "name": "srag/activerecordconfig",
-            "version": "0.21.1",
+            "version": "0.20.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fluxapps/ActiveRecordConfig.git",
-                "reference": "a717d2f31140a78e71517a6b8d3972e107f1eacb"
+                "reference": "e05c313e7792d0ce125a0ef854c4c15b5ca9d95d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fluxapps/ActiveRecordConfig/zipball/a717d2f31140a78e71517a6b8d3972e107f1eacb",
-                "reference": "a717d2f31140a78e71517a6b8d3972e107f1eacb",
+                "url": "https://api.github.com/repos/fluxapps/ActiveRecordConfig/zipball/e05c313e7792d0ce125a0ef854c4c15b5ca9d95d",
+                "reference": "e05c313e7792d0ce125a0ef854c4c15b5ca9d95d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2",
+                "php": ">=7.0",
                 "srag/custominputguis": ">=0.1.0",
                 "srag/dic": ">=0.1.0"
             },
@@ -31,9 +31,11 @@
             "type": "library",
             "extra": {
                 "ilias_plugin": {
-                    "ilias_min_version": "6.0",
-                    "ilias_max_version": "7.999"
-                }
+                    "ilias_min_version": "5.4.0",
+                    "ilias_max_version": "6.999"
+                },
+                "generate_plugin_readme_template": "ILIAS_LIBRARY",
+                "long_description_template": "src/LONG_DESCRIPTION.md"
             },
             "autoload": {
                 "psr-4": {
@@ -60,9 +62,9 @@
                 "config"
             ],
             "support": {
-                "source": "https://github.com/fluxapps/ActiveRecordConfig/tree/v0.21.1"
+                "source": "https://github.com/fluxapps/ActiveRecordConfig/tree/v0.20.7"
             },
-            "time": "2021-07-20T08:32:29+00:00"
+            "time": "2021-06-28T07:02:32+00:00"
         },
         {
             "name": "srag/commentsui",
@@ -124,20 +126,20 @@
         },
         {
             "name": "srag/custominputguis",
-            "version": "0.43.2",
+            "version": "0.42.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fluxapps/CustomInputGUIs.git",
-                "reference": "547ac0aaf7056848aac936b965e8847deb1cf415"
+                "reference": "14967d168c8f62e20e6f0b46b03109063c912541"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fluxapps/CustomInputGUIs/zipball/547ac0aaf7056848aac936b965e8847deb1cf415",
-                "reference": "547ac0aaf7056848aac936b965e8847deb1cf415",
+                "url": "https://api.github.com/repos/fluxapps/CustomInputGUIs/zipball/14967d168c8f62e20e6f0b46b03109063c912541",
+                "reference": "14967d168c8f62e20e6f0b46b03109063c912541",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2",
+                "php": ">=7.0",
                 "srag/dic": ">=0.1.0"
             },
             "require-dev": {
@@ -146,9 +148,11 @@
             "type": "library",
             "extra": {
                 "ilias_plugin": {
-                    "ilias_min_version": "6.0",
-                    "ilias_max_version": "7.999"
-                }
+                    "ilias_min_version": "5.4.0",
+                    "ilias_max_version": "6.999"
+                },
+                "generate_plugin_readme_template": "ILIAS_LIBRARY",
+                "long_description_template": "src/LONG_DESCRIPTION.md"
             },
             "autoload": {
                 "psr-4": {
@@ -183,9 +187,9 @@
                 "table"
             ],
             "support": {
-                "source": "https://github.com/fluxapps/CustomInputGUIs/tree/v0.43.2"
+                "source": "https://github.com/fluxapps/CustomInputGUIs/tree/v0.42.9"
             },
-            "time": "2021-08-31T08:50:12+00:00"
+            "time": "2021-06-28T12:12:20+00:00"
         },
         {
             "name": "srag/dic",
@@ -352,7 +356,7 @@
             "support": {
                 "source": "https://github.com/fluxapps/LibrariesNamespaceChanger/tree/v0.16.1"
             },
-            "abandoned": "https://github.com/flux-eco/flux-namespace-changer",
+            "abandoned": "https://github.com/flux-caps/flux-namespace-changer",
             "time": "2021-07-20T08:31:26+00:00"
         },
         {
@@ -537,5 +541,5 @@
         "php": ">=7.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }

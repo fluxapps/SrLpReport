@@ -466,7 +466,7 @@ abstract class AbstractReport2TableGUI extends AbstractReportTableGUI
     {
         // see ilObjCourseGUI::addMailToMemberButton()
         $mail = new ilMail(self::dic()->user()->getId());
-        if (self::dic()->rbacsystem()->checkAccess("internal_mail", $mail->getMailObjectReferenceId())) {
+        if (self::dic()->rbac()->system()->checkAccess("internal_mail", $mail->getMailObjectReferenceId())) {
             $this->addMultiCommand(AbstractReportGUI::CMD_MAIL_SELECTED_USERS, $this->lng->txt("send_mail"));
         }
     }

@@ -39,7 +39,7 @@ abstract class AbstractCtrl extends AbstractCtrl_ {
 	/**
 	 * @inheritdoc
 	 */
-	public function executeCommand()/*: void*/ {
+	public function executeCommand(): void {
 		if (Config::getField(Config::KEY_ENABLE_COMMENTS)) {
 			parent::executeCommand();
 		}
