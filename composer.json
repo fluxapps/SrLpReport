@@ -1,7 +1,7 @@
 {
   "name": "flux/srlpreport",
   "description": "ILIAS Plugin SrLpReport",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "keywords": [
     "ilias",
     "fluxlabs",

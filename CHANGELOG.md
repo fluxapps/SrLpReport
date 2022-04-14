@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.3.1]
+- change: updated plugin version
+
 ## [3.3.0]
 - fixed library dependencies
 
