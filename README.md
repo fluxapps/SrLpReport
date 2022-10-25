@@ -23,9 +23,11 @@ Course report:
 * ILIAS 6 or ILIAS 7
 * PHP >=7.4
 
+## Rebuild & Maintenance
 
-## Contributing :purple_heart:
-Please create pull requests :fire:
+fluxlabs ag, support@fluxlabs.ch
 
-## Adjustment suggestions / bug reporting :feet:
-Please read and create issues
+This project needs to be rebuilt before it can be maintained.
+
+Are you interested in a rebuild and would you like to participate?
+Take advantage of the crowdfunding opportunity under [discussions](https://github.com/fluxapps/SrLpReport/discussions/4)
