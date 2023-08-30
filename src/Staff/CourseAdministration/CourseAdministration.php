@@ -106,7 +106,7 @@ final class CourseAdministration
 
                 if ($filter["org_units_subsequent"]) {
                     foreach ($filter["org_units"] as $org_unit_ref_id) {
-                        $org_units = array_merge($org_units, self::dic()->repositoryTree()->getSubTree(self::dic()->tree()->getNodeData($org_unit_ref_id), false));
+                        $org_units = array_merge($org_units, self::dic()->repositoryTree()->getSubTree(self::dic()->repositoryTree()->getNodeData($org_unit_ref_id), false));
                     }
                 }
 
